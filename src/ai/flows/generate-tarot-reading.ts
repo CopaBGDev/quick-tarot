@@ -1,0 +1,76 @@
+// This is a server-side file.
+'use server';
+
+/**
+ * @fileOverview Generates a tarot reading based on the user's zodiac sign and question.
+ *
+ * - generateTarotReading - A function that generates a tarot reading.
+ * - GenerateTarotReadingInput - The input type for the generateTarotReading function.
+ * - GenerateTarotReadingOutput - The return type for the generateTarotReading function.
+ */
+
+import {ai} from '@/ai/genkit';
+import {z} from 'genkit';
+
+const GenerateTarotReadingInputSchema = z.object({
+  zodiacSign: z
+    .string()
+    .describe('The zodiac sign of the user.'),
+  question: z.string().describe('The question asked by the user.'),
+});
+export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
+
+const GenerateTarotReadingOutputSchema = z.object({
+  tarotReading: z.string().describe('The generated tarot reading.'),
+});
+export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
+
+export async function generateTarotReading(input: GenerateTarotReadingInput): Promise<GenerateTarotReadingOutput> {
+  return generateTarotReadingFlow(input);
+}
+
+const tarotCardInterpretationTool = ai.defineTool({
+  name: 'tarotCardInterpretation',
+  description: 'This tool interprets the meaning of a given tarot card based on traditional tarot symbolism.',
+  inputSchema: z.object({
+    cardName: z.string().describe('The name of the tarot card to interpret.'),
+  }),
+  outputSchema: z.string().describe('The interpretation of the tarot card.'),
+}, async (input) => {
+  // Placeholder implementation for tarot card interpretation.
+  // In a real application, this would involve looking up the card's meaning
+  // from a database or external source.
+  switch (input.cardName) {
+    case 'The Fool':
+      return 'The Fool represents new beginnings, innocence, and a leap of faith.';
+    case 'The Magician':
+      return 'The Magician signifies skill, resourcefulness, and manifestation.';
+    case 'The High Priestess':
+      return 'The High Priestess embodies intuition, mystery, and the subconscious.';
+    default:
+      return `Interpretation for ${input.cardName} not available.`;
+  }
+});
+
+const prompt = ai.definePrompt({
+  name: 'generateTarotReadingPrompt',
+  input: {schema: GenerateTarotReadingInputSchema},
+  output: {schema: GenerateTarotReadingOutputSchema},
+  tools: [tarotCardInterpretationTool],
+  prompt: `You are a tarot reader. A user with the zodiac sign {{{zodiacSign}}} asked the following question: {{{question}}}. Draw three random tarot cards, then use the tarotCardInterpretation tool to determine the meaning of each card.
+
+  Craft a short story that uses these interpretations to answer the user's question. The story should provide guidance and insight related to the user's question.
+  `,
+});
+
+const generateTarotReadingFlow = ai.defineFlow(
+  {
+    name: 'generateTarotReadingFlow',
+    inputSchema: GenerateTarotReadingInputSchema,
+    outputSchema: GenerateTarotReadingOutputSchema,
+  },
+  async input => {
+    const {output} = await prompt(input);
+    return output!;
+  }
+);
