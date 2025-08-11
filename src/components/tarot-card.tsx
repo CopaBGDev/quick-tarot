@@ -35,12 +35,14 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
               <Image
                 src={card.image}
                 alt={card.name}
-                fill
-                className="object-cover"
+                width={320}
+                height={480}
+                className="object-contain"
                 data-ai-hint={card.hint}
+                unoptimized
               />
             </div>
-            <p className="mt-1 flex-shrink-0 font-headline text-sm text-primary">
+            <p className="mt-1 flex-shrink-0 font-headline text-sm text-center text-primary">
               {card.name}
             </p>
           </div>

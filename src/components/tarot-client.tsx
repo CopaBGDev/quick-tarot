@@ -4,7 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Wand2, Loader2, AlertTriangle, Timer } from "lucide-react";
+import { Sparkles, Wand2, Loader2 } from "lucide-react";
 
 import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
@@ -27,19 +27,20 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { ZODIAC_SIGNS_SR, type ZodiacSign } from "@/lib/zodiac";
+import { ZODIAC_SIGNS_SR, type ZodiacSign, ZODIAC_SIGNS_EN } from "@/lib/zodiac";
 import { MagicIcon } from "./magic-icon";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
+import { getTranslations, Translations } from "@/lib/translations";
 
 const FormSchema = z.object({
-  zodiacSign: z.custom<ZodiacSign>((val) => ZODIAC_SIGNS_SR.includes(val as ZodiacSign), {
-    message: "Morate izabrati validan horoskopski znak.",
+  zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
+    message: "You must select a valid zodiac sign.",
   }),
   question: z
     .string()
-    .min(10, { message: "Pitanje mora imati najmanje 10 karaktera." })
-    .max(200, { message: "Pitanje ne može biti duže od 200 karaktera." }),
+    .min(10, { message: "Question must be at least 10 characters long." })
+    .max(200, { message: "Question cannot be longer than 200 characters." }),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
@@ -69,7 +70,9 @@ function useTypewriter(text: string | null, speed = 25) {
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
-  const [isClient, setIsClient] = React.useState(false);
+  const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
+  const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
+  const [language, setLanguage] = React.useState('sr');
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -78,23 +81,40 @@ export default function TarotClient() {
       question: "",
     },
   });
-
+  
   React.useEffect(() => {
-    setIsClient(true);
-  }, []);
+    const userLang = navigator.language.split('-')[0];
+    setLanguage(userLang);
+    const newTranslations = getTranslations(userLang);
+    setTranslations(newTranslations);
+    setZodiacSigns(newTranslations.zodiacSigns);
+    
+    const zodSchema = z.object({
+      zodiacSign: z.custom<ZodiacSign>((val) => newTranslations.zodiacSigns.includes(val as ZodiacSign), {
+        message: newTranslations.form.zodiac.error,
+      }),
+      question: z
+        .string()
+        .min(10, { message: newTranslations.form.question.minLengthError })
+        .max(200, { message: newTranslations.form.question.maxLengthError }),
+    });
+
+    form.reset(undefined, { keepValues: true });
+    (form as any).resolver = zodResolver(zodSchema);
+
+  }, [form]);
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     setReading(null);
 
     try {
-      const language = navigator.language;
       const result = await getTarotReading({ ...data, language });
       setReading(result);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Došlo je do nepoznate greške.";
+      const errorMessage = error instanceof Error ? error.message : translations.unknownError;
       toast({
-        title: "Greška",
+        title: translations.errorTitle,
         description: errorMessage,
         variant: "destructive",
       });
@@ -105,8 +125,8 @@ export default function TarotClient() {
 
   const displayedReading = useTypewriter(reading ? reading.tarotReading : null);
   const disabled = isLoading;
-  
-  if (!isClient) {
+
+  if (!translations) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-8 py-10">
         <Loader2 className="h-16 w-16 animate-spin text-primary" />
@@ -116,14 +136,14 @@ export default function TarotClient() {
 
   const tarotCards = reading
     ? [
-        { name: reading.card1, image: `https://placehold.co/320x480.png`, hint: reading.card1.toLowerCase().replace(/ /g, "_") },
-        { name: reading.card2, image: `https://placehold.co/320x480.png`, hint: reading.card2.toLowerCase().replace(/ /g, "_") },
-        { name: reading.card3, image: `https://placehold.co/320x480.png`, hint: reading.card3.toLowerCase().replace(/ /g, "_") },
+        { name: reading.card1, image: `https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=${encodeURIComponent(reading.card1.replace(/ /g, '%20'))}`, hint: reading.card1.toLowerCase().replace(/ /g, " ") },
+        { name: reading.card2, image: `https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=${encodeURIComponent(reading.card2.replace(/ /g, '%20'))}`, hint: reading.card2.toLowerCase().replace(/ /g, " ") },
+        { name: reading.card3, image: `https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=${encodeURIComponent(reading.card3.replace(/ /g, '%20'))}`, hint: reading.card3.toLowerCase().replace(/ /g, " ") },
       ]
     : [
-        { name: "The Fool", image: "https://placehold.co/320x480.png", hint: "tarot card" },
-        { name: "The Magician", image: "https://placehold.co/320x480.png", hint: "tarot card" },
-        { name: "The High Priestess", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "The Fool", image: "https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=The%20Fool", hint: "tarot card" },
+        { name: "The Magician", image: "https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=The%20Magician", hint: "tarot card" },
+        { name: "The High Priestess", image: "https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=The%20High%20Priestess", hint: "tarot card" },
       ];
 
 
@@ -132,10 +152,10 @@ export default function TarotClient() {
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
-          Tarot Sudbina
+          {translations.header.title}
         </h1>
         <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-          Otkrijte šta vam zvezde i karte poručuju. Unesite svoj znak i pitanje da dobijete vaše personalizovano tarot čitanje.
+          {translations.header.subtitle}
         </p>
       </header>
 
@@ -148,15 +168,15 @@ export default function TarotClient() {
                 name="zodiacSign"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Vaš horoskopski znak</FormLabel>
+                    <FormLabel>{translations.form.zodiac.label}</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Izaberite znak..." />
+                          <SelectValue placeholder={translations.form.zodiac.placeholder} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {ZODIAC_SIGNS_SR.map((sign) => (
+                        {zodiacSigns.map((sign) => (
                           <SelectItem key={sign} value={sign}>
                             {sign}
                           </SelectItem>
@@ -172,9 +192,9 @@ export default function TarotClient() {
                 name="question"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Vaše pitanje za karte</FormLabel>
+                    <FormLabel>{translations.form.question.label}</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Šta vas muči ili zanima?" {...field} disabled={disabled} />
+                      <Textarea placeholder={translations.form.question.placeholder} {...field} disabled={disabled} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -184,12 +204,12 @@ export default function TarotClient() {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generišem...
+                    {translations.button.loading}
                   </>
                 ) : (
                   <>
                     <Wand2 className="mr-2 h-4 w-4" />
-                    Dobij Čitanje
+                    {translations.button.default}
                   </>
                 )}
               </Button>
@@ -200,7 +220,7 @@ export default function TarotClient() {
 
       {(isLoading || reading) && (
         <section className="w-full max-w-4xl text-center">
-          <h2 className="font-headline text-3xl font-bold text-primary">Vaše Karte Sudbine</h2>
+          <h2 className="font-headline text-3xl font-bold text-primary">{translations.results.title}</h2>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <TarotCard isFlipped={isLoading || !!reading} delay={0} card={tarotCards[0]} />
             <TarotCard isFlipped={isLoading || !!reading} delay={150} card={tarotCards[1]} />
@@ -210,7 +230,7 @@ export default function TarotClient() {
           {isLoading && !reading && (
             <div className="mt-8 flex items-center justify-center gap-2 text-lg text-muted-foreground">
               <Sparkles className="h-5 w-5 animate-pulse" />
-              <p>Karte se mešaju, vaša sudbina se otkriva...</p>
+              <p>{translations.results.loadingText}</p>
             </div>
           )}
 
@@ -228,7 +248,7 @@ export default function TarotClient() {
 
       <footer className="mt-12 flex w-full flex-col items-center gap-8 border-t border-primary/10 pt-10">
         <AdPlaceholder />
-        <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Tarot Sudbina. Sva prava zadržana.</p>
+        <p className="text-sm text-muted-foreground">{translations.footer.copyright.replace('{year}', new Date().getFullYear().toString())}</p>
       </footer>
     </div>
   );

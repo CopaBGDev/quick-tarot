@@ -13,4 +13,19 @@ export const ZODIAC_SIGNS_SR = [
   "Ribe",
 ] as const;
 
-export type ZodiacSign = (typeof ZODIAC_SIGNS_SR)[number];
+export const ZODIAC_SIGNS_EN = [
+  "Aries",
+  "Taurus",
+  "Gemini",
+  "Cancer",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
+] as const;
+
+export type ZodiacSign = (typeof ZODIAC_SIGNS_SR)[number] | (typeof ZODIAC_SIGNS_EN)[number];
