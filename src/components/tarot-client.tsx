@@ -69,7 +69,6 @@ function useTypewriter(text: string | null, speed = 25) {
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
-  const [cooldown, setCooldown] = React.useState(0);
   const [isClient, setIsClient] = React.useState(false);
   const { toast } = useToast();
 
@@ -85,15 +84,6 @@ export default function TarotClient() {
   }, []);
 
   const onSubmit = async (data: FormValues) => {
-    if (cooldown > 0) {
-      toast({
-        title: "Sačekajte",
-        description: "Možete zatražiti novo čitanje tek nakon isteka 24h.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsLoading(true);
     setReading(null);
 
@@ -126,14 +116,14 @@ export default function TarotClient() {
 
   const tarotCards = reading
     ? [
-        { name: reading.card1, image: `https://placehold.co/320x480.png?text=${encodeURIComponent(reading.card1)}` },
-        { name: reading.card2, image: `https://placehold.co/320x480.png?text=${encodeURIComponent(reading.card2)}` },
-        { name: reading.card3, image: `https://placehold.co/320x480.png?text=${encodeURIComponent(reading.card3)}` },
+        { name: reading.card1, image: `https://placehold.co/320x480.png`, hint: reading.card1.toLowerCase().replace(/ /g, "_") },
+        { name: reading.card2, image: `https://placehold.co/320x480.png`, hint: reading.card2.toLowerCase().replace(/ /g, "_") },
+        { name: reading.card3, image: `https://placehold.co/320x480.png`, hint: reading.card3.toLowerCase().replace(/ /g, "_") },
       ]
     : [
-        { name: "The Fool", image: "https://placehold.co/320x480.png" },
-        { name: "The Magician", image: "https://placehold.co/320x480.png" },
-        { name: "The High Priestess", image: "https://placehold.co/320x480.png" },
+        { name: "The Fool", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "The Magician", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "The High Priestess", image: "https://placehold.co/320x480.png", hint: "tarot card" },
       ];
 
 

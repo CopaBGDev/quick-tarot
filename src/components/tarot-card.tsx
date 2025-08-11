@@ -7,7 +7,7 @@ import { Sparkles } from "lucide-react";
 type TarotCardProps = {
   isFlipped: boolean;
   delay: number;
-  card: { name: string; image: string };
+  card: { name: string; image: string; hint: string };
 };
 
 export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
@@ -37,7 +37,7 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
                 alt={card.name}
                 fill
                 className="object-cover"
-                data-ai-hint="tarot card"
+                data-ai-hint={card.hint}
               />
             </div>
             <p className="mt-1 flex-shrink-0 font-headline text-sm text-primary">
