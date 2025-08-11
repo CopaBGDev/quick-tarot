@@ -82,13 +82,13 @@ export default function TarotClient() {
 
   React.useEffect(() => {
     setIsClient(true);
-    const lastReadingTime = localStorage.getItem("lastReadingTime");
-    if (lastReadingTime) {
-      const remainingTime = Number(lastReadingTime) + 24 * 60 * 60 * 1000 - Date.now();
-      if (remainingTime > 0) {
-        setCooldown(remainingTime);
-      }
-    }
+    // const lastReadingTime = localStorage.getItem("lastReadingTime");
+    // if (lastReadingTime) {
+    //   const remainingTime = Number(lastReadingTime) + 24 * 60 * 60 * 1000 - Date.now();
+    //   if (remainingTime > 0) {
+    //     setCooldown(remainingTime);
+    //   }
+    // }
   }, []);
 
   React.useEffect(() => {
@@ -115,8 +115,8 @@ export default function TarotClient() {
     try {
       const result = await getTarotReading(data);
       setReading(result);
-      localStorage.setItem("lastReadingTime", Date.now().toString());
-      setCooldown(24 * 60 * 60 * 1000);
+      // localStorage.setItem("lastReadingTime", Date.now().toString());
+      // setCooldown(24 * 60 * 60 * 1000);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Došlo je do nepoznate greške.";
       toast({
