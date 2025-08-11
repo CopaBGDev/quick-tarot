@@ -7,6 +7,7 @@ import { z } from "zod";
 import { Sparkles, Wand2, Loader2, AlertTriangle, Timer } from "lucide-react";
 
 import { getTarotReading } from "@/app/actions";
+import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -67,7 +68,7 @@ function useTypewriter(text: string | null, speed = 25) {
 
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
-  const [reading, setReading] = React.useState<string | null>(null);
+  const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cooldown, setCooldown] = React.useState(0);
   const [isClient, setIsClient] = React.useState(false);
   const { toast } = useToast();
@@ -113,7 +114,7 @@ export default function TarotClient() {
 
     try {
       const result = await getTarotReading(data);
-      setReading(result.tarotReading);
+      setReading(result);
       localStorage.setItem("lastReadingTime", Date.now().toString());
       setCooldown(24 * 60 * 60 * 1000);
     } catch (error) {
@@ -128,7 +129,7 @@ export default function TarotClient() {
     }
   };
 
-  const displayedReading = useTypewriter(reading);
+  const displayedReading = useTypewriter(reading ? reading.tarotReading : null);
   const cooldownActive = cooldown > 0;
   const disabled = isLoading || cooldownActive;
   
@@ -147,6 +148,19 @@ export default function TarotClient() {
       </div>
     )
   }
+
+  const tarotCards = reading
+    ? [
+        { name: reading.card1, image: "https://placehold.co/320x480.png" },
+        { name: reading.card2, image: "https://placehold.co/320x480.png" },
+        { name: reading.card3, image: "https://placehold.co/320x480.png" },
+      ]
+    : [
+        { name: "The Fool", image: "https://placehold.co/320x480.png" },
+        { name: "The Magician", image: "https://placehold.co/320x480.png" },
+        { name: "The High Priestess", image: "https://placehold.co/320x480.png" },
+      ];
+
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
@@ -233,9 +247,9 @@ export default function TarotClient() {
         <section className="w-full max-w-4xl text-center">
           <h2 className="font-headline text-3xl font-bold text-primary">Vaše Karte Sudbine</h2>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            <TarotCard isFlipped={isLoading || !!reading} delay={0} />
-            <TarotCard isFlipped={isLoading || !!reading} delay={150} />
-            <TarotCard isFlipped={isLoading || !!reading} delay={300} />
+            <TarotCard isFlipped={isLoading || !!reading} delay={0} card={tarotCards[0]} />
+            <TarotCard isFlipped={isLoading || !!reading} delay={150} card={tarotCards[1]} />
+            <TarotCard isFlipped={isLoading || !!reading} delay={300} card={tarotCards[2]} />
           </div>
 
           {isLoading && !reading && (

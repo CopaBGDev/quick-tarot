@@ -21,6 +21,9 @@ const GenerateTarotReadingInputSchema = z.object({
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 
 const GenerateTarotReadingOutputSchema = z.object({
+  card1: z.string().describe('The name of the first tarot card.'),
+  card2: z.string().describe('The name of the second tarot card.'),
+  card3: z.string().describe('The name of the third tarot card.'),
   tarotReading: z.string().describe('The generated tarot reading.'),
 });
 export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
@@ -57,7 +60,7 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateTarotReadingInputSchema},
   output: {schema: GenerateTarotReadingOutputSchema},
   tools: [tarotCardInterpretationTool],
-  prompt: `You are a tarot reader. A user with the zodiac sign {{{zodiacSign}}} asked the following question: {{{question}}}. Draw three random tarot cards, then use the tarotCardInterpretation tool to determine the meaning of each card.
+  prompt: `You are a tarot reader. A user with the zodiac sign {{{zodiacSign}}} asked the following question: {{{question}}}. Draw three random tarot cards, making sure to set the card1, card2, and card3 output fields with the names of the cards you have drawn. Then use the tarotCardInterpretation tool to determine the meaning of each card.
 
   Craft a short story that uses these interpretations to answer the user's question. The story should provide guidance and insight related to the user's question.
   `,
