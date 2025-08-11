@@ -136,14 +136,14 @@ export default function TarotClient() {
 
   const tarotCards = reading
     ? [
-        { name: reading.card1, image: `https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=${encodeURIComponent(reading.card1.replace(/ /g, '%20'))}`, hint: reading.card1.toLowerCase().replace(/ /g, " ") },
-        { name: reading.card2, image: `https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=${encodeURIComponent(reading.card2.replace(/ /g, '%20'))}`, hint: reading.card2.toLowerCase().replace(/ /g, " ") },
-        { name: reading.card3, image: `https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=${encodeURIComponent(reading.card3.replace(/ /g, '%20'))}`, hint: reading.card3.toLowerCase().replace(/ /g, " ") },
+        { name: reading.card1, image: `https://placehold.co/320x480.png`, hint: reading.card1.toLowerCase().replace(/ /g, " ") },
+        { name: reading.card2, image: `https://placehold.co/320x480.png`, hint: reading.card2.toLowerCase().replace(/ /g, " ") },
+        { name: reading.card3, image: `https://placehold.co/320x480.png`, hint: reading.card3.toLowerCase().replace(/ /g, " ") },
       ]
     : [
-        { name: "The Fool", image: "https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=The%20Fool", hint: "tarot card" },
-        { name: "The Magician", image: "https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=The%20Magician", hint: "tarot card" },
-        { name: "The High Priestess", image: "https://placehold.co/320x480/2C2A4A/F8F4E3/png?text=The%20High%20Priestess", hint: "tarot card" },
+        { name: "The Fool", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "The Magician", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "The High Priestess", image: "https://placehold.co/320x480.png", hint: "tarot card" },
       ];
 
 
