@@ -12,6 +12,7 @@ const ActionSchema = z.object({
     .string()
     .min(10, "Pitanje mora imati najmanje 10 karaktera.")
     .max(200, "Pitanje ne može biti duže od 200 karaktera."),
+  language: z.string().optional(),
 });
 
 export async function getTarotReading(input: GenerateTarotReadingInput) {

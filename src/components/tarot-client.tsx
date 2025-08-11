@@ -82,22 +82,7 @@ export default function TarotClient() {
 
   React.useEffect(() => {
     setIsClient(true);
-    // const lastReadingTime = localStorage.getItem("lastReadingTime");
-    // if (lastReadingTime) {
-    //   const remainingTime = Number(lastReadingTime) + 24 * 60 * 60 * 1000 - Date.now();
-    //   if (remainingTime > 0) {
-    //     setCooldown(remainingTime);
-    //   }
-    // }
   }, []);
-
-  React.useEffect(() => {
-    if (cooldown <= 0) return;
-    const timer = setInterval(() => {
-      setCooldown((prev) => prev - 1000);
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [cooldown]);
 
   const onSubmit = async (data: FormValues) => {
     if (cooldown > 0) {
@@ -113,10 +98,9 @@ export default function TarotClient() {
     setReading(null);
 
     try {
-      const result = await getTarotReading(data);
+      const language = navigator.language;
+      const result = await getTarotReading({ ...data, language });
       setReading(result);
-      // localStorage.setItem("lastReadingTime", Date.now().toString());
-      // setCooldown(24 * 60 * 60 * 1000);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : "Došlo je do nepoznate greške.";
       toast({
@@ -130,17 +114,8 @@ export default function TarotClient() {
   };
 
   const displayedReading = useTypewriter(reading ? reading.tarotReading : null);
-  const cooldownActive = cooldown > 0;
-  const disabled = isLoading || cooldownActive;
+  const disabled = isLoading;
   
-  const formatTime = (ms: number) => {
-    const totalSeconds = Math.floor(ms / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-  };
-
   if (!isClient) {
     return (
       <div className="flex w-full flex-col items-center justify-center gap-8 py-10">
@@ -151,9 +126,9 @@ export default function TarotClient() {
 
   const tarotCards = reading
     ? [
-        { name: reading.card1, image: "https://placehold.co/320x480.png" },
-        { name: reading.card2, image: "https://placehold.co/320x480.png" },
-        { name: reading.card3, image: "https://placehold.co/320x480.png" },
+        { name: reading.card1, image: `https://placehold.co/320x480.png?text=${encodeURIComponent(reading.card1)}` },
+        { name: reading.card2, image: `https://placehold.co/320x480.png?text=${encodeURIComponent(reading.card2)}` },
+        { name: reading.card3, image: `https://placehold.co/320x480.png?text=${encodeURIComponent(reading.card3)}` },
       ]
     : [
         { name: "The Fool", image: "https://placehold.co/320x480.png" },
@@ -232,16 +207,6 @@ export default function TarotClient() {
           </Form>
         </CardContent>
       </Card>
-
-      {cooldownActive && (
-          <div className="flex items-center gap-3 rounded-lg border border-yellow-400/50 bg-yellow-400/10 p-4 text-yellow-300">
-            <Timer className="h-6 w-6" />
-            <div>
-                <p className="font-bold">Sledeće čitanje je dostupno za:</p>
-                <p className="font-mono text-lg">{formatTime(cooldown)}</p>
-            </div>
-          </div>
-      )}
 
       {(isLoading || reading) && (
         <section className="w-full max-w-4xl text-center">
