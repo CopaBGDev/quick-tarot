@@ -37,7 +37,7 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
                 alt={card.name}
                 width={320}
                 height={480}
-                className="object-contain"
+                className="object-cover h-full w-full"
                 data-ai-hint={card.hint}
                 unoptimized
               />
