@@ -11,6 +11,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { generateTarotCardImage } from './generate-tarot-card-image';
 
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
@@ -19,10 +20,13 @@ const GenerateTarotReadingInputSchema = z.object({
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 
+const TarotCardOutputSchema = z.object({
+  name: z.string().describe('The name of the tarot card.'),
+  image: z.string().describe("A data URI of a generated image for the tarot card. Expected format: 'data:image/png;base64,<encoded_data>'."),
+});
+
 const GenerateTarotReadingOutputSchema = z.object({
-  card1: z.string().describe('The name of the first tarot card.'),
-  card2: z.string().describe('The name of the second tarot card.'),
-  card3: z.string().describe('The name of the third tarot card.'),
+  cards: z.array(TarotCardOutputSchema).length(3).describe('The three tarot cards that were drawn.'),
   tarotReading: z.string().describe('The generated tarot reading in the requested language.'),
 });
 export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
@@ -60,7 +64,12 @@ const generateReadingPrompt = ai.definePrompt({
     zodiacSign: z.string(),
     question: z.string(),
   })},
-  output: {schema: GenerateTarotReadingOutputSchema},
+  output: {schema: z.object({
+    card1: z.string().describe('The name of the first tarot card.'),
+    card2: z.string().describe('The name of the second tarot card.'),
+    card3: z.string().describe('The name of the third tarot card.'),
+    tarotReading: z.string().describe('The generated tarot reading in Serbian.'),
+  })},
   tools: [tarotCardInterpretationTool],
   prompt: `You are a tarot reader. A user with the zodiac sign {{{zodiacSign}}} asked the following question: {{{question}}}. Draw three random tarot cards, making sure to set the card1, card2, and card3 output fields with the names of the cards you have drawn. Then use the tarotCardInterpretation tool to determine the meaning of each card.
 
@@ -95,16 +104,30 @@ const generateTarotReadingFlow = ai.defineFlow(
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
-    let readingOutput = readingResponse.output;
+    let { card1, card2, card3, tarotReading } = readingResponse.output;
 
     // Step 2: Translate if a different language is requested and it's not Serbian
     if (language && !language.toLowerCase().startsWith('sr')) {
-      const translateResponse = await translatePrompt({ text: readingOutput.tarotReading, language });
+      const translateResponse = await translatePrompt({ text: tarotReading, language });
       if (translateResponse.output) {
-        readingOutput.tarotReading = translateResponse.output.translatedText;
+        tarotReading = translateResponse.output.translatedText;
       }
     }
     
-    return readingOutput;
+    // Step 3: Generate images for the cards in parallel
+    const [image1, image2, image3] = await Promise.all([
+      generateTarotCardImage({ cardName: card1 }),
+      generateTarotCardImage({ cardName: card2 }),
+      generateTarotCardImage({ cardName: card3 }),
+    ]);
+
+    return {
+      cards: [
+        { name: card1, image: image1.dataUri },
+        { name: card2, image: image2.dataUri },
+        { name: card3, image: image3.dataUri },
+      ],
+      tarotReading,
+    };
   }
 );

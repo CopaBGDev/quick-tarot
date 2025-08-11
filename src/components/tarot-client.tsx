@@ -135,11 +135,11 @@ export default function TarotClient() {
   }
 
   const tarotCards = reading
-    ? [
-        { name: reading.card1, image: `https://placehold.co/320x480.png`, hint: reading.card1.toLowerCase().replace(/ /g, " ") },
-        { name: reading.card2, image: `https://placehold.co/320x480.png`, hint: reading.card2.toLowerCase().replace(/ /g, " ") },
-        { name: reading.card3, image: `https://placehold.co/320x480.png`, hint: reading.card3.toLowerCase().replace(/ /g, " ") },
-      ]
+    ? reading.cards.map(card => ({
+        name: card.name,
+        image: card.image,
+        hint: card.name.toLowerCase().replace(/ /g, " "),
+      }))
     : [
         { name: "The Fool", image: "https://placehold.co/320x480.png", hint: "tarot card" },
         { name: "The Magician", image: "https://placehold.co/320x480.png", hint: "tarot card" },
