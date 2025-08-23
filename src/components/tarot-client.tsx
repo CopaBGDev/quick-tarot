@@ -45,7 +45,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-function useTypewriter(text: string | null, speed = 25) {
+function useTypewriter(text: string | null, speed = 18) {
   const [displayText, setDisplayText] = React.useState("");
 
   React.useEffect(() => {
