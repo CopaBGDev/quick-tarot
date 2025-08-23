@@ -230,6 +230,7 @@ const generateReadingPrompt = ai.definePrompt({
     tarotReading: z.string().describe('The generated tarot reading in Serbian.'),
   })},
   tools: [tarotCardInterpretationTool],
+  system: 'You must draw three random tarot cards from the full 78-card deck, including both Major and Minor Arcana.',
   prompt: `You are a tarot reader. A user with the zodiac sign {{{zodiacSign}}} asked the following question: {{{question}}}. Draw three random tarot cards from the full 78-card deck, making sure to set the card1, card2, and card3 output fields with the names of the cards you have drawn. Then use the tarotCardInterpretation tool to determine the meaning of each card.
 
   Craft a short story in Serbian that uses these interpretations to answer the user's question. The story should provide guidance and insight related to the user's question.
