@@ -45,6 +45,28 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
+function useTypingEffect(text: string, duration: number) {
+  const [displayedText, setDisplayedText] = React.useState("");
+  const speed = duration > 0 ? text.length / duration * 1000 : 10; // characters per second
+
+  React.useEffect(() => {
+    setDisplayedText("");
+    if (text) {
+      let i = 0;
+      const interval = setInterval(() => {
+        setDisplayedText((prev) => prev + text.charAt(i));
+        i++;
+        if (i >= text.length) {
+          clearInterval(interval);
+        }
+      }, 1000 / (speed / 1.3));
+      return () => clearInterval(interval);
+    }
+  }, [text, speed]);
+
+  return displayedText;
+}
+
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -52,8 +74,11 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
+  const [audioDuration, setAudioDuration] = React.useState(0);
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
+
+  const displayedReading = useTypingEffect(reading?.tarotReading ?? "", audioDuration);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -234,13 +259,18 @@ export default function TarotClient() {
                       {isPlaying ? <Volume2 /> : <Play />}
                       <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
                     </Button>
-                    <audio ref={audioRef} src={reading.audioDataUri} onEnded={() => setIsPlaying(false)} />
+                    <audio
+                      ref={audioRef}
+                      src={reading.audioDataUri}
+                      onEnded={() => setIsPlaying(false)}
+                      onLoadedMetadata={(e) => setAudioDuration(e.currentTarget.duration)}
+                    />
                   </>
                 )}
               </CardHeader>
               <CardContent className="p-6 text-left">
                 <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                  {reading.tarotReading}
+                  {displayedReading}
                 </p>
               </CardContent>
             </Card>
