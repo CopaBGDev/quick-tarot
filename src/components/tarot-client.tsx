@@ -48,54 +48,6 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-function useTypingEffect(text: string, duration: number, isPlaying: boolean) {
-  const [displayedText, setDisplayedText] = React.useState('');
-  const charIndexRef = React.useRef(0);
-  const intervalRef = React.useRef<NodeJS.Timeout>();
-
-  const startTyping = React.useCallback(() => {
-    if (text && duration > 0) {
-      const typingDuration = duration / 1.76;
-      const speed = text.length / typingDuration;
-
-      intervalRef.current = setInterval(() => {
-        if (charIndexRef.current < text.length) {
-          charIndexRef.current++;
-          setDisplayedText(text.substring(0, charIndexRef.current));
-        } else {
-          clearInterval(intervalRef.current);
-        }
-      }, 1000 / speed);
-    } else if (text) {
-      setDisplayedText(text);
-    }
-  }, [text, duration]);
-
-  const pauseTyping = React.useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    setDisplayedText('');
-    charIndexRef.current = 0;
-    pauseTyping();
-  }, [text, duration, pauseTyping]);
-
-  React.useEffect(() => {
-    if (isPlaying) {
-      startTyping();
-    } else {
-      pauseTyping();
-    }
-    return pauseTyping;
-  }, [isPlaying, startTyping, pauseTyping]);
-
-  return displayedText;
-}
-
-
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -103,11 +55,8 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const [audioDuration, setAudioDuration] = React.useState(0);
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
-
-  const displayedReading = useTypingEffect(reading?.tarotReading ?? "", audioDuration, isPlaying);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -359,14 +308,14 @@ export default function TarotClient() {
                       onPlay={() => setIsPlaying(true)}
                       onPause={() => setIsPlaying(false)}
                       onEnded={() => setIsPlaying(false)}
-                      onLoadedMetadata={(e) => setAudioDuration(e.currentTarget.duration)}
+                      onLoadedMetadata={(e) => { /* No longer needed for typing effect */ }}
                     />
                   </>
                 )}
               </CardHeader>
               <CardContent className="p-6 text-left">
                 <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                  {displayedReading}
+                  {reading.tarotReading}
                 </p>
               </CardContent>
             </Card>
