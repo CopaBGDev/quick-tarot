@@ -48,8 +48,8 @@ const tarotReadingPrompt = ai.definePrompt({
     card3: z.string().describe('The name of the third tarot card.'),
     tarotReading: z.string().describe('The generated tarot reading, in the requested language.'),
   })},
-  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language.',
-  prompt: 'Choose three tarot cards and provide a reading for a user with the zodiac sign {{{zodiacSign}}} who asked: "{{{question}}}". The entire response must be in the language: {{{language}}}.',
+  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language. User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}.',
+  prompt: 'Please provide the tarot reading now.',
 });
 
 const generateTarotReadingFlow = ai.defineFlow(
@@ -61,14 +61,12 @@ const generateTarotReadingFlow = ai.defineFlow(
   async (input) => {
     const { voice } = input;
     
-    // Step 1: Generate the reading and choose cards in one go.
     const readingResponse = await tarotReadingPrompt(input);
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
     const { card1, card2, card3, tarotReading } = readingResponse.output;
 
-    // Step 2: Generate images and audio in parallel.
     const [image1, image2, image3, audio] = await Promise.all([
       generateTarotCardImage({ cardName: card1 }),
       generateTarotCardImage({ cardName: card2 }),
