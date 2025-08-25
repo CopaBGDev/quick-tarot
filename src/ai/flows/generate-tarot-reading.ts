@@ -18,7 +18,7 @@ import { VoiceEnum } from './types';
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
   question: z.string().describe('The question asked by the user.'),
-  language: z.string().optional().describe('The language for the output, e.g., "en" for English.'),
+  language: z.string().optional().default('sr').describe('The language for the output, e.g., "en" for English.'),
   voice: VoiceEnum.optional().describe('The voice to use for the audio output.'),
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
@@ -226,33 +226,21 @@ const generateReadingPrompt = ai.definePrompt({
   input: {schema: z.object({
     zodiacSign: z.string(),
     question: z.string(),
+    language: z.string(),
   })},
   output: {schema: z.object({
     card1: z.string().describe('The name of the first tarot card.'),
     card2: z.string().describe('The name of the second tarot card.'),
     card3: z.string().describe('The name of the third tarot card.'),
-    tarotReading: z.string().describe('The generated tarot reading in Serbian.'),
+    tarotReading: z.string().describe('The generated tarot reading in the requested language.'),
   })},
   tools: [tarotCardInterpretationTool],
   system: 'You must draw three random tarot cards from the full 78-card deck, including both Major and Minor Arcana.',
   prompt: `You are a tarot reader. A user with the zodiac sign {{{zodiacSign}}} asked the following question: {{{question}}}. Draw three random tarot cards from the full 78-card deck, making sure to set the card1, card2, and card3 output fields with the names of the cards you have drawn. Then use the tarotCardInterpretation tool to determine the meaning of each card.
 
-  Craft a short story in Serbian that uses these interpretations to answer the user's question. The story should provide guidance and insight related to the user's question.
+  Craft a short story in the language '{{{language}}}' that uses these interpretations to answer the user's question. The story should provide guidance and insight related to the user's question.
   `,
 });
-
-
-const translatePrompt = ai.definePrompt({
-    name: 'translateTextPrompt',
-    input: { schema: z.object({ text: z.string(), language: z.string() }) },
-    output: { schema: z.object({ translatedText: z.string() }) },
-    prompt: `Translate the following text to {{{language}}}.
-
-Text:
-{{{text}}}
-`,
-});
-
 
 const generateTarotReadingFlow = ai.defineFlow(
   {
@@ -263,22 +251,14 @@ const generateTarotReadingFlow = ai.defineFlow(
   async (input) => {
     const { zodiacSign, question, language, voice } = input;
     
-    // Step 1: Generate the tarot reading in the default language (Serbian)
-    const readingResponse = await generateReadingPrompt({zodiacSign, question});
+    // Step 1: Generate the tarot reading in the requested language
+    const readingResponse = await generateReadingPrompt({zodiacSign, question, language: language || 'sr'});
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
     let { card1, card2, card3, tarotReading } = readingResponse.output;
-
-    // Step 2: Translate if a different language is requested and it's not Serbian
-    if (language && !language.toLowerCase().startsWith('sr')) {
-      const translateResponse = await translatePrompt({ text: tarotReading, language });
-      if (translateResponse.output) {
-        tarotReading = translateResponse.output.translatedText;
-      }
-    }
     
-    // Step 3: Generate images and audio in parallel
+    // Step 2: Generate images and audio in parallel
     const [image1, image2, image3, audio] = await Promise.all([
       generateTarotCardImage({ cardName: card1 }),
       generateTarotCardImage({ cardName: card2 }),
@@ -297,5 +277,3 @@ const generateTarotReadingFlow = ai.defineFlow(
     };
   }
 );
-
-    
