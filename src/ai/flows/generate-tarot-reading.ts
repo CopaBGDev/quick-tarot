@@ -71,7 +71,7 @@ const generateTarotReadingFlow = ai.defineFlow(
   async (input) => {
     const { zodiacSign, question, language, voice } = input;
     
-    const readingResponse = await generateReadingPrompt({zodiacSign, question, language: language || 'sr'});
+    const readingResponse = await generateReadingPrompt({ zodiacSign, question, language: language || 'sr' });
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
