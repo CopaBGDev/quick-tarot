@@ -94,7 +94,6 @@ export default function TarotClient() {
   React.useEffect(() => {
     if (!reading) return;
 
-    // Typing effect
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
@@ -105,7 +104,6 @@ export default function TarotClient() {
       }
     }, 25);
 
-    // Setup audio
     if (reading.audioDataUri) {
       if (audioRef.current) {
         audioRef.current.pause();
@@ -121,6 +119,7 @@ export default function TarotClient() {
       clearInterval(typingInterval);
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current = null;
       }
     };
   }, [reading]);
@@ -130,7 +129,14 @@ export default function TarotClient() {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        audioRef.current.play().catch(e => {
+          console.error("Audio play failed:", e);
+          toast({
+            title: translations.errorTitle,
+            description: "Playback was blocked by the browser.",
+            variant: "destructive"
+          });
+        });
       }
     }
   };
