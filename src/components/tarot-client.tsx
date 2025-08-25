@@ -91,7 +91,7 @@ export default function TarotClient() {
 
   }, [form]);
   
-   React.useEffect(() => {
+  React.useEffect(() => {
     if (!reading) return;
 
     // Typing effect
@@ -105,14 +105,12 @@ export default function TarotClient() {
       }
     }, 25);
     
-    // Audio setup
-    if (reading.audioDataUri) {
-      if (audioRef.current) {
+    // Reset audio state when new reading arrives
+    if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current.currentTime = 0;
-        setIsPlaying(false);
-      }
     }
+    setIsPlaying(false);
 
     return () => clearInterval(typingInterval);
   }, [reading]);
@@ -327,7 +325,6 @@ export default function TarotClient() {
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
-                  <Button>Test Dugme</Button>
                    {reading.audioDataUri && (
                     <Button variant="outline" size="icon" onClick={handlePlayPause}>
                       {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
