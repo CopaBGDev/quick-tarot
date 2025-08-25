@@ -93,12 +93,6 @@ export default function TarotClient() {
 
   React.useEffect(() => {
     if (reading) {
-      // Start audio playback if available
-      if (reading.audioDataUri && audioRef.current) {
-        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-        setIsPlaying(true);
-      }
-
       // Start typing effect
       setTypedReading("");
       let index = 0;
@@ -109,6 +103,12 @@ export default function TarotClient() {
           clearInterval(interval);
         }
       }, 25); // Adjust speed of typing here
+      
+      // Start audio playback if available
+      if (reading.audioDataUri && audioRef.current) {
+        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        setIsPlaying(true);
+      }
 
       return () => clearInterval(interval);
     }
@@ -316,7 +316,7 @@ export default function TarotClient() {
               </div>
             )}
 
-            {reading && (
+            {!isLoading && reading && (
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
