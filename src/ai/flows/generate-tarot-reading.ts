@@ -61,7 +61,8 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { voice, zodiacSign, question, language } = input;
+    const { voice, zodiacSign, question } = input;
+    const language = 'sr'; // Fix language to Serbian for consistency
     
     // Step 1: Generate the text-based reading and card names.
     const readingResponse = await tarotReadingPrompt({ zodiacSign, question, language });
@@ -70,10 +71,20 @@ const generateTarotReadingFlow = ai.defineFlow(
     }
     const { card1, card2, card3, tarotReading } = readingResponse.output;
 
-    // Step 2: Generate images for the cards sequentially.
-    const image1 = await generateTarotCardImage({ cardName: card1 });
-    const image2 = await generateTarotCardImage({ cardName: card2 });
-    const image3 = await generateTarotCardImage({ cardName: card3 });
+    // Step 2: Generate images for the cards in parallel.
+    const imagePromises = [
+        generateTarotCardImage({ cardName: card1 }),
+        generateTarotCardImage({ cardName: card2 }),
+        generateTarotCardImage({ cardName: card3 }),
+    ];
+    
+    // Use Promise.allSettled to ensure all promises complete, even if some fail.
+    const imageResults = await Promise.allSettled(imagePromises);
+
+    const placeholderImage = "https://placehold.co/320x480.png";
+    const image1 = imageResults[0].status === 'fulfilled' ? imageResults[0].value.dataUri : placeholderImage;
+    const image2 = imageResults[1].status === 'fulfilled' ? imageResults[1].value.dataUri : placeholderImage;
+    const image3 = imageResults[2].status === 'fulfilled' ? imageResults[2].value.dataUri : placeholderImage;
 
     // Step 3: Generate audio if a voice is selected.
     let audio = null;
@@ -83,9 +94,9 @@ const generateTarotReadingFlow = ai.defineFlow(
 
     return {
       cards: [
-        { name: card1, image: image1.dataUri },
-        { name: card2, image: image2.dataUri },
-        { name: card3, image: image3.dataUri },
+        { name: card1, image: image1 },
+        { name: card2, image: image2 },
+        { name: card3, image: image3 },
       ],
       tarotReading,
       audioDataUri: audio?.audioDataUri,

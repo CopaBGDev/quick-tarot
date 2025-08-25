@@ -123,7 +123,8 @@ export default function TarotClient() {
     }, 100);
 
     try {
-      const result = await getTarotReading({ ...data, language });
+      // The language parameter is removed from here to rely on the backend default.
+      const result = await getTarotReading({ ...data });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
