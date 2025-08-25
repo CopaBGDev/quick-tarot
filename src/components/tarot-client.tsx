@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Sparkles, Wand2, Loader2, Play, Pause } from "lucide-react";
 
-import { getTarotReading } from "@/app/actions";
+import { getTarotReading, getTarotAudio } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,7 @@ import { MagicIcon } from "./magic-icon";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
-import { VoiceEnum } from "@/ai/flows/types";
+import { VoiceEnum, type Voice } from "@/ai/flows/types";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 const FormSchema = z.object({
@@ -49,7 +49,8 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>;
 
 export default function TarotClient() {
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isFormLoading, setIsFormLoading] = React.useState(false);
+  const [isAudioLoading, setIsAudioLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [typedReading, setTypedReading] = React.useState("");
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
@@ -57,6 +58,7 @@ export default function TarotClient() {
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const [audioDataUri, setAudioDataUri] = React.useState<string | null>(null);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -94,7 +96,6 @@ export default function TarotClient() {
   React.useEffect(() => {
     if (!reading) return;
 
-    // Typing effect
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
@@ -104,48 +105,69 @@ export default function TarotClient() {
         clearInterval(typingInterval);
       }
     }, 25);
-    
-    // Reset audio state when new reading arrives
-    if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-    }
-    setIsPlaying(false);
 
     return () => clearInterval(typingInterval);
   }, [reading]);
 
-
-  const handlePlayPause = () => {
+  React.useEffect(() => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play().catch(e => {
-          console.error("Audio play failed:", e);
-          toast({
-            title: translations.errorTitle,
-            description: "Playback was blocked by the browser.",
-            variant: "destructive"
-          });
-        });
+        audioRef.current.onended = () => setIsPlaying(false);
+    }
+  }, [audioRef]);
+
+  const handlePlayPause = async () => {
+    if (isPlaying) {
+      audioRef.current?.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    if (audioDataUri) {
+      audioRef.current?.play();
+      setIsPlaying(true);
+      return;
+    }
+
+    if (!reading) return;
+
+    setIsAudioLoading(true);
+    try {
+      const voice = form.getValues('voice');
+      const result = await getTarotAudio({ text: reading.tarotReading, voice });
+      if (result.audioDataUri) {
+        setAudioDataUri(result.audioDataUri);
+        // We need to use a timeout to allow the state to update and the src to be set on the audio element
+        setTimeout(() => {
+            audioRef.current?.play();
+            setIsPlaying(true);
+        }, 0)
       }
-      setIsPlaying(!isPlaying);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : translations.unknownError;
+      toast({
+        title: translations.errorTitle,
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      setIsAudioLoading(false);
     }
   };
-  
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
+    setIsFormLoading(true);
     setReading(null);
     setTypedReading("");
+    setAudioDataUri(null);
+    setIsPlaying(false);
     
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
 
     try {
-      const result = await getTarotReading({ ...data, language });
+      const { voice, ...readingData } = data;
+      const result = await getTarotReading({ ...readingData, language });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
@@ -155,7 +177,7 @@ export default function TarotClient() {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false);
+      setIsFormLoading(false);
     }
   };
 
@@ -169,7 +191,7 @@ export default function TarotClient() {
     }
   };
 
-  const disabled = isLoading;
+  const disabled = isFormLoading;
 
   if (!translations) {
     return (
@@ -194,7 +216,7 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      <audio ref={audioRef} src={reading?.audioDataUri} onEnded={() => setIsPlaying(false)} />
+      <audio ref={audioRef} src={audioDataUri || ''} />
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
@@ -287,7 +309,7 @@ export default function TarotClient() {
                 )}
               />
               <Button type="submit" className="w-full" disabled={disabled} size="lg">
-                {isLoading ? (
+                {isFormLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {translations.button.loading}
@@ -305,16 +327,16 @@ export default function TarotClient() {
       </Card>
 
       <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8">
-        {(isLoading || reading) && (
+        {(isFormLoading || reading) && (
           <>
             <h2 className="font-headline text-3xl font-bold text-primary">{translations.results.title}</h2>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-              <TarotCard isFlipped={isLoading || !!reading} delay={0} card={tarotCards[0]} />
-              <TarotCard isFlipped={isLoading || !!reading} delay={150} card={tarotCards[1]} />
-              <TarotCard isFlipped={isLoading || !!reading} delay={300} card={tarotCards[2]} />
+              <TarotCard isFlipped={isFormLoading || !!reading} delay={0} card={tarotCards[0]} />
+              <TarotCard isFlipped={isFormLoading || !!reading} delay={150} card={tarotCards[1]} />
+              <TarotCard isFlipped={isFormLoading || !!reading} delay={300} card={tarotCards[2]} />
             </div>
 
-            {isLoading && !reading && (
+            {isFormLoading && !reading && (
               <div className="mt-8 flex items-center justify-center gap-2 text-lg text-muted-foreground">
                 <Sparkles className="h-5 w-5 animate-pulse" />
                 <p>{translations.results.loadingText}</p>
@@ -325,9 +347,15 @@ export default function TarotClient() {
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
-                   {reading.audioDataUri && (
-                    <Button variant="outline" size="icon" onClick={handlePlayPause}>
-                      {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                   {reading.tarotReading && (
+                    <Button variant="outline" size="icon" onClick={handlePlayPause} disabled={isAudioLoading}>
+                        {isAudioLoading ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : isPlaying ? (
+                            <Pause className="h-4 w-4" />
+                        ) : (
+                            <Play className="h-4 w-4" />
+                        )}
                       <span className="sr-only">{isPlaying ? translations.button.pause : translations.button.play}</span>
                     </Button>
                   )}
