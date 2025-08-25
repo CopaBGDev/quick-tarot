@@ -56,6 +56,7 @@ export default function TarotClient() {
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
   const audioRef = React.useRef<HTMLAudioElement>(null);
+  const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -116,6 +117,10 @@ export default function TarotClient() {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
+
+    setTimeout(() => {
+        resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
 
     try {
       const result = await getTarotReading({ ...data, language });
@@ -276,52 +281,54 @@ export default function TarotClient() {
         </CardContent>
       </Card>
 
-      {(isLoading || reading) && (
-        <section className="w-full max-w-4xl text-center">
-          <h2 className="font-headline text-3xl font-bold text-primary">{translations.results.title}</h2>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            <TarotCard isFlipped={isLoading || !!reading} delay={0} card={tarotCards[0]} />
-            <TarotCard isFlipped={isLoading || !!reading} delay={150} card={tarotCards[1]} />
-            <TarotCard isFlipped={isLoading || !!reading} delay={300} card={tarotCards[2]} />
-          </div>
-
-          {isLoading && !reading && (
-            <div className="mt-8 flex items-center justify-center gap-2 text-lg text-muted-foreground">
-              <Sparkles className="h-5 w-5 animate-pulse" />
-              <p>{translations.results.loadingText}</p>
+      <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8">
+        {(isLoading || reading) && (
+          <>
+            <h2 className="font-headline text-3xl font-bold text-primary">{translations.results.title}</h2>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+              <TarotCard isFlipped={isLoading || !!reading} delay={0} card={tarotCards[0]} />
+              <TarotCard isFlipped={isLoading || !!reading} delay={150} card={tarotCards[1]} />
+              <TarotCard isFlipped={isLoading || !!reading} delay={300} card={tarotCards[2]} />
             </div>
-          )}
 
-          {reading && (
-            <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
-              <CardHeader className="flex-row items-center justify-between">
-                <CardTitle>{translations.results.readingTitle}</CardTitle>
-                {reading.audioDataUri && (
-                  <>
-                    <Button onClick={handlePlayPause} size="icon" variant="ghost">
-                      {isPlaying ? <Pause /> : <Play />}
-                      <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
-                    </Button>
-                    <audio
-                      ref={audioRef}
-                      src={reading.audioDataUri}
-                      onPlay={() => setIsPlaying(true)}
-                      onPause={() => setIsPlaying(false)}
-                      onEnded={() => setIsPlaying(false)}
-                      onLoadedMetadata={(e) => { /* No longer needed for typing effect */ }}
-                    />
-                  </>
-                )}
-              </CardHeader>
-              <CardContent className="p-6 text-left">
-                <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                  {reading.tarotReading}
-                </p>
-              </CardContent>
-            </Card>
-          )}
-        </section>
-      )}
+            {isLoading && !reading && (
+              <div className="mt-8 flex items-center justify-center gap-2 text-lg text-muted-foreground">
+                <Sparkles className="h-5 w-5 animate-pulse" />
+                <p>{translations.results.loadingText}</p>
+              </div>
+            )}
+
+            {reading && (
+              <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
+                <CardHeader className="flex-row items-center justify-between">
+                  <CardTitle>{translations.results.readingTitle}</CardTitle>
+                  {reading.audioDataUri && (
+                    <>
+                      <Button onClick={handlePlayPause} size="icon" variant="ghost">
+                        {isPlaying ? <Pause /> : <Play />}
+                        <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
+                      </Button>
+                      <audio
+                        ref={audioRef}
+                        src={reading.audioDataUri}
+                        onPlay={() => setIsPlaying(true)}
+                        onPause={() => setIsPlaying(false)}
+                        onEnded={() => setIsPlaying(false)}
+                        onLoadedMetadata={(e) => { /* No longer needed for typing effect */ }}
+                      />
+                    </>
+                  )}
+                </CardHeader>
+                <CardContent className="p-6 text-left">
+                  <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
+                    {reading.tarotReading}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </>
+        )}
+      </section>
 
       <footer className="mt-12 flex w-full flex-col items-center gap-8 border-t border-primary/10 pt-10">
         <AdPlaceholder />
