@@ -51,6 +51,7 @@ type FormValues = z.infer<typeof FormSchema>;
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
+  const [typedReading, setTypedReading] = React.useState("");
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
@@ -91,11 +92,27 @@ export default function TarotClient() {
   }, [form]);
 
   React.useEffect(() => {
-    if (reading?.audioDataUri && audioRef.current) {
-      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-      setIsPlaying(true);
+    if (reading) {
+      // Start audio playback if available
+      if (reading.audioDataUri && audioRef.current) {
+        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        setIsPlaying(true);
+      }
+
+      // Start typing effect
+      setTypedReading("");
+      let index = 0;
+      const interval = setInterval(() => {
+        setTypedReading((prev) => prev + reading.tarotReading[index]);
+        index++;
+        if (index === reading.tarotReading.length) {
+          clearInterval(interval);
+        }
+      }, 25); // Adjust speed of typing here
+
+      return () => clearInterval(interval);
     }
-  }, [reading?.audioDataUri]);
+  }, [reading]);
   
   const handlePlayPause = () => {
     if (audioRef.current) {
@@ -112,6 +129,7 @@ export default function TarotClient() {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     setReading(null);
+    setTypedReading("");
     setIsPlaying(false);
     if (audioRef.current) {
       audioRef.current.pause();
@@ -123,8 +141,7 @@ export default function TarotClient() {
     }, 100);
 
     try {
-      // The language parameter is removed from here to rely on the backend default.
-      const result = await getTarotReading({ ...data });
+      const result = await getTarotReading({ ...data, language });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
@@ -315,14 +332,13 @@ export default function TarotClient() {
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
                         onEnded={() => setIsPlaying(false)}
-                        onLoadedMetadata={(e) => { /* No longer needed for typing effect */ }}
                       />
                     </>
                   )}
                 </CardHeader>
                 <CardContent className="p-6 text-left">
                   <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                    {reading.tarotReading}
+                    {typedReading}
                   </p>
                 </CardContent>
               </Card>
