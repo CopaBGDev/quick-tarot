@@ -56,7 +56,7 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const audioRef = React.useRef<HTMLAudioElement>(null);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -92,42 +92,48 @@ export default function TarotClient() {
   }, [form]);
   
   React.useEffect(() => {
-    if (reading) {
-      setTypedReading("");
-      let index = 0;
-      const interval = setInterval(() => {
-        setTypedReading((prev) => {
-          if (index < reading.tarotReading.length) {
-            return prev + reading.tarotReading[index];
-          }
-          return prev;
-        });
-        index++;
-        if (index >= reading.tarotReading.length) {
-          clearInterval(interval);
-        }
-      }, 25);
-      
-      return () => clearInterval(interval);
-    }
-  }, [reading]);
-  
-  React.useEffect(() => {
-    if (!isLoading && reading?.audioDataUri && audioRef.current) {
-        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-        setIsPlaying(true);
-    }
-  }, [isLoading, reading?.audioDataUri]);
+    if (!reading) return;
 
+    // Start typing effect
+    setTypedReading("");
+    let index = 0;
+    const typingInterval = setInterval(() => {
+      setTypedReading((prev) => prev + reading.tarotReading[index]);
+      index++;
+      if (index >= reading.tarotReading.length) {
+        clearInterval(typingInterval);
+      }
+    }, 25);
+
+    // Play audio
+    if (reading.audioDataUri) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      const audio = new Audio(reading.audioDataUri);
+      audioRef.current = audio;
+      audio.play().catch(e => console.error("Audio play failed:", e));
+      
+      audio.onplay = () => setIsPlaying(true);
+      audio.onpause = () => setIsPlaying(false);
+      audio.onended = () => setIsPlaying(false);
+    }
+
+    return () => {
+      clearInterval(typingInterval);
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [reading]);
 
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
-        setIsPlaying(false);
       } else {
         audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-        setIsPlaying(true);
       }
     }
   };
@@ -139,7 +145,7 @@ export default function TarotClient() {
     setIsPlaying(false);
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+      audioRef.current = null;
     }
 
     setTimeout(() => {
@@ -326,22 +332,7 @@ export default function TarotClient() {
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
-                  {!isLoading && reading.audioDataUri && (
-                    <>
-                      <Button onClick={handlePlayPause} size="icon" variant="ghost">
-                        {isPlaying ? <Pause /> : <Play />}
-                        <span className="sr-only">{isPlaying ? translations.button.pause : translations.button.play}</span>
-                      </Button>
-                      <audio
-                        ref={audioRef}
-                        src={reading.audioDataUri}
-                        onPlay={() => setIsPlaying(true)}
-                        onPause={() => setIsPlaying(false)}
-                        onEnded={() => setIsPlaying(false)}
-                        className="hidden"
-                      />
-                    </>
-                  )}
+                  {/* Audio control button will be added in the next step */}
                 </CardHeader>
                 <CardContent className="p-6 text-left">
                   <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
