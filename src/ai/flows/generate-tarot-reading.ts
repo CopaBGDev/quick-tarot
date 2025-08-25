@@ -60,8 +60,7 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { voice, zodiacSign, question } = input;
-    const language = 'sr'; // Fix language to Serbian for consistency
+    const { voice, zodiacSign, question, language } = input;
     
     // Step 1: Generate the text-based reading and card names.
     const readingResponse = await tarotReadingPrompt({ zodiacSign, question, language });
