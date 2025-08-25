@@ -4,7 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Wand2, Loader2, Volume2, Play, Pause } from "lucide-react";
+import { Sparkles, Wand2, Loader2, Play, Pause } from "lucide-react";
 
 import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
@@ -324,7 +324,7 @@ export default function TarotClient() {
                     <>
                       <Button onClick={handlePlayPause} size="icon" variant="ghost">
                         {isPlaying ? <Pause /> : <Play />}
-                        <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
+                        <span className="sr-only">{isPlaying ? translations.button.pause : translations.button.play}</span>
                       </Button>
                       <audio
                         ref={audioRef}
@@ -332,6 +332,7 @@ export default function TarotClient() {
                         onPlay={() => setIsPlaying(true)}
                         onPause={() => setIsPlaying(false)}
                         onEnded={() => setIsPlaying(false)}
+                        className="hidden"
                       />
                     </>
                   )}
