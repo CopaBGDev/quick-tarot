@@ -92,7 +92,7 @@ export default function TarotClient() {
   }, [form]);
   
   React.useEffect(() => {
-    if (!reading) return;
+    if (!reading?.tarotReading) return;
 
     setTypedReading("");
     let index = 0;
@@ -103,9 +103,9 @@ export default function TarotClient() {
         clearInterval(typingInterval);
       }
     }, 25);
-    
+
     return () => clearInterval(typingInterval);
-  }, [reading]);
+  }, [reading?.tarotReading]);
 
   const handlePlayPause = () => {
     if (audioRef.current) {
@@ -121,9 +121,17 @@ export default function TarotClient() {
           });
         });
       }
-      setIsPlaying(!isPlaying);
     }
   };
+  
+  React.useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.onplay = () => setIsPlaying(true);
+      audioRef.current.onpause = () => setIsPlaying(false);
+      audioRef.current.onended = () => setIsPlaying(false);
+    }
+  }, [reading?.audioDataUri]);
+
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
@@ -162,13 +170,6 @@ export default function TarotClient() {
         }
     }
   };
-  
-  React.useEffect(() => {
-    if (audioRef.current) {
-        audioRef.current.onended = () => setIsPlaying(false);
-    }
-  }, [reading]);
-
 
   const disabled = isLoading;
 
@@ -196,13 +197,7 @@ export default function TarotClient() {
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
        {reading?.audioDataUri && (
-          <audio
-              ref={audioRef}
-              src={reading.audioDataUri}
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
-              onEnded={() => setIsPlaying(false)}
-          />
+          <audio ref={audioRef} src={reading.audioDataUri} />
        )}
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
