@@ -94,7 +94,7 @@ export default function TarotClient() {
   React.useEffect(() => {
     if (!reading) return;
 
-    // Start typing effect
+    // Typing effect
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
@@ -105,15 +105,13 @@ export default function TarotClient() {
       }
     }, 25);
 
-    // Play audio
+    // Setup audio
     if (reading.audioDataUri) {
       if (audioRef.current) {
         audioRef.current.pause();
       }
       const audio = new Audio(reading.audioDataUri);
       audioRef.current = audio;
-      audio.play().catch(e => console.error("Audio play failed:", e));
-      
       audio.onplay = () => setIsPlaying(true);
       audio.onpause = () => setIsPlaying(false);
       audio.onended = () => setIsPlaying(false);
@@ -123,7 +121,6 @@ export default function TarotClient() {
       clearInterval(typingInterval);
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current = null;
       }
     };
   }, [reading]);
@@ -142,11 +139,10 @@ export default function TarotClient() {
     setIsLoading(true);
     setReading(null);
     setTypedReading("");
-    setIsPlaying(false);
     if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
+        audioRef.current.pause();
     }
+    setIsPlaying(false);
 
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -332,7 +328,12 @@ export default function TarotClient() {
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
-                  {/* Audio control button will be added in the next step */}
+                  {reading.audioDataUri && (
+                    <Button variant="outline" size="icon" onClick={handlePlayPause}>
+                      {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                      <span className="sr-only">{isPlaying ? translations.button.pause : translations.button.play}</span>
+                    </Button>
+                  )}
                 </CardHeader>
                 <CardContent className="p-6 text-left">
                   <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
