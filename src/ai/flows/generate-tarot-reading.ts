@@ -39,34 +39,18 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
   return generateTarotReadingFlow(input);
 }
 
-const chooseCardsPrompt = ai.definePrompt({
-  name: 'chooseCardsPrompt',
-  input: { schema: z.object({ zodiacSign: z.string(), question: z.string() }) },
+const tarotReadingPrompt = ai.definePrompt({
+  name: 'tarotReadingPrompt',
+  input: { schema: GenerateTarotReadingInputSchema },
   output: { schema: z.object({
     card1: z.string().describe('The name of the first tarot card.'),
     card2: z.string().describe('The name of the second tarot card.'),
     card3: z.string().describe('The name of the third tarot card.'),
-  })},
-  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign.',
-  prompt: 'Choose three tarot cards for a user with the zodiac sign {{{zodiacSign}}} who asked: "{{{question}}}"',
-});
-
-const generateReadingPrompt = ai.definePrompt({
-  name: 'generateReadingPrompt',
-  input: { schema: z.object({
-    question: z.string(),
-    language: z.string(),
-    card1: z.string(),
-    card2: z.string(),
-    card3: z.string(),
-  })},
-  output: { schema: z.object({
     tarotReading: z.string().describe('The generated tarot reading, in the requested language.'),
   })},
-  system: 'You are a tarot reader. Your task is to provide a tarot reading based on the three provided cards to answer the user\'s question. The entire reading must be in the requested language.',
-  prompt: `The user's question is: "{{{question}}}". The chosen cards are: {{{card1}}}, {{{card2}}}, and {{{card3}}}. Provide a tarot reading to answer the question. The entire response must be in the language: {{{language}}}.`,
+  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language.',
+  prompt: 'Choose three tarot cards and provide a reading for a user with the zodiac sign {{{zodiacSign}}} who asked: "{{{question}}}". The entire response must be in the language: {{{language}}}.',
 });
-
 
 const generateTarotReadingFlow = ai.defineFlow(
   {
@@ -75,23 +59,16 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { zodiacSign, question, language, voice } = input;
+    const { voice } = input;
     
-    // Step 1: Choose the three cards.
-    const chosenCardsResponse = await chooseCardsPrompt({ zodiacSign, question });
-    if (!chosenCardsResponse.output) {
-      throw new Error('Failed to choose tarot cards.');
-    }
-    const { card1, card2, card3 } = chosenCardsResponse.output;
-
-    // Step 2: Generate the reading based on the chosen cards.
-    const readingResponse = await generateReadingPrompt({ question, language: language || 'sr', card1, card2, card3 });
+    // Step 1: Generate the reading and choose cards in one go.
+    const readingResponse = await tarotReadingPrompt(input);
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
-    const { tarotReading } = readingResponse.output;
-    
-    // Step 3: Generate images and audio in parallel.
+    const { card1, card2, card3, tarotReading } = readingResponse.output;
+
+    // Step 2: Generate images and audio in parallel.
     const [image1, image2, image3, audio] = await Promise.all([
       generateTarotCardImage({ cardName: card1 }),
       generateTarotCardImage({ cardName: card2 }),
