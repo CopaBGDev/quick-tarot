@@ -52,10 +52,10 @@ const generateReadingPrompt = ai.definePrompt({
     card3: z.string().describe('The name of the third tarot card.'),
     tarotReading: z.string().describe('The generated tarot reading, in the requested language.'),
   })},
-  system: 'You are a tarot reader. You must draw three random tarot cards from the full 78-card deck, including both Major and Minor Arcana. You must provide a tarot reading in the language requested.',
+  system: 'You are a tarot reader. You will choose three tarot cards that are most relevant to the user\'s question and zodiac sign. Provide a tarot reading in the requested language.',
   prompt: `A user with the zodiac sign {{{zodiacSign}}} asked the following question: "{{{question}}}". 
   
-  1. Draw three random tarot cards. Set the card1, card2, and card3 output fields with their names.
+  1. Choose three tarot cards relevant to the question. Set the card1, card2, and card3 output fields with their names.
   2. Provide a tarot reading based on these cards to answer the user's question. 
   3. The entire reading must be in the language: {{{language}}}.
   `,
