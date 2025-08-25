@@ -47,7 +47,7 @@ type FormValues = z.infer<typeof FormSchema>;
 
 function useTypingEffect(text: string, duration: number) {
   const [displayedText, setDisplayedText] = React.useState("");
-  const speed = duration > 0 ? text.length / (duration * 0.7) : 10; // characters per second
+  const speed = duration > 0 ? text.length / duration : 10; // characters per second
 
   React.useEffect(() => {
     setDisplayedText("");
