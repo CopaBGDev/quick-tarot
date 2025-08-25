@@ -55,7 +55,7 @@ function useTypingEffect(text: string, duration: number, isPlaying: boolean) {
 
   const startTyping = React.useCallback(() => {
     if (text && duration > 0) {
-      const typingDuration = duration / 1.66;
+      const typingDuration = duration / 1.76;
       const speed = text.length / typingDuration;
 
       intervalRef.current = setInterval(() => {
