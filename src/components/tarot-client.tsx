@@ -91,9 +91,9 @@ export default function TarotClient() {
 
   }, [form]);
 
+  // Effect for typing animation
   React.useEffect(() => {
-    if (reading) {
-      // Start typing effect
+    if (reading?.tarotReading) {
       setTypedReading("");
       let index = 0;
       const interval = setInterval(() => {
@@ -102,17 +102,18 @@ export default function TarotClient() {
         if (index === reading.tarotReading.length) {
           clearInterval(interval);
         }
-      }, 25); // Adjust speed of typing here
-      
-      // Start audio playback if available
-      if (reading.audioDataUri && audioRef.current) {
-        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-        setIsPlaying(true);
-      }
-
+      }, 25);
       return () => clearInterval(interval);
     }
-  }, [reading]);
+  }, [reading?.tarotReading]);
+
+  // Effect for audio playback
+  React.useEffect(() => {
+    if (!isLoading && reading?.audioDataUri && audioRef.current) {
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+      setIsPlaying(true);
+    }
+  }, [isLoading, reading?.audioDataUri]);
   
   const handlePlayPause = () => {
     if (audioRef.current) {
@@ -355,3 +356,5 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
