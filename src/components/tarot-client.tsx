@@ -45,28 +45,6 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-function useTypewriter(text: string | null, speed = 18) {
-  const [displayText, setDisplayText] = React.useState("");
-
-  React.useEffect(() => {
-    setDisplayText("");
-    if (text) {
-      let i = 0;
-      const timer = setInterval(() => {
-        if (i < text.length) {
-          setDisplayText((prev) => prev + text.charAt(i));
-          i++;
-        } else {
-          clearInterval(timer);
-        }
-      }, speed);
-      return () => clearInterval(timer);
-    }
-  }, [text, speed]);
-
-  return displayText;
-}
-
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -136,7 +114,6 @@ export default function TarotClient() {
     }
   };
 
-  const displayedReading = useTypewriter(reading ? reading.tarotReading : null, 14);
   const disabled = isLoading;
 
   if (!translations) {
@@ -263,7 +240,7 @@ export default function TarotClient() {
               </CardHeader>
               <CardContent className="p-6 text-left">
                 <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                  {displayedReading}
+                  {reading.tarotReading}
                 </p>
               </CardContent>
             </Card>
