@@ -103,25 +103,8 @@ export default function TarotClient() {
         clearInterval(typingInterval);
       }
     }, 25);
-
-    if (reading.audioDataUri) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
-      const audio = new Audio(reading.audioDataUri);
-      audioRef.current = audio;
-      audio.onplay = () => setIsPlaying(true);
-      audio.onpause = () => setIsPlaying(false);
-      audio.onended = () => setIsPlaying(false);
-    }
-
-    return () => {
-      clearInterval(typingInterval);
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
+    
+    return () => clearInterval(typingInterval);
   }, [reading]);
 
   const handlePlayPause = () => {
@@ -138,6 +121,7 @@ export default function TarotClient() {
           });
         });
       }
+      setIsPlaying(!isPlaying);
     }
   };
 
@@ -178,6 +162,13 @@ export default function TarotClient() {
         }
     }
   };
+  
+  React.useEffect(() => {
+    if (audioRef.current) {
+        audioRef.current.onended = () => setIsPlaying(false);
+    }
+  }, [reading]);
+
 
   const disabled = isLoading;
 
@@ -204,6 +195,15 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
+       {reading?.audioDataUri && (
+          <audio
+              ref={audioRef}
+              src={reading.audioDataUri}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={() => setIsPlaying(false)}
+          />
+       )}
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
@@ -334,7 +334,7 @@ export default function TarotClient() {
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
-                  {reading.audioDataUri && (
+                   {reading.audioDataUri && (
                     <Button variant="outline" size="icon" onClick={handlePlayPause}>
                       {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                       <span className="sr-only">{isPlaying ? translations.button.pause : translations.button.play}</span>
