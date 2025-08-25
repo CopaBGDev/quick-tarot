@@ -56,7 +56,7 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
+  const audioRef = React.useRef<HTMLAudioElement>(null);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -107,6 +107,26 @@ export default function TarotClient() {
     return () => clearInterval(typingInterval);
   }, [reading?.tarotReading]);
 
+  React.useEffect(() => {
+    const audioElement = audioRef.current;
+    if (audioElement) {
+        const onPlay = () => setIsPlaying(true);
+        const onPause = () => setIsPlaying(false);
+        const onEnded = () => setIsPlaying(false);
+
+        audioElement.addEventListener('play', onPlay);
+        audioElement.addEventListener('pause', onPause);
+        audioElement.addEventListener('ended', onEnded);
+        
+        return () => {
+            audioElement.removeEventListener('play', onPlay);
+            audioElement.removeEventListener('pause', onPause);
+            audioElement.removeEventListener('ended', onEnded);
+        };
+    }
+  }, [audioRef]);
+
+
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -124,14 +144,6 @@ export default function TarotClient() {
     }
   };
   
-  React.useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.onplay = () => setIsPlaying(true);
-      audioRef.current.onpause = () => setIsPlaying(false);
-      audioRef.current.onended = () => setIsPlaying(false);
-    }
-  }, [reading?.audioDataUri]);
-
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
@@ -139,6 +151,7 @@ export default function TarotClient() {
     setTypedReading("");
     if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.currentTime = 0;
     }
     setIsPlaying(false);
 
@@ -196,9 +209,7 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-       {reading?.audioDataUri && (
-          <audio ref={audioRef} src={reading.audioDataUri} />
-       )}
+      <audio ref={audioRef} src={reading?.audioDataUri} />
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
