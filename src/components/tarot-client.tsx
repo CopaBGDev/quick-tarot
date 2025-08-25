@@ -4,7 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Wand2, Loader2, Volume2, Play } from "lucide-react";
+import { Sparkles, Wand2, Loader2, Volume2, Play, Pause } from "lucide-react";
 
 import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
@@ -48,28 +48,78 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-function useTypingEffect(text: string, duration: number) {
+function useTypingEffect(text: string, duration: number, isPlaying: boolean) {
   const [displayedText, setDisplayedText] = React.useState("");
-  
+  const charIndexRef = React.useRef(0);
+  const intervalRef = React.useRef<NodeJS.Timeout>();
+
   React.useEffect(() => {
+    // Reset when text or duration changes
     setDisplayedText("");
+    charIndexRef.current = 0;
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
     if (text && duration > 0) {
-      // Adjust speed to be slightly faster to compensate for speech pauses
       const typingDuration = duration * 0.7;
-      const speed = text.length / typingDuration; // characters per second
-      let i = 0;
-      const interval = setInterval(() => {
-        setDisplayedText((prev) => prev + text.charAt(i));
-        i++;
-        if (i >= text.length) {
-          clearInterval(interval);
-        }
-      }, 1000 / speed);
-      return () => clearInterval(interval);
+      const speed = text.length / typingDuration;
+
+      const startTyping = () => {
+        intervalRef.current = setInterval(() => {
+          if (charIndexRef.current < text.length) {
+            setDisplayedText((prev) => prev + text.charAt(charIndexRef.current));
+            charIndexRef.current++;
+          } else {
+            clearInterval(intervalRef.current);
+          }
+        }, 1000 / speed);
+      };
+
+      if (isPlaying) {
+        startTyping();
+      }
+
     } else if (text) {
       setDisplayedText(text);
     }
+    
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [text, duration]);
+  
+  React.useEffect(() => {
+    if (!text || duration <= 0) return;
+
+    if (isPlaying) {
+      const typingDuration = duration * 0.7;
+      const speed = text.length / typingDuration;
+
+      intervalRef.current = setInterval(() => {
+        if (charIndexRef.current < text.length) {
+          setDisplayedText((prev) => text.substring(0, charIndexRef.current + 1));
+          charIndexRef.current++;
+        } else {
+          clearInterval(intervalRef.current);
+        }
+      }, 1000 / speed);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    }
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+
+  }, [isPlaying, text, duration])
+
 
   return displayedText;
 }
@@ -85,7 +135,7 @@ export default function TarotClient() {
   const audioRef = React.useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
-  const displayedReading = useTypingEffect(reading?.tarotReading ?? "", audioDuration);
+  const displayedReading = useTypingEffect(reading?.tarotReading ?? "", audioDuration, isPlaying);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -139,6 +189,7 @@ export default function TarotClient() {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     setReading(null);
+    setIsPlaying(false);
 
     try {
       const result = await getTarotReading({ ...data, language });
@@ -307,7 +358,7 @@ export default function TarotClient() {
                 {reading.audioDataUri && (
                   <>
                     <Button onClick={handlePlayPause} size="icon" variant="ghost">
-                      {isPlaying ? <Volume2 /> : <Play />}
+                      {isPlaying ? <Pause /> : <Play />}
                       <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
                     </Button>
                     <audio
@@ -337,7 +388,6 @@ export default function TarotClient() {
       </footer>
     </div>
   );
-
-    
+}
 
     
