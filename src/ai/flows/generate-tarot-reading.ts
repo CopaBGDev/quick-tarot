@@ -39,9 +39,11 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
   return generateTarotReadingFlow(input);
 }
 
+const ReadingPromptInputSchema = GenerateTarotReadingInputSchema.omit({ voice: true });
+
 const tarotReadingPrompt = ai.definePrompt({
   name: 'tarotReadingPrompt',
-  input: { schema: GenerateTarotReadingInputSchema },
+  input: { schema: ReadingPromptInputSchema },
   output: { schema: z.object({
     card1: z.string().describe('The name of the first tarot card.'),
     card2: z.string().describe('The name of the second tarot card.'),
@@ -59,9 +61,9 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { voice } = input;
+    const { voice, zodiacSign, question, language } = input;
     
-    const readingResponse = await tarotReadingPrompt(input);
+    const readingResponse = await tarotReadingPrompt({ zodiacSign, question, language });
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
