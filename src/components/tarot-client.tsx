@@ -4,7 +4,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Wand2, Loader2 } from "lucide-react";
+import { Sparkles, Wand2, Loader2, Volume2, Play } from "lucide-react";
 
 import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ZODIAC_SIGNS_SR, type ZodiacSign, ZODIAC_SIGNS_EN } from "@/lib/zodiac";
 import { MagicIcon } from "./magic-icon";
@@ -73,6 +73,8 @@ export default function TarotClient() {
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
+  const [isPlaying, setIsPlaying] = React.useState(false);
+  const audioRef = React.useRef<HTMLAudioElement>(null);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -103,6 +105,17 @@ export default function TarotClient() {
     (form as any).resolver = zodResolver(zodSchema);
 
   }, [form]);
+  
+  const handlePlayPause = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
@@ -123,7 +136,7 @@ export default function TarotClient() {
     }
   };
 
-  const displayedReading = useTypewriter(reading ? reading.tarotReading : null);
+  const displayedReading = useTypewriter(reading ? reading.tarotReading : null, 14);
   const disabled = isLoading;
 
   if (!translations) {
@@ -236,6 +249,18 @@ export default function TarotClient() {
 
           {reading && (
             <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
+              <CardHeader className="flex-row items-center justify-between">
+                <CardTitle>{translations.results.title}</CardTitle>
+                {reading.audioDataUri && (
+                  <>
+                    <Button onClick={handlePlayPause} size="icon" variant="ghost">
+                      {isPlaying ? <Volume2 /> : <Play />}
+                      <span className="sr-only">{isPlaying ? "Pause" : "Play"}</span>
+                    </Button>
+                    <audio ref={audioRef} src={reading.audioDataUri} onEnded={() => setIsPlaying(false)} />
+                  </>
+                )}
+              </CardHeader>
               <CardContent className="p-6 text-left">
                 <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
                   {displayedReading}

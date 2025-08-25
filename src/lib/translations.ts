@@ -21,9 +21,12 @@ export interface Translations {
   button: {
     default: string;
     loading: string;
+    play: string;
+    pause: string;
   };
   results: {
     title: string;
+    readingTitle: string;
     loadingText: string;
   };
   footer: {
@@ -55,9 +58,12 @@ const sr: Translations = {
   button: {
     default: "Dobij Čitanje",
     loading: "Generišem...",
+    play: "Pusti",
+    pause: "Pauziraj",
   },
   results: {
     title: "Vaše Karte Sudbine",
+    readingTitle: "Vaše Tarot Čitanje",
     loadingText: "Karte se mešaju, vaša sudbina se otkriva...",
   },
   footer: {
@@ -89,9 +95,12 @@ const en: Translations = {
   button: {
     default: "Get Reading",
     loading: "Generating...",
+    play: "Play",
+    pause: "Pause",
   },
   results: {
     title: "Your Cards of Fate",
+    readingTitle: "Your Tarot Reading",
     loadingText: "The cards are being shuffled, your fate is being revealed...",
   },
   footer: {

@@ -12,6 +12,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { generateTarotCardImage } from './generate-tarot-card-image';
+import { generateTarotReadingAudio } from './generate-tarot-reading-audio';
 
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
@@ -28,6 +29,7 @@ const TarotCardOutputSchema = z.object({
 const GenerateTarotReadingOutputSchema = z.object({
   cards: z.array(TarotCardOutputSchema).length(3).describe('The three tarot cards that were drawn.'),
   tarotReading: z.string().describe('The generated tarot reading in the requested language.'),
+  audioDataUri: z.string().optional().describe("A data URI of the generated audio for the tarot reading. Expected format: 'data:audio/wav;base64,<encoded_data>'."),
 });
 export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
 
@@ -274,11 +276,12 @@ const generateTarotReadingFlow = ai.defineFlow(
       }
     }
     
-    // Step 3: Generate images for the cards in parallel
-    const [image1, image2, image3] = await Promise.all([
+    // Step 3: Generate images and audio in parallel
+    const [image1, image2, image3, audio] = await Promise.all([
       generateTarotCardImage({ cardName: card1 }),
       generateTarotCardImage({ cardName: card2 }),
       generateTarotCardImage({ cardName: card3 }),
+      generateTarotReadingAudio({ text: tarotReading }),
     ]);
 
     return {
@@ -288,6 +291,7 @@ const generateTarotReadingFlow = ai.defineFlow(
         { name: card3, image: image3.dataUri },
       ],
       tarotReading,
+      audioDataUri: audio.audioDataUri,
     };
   }
 );
