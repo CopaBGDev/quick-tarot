@@ -43,7 +43,7 @@ const FormSchema = z.object({
     .string()
     .min(10, { message: "Question must be at least 10 characters long." })
     .max(200, { message: "Question cannot be longer than 200 characters." }),
-  voice: VoiceEnum.default('Algenib'),
+  voice: VoiceEnum,
 });
 
 type FormValues = z.infer<typeof FormSchema>;
@@ -83,7 +83,7 @@ export default function TarotClient() {
         .string()
         .min(10, { message: newTranslations.form.question.minLengthError })
         .max(200, { message: newTranslations.form.question.maxLengthError }),
-      voice: VoiceEnum.default('Algenib'),
+      voice: VoiceEnum,
     });
 
     form.reset(undefined, { keepValues: true });
