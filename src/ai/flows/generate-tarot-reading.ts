@@ -63,18 +63,23 @@ const generateTarotReadingFlow = ai.defineFlow(
   async (input) => {
     const { voice, zodiacSign, question, language } = input;
     
+    // Step 1: Generate the text-based reading and card names.
     const readingResponse = await tarotReadingPrompt({ zodiacSign, question, language });
     if (!readingResponse.output) {
       throw new Error('Failed to generate tarot reading.');
     }
     const { card1, card2, card3, tarotReading } = readingResponse.output;
 
-    const [image1, image2, image3, audio] = await Promise.all([
-      generateTarotCardImage({ cardName: card1 }),
-      generateTarotCardImage({ cardName: card2 }),
-      generateTarotCardImage({ cardName: card3 }),
-      voice ? generateTarotReadingAudio({ text: tarotReading, voice }) : Promise.resolve(null),
-    ]);
+    // Step 2: Generate images for the cards sequentially.
+    const image1 = await generateTarotCardImage({ cardName: card1 });
+    const image2 = await generateTarotCardImage({ cardName: card2 });
+    const image3 = await generateTarotCardImage({ cardName: card3 });
+
+    // Step 3: Generate audio if a voice is selected.
+    let audio = null;
+    if (voice) {
+      audio = await generateTarotReadingAudio({ text: tarotReading, voice });
+    }
 
     return {
       cards: [
