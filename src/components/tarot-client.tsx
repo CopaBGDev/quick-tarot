@@ -55,7 +55,7 @@ function useTypingEffect(text: string, duration: number, isPlaying: boolean) {
 
   const startTyping = React.useCallback(() => {
     if (text && duration > 0) {
-      const typingDuration = duration * 0.7; // 30% faster
+      const typingDuration = duration;
       const speed = text.length / typingDuration;
 
       intervalRef.current = setInterval(() => {
@@ -183,6 +183,16 @@ export default function TarotClient() {
     }
   };
 
+  const handleTextareaKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        const question = form.getValues('question');
+        if (question.trim().endsWith('?')) {
+            event.preventDefault();
+            form.handleSubmit(onSubmit)();
+        }
+    }
+  };
+
   const disabled = isLoading;
 
   if (!translations) {
@@ -253,7 +263,12 @@ export default function TarotClient() {
                   <FormItem>
                     <FormLabel>{translations.form.question.label}</FormLabel>
                     <FormControl>
-                      <Textarea placeholder={translations.form.question.placeholder} {...field} disabled={disabled} />
+                      <Textarea
+                        placeholder={translations.form.question.placeholder}
+                        {...field}
+                        disabled={disabled}
+                        onKeyDown={handleTextareaKeyDown}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
