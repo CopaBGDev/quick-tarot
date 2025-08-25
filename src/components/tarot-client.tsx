@@ -90,31 +90,36 @@ export default function TarotClient() {
     (form as any).resolver = zodResolver(zodSchema);
 
   }, [form]);
-
-  // Effect for typing animation
+  
+  // Effect for typing animation and audio playback
   React.useEffect(() => {
-    if (reading?.tarotReading) {
+    if (reading) {
+      // Start typing effect
       setTypedReading("");
       let index = 0;
       const interval = setInterval(() => {
-        setTypedReading((prev) => prev + reading.tarotReading[index]);
+        setTypedReading((prev) => {
+          if (index < reading.tarotReading.length) {
+            return prev + reading.tarotReading[index];
+          }
+          return prev;
+        });
         index++;
-        if (index === reading.tarotReading.length) {
+        if (index >= reading.tarotReading.length) {
           clearInterval(interval);
         }
       }, 25);
+      
+      // Play audio
+      if (reading.audioDataUri && audioRef.current) {
+        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        setIsPlaying(true);
+      }
+      
       return () => clearInterval(interval);
     }
-  }, [reading?.tarotReading]);
+  }, [reading]);
 
-  // Effect for audio playback
-  React.useEffect(() => {
-    if (!isLoading && reading?.audioDataUri && audioRef.current) {
-      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
-      setIsPlaying(true);
-    }
-  }, [isLoading, reading?.audioDataUri]);
-  
   const handlePlayPause = () => {
     if (audioRef.current) {
       if (isPlaying) {
@@ -317,7 +322,7 @@ export default function TarotClient() {
               </div>
             )}
 
-            {!isLoading && reading && (
+            {reading && (
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
@@ -356,5 +361,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
