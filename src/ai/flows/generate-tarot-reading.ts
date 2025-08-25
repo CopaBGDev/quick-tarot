@@ -50,8 +50,7 @@ const tarotReadingPrompt = ai.definePrompt({
     card3: z.string().describe('The name of the third tarot card.'),
     tarotReading: z.string().describe('The generated tarot reading, in the requested language.'),
   })},
-  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language.',
-  prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.',
+  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language. User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.',
 });
 
 const generateTarotReadingFlow = ai.defineFlow(
@@ -78,7 +77,6 @@ const generateTarotReadingFlow = ai.defineFlow(
         generateTarotCardImage({ cardName: card3 }),
     ];
     
-    // Use Promise.allSettled to ensure all promises complete, even if some fail.
     const imageResults = await Promise.allSettled(imagePromises);
 
     const placeholderImage = "https://placehold.co/320x480.png";
@@ -86,10 +84,16 @@ const generateTarotReadingFlow = ai.defineFlow(
     const image2 = imageResults[1].status === 'fulfilled' ? imageResults[1].value.dataUri : placeholderImage;
     const image3 = imageResults[2].status === 'fulfilled' ? imageResults[2].value.dataUri : placeholderImage;
 
-    // Step 3: Generate audio if a voice is selected.
-    let audio = null;
+    // Step 3: Generate audio if a voice is selected, but don't crash if it fails.
+    let audioDataUri: string | undefined = undefined;
     if (voice) {
-      audio = await generateTarotReadingAudio({ text: tarotReading, voice });
+      try {
+        const audio = await generateTarotReadingAudio({ text: tarotReading, voice });
+        audioDataUri = audio?.audioDataUri;
+      } catch (error) {
+        console.error("Audio generation failed, but we are continuing without it.", error);
+        // audioDataUri remains undefined, so the app won't show the audio player.
+      }
     }
 
     return {
@@ -99,7 +103,7 @@ const generateTarotReadingFlow = ai.defineFlow(
         { name: card3, image: image3 },
       ],
       tarotReading,
-      audioDataUri: audio?.audioDataUri,
+      audioDataUri,
     };
   }
 );
