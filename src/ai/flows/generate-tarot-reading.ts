@@ -283,7 +283,7 @@ const generateTarotReadingFlow = ai.defineFlow(
       generateTarotCardImage({ cardName: card1 }),
       generateTarotCardImage({ cardName: card2 }),
       generateTarotCardImage({ cardName: card3 }),
-      generateTarotReadingAudio({ text: tarotReading, voice }),
+      voice ? generateTarotReadingAudio({ text: tarotReading, voice }) : Promise.resolve(null),
     ]);
 
     return {
@@ -293,7 +293,9 @@ const generateTarotReadingFlow = ai.defineFlow(
         { name: card3, image: image3.dataUri },
       ],
       tarotReading,
-      audioDataUri: audio.audioDataUri,
+      audioDataUri: audio?.audioDataUri,
     };
   }
 );
+
+    
