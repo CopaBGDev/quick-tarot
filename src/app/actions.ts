@@ -4,6 +4,7 @@ import {
   generateTarotReading,
   type GenerateTarotReadingInput,
 } from "@/ai/flows/generate-tarot-reading";
+import { VoiceEnum } from "@/ai/flows/types";
 import { z } from "zod";
 
 const ActionSchema = z.object({
@@ -13,6 +14,7 @@ const ActionSchema = z.object({
     .min(10, "Pitanje mora imati najmanje 10 karaktera.")
     .max(200, "Pitanje ne može biti duže od 200 karaktera."),
   language: z.string().optional(),
+  voice: VoiceEnum.optional(),
 });
 
 export async function getTarotReading(input: GenerateTarotReadingInput) {

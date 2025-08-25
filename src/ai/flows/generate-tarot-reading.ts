@@ -13,11 +13,13 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 import { generateTarotCardImage } from './generate-tarot-card-image';
 import { generateTarotReadingAudio } from './generate-tarot-reading-audio';
+import { VoiceEnum } from './types';
 
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
   question: z.string().describe('The question asked by the user.'),
   language: z.string().optional().describe('The language for the output, e.g., "en" for English.'),
+  voice: VoiceEnum.optional().describe('The voice to use for the audio output.'),
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 
@@ -39,7 +41,7 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
 
 const tarotCardInterpretationTool = ai.defineTool({
   name: 'tarotCardInterpretation',
-  description: 'This tool interprets the meaning of a given tarot card based on traditional tarot symbolism.',
+  description: 'This tool interprets the meaning of a given tarot card based on traditional tarot symbolism. It covers all 78 cards of the Major and Minor Arcana.',
   inputSchema: z.object({
     cardName: z.string().describe('The name of the tarot card to interpret.'),
   }),
@@ -259,7 +261,7 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { zodiacSign, question, language } = input;
+    const { zodiacSign, question, language, voice } = input;
     
     // Step 1: Generate the tarot reading in the default language (Serbian)
     const readingResponse = await generateReadingPrompt({zodiacSign, question});
@@ -281,7 +283,7 @@ const generateTarotReadingFlow = ai.defineFlow(
       generateTarotCardImage({ cardName: card1 }),
       generateTarotCardImage({ cardName: card2 }),
       generateTarotCardImage({ cardName: card3 }),
-      generateTarotReadingAudio({ text: tarotReading }),
+      generateTarotReadingAudio({ text: tarotReading, voice }),
     ]);
 
     return {

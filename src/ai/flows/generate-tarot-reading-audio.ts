@@ -12,9 +12,11 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import wav from 'wav';
+import { Voice, VoiceEnum } from './types';
 
 const GenerateTarotReadingAudioInputSchema = z.object({
     text: z.string().describe('The text to be converted to speech.'),
+    voice: VoiceEnum.default('Algenib').describe('The voice to use for the text-to-speech conversion.'),
 });
 export type GenerateTarotReadingAudioInput = z.infer<typeof GenerateTarotReadingAudioInputSchema>;
 
@@ -60,14 +62,14 @@ const generateTarotReadingAudioFlow = ai.defineFlow(
     inputSchema: GenerateTarotReadingAudioInputSchema,
     outputSchema: GenerateTarotReadingAudioOutputSchema,
   },
-  async ({ text }) => {
+  async ({ text, voice }) => {
     const { media } = await ai.generate({
       model: 'googleai/gemini-2.5-flash-preview-tts',
       config: {
         responseModalities: ['AUDIO'],
         speechConfig: {
           voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: 'Algenib' },
+            prebuiltVoiceConfig: { voiceName: voice },
           },
         },
       },

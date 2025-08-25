@@ -17,6 +17,11 @@ export interface Translations {
       minLengthError: string;
       maxLengthError: string;
     };
+    voice: {
+      label: string;
+      male: string;
+      female: string;
+    };
   };
   button: {
     default: string;
@@ -54,6 +59,11 @@ const sr: Translations = {
       minLengthError: "Pitanje mora imati najmanje 10 karaktera.",
       maxLengthError: "Pitanje ne može biti duže od 200 karaktera.",
     },
+    voice: {
+      label: "Izaberite glas",
+      male: "Muški glas",
+      female: "Ženski glas",
+    },
   },
   button: {
     default: "Dobij Čitanje",
@@ -90,6 +100,11 @@ const en: Translations = {
       placeholder: "What is troubling or interesting you?",
       minLengthError: "Question must be at least 10 characters.",
       maxLengthError: "Question cannot be longer than 200 characters.",
+    },
+    voice: {
+      label: "Choose a voice",
+      male: "Male voice",
+      female: "Female voice",
     },
   },
   button: {

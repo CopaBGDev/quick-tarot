@@ -32,6 +32,8 @@ import { MagicIcon } from "./magic-icon";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
+import { VoiceEnum } from "@/ai/flows/types";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
@@ -41,17 +43,18 @@ const FormSchema = z.object({
     .string()
     .min(10, { message: "Question must be at least 10 characters long." })
     .max(200, { message: "Question cannot be longer than 200 characters." }),
+  voice: VoiceEnum.default('Algenib'),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
 
 function useTypingEffect(text: string, duration: number) {
   const [displayedText, setDisplayedText] = React.useState("");
-  const speed = duration > 0 ? text.length / duration : 10; // characters per second
-
+  
   React.useEffect(() => {
     setDisplayedText("");
-    if (text) {
+    if (text && duration > 0) {
+      const speed = text.length / duration; // characters per second
       let i = 0;
       const interval = setInterval(() => {
         setDisplayedText((prev) => prev + text.charAt(i));
@@ -61,8 +64,10 @@ function useTypingEffect(text: string, duration: number) {
         }
       }, 1000 / speed);
       return () => clearInterval(interval);
+    } else if (text) {
+      setDisplayedText(text);
     }
-  }, [text, speed]);
+  }, [text, duration]);
 
   return displayedText;
 }
@@ -84,6 +89,7 @@ export default function TarotClient() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       question: "",
+      voice: "Algenib",
     },
   });
   
@@ -102,6 +108,7 @@ export default function TarotClient() {
         .string()
         .min(10, { message: newTranslations.form.question.minLengthError })
         .max(200, { message: newTranslations.form.question.maxLengthError }),
+      voice: VoiceEnum.default('Algenib'),
     });
 
     form.reset(undefined, { keepValues: true });
@@ -217,6 +224,41 @@ export default function TarotClient() {
                     <FormLabel>{translations.form.question.label}</FormLabel>
                     <FormControl>
                       <Textarea placeholder={translations.form.question.placeholder} {...field} disabled={disabled} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+               <FormField
+                control={form.control}
+                name="voice"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>{translations.form.voice.label}</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-col space-y-1"
+                        disabled={disabled}
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="Algenib" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {translations.form.voice.male}
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="Achernar" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            {translations.form.voice.female}
+                          </FormLabel>
+                        </FormItem>
+                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
