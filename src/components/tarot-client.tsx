@@ -47,7 +47,7 @@ type FormValues = z.infer<typeof FormSchema>;
 
 function useTypingEffect(text: string, duration: number) {
   const [displayedText, setDisplayedText] = React.useState("");
-  const speed = duration > 0 ? text.length / duration * 1000 : 10; // characters per second
+  const speed = duration > 0 ? text.length / (duration * 0.7) : 10; // characters per second
 
   React.useEffect(() => {
     setDisplayedText("");
@@ -59,7 +59,7 @@ function useTypingEffect(text: string, duration: number) {
         if (i >= text.length) {
           clearInterval(interval);
         }
-      }, 1000 / (speed / 1.3));
+      }, 1000 / speed);
       return () => clearInterval(interval);
     }
   }, [text, speed]);
@@ -108,6 +108,13 @@ export default function TarotClient() {
     (form as any).resolver = zodResolver(zodSchema);
 
   }, [form]);
+
+  React.useEffect(() => {
+    if (reading?.audioDataUri && audioRef.current) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [reading?.audioDataUri]);
   
   const handlePlayPause = () => {
     if (audioRef.current) {
@@ -252,7 +259,7 @@ export default function TarotClient() {
           {reading && (
             <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
               <CardHeader className="flex-row items-center justify-between">
-                <CardTitle>{translations.results.title}</CardTitle>
+                <CardTitle>{translations.results.readingTitle}</CardTitle>
                 {reading.audioDataUri && (
                   <>
                     <Button onClick={handlePlayPause} size="icon" variant="ghost">
@@ -262,6 +269,8 @@ export default function TarotClient() {
                     <audio
                       ref={audioRef}
                       src={reading.audioDataUri}
+                      onPlay={() => setIsPlaying(true)}
+                      onPause={() => setIsPlaying(false)}
                       onEnded={() => setIsPlaying(false)}
                       onLoadedMetadata={(e) => setAudioDuration(e.currentTarget.duration)}
                     />
