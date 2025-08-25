@@ -54,7 +54,9 @@ function useTypingEffect(text: string, duration: number) {
   React.useEffect(() => {
     setDisplayedText("");
     if (text && duration > 0) {
-      const speed = text.length / duration; // characters per second
+      // Adjust speed to be slightly faster to compensate for speech pauses
+      const typingDuration = duration * 0.9;
+      const speed = text.length / typingDuration; // characters per second
       let i = 0;
       const interval = setInterval(() => {
         setDisplayedText((prev) => prev + text.charAt(i));
@@ -335,4 +337,5 @@ export default function TarotClient() {
       </footer>
     </div>
   );
-}
+
+    
