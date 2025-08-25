@@ -56,7 +56,7 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const [isPlaying, setIsPlaying] = React.useState(false);
-  const audioRef = React.useRef<HTMLAudioElement>(null);
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -91,9 +91,10 @@ export default function TarotClient() {
 
   }, [form]);
   
-  React.useEffect(() => {
-    if (!reading?.tarotReading) return;
+   React.useEffect(() => {
+    if (!reading) return;
 
+    // Typing effect
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
@@ -103,28 +104,18 @@ export default function TarotClient() {
         clearInterval(typingInterval);
       }
     }, 25);
+    
+    // Audio setup
+    if (reading.audioDataUri) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setIsPlaying(false);
+      }
+    }
 
     return () => clearInterval(typingInterval);
-  }, [reading?.tarotReading]);
-
-  React.useEffect(() => {
-    const audioElement = audioRef.current;
-    if (audioElement) {
-        const onPlay = () => setIsPlaying(true);
-        const onPause = () => setIsPlaying(false);
-        const onEnded = () => setIsPlaying(false);
-
-        audioElement.addEventListener('play', onPlay);
-        audioElement.addEventListener('pause', onPause);
-        audioElement.addEventListener('ended', onEnded);
-        
-        return () => {
-            audioElement.removeEventListener('play', onPlay);
-            audioElement.removeEventListener('pause', onPause);
-            audioElement.removeEventListener('ended', onEnded);
-        };
-    }
-  }, [audioRef]);
+  }, [reading]);
 
 
   const handlePlayPause = () => {
@@ -141,6 +132,7 @@ export default function TarotClient() {
           });
         });
       }
+      setIsPlaying(!isPlaying);
     }
   };
   
@@ -149,12 +141,7 @@ export default function TarotClient() {
     setIsLoading(true);
     setReading(null);
     setTypedReading("");
-    if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-    }
-    setIsPlaying(false);
-
+    
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -209,7 +196,7 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      <audio ref={audioRef} src={reading?.audioDataUri} />
+      <audio ref={audioRef} src={reading?.audioDataUri} onEnded={() => setIsPlaying(false)} />
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
@@ -340,6 +327,7 @@ export default function TarotClient() {
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader className="flex-row items-center justify-between">
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
+                  <Button>Test Dugme</Button>
                    {reading.audioDataUri && (
                     <Button variant="outline" size="icon" onClick={handlePlayPause}>
                       {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
