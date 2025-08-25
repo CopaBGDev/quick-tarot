@@ -31,13 +31,9 @@ const imageGenPrompt = ai.definePrompt({
     input: { schema: GenerateTarotCardImageInputSchema },
     prompt: `Generate an artistic, tarot card-style image for the card named '{{{cardName}}}'. The style should be mystical, elegant, and evocative of traditional tarot card art, but with a unique modern twist.`,
     config: {
+        model: 'googleai/gemini-2.0-flash-preview-image-generation',
         responseModalities: ['TEXT', 'IMAGE'],
     },
-    output: {
-        schema: z.object({
-            image: z.string().describe('the generated image'),
-        })
-    }
 });
 
 
@@ -48,13 +44,7 @@ const generateTarotCardImageFlow = ai.defineFlow(
     outputSchema: GenerateTarotCardImageOutputSchema,
   },
   async (input) => {
-    const { media } = await ai.generate({
-      model: 'googleai/gemini-2.0-flash-preview-image-generation',
-      prompt: `Generate an artistic, tarot card-style image for the card named '${input.cardName}'. The style should be mystical, elegant, and evocative of traditional tarot card art, but with a unique modern twist.`,
-      config: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
-    });
+    const { media } = await imageGenPrompt(input);
     
     if (!media || !media.url) {
         throw new Error('Failed to generate card image.');
