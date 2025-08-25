@@ -113,7 +113,7 @@ export default function TarotClient() {
     if (audioRef.current) {
         audioRef.current.onended = () => setIsPlaying(false);
     }
-  }, [audioRef]);
+  }, [audioDataUri]);
 
   const handlePlayPause = async () => {
     if (isPlaying) {
@@ -191,7 +191,7 @@ export default function TarotClient() {
     }
   };
 
-  const disabled = isFormLoading;
+  const disabled = isFormLoading || isAudioLoading;
 
   if (!translations) {
     return (
@@ -216,7 +216,7 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      <audio ref={audioRef} src={audioDataUri || ''} />
+      {audioDataUri && <audio ref={audioRef} src={audioDataUri} />}
       <header className="text-center">
         <MagicIcon className="mx-auto h-16 w-16 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
