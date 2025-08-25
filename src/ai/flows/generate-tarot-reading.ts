@@ -48,8 +48,8 @@ const tarotReadingPrompt = ai.definePrompt({
     card3: z.string().describe('The name of the third tarot card.'),
     tarotReading: z.string().describe('The generated tarot reading, in the requested language.'),
   })},
-  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language. User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}.',
-  prompt: 'Please provide the tarot reading now.',
+  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language.',
+  prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.',
 });
 
 const generateTarotReadingFlow = ai.defineFlow(
