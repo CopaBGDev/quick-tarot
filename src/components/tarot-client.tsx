@@ -49,80 +49,52 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>;
 
 function useTypingEffect(text: string, duration: number, isPlaying: boolean) {
-  const [displayedText, setDisplayedText] = React.useState("");
+  const [displayedText, setDisplayedText] = React.useState('');
   const charIndexRef = React.useRef(0);
   const intervalRef = React.useRef<NodeJS.Timeout>();
 
-  React.useEffect(() => {
-    // Reset when text or duration changes
-    setDisplayedText("");
-    charIndexRef.current = 0;
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-
+  const startTyping = React.useCallback(() => {
     if (text && duration > 0) {
-      const typingDuration = duration * 0.7;
-      const speed = text.length / typingDuration;
-
-      const startTyping = () => {
-        intervalRef.current = setInterval(() => {
-          if (charIndexRef.current < text.length) {
-            setDisplayedText((prev) => prev + text.charAt(charIndexRef.current));
-            charIndexRef.current++;
-          } else {
-            clearInterval(intervalRef.current);
-          }
-        }, 1000 / speed);
-      };
-
-      if (isPlaying) {
-        startTyping();
-      }
-
-    } else if (text) {
-      setDisplayedText(text);
-    }
-    
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [text, duration]);
-  
-  React.useEffect(() => {
-    if (!text || duration <= 0) return;
-
-    if (isPlaying) {
-      const typingDuration = duration * 0.7;
+      const typingDuration = duration * 0.7; // 30% faster
       const speed = text.length / typingDuration;
 
       intervalRef.current = setInterval(() => {
         if (charIndexRef.current < text.length) {
-          setDisplayedText((prev) => text.substring(0, charIndexRef.current + 1));
           charIndexRef.current++;
+          setDisplayedText(text.substring(0, charIndexRef.current));
         } else {
           clearInterval(intervalRef.current);
         }
       }, 1000 / speed);
-    } else {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+    } else if (text) {
+      setDisplayedText(text);
     }
+  }, [text, duration]);
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
+  const pauseTyping = React.useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  }, []);
 
-  }, [isPlaying, text, duration])
+  React.useEffect(() => {
+    setDisplayedText('');
+    charIndexRef.current = 0;
+    pauseTyping();
+  }, [text, duration, pauseTyping]);
 
+  React.useEffect(() => {
+    if (isPlaying) {
+      startTyping();
+    } else {
+      pauseTyping();
+    }
+    return pauseTyping;
+  }, [isPlaying, startTyping, pauseTyping]);
 
   return displayedText;
 }
+
 
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -170,7 +142,7 @@ export default function TarotClient() {
 
   React.useEffect(() => {
     if (reading?.audioDataUri && audioRef.current) {
-      audioRef.current.play();
+      audioRef.current.play().catch(e => console.error("Audio play failed:", e));
       setIsPlaying(true);
     }
   }, [reading?.audioDataUri]);
@@ -179,10 +151,11 @@ export default function TarotClient() {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
+        setIsPlaying(false);
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch(e => console.error("Audio play failed:", e));
+        setIsPlaying(true);
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
@@ -190,6 +163,10 @@ export default function TarotClient() {
     setIsLoading(true);
     setReading(null);
     setIsPlaying(false);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+    }
 
     try {
       const result = await getTarotReading({ ...data, language });
@@ -389,5 +366,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
