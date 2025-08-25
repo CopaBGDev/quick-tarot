@@ -6,7 +6,7 @@
  *
  * - generateTarotReading - A function that generates a tarot reading.
  * - GenerateTarotReadingInput - The input type for the generateTarotReading function.
- * - GenerateTarotReadingOutput - The return type for the generateTarotReading function.
+ * - GenerateTarotReadingOutput - The return type for the generateTarotReadingOutput function.
  */
 
 import {ai} from '@/ai/genkit';
