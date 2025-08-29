@@ -1,10 +1,9 @@
-
 "use client";
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ZODIAC_ICONS, ZodiacSign } from "@/lib/zodiac";
-import { ArrowUp } from "lucide-react";
+import { Sun } from "lucide-react";
 
 interface ZodiacWheelProps {
   signs: readonly ZodiacSign[];
@@ -14,72 +13,91 @@ interface ZodiacWheelProps {
 }
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
-  const [positions, setPositions] = React.useState<{ x: number; y: number }[]>([]);
-  const radius = 120; // radius of the circle
-  const iconSize = 40; // size of the icon container
-  const [rotation, setRotation] = React.useState(0);
+  const radius = 130;
+  const iconRadius = 100;
+  const textRadius = 130;
 
-  React.useEffect(() => {
-    const newPositions = signs.map((_, index) => {
-      // Start from the top (-90 degrees or -PI/2) and go counter-clockwise
-      const angle = (-index / signs.length) * 2 * Math.PI - Math.PI / 2;
-      const x = radius * Math.cos(angle);
-      const y = radius * Math.sin(angle);
-      return { x, y };
-    });
-    setPositions(newPositions);
-  }, [signs]);
-  
-  React.useEffect(() => {
-    if (selectedValue) {
-      const selectedIndex = signs.indexOf(selectedValue);
-      if (selectedIndex !== -1) {
-        // Counter-clockwise rotation
-        const angle = -(selectedIndex / signs.length) * 360;
-        setRotation(angle);
-      }
-    }
-  }, [selectedValue, signs]);
+  const getCoordinates = (index: number, r: number) => {
+    const angle = (index / 12) * 2 * Math.PI - Math.PI / 2 - Math.PI / 12;
+    return {
+      x: 150 + r * Math.cos(angle),
+      y: 150 + r * Math.sin(angle),
+    };
+  };
 
   return (
-    <div className="relative mx-auto flex h-72 w-72 items-center justify-center">
-      <div className="absolute h-full w-full rounded-full border-2 border-dashed border-primary/20" />
-      <div className="absolute flex h-24 w-24 items-center justify-center rounded-full bg-primary/10 text-center text-xs font-bold text-primary">
-        {selectedValue || "Izaberi"}
-      </div>
-      <ArrowUp
-        className="absolute text-primary transition-transform duration-500 ease-in-out"
-        style={{ transform: `rotate(${rotation}deg) translateY(-80px)` }}
-        size={24}
-      />
-      {positions.length > 0 && signs.map((sign, index) => {
-        const Icon = ZODIAC_ICONS[sign as keyof typeof ZODIAC_ICONS];
-        const isSelected = selectedValue === sign;
-        const pos = positions[index];
+    <div className="relative mx-auto flex h-80 w-80 items-center justify-center">
+      <svg viewBox="0 0 300 300" className="absolute h-full w-full">
+        {/* Circles */}
+        <circle cx="150" cy="150" r="150" fill="none" stroke="hsl(var(--primary))" strokeWidth="2" strokeOpacity="0.3" />
+        <circle cx="150" cy="150" r="70" fill="none" stroke="hsl(var(--primary))" strokeWidth="1" strokeOpacity="0.5" />
+        <circle cx="150" cy="150" r="40" fill="hsl(var(--primary))" fillOpacity="0.1" />
 
-        return (
-          <button
-            key={sign}
-            type="button"
-            onClick={() => onSelect(sign)}
-            disabled={disabled}
-            className={cn(
-              "absolute flex items-center justify-center rounded-full transition-all duration-300",
-              "hover:bg-primary/20 hover:scale-110",
-              isSelected ? "bg-primary/90 text-primary-foreground scale-110" : "bg-primary/10",
-              "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-primary/10"
-            )}
-            style={{
-              transform: `translate(${pos.x}px, ${pos.y}px)`,
-              width: `${iconSize}px`,
-              height: `${iconSize}px`,
-            }}
-            title={sign}
-          >
-            {Icon && <Icon className="h-6 w-6" />}
-          </button>
-        );
-      })}
+        {/* Sun Icon */}
+        <foreignObject x="130" y="130" width="40" height="40">
+          <Sun className="h-10 w-10 text-primary" />
+        </foreignObject>
+
+        {/* Radial Lines */}
+        {signs.map((_, index) => {
+          const angle = (index / 12) * 360 - 75;
+          return (
+            <line
+              key={`line-${index}`}
+              x1="150"
+              y1="150"
+              x2={150 + 70 * Math.cos((angle * Math.PI) / 180)}
+              y2={150 + 70 * Math.sin((angle * Math.PI) / 180)}
+              stroke="hsl(var(--primary))"
+              strokeWidth="1"
+              strokeOpacity="0.5"
+            />
+          );
+        })}
+
+        {/* Zodiac Signs */}
+        {signs.map((sign, index) => {
+          const Icon = ZODIAC_ICONS[sign as keyof typeof ZODIAC_ICONS];
+          const isSelected = selectedValue === sign;
+          const iconPos = getCoordinates(index, iconRadius);
+          const textPos = getCoordinates(index, textRadius);
+
+          return (
+            <g
+              key={sign}
+              onClick={() => !disabled && onSelect(sign)}
+              className={cn(
+                "cursor-pointer transition-opacity duration-300",
+                disabled ? "cursor-not-allowed opacity-50" : "hover:opacity-80"
+              )}
+            >
+              <foreignObject
+                x={iconPos.x - 15}
+                y={iconPos.y - 15}
+                width="30"
+                height="30"
+                className={cn(
+                  "transition-colors",
+                  isSelected ? "text-primary" : "text-foreground/70"
+                )}
+              >
+                {Icon && <Icon className="h-full w-full" />}
+              </foreignObject>
+              <text
+                x={textPos.x}
+                y={textPos.y + 15}
+                textAnchor="middle"
+                className={cn(
+                  "text-xs font-headline tracking-wider uppercase transition-colors",
+                  isSelected ? "fill-primary" : "fill-foreground/70"
+                )}
+              >
+                {sign.substring(0, 4)}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
     </div>
   );
 }
