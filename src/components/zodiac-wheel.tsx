@@ -12,18 +12,18 @@ interface ZodiacWheelProps {
 }
 
 const ZODIAC_POSITIONS = [
-  { name: "Aries", nameSr: "Ovan", symbol: "♈", x: 300, y: 55, textY: 70 },
-  { name: "Taurus", nameSr: "Bik", symbol: "♉", x: 440, y: 100, textY: 115 },
-  { name: "Gemini", nameSr: "Blizanci", symbol: "♊", x: 530, y: 195, textY: 210 },
-  { name: "Cancer", nameSr: "Rak", symbol: "♋", x: 550, y: 300, textY: 315 },
-  { name: "Leo", nameSr: "Lav", symbol: "♌", x: 530, y: 405, textY: 420 },
-  { name: "Virgo", nameSr: "Devica", symbol: "♍", x: 440, y: 500, textY: 515 },
-  { name: "Libra", nameSr: "Vaga", symbol: "♎", x: 300, y: 545, textY: 560 },
-  { name: "Scorpio", nameSr: "Škorpija", symbol: "♏", x: 160, y: 500, textY: 515 },
-  { name: "Sagittarius", nameSr: "Strelac", symbol: "♐", x: 70, y: 405, textY: 420 },
-  { name: "Capricorn", nameSr: "Jarac", symbol: "♑", x: 50, y: 300, textY: 315 },
-  { name: "Aquarius", nameSr: "Vodolija", symbol: "♒", x: 70, y: 195, textY: 210 },
-  { name: "Pisces", nameSr: "Ribe", symbol: "♓", x: 160, y: 100, textY: 115 },
+  { name: "Aries", nameSr: "Ovan", symbol: "♈", x: 300, y: 65 },
+  { name: "Taurus", nameSr: "Bik", symbol: "♉", x: 440, y: 110 },
+  { name: "Gemini", nameSr: "Blizanci", symbol: "♊", x: 530, y: 205 },
+  { name: "Cancer", nameSr: "Rak", symbol: "♋", x: 550, y: 310 },
+  { name: "Leo", nameSr: "Lav", symbol: "♌", x: 530, y: 415 },
+  { name: "Virgo", nameSr: "Devica", symbol: "♍", x: 440, y: 510 },
+  { name: "Libra", nameSr: "Vaga", symbol: "♎", x: 300, y: 555 },
+  { name: "Scorpio", nameSr: "Škorpija", symbol: "♏", x: 160, y: 510 },
+  { name: "Sagittarius", nameSr: "Strelac", symbol: "♐", x: 70, y: 415 },
+  { name: "Capricorn", nameSr: "Jarac", symbol: "♑", x: 50, y: 310 },
+  { name: "Aquarius", nameSr: "Vodolija", symbol: "♒", x: 70, y: 205 },
+  { name: "Pisces", nameSr: "Ribe", symbol: "♓", x: 160, y: 110 },
 ];
 
 
@@ -59,7 +59,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
           </g>
 
           {/* Zodiac Signs */}
-          {ZODIAC_POSITIONS.map((sign, index) => {
+          {ZODIAC_POSITIONS.map((sign) => {
             const signName = getSignName(sign);
             const isSelected = selectedValue === signName;
 
@@ -81,18 +81,6 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                   )}
                 >
                   {sign.symbol}
-                </text>
-                <text
-                  x={sign.x}
-                  y={sign.textY}
-                  textAnchor="middle"
-                  fontSize="16"
-                  className={cn(
-                    "font-headline uppercase tracking-widest transition-all duration-300 fill-foreground/70 group-hover:fill-primary",
-                    isSelected && "fill-primary"
-                  )}
-                >
-                  {signName}
                 </text>
               </g>
             );
