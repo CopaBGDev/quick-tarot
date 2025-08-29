@@ -20,7 +20,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
 
   React.useEffect(() => {
     const newPositions = signs.map((_, index) => {
-      const angle = (index / signs.length) * 2 * Math.PI - Math.PI / 2;
+      // Start from the top (-90 degrees or -PI/2) and go counter-clockwise
+      const angle = (-index / signs.length) * 2 * Math.PI - Math.PI / 2;
       const x = radius * Math.cos(angle);
       const y = radius * Math.sin(angle);
       return { x, y };
@@ -32,7 +33,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
     if (selectedValue) {
       const selectedIndex = signs.indexOf(selectedValue);
       if (selectedIndex !== -1) {
-        const angle = (selectedIndex / signs.length) * 360;
+        // Counter-clockwise rotation
+        const angle = -(selectedIndex / signs.length) * 360;
         setRotation(angle);
       }
     }
@@ -49,7 +51,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         style={{ transform: `rotate(${rotation}deg) translateY(-80px)` }}
         size={24}
       />
-      {signs.map((sign, index) => {
+      {positions.length > 0 && signs.map((sign, index) => {
         const Icon = ZODIAC_ICONS[sign as keyof typeof ZODIAC_ICONS];
         const isSelected = selectedValue === sign;
         const pos = positions[index];
@@ -64,11 +66,10 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
               "absolute flex items-center justify-center rounded-full transition-all duration-300",
               "hover:bg-primary/20 hover:scale-110",
               isSelected ? "bg-primary/90 text-primary-foreground scale-110" : "bg-primary/10",
-              "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-primary/10",
-              !pos && "opacity-0" // Hide until position is calculated
+              "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-primary/10"
             )}
             style={{
-              transform: pos ? `translate(${pos.x}px, ${pos.y}px)` : 'none',
+              transform: `translate(${pos.x}px, ${pos.y}px)`,
               width: `${iconSize}px`,
               height: `${iconSize}px`,
             }}
