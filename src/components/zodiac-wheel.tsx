@@ -22,7 +22,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         {selectedValue || "Izaberite znak"}
       </div>
       {signs.map((sign, index) => {
-        const angle = (index / signs.length) * 2 * Math.PI - Math.PI / 2;
+        const angle = - (index / signs.length) * 2 * Math.PI + Math.PI / 2;
         const x = radius * Math.cos(angle);
         const y = radius * Math.sin(angle);
         const Icon = ZODIAC_ICONS[sign as keyof typeof ZODIAC_ICONS];
@@ -41,7 +41,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
               "disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:bg-primary/10"
             )}
             style={{
-              transform: `translate(${x}px, ${y}px)`,
+              transform: `translate(${x}px, ${-y}px)`,
               width: `${iconSize}px`,
               height: `${iconSize}px`,
             }}
