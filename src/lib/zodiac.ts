@@ -1,4 +1,4 @@
-import { Circle, Scale, Fish } from "lucide-react";
+import { Circle, Scale, Fish, Users, Orbit, Crown, Wheat, ArrowUpRight, Mountain, Droplets, Shell } from "lucide-react";
 
 export const ZODIAC_SIGNS_SR = [
   "Ovan",
@@ -35,24 +35,24 @@ export const ZODIAC_ICONS = {
   Aries: Circle,
   Bik: Circle, // Taurus
   Taurus: Circle,
-  Blizanci: Circle, // Gemini
-  Gemini: Circle,
-  Rak: Circle, // Cancer
-  Cancer: Circle,
-  Lav: Circle, // Leo
-  Leo: Circle,
-  Devica: Circle, // Virgo
-  Virgo: Circle,
+  Blizanci: Users, // Gemini
+  Gemini: Users,
+  Rak: Orbit, // Cancer (moon)
+  Cancer: Orbit,
+  Lav: Crown, // Leo
+  Leo: Crown,
+  Devica: Wheat, // Virgo
+  Virgo: Wheat,
   Vaga: Scale, // Libra
   Libra: Scale,
-  Škorpija: Circle, // Scorpio
-  Scorpio: Circle,
-  Strelac: Circle, // Sagittarius
-  Sagittarius: Circle,
-  Jarac: Circle, // Capricorn
-  Capricorn: Circle,
-  Vodolija: Circle, // Aquarius
-  Aquarius: Circle,
+  Škorpija: Shell, // Scorpio
+  Scorpio: Shell,
+  Strelac: ArrowUpRight, // Sagittarius
+  Sagittarius: ArrowUpRight,
+  Jarac: Mountain, // Capricorn
+  Capricorn: Mountain,
+  Vodolija: Droplets, // Aquarius
+  Aquarius: Droplets,
   Ribe: Fish, // Pisces
   Pisces: Fish,
 };
