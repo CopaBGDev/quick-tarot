@@ -155,7 +155,7 @@ export default function TarotClient() {
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       <header className="text-center">
         <Logo className="mx-auto h-24 w-24 text-primary" />
-        <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
+        <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
           {translations.header.title}
         </h1>
         <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
@@ -163,67 +163,65 @@ export default function TarotClient() {
         </p>
       </header>
 
-      <Card className="w-full max-w-2xl bg-card/50 backdrop-blur-sm">
-        <CardContent className="p-6 sm:p-8">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <Controller
-                control={form.control}
-                name="zodiacSign"
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormLabel>{translations.form.zodiac.label}</FormLabel>
-                    <FormControl>
-                        <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={field.onChange}
-                            selectedValue={field.value}
-                            disabled={disabled}
-                        />
-                    </FormControl>
-                    <FormMessage>{fieldState.error?.message}</FormMessage>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="question"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{translations.form.question.label}</FormLabel>
-                    <div className="relative">
-                      <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                      <FormControl>
-                        <Textarea
-                          placeholder={translations.form.question.placeholder}
-                          {...field}
+      <div className="w-full space-y-8">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <Controller
+              control={form.control}
+              name="zodiacSign"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormLabel>{translations.form.zodiac.label}</FormLabel>
+                  <FormControl>
+                      <ZodiacWheel
+                          signs={zodiacSigns}
+                          onSelect={field.onChange}
+                          selectedValue={field.value}
                           disabled={disabled}
-                          onKeyDown={handleTextareaKeyDown}
-                          className="pl-10"
-                        />
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" disabled={disabled} size="lg">
-                {isFormLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {translations.button.loading}
-                  </>
-                ) : (
-                  <>
-                    <Wand2 className="mr-2 h-4 w-4" />
-                    {translations.button.default}
-                  </>
-                )}
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+                      />
+                  </FormControl>
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="question"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{translations.form.question.label}</FormLabel>
+                  <div className="relative">
+                    <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                    <FormControl>
+                      <Textarea
+                        placeholder={translations.form.question.placeholder}
+                        {...field}
+                        disabled={disabled}
+                        onKeyDown={handleTextareaKeyDown}
+                        className="pl-10 bg-input border-border"
+                      />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="w-full" disabled={disabled} size="lg">
+              {isFormLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {translations.button.loading}
+                </>
+              ) : (
+                <>
+                  <Wand2 className="mr-2 h-4 w-4" />
+                  {translations.button.default}
+                </>
+              )}
+            </Button>
+          </form>
+        </Form>
+      </div>
 
       <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8">
         {(isFormLoading || reading) && (
@@ -258,7 +256,7 @@ export default function TarotClient() {
         )}
       </section>
 
-      <footer className="mt-12 flex w-full flex-col items-center gap-8 border-t border-primary/10 pt-10">
+      <footer className="mt-12 flex w-full flex-col items-center gap-8 pt-10">
         <AdPlaceholder />
         <p className="text-sm text-muted-foreground">{translations.footer.copyright.replace('{year}', new Date().getFullYear().toString())}</p>
       </footer>

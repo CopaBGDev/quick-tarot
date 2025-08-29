@@ -5,7 +5,6 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ZODIAC_SIGNS_EN, ZODIAC_SIGNS_SR, type ZodiacSign } from "@/lib/zodiac";
 
-
 interface ZodiacWheelProps {
     signs: readonly ZodiacSign[];
     onSelect: (sign: ZodiacSign) => void;
@@ -13,12 +12,12 @@ interface ZodiacWheelProps {
     disabled?: boolean;
 }
 
-const ZODIAC_SYMBOLS = {
+const ZODIAC_SYMBOLS: { [key in ZodiacSign]: string } = {
     Aries: "♈", Taurus: "♉", Gemini: "♊", Cancer: "♋", Leo: "♌", Virgo: "♍",
     Libra: "♎", Scorpio: "♏", Sagittarius: "♐", Capricorn: "♑", Aquarius: "♒", Pisces: "♓",
     Ovan: "♈", Bik: "♉", Blizanci: "♊", Rak: "♋", Lav: "♌", Devica: "♍",
     Vaga: "♎", Škorpija: "♏", Strelac: "♐", Jarac: "♑", Vodolija: "♒", Ribe: "♓",
-} as const;
+};
 
 interface SignPosition {
     sign: ZodiacSign;
@@ -27,16 +26,15 @@ interface SignPosition {
     y: number;
 }
 
-
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<SignPosition[]>([]);
 
     React.useEffect(() => {
-        const radius = 255;
-        const centerX = 300;
-        const centerY = 300;
+        const radius = 130;
+        const centerX = 150;
+        const centerY = 150;
         
-        const isSerbian = signs[0] === 'Ovan';
+        const isSerbian = signs.includes("Ovan");
         const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
         const newPositions = signNames.map((sign, i) => {
@@ -58,53 +56,22 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
     };
     
     if (positions.length === 0) {
-        return <div className="relative mx-auto w-full max-w-[400px] sm:max-w-[450px] aspect-square flex items-center justify-center text-muted-foreground">Učitavanje...</div>;
+        return <div className="relative mx-auto w-[300px] h-[300px] flex items-center justify-center text-muted-foreground">Učitavanje...</div>;
     }
 
     return (
         <div
             className={cn(
-                "relative mx-auto w-full max-w-[400px] sm:max-w-[450px] aspect-square",
+                "relative mx-auto w-[300px] h-[300px]",
                 disabled && "opacity-50 cursor-not-allowed"
             )}
         >
-            <svg viewBox="0 0 600 600" className="w-full h-full">
-                {/* Outer decorative circle */}
-                <circle
-                    cx="300"
-                    cy="300"
-                    r="290"
-                    fill="transparent"
-                    stroke="hsl(var(--border))"
-                    strokeWidth="1"
-                />
-
-                {/* Inner decorative circle */}
-                 <circle
-                    cx="300"
-                    cy="300"
-                    r="220"
-                    fill="transparent"
-                    stroke="hsl(var(--border))"
-                    strokeWidth="1"
-                />
-                
-                {/* Dividing lines */}
-                <g stroke="hsl(var(--border))" strokeWidth="1">
-                    {[...Array(12)].map((_, i) => {
-                         const angle = i * (Math.PI / 6);
-                         return (<line
-                            key={`line-${i}`}
-                            x1={300 + 220 * Math.cos(angle)}
-                            y1={300 + 220 * Math.sin(angle)}
-                            x2={300 + 290 * Math.cos(angle)}
-                            y2={300 + 290 * Math.sin(angle)}
-                        />)
-                    })}
-                </g>
+            <svg viewBox="0 0 300 300" className="w-full h-full">
+                {/* Invisible circle for layout */}
+                <circle cx="150" cy="150" r="145" fill="transparent" />
 
                 {/* Symbols */}
-                <g fontFamily="sans-serif" fontSize="32" textAnchor="middle" dominantBaseline="central">
+                <g>
                     {positions.map(({ sign, symbol, x, y }) => {
                         const isSelected = selectedValue === sign;
                         return (
@@ -112,21 +79,30 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                                 key={sign}
                                 onClick={() => handleSignClick(sign)}
                                 className="cursor-pointer group"
+                                transform={`translate(${x}, ${y})`}
                             >
-                                <circle 
-                                    cx={x}
-                                    cy={y}
-                                    r="35" // Increased radius for easier clicking
-                                    fill="transparent"
-                                />
-                                <text
-                                    x={x}
-                                    y={y}
+                                <rect 
+                                    x="-20"
+                                    y="-20"
+                                    width="40"
+                                    height="40"
+                                    rx="8"
                                     className={cn(
                                         "transition-colors duration-300",
                                         isSelected
-                                            ? "fill-accent"
-                                            : "fill-primary group-hover:fill-accent"
+                                            ? "fill-primary"
+                                            : "fill-accent/70 group-hover:fill-accent"
+                                    )}
+                                />
+                                <text
+                                    x="0"
+                                    y="0"
+                                    textAnchor="middle"
+                                    dominantBaseline="central"
+                                    fontSize="24"
+                                    className={cn(
+                                        "font-sans transition-colors duration-300",
+                                         isSelected ? 'fill-background' : 'fill-foreground'
                                     )}
                                 >
                                     {symbol}
