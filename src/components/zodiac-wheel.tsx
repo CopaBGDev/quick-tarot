@@ -3,7 +3,7 @@
 import * as React from "react";
 import { SVGProps } from "react";
 import { cn } from "@/lib/utils";
-import { ZODIAC_SIGNS_EN, ZodiacSign } from "@/lib/zodiac";
+import { ZODIAC_SIGNS_SR, ZODIAC_SIGNS_EN, ZodiacSign } from "@/lib/zodiac";
 
 
 interface ZodiacWheelProps {
@@ -12,21 +12,6 @@ interface ZodiacWheelProps {
   selectedValue?: ZodiacSign;
   disabled?: boolean;
 }
-
-const ZODIAC_POSITIONS = [
-  { name: "Aries", nameSr: "Ovan", angle: -60, x: 300, y: 100 },
-  { name: "Taurus", nameSr: "Bik", angle: -30, x: 405, y: 155 },
-  { name: "Gemini", nameSr: "Blizanci", angle: 0, x: 445, y: 255 },
-  { name: "Cancer", nameSr: "Rak", angle: 30, x: 405, y: 355 },
-  { name: "Leo", nameSr: "Lav", angle: 60, x: 300, y: 410 },
-  { name: "Virgo", nameSr: "Devica", angle: 90, x: 195, y: 355 },
-  { name: "Libra", nameSr: "Vaga", angle: 120, x: 155, y: 255 },
-  { name: "Scorpio", nameSr: "Škorpija", angle: 150, x: 195, y: 155 },
-  { name: "Sagittarius", nameSr: "Strelac", angle: 180, x: 300, y: 100 }, // These are incorrect, need to be recalculated
-  { name: "Capricorn", nameSr: "Jarac", angle: 210, x: 405, y: 155 },
-  { name: "Aquarius", nameSr: "Vodolija", angle: 240, x: 445, y: 255 },
-  { name: "Pisces", nameSr: "Ribe", angle: 270, x: 405, y: 355 },
-];
 
 const ZODIAC_PATHS: Record<string, (props: SVGProps<SVGSVGElement>) => JSX.Element> = {
     Aries: (props) => (
@@ -147,7 +132,6 @@ export function ZodiacWheel({
               <Icon
                 width="60"
                 height="60"
-                strokeWidth="5"
                 className={cn(
                     "transition-all",
                     isSelected ? "stroke-primary" : "stroke-primary/50 group-hover:stroke-primary",
