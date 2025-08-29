@@ -4,79 +4,31 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { ZodiacSign } from "@/lib/zodiac";
-
-const ZODIAC_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
-const ZODIAC_ORDER_SR = [ "Ovan", "Bik", "Blizanci", "Rak", "Lav", "Devica", "Vaga", "Škorpija", "Strelac", "Jarac", "Vodolija", "Ribe" ];
+import { getTranslations } from "@/lib/translations";
 
 const ZODIAC_SYMBOLS: { [key: string]: string } = {
     "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍", "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓",
     "Ovan": "♈", "Bik": "♉", "Blizanci": "♊", "Rak": "♋", "Lav": "♌", "Devica": "♍", "Vaga": "♎", "Škorpija": "♏", "Strelac": "♐", "Jarac": "♑", "Vodolija": "♒", "Ribe": "♓",
 };
 
-// Fixed positions for 12 signs in a circle
-const positions = [
-    { x: 50, y: 150 },   // Pos 9 o'clock
-    { x: 85, y: 85 },
-    { x: 150, y: 50 },   // Pos 12 o'clock
-    { x: 215, y: 85 },
-    { x: 250, y: 150 },  // Pos 3 o'clock
-    { x: 215, y: 215 },
-    { x: 150, y: 250 },  // Pos 6 o'clock
-    { x: 85, y: 215 },
-    // Missing positions were here. Let's fix it by defining all 12 based on a circle.
-    // Recalculating all 12 positions for visual correctness.
-    // Center (150, 150), Radius ~100
-    // Angle starts at 180 deg (9 o'clock) and goes clockwise for positions, but signs are CCW.
-    { x: 150 + 100 * Math.cos(Math.PI), y: 150 + 100 * Math.sin(Math.PI) }, // 9 o'clock
-    { x: 150 + 100 * Math.cos(5 * Math.PI / 3), y: 150 + 100 * Math.sin(5 * Math.PI / 3) },
-    { x: 150 + 100 * Math.cos(11 * Math.PI / 6), y: 150 + 100 * Math.sin(11 * Math.PI / 6) },
-    { x: 150 + 100 * Math.cos(0), y: 150 + 100 * Math.sin(0) }, // 3 o'clock
-    { x: 150 + 100 * Math.cos(Math.PI / 6), y: 150 + 100 * Math.sin(Math.PI / 6) },
-    { x: 150 + 100 * Math.cos(Math.PI / 3), y: 150 + 100 * Math.sin(Math.PI / 3) },
-    { x: 150 + 100 * Math.cos(Math.PI / 2), y: 150 + 100 * Math.sin(Math.PI / 2) }, // 6 o'clock
-    { x: 150 + 100 * Math.cos(2 * Math.PI / 3), y: 150 + 100 * Math.sin(2 * Math.PI / 3) },
-    { x: 150 + 100 * Math.cos(5 * Math.PI / 6), y: 150 + 100 * Math.sin(5 * Math.PI / 6) },
-    { x: 150 + 100 * Math.cos(7 * Math.PI / 6), y: 150 + 100 * Math.sin(7 * Math.PI / 6) },
-    { x: 150 + 100 * Math.cos(4 * Math.PI / 3), y: 150 + 100 * Math.sin(4 * Math.PI / 3) },
-    { x: 150 + 100 * Math.cos(3 * Math.PI / 2), y: 150 + 100 * Math.sin(3 * Math.PI / 2) }, // 12 o'clock
-];
-
-const wheelLayoutPositions = [
-    { x: 50, y: 150 },   // Pos 9 (Aries)
-    { x: 85, y: 215 },  // Pos 8
-    { x: 150, y: 250 }, // Pos 7 (6 o'clock)
-    { x: 215, y: 215 }, // Pos 6
-    { x: 250, y: 150 },  // Pos 5 (3 o'clock)
-    { x: 215, y: 85 },  // Pos 4
-    { x: 150, y: 50 },   // Pos 3 (12 o'clock)
-    { x: 85, y: 85 },    // Pos 2
-    // Correctly adding all 12 positions
-    { x: 50, y: 150 },   // Aries (9 o'clock)
-    { x: 85, y: 85 },    // Pisces
-    { x: 150, y: 50 },   // Aquarius (12 o'clock)
-    { x: 215, y: 85 },   // Capricorn
-    { x: 250, y: 150 },  // Sagittarius (3 o'clock)
-    { x: 215, y: 215 },  // Scorpio
-    { x: 150, y: 250 },  // Libra (6 o'clock)
-    { x: 85, y: 215 },   // Virgo
-    { x: 50, y: 150 },   // Leo - THIS IS THE PROBLEM, positions repeat
-];
-
+// Center (170, 170), Radius 120 (increased by 20% from 100)
+// Angles for CCW layout starting Aries at 9 o'clock
 const FINAL_POSITIONS = [
-    { x: 50, y: 150 },   // 9 o'clock
-    { x: 67, y: 95 },
-    { x: 108, y: 58 },
-    { x: 150, y: 50 },   // 12 o'clock
-    { x: 192, y: 58 },
-    { x: 233, y: 95 },
-    { x: 250, y: 150 },  // 3 o'clock
-    { x: 233, y: 205 },
-    { x: 192, y: 242 },
-    { x: 150, y: 250 },  // 6 o'clock
-    { x: 108, y: 242 },
-    { x: 67, y: 205 },
+    { x: 50, y: 170 },   // Aries (9 o'clock, 180 deg)
+    { x: 80, y: 254 },   // Taurus (210 deg)
+    { x: 140, y: 290 },  // Gemini (240 deg)
+    { x: 170, y: 300 },  // Cancer (270 deg, 6 o'clock)
+    { x: 200, y: 290 },  // Leo (300 deg)
+    { x: 260, y: 254 },  // Virgo (330 deg)
+    { x: 290, y: 170 },  // Libra (0/360 deg, 3 o'clock)
+    { x: 260, y: 86 },   // Scorpio (30 deg)
+    { x: 200, y: 50 },   // Sagittarius (60 deg)
+    { x: 170, y: 40 },   // Capricorn (90 deg, 12 o'clock)
+    { x: 140, y: 50 },   // Aquarius (120 deg)
+    { x: 80, y: 86 },    // Pisces (150 deg)
 ];
 
+const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
 
 interface ZodiacWheelProps {
     signs: readonly ZodiacSign[];
@@ -92,31 +44,31 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
             onSelect(sign);
         }
     };
-
+    
+    // Determine the order based on the language of the provided signs
     const isSerbian = signs.includes("Ovan");
-    const naturalOrder = isSerbian ? ZODIAC_ORDER_SR : ZODIAC_ORDER_EN;
-    
-    // Rotate the natural order so Aries is at the start of our custom sequence
-    // Aries starts at Sagittarius's spot (9th sign) then CCW
-    const ariesIndex = naturalOrder.indexOf(isSerbian ? "Ovan" : "Aries");
-    
-    const displayOrder = [];
-    for (let i = 0; i < 12; i++) {
-        // Start from Aries and go backwards (CCW)
-        displayOrder.push(naturalOrder[(ariesIndex - i + 12) % 12]);
-    }
+    const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
+
+    // This is the visual order on the wheel, starting with Aries at 9 o'clock and going CCW
+    const displayOrder = [
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
+        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ];
 
     return (
         <div
             className={cn(
-                "relative mx-auto w-[300px] h-[300px]",
+                "relative mx-auto w-[340px] h-[340px]",
                 disabled && "opacity-50 cursor-not-allowed"
             )}
         >
             <div className="w-full h-full relative">
                 {FINAL_POSITIONS.map((pos, index) => {
-                    const sign = displayOrder[index];
-                    const symbol = ZODIAC_SYMBOLS[sign];
+                    const englishSignName = displayOrder[index];
+                    const naturalIndex = NATURAL_ORDER_EN.indexOf(englishSignName);
+                    const sign = naturalOrder[naturalIndex];
+
+                    const symbol = ZODIAC_SYMBOLS[englishSignName];
                     const isSelected = selectedValue === sign;
                     return (
                         <div
