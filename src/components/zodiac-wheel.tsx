@@ -37,10 +37,10 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         const isSerbian = signs.includes("Ovan");
         const originalSignNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
-        // Rotate the array to start with Capricorn's position for Aries
+        // Rotate the array to start with Virgo's position for Aries
         const ariesIndex = originalSignNames.indexOf(isSerbian ? "Ovan" : "Aries");
-        // The 10th position in a 12-item array is index 9 (for Capricorn)
-        const rotation = 9 - ariesIndex; 
+        // The 6th position in a 12-item array is index 5 (for Virgo)
+        const rotation = 5 - ariesIndex; 
         const rotatedSignNames = [...originalSignNames];
         
         for (let i = 0; i < rotation; i++) {
