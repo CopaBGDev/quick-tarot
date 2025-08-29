@@ -5,6 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { ZODIAC_SIGNS_EN, ZODIAC_SIGNS_SR, type ZodiacSign } from "@/lib/zodiac";
 
+
 interface ZodiacWheelProps {
     signs: readonly ZodiacSign[];
     onSelect: (sign: ZodiacSign) => void;
@@ -14,9 +15,21 @@ interface ZodiacWheelProps {
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
     const [isClient, setIsClient] = React.useState(false);
+    const [lines, setLines] = React.useState<{x1: number, y1: number, x2: number, y2: number, transform: string}[]>([]);
 
     React.useEffect(() => {
         setIsClient(true);
+        const newLines = [...Array(12)].map((_, i) => {
+            const angle = i * (Math.PI / 6);
+            return {
+                x1: 300,
+                y1: 300,
+                x2: 300 + 290 * Math.cos(angle),
+                y2: 300 + 290 * Math.sin(angle),
+                transform: `rotate(15, 300, 300)`
+            };
+        });
+        setLines(newLines);
     }, []);
 
     const handleSignClick = (sign: ZodiacSign) => {
@@ -31,6 +44,21 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
 
     const isSerbian = signs.includes("Ovan");
     const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
+
+    const staticSigns = [
+        { name: "Ovan", name_en: "Aries", symbol: '♈', x: 300, y: 55 },
+        { name: "Bik", name_en: "Taurus", symbol: '♉', x: 420, y: 95 },
+        { name: "Blizanci", name_en: "Gemini", symbol: '♊', x: 505, y: 190 },
+        { name: "Rak", name_en: "Cancer", symbol: '♋', x: 545, y: 310 },
+        { name: "Lav", name_en: "Leo", symbol: '♌', x: 505, y: 430 },
+        { name: "Devica", name_en: "Virgo", symbol: '♍', x: 420, y: 520 },
+        { name: "Vaga", name_en: "Libra", symbol: '♎', x: 300, y: 555 },
+        { name: "Škorpija", name_en: "Scorpio", symbol: '♏', x: 180, y: 520 },
+        { name: "Strelac", name_en: "Sagittarius", symbol: '♐', x: 95, y: 430 },
+        { name: "Jarac", name_en: "Capricorn", symbol: '♑', x: 55, y: 310 },
+        { name: "Vodolija", name_en: "Aquarius", symbol: '♒', x: 95, y: 190 },
+        { name: "Ribe", name_en: "Pisces", symbol: '♓', x: 180, y: 95 },
+    ];
 
     return (
         <div
@@ -54,49 +82,36 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                 <circle cx="300" cy="300" r="100" fill="transparent" stroke="hsl(var(--primary))" strokeWidth="1.5" />
                 
                 <g stroke="hsl(var(--border))" strokeWidth="1">
-                    {[...Array(12)].map((_, i) => (
+                    {lines.map((line, i) => (
                         <line
                             key={`line-${i}`}
-                            x1="300"
-                            y1="300"
-                            x2={300 + 290 * Math.cos(i * (Math.PI / 6))}
-                            y2={300 + 290 * Math.sin(i * (Math.PI / 6))}
-                            transform={`rotate(15, 300, 300)`}
+                            x1={line.x1}
+                            y1={line.y1}
+                            x2={line.x2}
+                            y2={line.y2}
+                            transform={line.transform}
                         />
                     ))}
                 </g>
 
-                <g fontFamily="Lora, serif" fontSize="18" textAnchor="middle">
-                    {[
-                        { sign: 'Aries', symbol: '♈', x: 300, y: 55, name_sr: 'Ovan' },
-                        { sign: 'Taurus', symbol: '♉', x: 420, y: 95, name_sr: 'Bik' },
-                        { sign: 'Gemini', symbol: '♊', x: 505, y: 190, name_sr: 'Blizanci' },
-                        { sign: 'Cancer', symbol: '♋', x: 545, y: 310, name_sr: 'Rak' },
-                        { sign: 'Leo', symbol: '♌', x: 505, y: 430, name_sr: 'Lav' },
-                        { sign: 'Virgo', symbol: '♍', x: 420, y: 520, name_sr: 'Devica' },
-                        { sign: 'Libra', symbol: '♎', x: 300, y: 555, name_sr: 'Vaga' },
-                        { sign: 'Scorpio', symbol: '♏', x: 180, y: 520, name_sr: 'Škorpija' },
-                        { sign: 'Sagittarius', symbol: '♐', x: 95, y: 430, name_sr: 'Strelac' },
-                        { sign: 'Capricorn', symbol: '♑', x: 55, y: 310, name_sr: 'Jarac' },
-                        { sign: 'Aquarius', symbol: '♒', x: 95, y: 190, name_sr: 'Vodolija' },
-                        { sign: 'Pisces', symbol: '♓', x: 180, y: 95, name_sr: 'Ribe' },
-                    ].map(({ sign, symbol, x, y, name_sr }) => {
-                        const currentSign = isSerbian ? name_sr : sign;
+                <g fontFamily="Lora, serif" fontSize="22" textAnchor="middle">
+                    {staticSigns.map(({ name, name_en, symbol, x, y }) => {
+                        const currentSign = isSerbian ? name : name_en;
                         const isSelected = selectedValue === currentSign;
-
                         return (
-                        <text
-                            key={sign}
-                            x={x}
-                            y={y}
-                            className={cn(
-                                "cursor-pointer transition-all duration-300",
-                                isSelected ? "fill-accent" : "fill-primary group-hover:fill-accent"
-                            )}
-                            onClick={() => handleSignClick(currentSign)}
+                            <text
+                                key={name}
+                                x={x}
+                                y={y}
+                                onClick={() => handleSignClick(currentSign as ZodiacSign)}
+                                className={cn(
+                                    "cursor-pointer transition-all duration-300",
+                                    isSelected ? "fill-accent" : "fill-primary",
+                                    !disabled && "hover:fill-accent"
+                                )}
                             >
-                            {symbol} {sign}
-                        </text>
+                                {symbol}
+                            </text>
                         );
                     })}
                 </g>
