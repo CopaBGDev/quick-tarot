@@ -38,7 +38,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
         const newPositions = signNames.map((sign, i) => {
-            const angle = (i / 12) * 2 * Math.PI - Math.PI / 2 - Math.PI / 6;
+            const angle = (i / 12) * 2 * Math.PI - Math.PI / 2;
             return {
                 sign: sign,
                 symbol: ZODIAC_SYMBOLS[sign as keyof typeof ZODIAC_SYMBOLS],
