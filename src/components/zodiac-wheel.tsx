@@ -2,100 +2,98 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import type { ZodiacSign } from "@/lib/zodiac";
-import { ZODIAC_SIGNS_EN, ZODIAC_SIGNS_SR } from "@/lib/zodiac";
+import { ZODIAC_SIGNS_EN, ZODIAC_SIGNS_SR, type ZodiacSign } from "@/lib/zodiac";
 
 const ZODIAC_DATA = [
-  { eng: "Aries", sr: "Ovan", path: "M25 75V50C25 25 75 25 75 50V75 M25 50C25 35 10 35 10 50 M75 50C75 35 90 35 90 50" },
-  { eng: "Taurus", sr: "Bik", path: "M50 25C25 25 25 50 50 75S75 50 75 25 M50 50A25 25 0 0 0 50 50Z" },
-  { eng: "Gemini", sr: "Blizanci", path: "M25 25V75 M75 25V75 M15 35H85 M15 65H85" },
-  { eng: "Cancer", sr: "Rak", path: "M25 35C5 35 5 75 25 75 M75 65C95 65 95 25 75 25" },
-  { eng: "Leo", sr: "Lav", path: "M25 75V25C25 10 50 10 50 25V75 M50 25C65 25 65 10 50 10" },
-  { eng: "Virgo", sr: "Devica", path: "M15 75V25C15 10 30 10 30 25V75 M42.5 75V25C42.5 10 57.5 10 57.5 25V75 M70 75V25C70 10 85 10 85 25V50C85 65 70 65 70 50" },
-  { eng: "Libra", sr: "Vaga", path: "M15 75H85 M25 50h50 M15 50C15 35 35 35 35 50 M65 50C65 35 85 35 85 50" },
-  { eng: "Scorpio", sr: "Škorpija", path: "M15 75V25C15 10 30 10 30 25V75 M42.5 75V25C42.5 10 57.5 10 57.5 25V75 M70 25H85L95 15" },
-  { eng: "Sagittarius", sr: "Strelac", path: "M20 80L80 20 M50 20H80V50 M40 60L60 40" },
-  { eng: "Capricorn", sr: "Jarac", path: "M20 75V40C20 25 40 25 40 40V75 M60 40C60 25 80 25 80 40C80 55 60 55 60 40" },
-  { eng: "Aquarius", sr: "Vodolija", path: "M20 40L40 20L60 40L80 20 M20 70L40 50L60 70L80 50" },
-  { eng: "Pisces", sr: "Ribe", path: "M20 20C45 20 45 80 20 80 M80 20C55 20 55 80 80 80 M20 50H80" },
+    { name: "Ovan", eng: "Aries", path: <path d="M 35,65 C 35,40 65,40 65,65 M 50,47.5 V 25 M 35,25 Q 50,35 65,25" /> },
+    { name: "Bik", eng: "Taurus", path: <path d="M 50,65 C 35,65 30,50 35,40 M 50,65 C 65,65 70,50 65,40 M 50,35 a 15,15 0 1 0 0,30 a 15,15 0 1 0 0,-30" /> },
+    { name: "Blizanci", eng: "Gemini", path: <path d="M 35,25 V 75 M 65,25 V 75 M 30,35 H 70 M 30,65 H 70" /> },
+    { name: "Rak", eng: "Cancer", path: <path d="M 30,40 C 15,40 15,60 30,60 M 70,60 C 85,60 85,40 70,40" /> },
+    { name: "Lav", eng: "Leo", path: <path d="M 50,75 V 35 A 15,15 0 0 1 35,20 M 50,75 C 60,75 70,65 70,55 A 10,10 0 0 0 60,45" /> },
+    { name: "Devica", eng: "Virgo", path: <path d="M 25,75 V 25 M 40,75 V 25 M 55,75 V 25 L 75,45 C 80,50 70,60 65,55 L 55,50" /> },
+    { name: "Vaga", eng: "Libra", path: <path d="M 20,70 H 80 M 20,55 H 80 C 80,45 65,45 65,55 M 35,55 C 35,45 20,45 20,55" /> },
+    { name: "Škorpija", eng: "Scorpio", path: <path d="M 25,75 V 25 M 40,75 V 25 M 55,75 V 25 L 75,40 L 65,50" /> },
+    { name: "Strelac", eng: "Sagittarius", path: <path d="M 25,75 L 75,25 M 50,25 H 75 V 50 M 45,55 L 55,45" /> },
+    { name: "Jarac", eng: "Capricorn", path: <path d="M 25,75 V 45 C 25,30 40,30 40,45 V 60 C 60,60 75,45 60,30 C 45,15 45,45 60,45" /> },
+    { name: "Vodolija", eng: "Aquarius", path: <path d="M 25,45 l 10,-10 l 10,10 l 10,-10 l 10,10 M 25,65 l 10,-10 l 10,10 l 10,-10 l 10,10" /> },
+    { name: "Ribe", eng: "Pisces", path: <path d="M 25,25 C 50,25 50,75 25,75 M 75,25 C 50,25 50,75 75,75 M 20,50 H 80" /> },
 ];
 
 interface ZodiacWheelProps {
-  signs: readonly ZodiacSign[];
-  onSelect: (sign: ZodiacSign) => void;
-  selectedValue?: ZodiacSign;
-  disabled?: boolean;
+    signs: readonly ZodiacSign[];
+    onSelect: (sign: ZodiacSign) => void;
+    selectedValue?: ZodiacSign;
+    disabled?: boolean;
 }
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
-  const isSerbian = signs[0] === "Ovan";
-  const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
+    const isSerbian = signs[0] === "Ovan";
+    const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
-  return (
-    <div
-      className={cn(
-        "relative mx-auto w-full max-w-[400px] sm:max-w-[450px] aspect-square",
-        disabled && "opacity-50 cursor-not-allowed"
-      )}
-    >
-      <svg viewBox="0 0 600 600" className="w-full h-full">
-        {/* Sun */}
-        <defs>
-          <radialGradient id="sun-gradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
-            <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
-            <stop offset="70%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0.8 }} />
-            <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 0 }} />
-          </radialGradient>
-        </defs>
-        <circle cx="300" cy="300" r="30" fill="url(#sun-gradient)" />
-        <circle cx="300" cy="300" r="30" fill="transparent" stroke="hsl(var(--primary))" strokeWidth="1" />
-        
-        {/* Spokes */}
-        <g stroke="hsl(var(--border))" strokeWidth="0.5">
-          {[...Array(12)].map((_, i) => (
-            <line
-              key={i}
-              x1="300"
-              y1="300"
-              x2={300 + 260 * Math.cos((i * 30 - 75) * Math.PI / 180)}
-              y2={300 + 260 * Math.sin((i * 30 - 75) * Math.PI / 180)}
-            />
-          ))}
-        </g>
+    return (
+        <div
+            className={cn(
+                "relative mx-auto w-full max-w-[400px] sm:max-w-[450px] aspect-square",
+                disabled && "opacity-50 cursor-not-allowed"
+            )}
+        >
+            <svg viewBox="0 0 600 600" className="w-full h-full">
+                <defs>
+                    <radialGradient id="sun-glow" cx="50%" cy="50%" r="50%">
+                        <stop offset="50%" stopColor="hsl(var(--primary))" stopOpacity="0.3" />
+                        <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity="0" />
+                    </radialGradient>
+                </defs>
 
-        {/* Outer circle */}
-        <circle cx="300" cy="300" r="260" fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
-        {/* Inner circle */}
-        <circle cx="300" cy="300" r="200" fill="none" stroke="hsl(var(--border))" strokeWidth="1" />
+                {/* Rings */}
+                <circle cx="300" cy="300" r="280" fill="transparent" stroke="hsl(var(--border))" strokeWidth="1" />
+                <circle cx="300" cy="300" r="220" fill="transparent" stroke="hsl(var(--border))" strokeWidth="1" />
+                <circle cx="300" cy="300" r="100" fill="url(#sun-glow)" />
+                <circle cx="300" cy="300" r="100" fill="transparent" stroke="hsl(var(--primary))" strokeWidth="1.5" />
+                <circle cx="300" cy="300" r="50" fill="hsl(var(--primary))" />
 
-        {/* Zodiac Signs */}
-        <g>
-          {ZODIAC_DATA.map((sign, index) => {
-            const angle = -index * 30 + 75; 
-            const isSelected = selectedValue === (isSerbian ? sign.sr : sign.eng);
-            
-            return (
-              <g
-                key={sign.eng}
-                transform={`rotate(${angle} 300 300)`}
-                className={cn("cursor-pointer group", disabled && "cursor-not-allowed")}
-                onClick={() => !disabled && onSelect(isSerbian ? sign.sr : sign.eng)}
-              >
-                <path
-                  d={sign.path}
-                  stroke={isSelected ? "hsl(var(--primary))" : "hsl(var(--foreground))"}
-                  strokeWidth="6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                  transform="translate(265, 10) scale(0.7)"
-                  className="transition-all duration-200 group-hover:stroke-primary"
-                />
-              </g>
-            );
-          })}
-        </g>
-      </svg>
-    </div>
-  );
+
+                {/* Lines */}
+                <g stroke="hsl(var(--border))" strokeWidth="1">
+                    {[...Array(12)].map((_, i) => (
+                        <line
+                            key={`line-${i}`}
+                            x1="300"
+                            y1="300"
+                            x2={300 + 280 * Math.cos(i * (Math.PI / 6))}
+                            y2={300 + 280 * Math.sin(i * (Math.PI / 6))}
+                            transform={`rotate(15, 300, 300)`}
+                        />
+                    ))}
+                </g>
+
+                {/* Zodiac Signs */}
+                <g>
+                    {ZODIAC_DATA.map((sign, index) => {
+                        const angle = (index / 12) * 360 - 90 + 15;
+                        const isSelected = selectedValue === (isSerbian ? sign.name : sign.eng);
+                        const currentSignName = isSerbian ? sign.name : sign.eng;
+
+                        return (
+                            <g
+                                key={currentSignName}
+                                className={cn("cursor-pointer group", disabled && "cursor-not-allowed")}
+                                onClick={() => !disabled && onSelect(currentSignName)}
+                                transform={`rotate(${angle} 300 300) translate(250 0) rotate(${-angle} 300 300) translate(-300 -300)`}
+                            >
+                                <g transform="translate(140, 265) scale(1)">
+                                    {React.cloneElement(sign.path, {
+                                        stroke: isSelected ? "hsl(var(--accent))" : "hsl(var(--primary))",
+                                        strokeWidth: isSelected ? 6 : 4,
+                                        className: "transition-all duration-300 group-hover:stroke-accent group-hover:stroke-[6]",
+                                        fill: "none"
+                                    })}
+                                </g>
+                            </g>
+                        );
+                    })}
+                </g>
+            </svg>
+        </div>
+    );
 }
