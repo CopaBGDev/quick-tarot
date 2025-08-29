@@ -45,7 +45,7 @@
     --card-foreground: 210 40% 98%;
     --popover: 222 84% 5%;
     --popover-foreground: 210 40% 98%;
-    --primary: 45 100% 51%; /* Gold */
+    --primary: 44 98% 50%; /* Gold - #fcbc03 */
     --primary-foreground: 222 84% 5%;
     --secondary: 217 33% 17%;
     --secondary-foreground: 210 40% 98%;
@@ -57,7 +57,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217 33% 25%;
     --input: 217 33% 25%;
-    --ring: 45 100% 51%;
+    --ring: 44 98% 50%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
