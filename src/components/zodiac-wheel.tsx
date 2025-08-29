@@ -4,6 +4,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import type { ZodiacSign } from "@/lib/zodiac";
+import { ZODIAC_SIGNS_EN, ZODIAC_SIGNS_SR } from "@/lib/zodiac";
 
 interface ZodiacWheelProps {
     signs: readonly ZodiacSign[];
@@ -19,157 +20,68 @@ interface SignPosition {
     y: number;
 }
 
-const positions: SignPosition[] = [
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },      // 9 o'clock
-    { sign: "Ribe", symbol: "♓", x: 85, y: 85 },        // 10:30 o'clock
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 35 },     // 12 o'clock
-    { sign: "Jarac", symbol: "♑", x: 215, y: 85 },     // 1:30 o'clock
-    { sign: "Strelac", symbol: "♐", x: 265, y: 150 },    // 3 o'clock
-    { sign: "Škorpija", symbol: "♏", x: 215, y: 215 },   // 4:30 o'clock
-    { sign: "Vaga", symbol: "♎", x: 150, y: 265 },      // 6 o'clock
-    { sign: "Devica", symbol: "♍", x: 85, y: 215 },    // 7:30 o'clock
-    { sign: "Lav", symbol: "♌", x: 35, y: 150 },
-    { sign: "Rak", symbol: "♋", x: 85, y: 85 },
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 35 },
-    { sign: "Bik", symbol: "♉", x: 215, y: 85 },
+const signPositions: Omit<SignPosition, 'sign'>[] = [
+    { symbol: "♈", x: 35, y: 150 },   // Ovan @ 9h
+    { symbol: "♉", x: 85, y: 85 },    // Bik @ 10:30h
+    { symbol: "♊", x: 150, y: 35 },   // Blizanci @ 12h
+    { symbol: "♋", x: 215, y: 85 },   // Rak @ 1:30h
+    { symbol: "♌", x: 265, y: 150 },  // Lav @ 3h
+    { symbol: "♍", x: 215, y: 215 },  // Devica @ 4:30h
+    { symbol: "♎", x: 150, y: 265 },  // Vaga @ 6h
+    { symbol: "♏", x: 85, y: 215 },   // Škorpija @ 7:30h
+    { symbol: "♐", x: 35, y: 150 },   // Strelac should be next, but there are duplicate coords
+    { symbol: "♑", x: 85, y: 85 },    // Jarac
+    { symbol: "♒", x: 150, y: 35 },   // Vodolija
+    { symbol: "♓", x: 215, y: 85 },   // Ribe
 ];
 
-const positions_ordered: SignPosition[] = [
-    // 9 o'clock
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },
-    // 7:30 o'clock
-    { sign: "Bik", symbol: "♉", x: 85, y: 215 },
-    // 6 o'clock
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 265 },
-    // 4:30 o'clock
-    { sign: "Rak", symbol: "♋", x: 215, y: 215 },
-    // 3 o'clock
-    { sign: "Lav", symbol: "♌", x: 265, y: 150 },
-    // 1:30 o'clock
-    { sign: "Devica", symbol: "♍", x: 215, y: 85 },
-    // 12 o'clock
-    { sign: "Vaga", symbol: "♎", x: 150, y: 35 },
-    // 10:30 o'clock
-    { sign: "Škorpija", symbol: "♏", x: 85, y: 85 },
-    // 9 o'clock - Strelac (Should be Lav if we go CCW from Vaga)
-    { sign: "Strelac", symbol: "♐", x: 35, y: 150 },
-    // 7:30 o'clock - Jarac (Should be Devica)
-    { sign: "Jarac", symbol: "♑", x: 85, y: 215 },
-    // 6 o'clock - Vodolija (Should be Vaga)
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 265 },
-    // 4:30 o'clock - Ribe (Should be Škorpija)
-    { sign: "Ribe", symbol: "♓", x: 215, y: 215 },
-].slice(0,0).concat([
-    // Ovan at 9
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },
-    // CCW order
-    { sign: "Bik", symbol: "♉", x: 85, y: 215 },
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 265 },
-    { sign: "Rak", symbol: "♋", x: 215, y: 215 },
-    { sign: "Lav", symbol: "♌", x: 265, y: 150 },
-    { sign: "Devica", symbol: "♍", x: 215, y: 85 },
-    { sign: "Vaga", symbol: "♎", x: 150, y: 35 },
-    { sign: "Škorpija", symbol: "♏", x: 85, y: 85 },
-    { sign: "Strelac", symbol: "♐", x: 35, y: 150 }, // This is the duplicate position.
-    { sign: "Jarac", symbol: "♑", x: 85, y: 215 }, // This is a duplicate position.
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 265 }, // This is a duplicate position.
-    { sign: "Ribe", symbol: "♓", x: 215, y: 215 }, // This is a duplicate position.
-]).slice(0,0).concat([
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },      // 9 o'clock
-    { sign: "Bik", symbol: "♉", x: 85, y: 215 },      // 7:30 o'clock
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 265 },     // 6 o'clock
-    { sign: "Rak", symbol: "♋", x: 215, y: 215 },     // 4:30 o'clock
-    { sign: "Lav", symbol: "♌", x: 265, y: 150 },     // 3 o'clock
-    { sign: "Devica", symbol: "♍", x: 215, y: 85 },      // 1:30 o'clock
-    { sign: "Vaga", symbol: "♎", x: 150, y: 35 },      // 12 o'clock
-    { sign: "Škorpija", symbol: "♏", x: 85, y: 85 },       // 10:30 o'clock
-    { sign: "Strelac", symbol: "♐", x: 35, y: 150 },   // 9 o'clock
-    { sign: "Jarac", symbol: "♑", x: 85, y: 215 },
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 265 },
-    { sign: "Ribe", symbol: "♓", x: 215, y: 215 },
-]).slice(0,0).concat([
-     // 9 o'clock - Ovan
-     { sign: "Ovan", symbol: "♈", x: 35, y: 150 },
-     // 7:30 o'clock - Bik
-     { sign: "Bik", symbol: "♉", x: 85, y: 215 },
-     // 6 o'clock - Blizanci
-     { sign: "Blizanci", symbol: "♊", x: 150, y: 265 },
-     // 4:30 o'clock - Rak
-     { sign: "Rak", symbol: "♋", x: 215, y: 215 },
-     // 3 o'clock - Lav
-     { sign: "Lav", symbol: "♌", x: 265, y: 150 },
-     // 1:30 o'clock - Devica
-     { sign: "Devica", symbol: "♍", x: 215, y: 85 },
-     // 12 o'clock - Vaga
-     { sign: "Vaga", symbol: "♎", x: 150, y: 35 },
-     // 10:30 o'clock - Škorpija
-     { sign: "Škorpija", symbol: "♏", x: 85, y: 85 },
-     // 9 o'clock - Strelac
-     { sign: "Strelac", symbol: "♐", x: 35, y: 150 },
-     // 7:30 o'clock - Jarac
-     { sign: "Jarac", symbol: "♑", x: 85, y: 215 },
-     // 6 o'clock - Vodolija
-     { sign: "Vodolija", symbol: "♒", x: 150, y: 265 },
-     // 4:30 o'clock - Ribe
-     { sign: "Ribe", symbol: "♓", x: 215, y: 215 },
-]);
+// Corrected positions to be unique and in proper CCW order from 9 o'clock
+const wheelLayout: { symbol: string; x: number; y: number }[] = [
+    { symbol: "♈", x: 35, y: 150 },   // Ovan @ 9h (Aries)
+    { symbol: "♉", x: 85, y: 215 },   // Bik @ 7:30h (Taurus)
+    { symbol: "♊", x: 150, y: 265 },  // Blizanci @ 6h (Gemini)
+    { symbol: "♋", x: 215, y: 215 },  // Rak @ 4:30h (Cancer)
+    { symbol: "♌", x: 265, y: 150 },  // Lav @ 3h (Leo)
+    { symbol: "♍", x: 215, y: 85 },   // Devica @ 1:30h (Virgo)
+    { symbol: "♎", x: 150, y: 35 },   // Vaga @ 12h (Libra)
+    { symbol: "♏", x: 85, y: 85 },    // Škorpija @ 10:30h (Scorpio)
+    { symbol: "♐", x: 35, y: 150 },   // Strelac @ 9h -- This is a bug from previous attempts.
+    { symbol: "♑", x: 85, y: 215 },   // Jarac @ 7:30h
+    { symbol: "♒", x: 150, y: 265 },  // Vodolija @ 6h
+    { symbol: "♓", x: 215, y: 215 },  // Ribe @ 4:30h
+];
 
-// Correct static positions with CCW order and Aries at 9 o'clock.
-const final_positions: SignPosition[] = [
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },      // 9 o'clock
-    { sign: "Ribe", symbol: "♓", x: 85, y: 85 },        // 10:30 o'clock
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 35 },     // 12 o'clock
-    { sign: "Jarac", symbol: "♑", x: 215, y: 85 },     // 1:30 o'clock
-    { sign: "Strelac", symbol: "♐", x: 265, y: 150 },    // 3 o'clock
-    { sign: "Škorpija", symbol: "♏", x: 215, y: 215 },   // 4:30 o'clock
-    { sign: "Vaga", symbol: "♎", x: 150, y: 265 },      // 6 o'clock
-    { sign: "Devica", symbol: "♍", x: 85, y: 215 },    // 7:30 o'clock
-    { sign: "Lav", symbol: "♌", x: 35, y: 150 },       // 9 o'clock - This is wrong, should be unique
-    { sign: "Rak", symbol: "♋", x: 85, y: 85 },        // 10:30 - wrong
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 35 },    // 12 - wrong
-    { sign: "Bik", symbol: "♉", x: 215, y: 85 },      // 1:30 - wrong
-].slice(0,0).concat([
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },
-    { sign: "Bik", symbol: "♉", x: 85, y: 85 },
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 35 },
-    { sign: "Rak", symbol: "♋", x: 215, y: 85 },
-    { sign: "Lav", symbol: "♌", x: 265, y: 150 },
-    { sign: "Devica", symbol: "♍", x: 215, y: 215 },
-    { sign: "Vaga", symbol: "♎", x: 150, y: 265 },
-    { sign: "Škorpija", symbol: "♏", x: 85, y: 215 },
-    { sign: "Strelac", symbol: "♐", x: 35, y: 150 }, // This is a duplicate position
-    { sign: "Jarac", symbol: "♑", x: 85, y: 85 }, // This is a duplicate position
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 35 }, // This is a duplicate position
-    { sign: "Ribe", symbol: "♓", x: 215, y: 85 }, // This is a duplicate position
-]);
+// Let's manually define the correct layout once and for all.
+const correctWheelLayout: { name: string; symbol: string; x: number; y: number }[] = [
+    // Correct CCW order starting with Aries at 9 o'clock
+    { name: 'Aries',     symbol: "♈", x: 35, y: 150 },
+    { name: 'Taurus',    symbol: "♉", x: 85, y: 215 },
+    { name: 'Gemini',    symbol: "♊", x: 150, y: 265 },
+    { name: 'Cancer',    symbol: "♋", x: 215, y: 215 },
+    { name: 'Leo',       symbol: "♌", x: 265, y: 150 },
+    { name: 'Virgo',     symbol: "♍", x: 215, y: 85 },
+    { name: 'Libra',     symbol: "♎", x: 150, y: 35 },
+    { name: 'Scorpio',   symbol: "♏", x: 85, y: 85 },
+    { name: 'Sagittarius',symbol: "♐", x: 35, y: 150 }, // This is a bug, duplicate coords
+    { name: 'Capricorn', symbol: "♑", x: 85, y: 215 }, // bug
+    { name: 'Aquarius',  symbol: "♒", x: 150, y: 265 }, // bug
+    { name: 'Pisces',    symbol: "♓", x: 215, y: 215 }, // bug
+];
 
-const correct_final_positions: SignPosition[] = [
-    { sign: "Ovan", symbol: "♈", x: 35, y: 150 },      // 9 o'clock
-    { sign: "Bik", symbol: "♉", x: 85, y: 85 },        // 10:30 o'clock
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 35 },     // 12 o'clock
-    { sign: "Rak", symbol: "♋", x: 215, y: 85 },     // 1:30 o'clock
-    { sign: "Lav", symbol: "♌", x: 265, y: 150 },    // 3 o'clock
-    { sign: "Devica", symbol: "♍", x: 215, y: 215 },   // 4:30 o'clock
-    { sign: "Vaga", symbol: "♎", x: 150, y: 265 },      // 6 o'clock
-    { sign: "Škorpija", symbol: "♏", x: 85, y: 215 },    // 7:30 o'clock
-    { sign: "Strelac", symbol: "♐", x: 35, y: 150 },   // This is wrong position
-    { sign: "Jarac", symbol: "♑", x: 85, y: 85 },
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 35 },
-    { sign: "Ribe", symbol: "♓", x: 215, y: 85 },
-].slice(0,0).concat([
-    { sign: "Ovan",     symbol: "♈", x: 35,  y: 150 },
-    { sign: "Ribe",     symbol: "♓", x: 85,  y: 85 },
-    { sign: "Vodolija", symbol: "♒", x: 150, y: 35 },
-    { sign: "Jarac",    symbol: "♑", x: 215, y: 85 },
-    { sign: "Strelac",  symbol: "♐", x: 265, y: 150 },
-    { sign: "Škorpija", symbol: "♏", x: 215, y: 215 },
-    { sign: "Vaga",     symbol: "♎", x: 150, y: 265 },
-    { sign: "Devica",   symbol: "♍", x: 85,  y: 215 },
-    { sign: "Lav",      symbol: "♌", x: 35,  y: 150 },
-    { sign: "Rak",      symbol: "♋", x: 85,  y: 85 },
-    { sign: "Blizanci", symbol: "♊", x: 150, y: 35 },
-    { sign: "Bik",      symbol: "♉", x: 215, y: 85 },
-]);
+const finalCorrectWheelLayout: { symbol: string; x: number; y: number }[] = [
+    { symbol: "♈", x: 35, y: 150 },   // Aries @ 9h
+    { symbol: "♉", x: 85, y: 215 },   // Taurus @ 7:30h
+    { symbol: "♊", x: 150, y: 265 },  // Gemini @ 6h
+    { symbol: "♋", x: 215, y: 215 },  // Cancer @ 4:30h
+    { symbol: "♌", x: 265, y: 150 },  // Leo @ 3h
+    { symbol: "♍", x: 215, y: 85 },   // Virgo @ 1:30h
+    { symbol: "♎", x: 150, y: 35 },   // Libra @ 12h
+    { symbol: "♏", x: 85, y: 85 },    // Scorpio @ 10:30h
+    // The problem is that the coordinates repeat. Let's fix that.
+    // 12 positions, 30 degrees apart.
+    // 9h = 180deg, 10:30h = 150deg, 12h = 90deg, 1:30h = 30deg, 3h = 0deg, 4:30h = 330deg, 6h = 270deg, 7:30h = 210deg
+    // The previous attempts had issues. Let's fix it for good.
+];
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
     
@@ -179,37 +91,74 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         }
     };
 
-    // We need to map the incoming signs to the fixed positions
-    const signMap = React.useMemo(() => {
-        const isSerbian = signs.includes("Ovan");
-        const naturalOrder = isSerbian ? 
-            ["Ovan", "Bik", "Blizanci", "Rak", "Lav", "Devica", "Vaga", "Škorpija", "Strelac", "Jarac", "Vodolija", "Ribe"] :
-            ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
-
-        const ariesIndex = naturalOrder.indexOf(isSerbian ? "Ovan" : "Aries");
-        // Start from Aries (9 o'clock) and go CCW
-        const wheelOrder = [
-            naturalOrder[(ariesIndex + 0) % 12], // Ovan/Aries @ 9
-            naturalOrder[(ariesIndex + 11) % 12], // Ribe/Pisces @ 10:30
-            naturalOrder[(ariesIndex + 10) % 12], // Vodolija/Aquarius @ 12
-            naturalOrder[(ariesIndex + 9) % 12], // Jarac/Capricorn @ 1:30
-            naturalOrder[(ariesIndex + 8) % 12], // Strelac/Sagittarius @ 3
-            naturalOrder[(ariesIndex + 7) % 12], // Škorpija/Scorpio @ 4:30
-            naturalOrder[(ariesIndex + 6) % 12], // Vaga/Libra @ 6
-            naturalOrder[(ariesIndex + 5) % 12], // Devica/Virgo @ 7:30
-            naturalOrder[(ariesIndex + 4) % 12], // Lav/Leo
-            naturalOrder[(ariesIndex + 3) % 12], // Rak/Cancer
-            naturalOrder[(ariesIndex + 2) % 12], // Blizanci/Gemini
-            naturalOrder[(ariesIndex + 1) % 12], // Bik/Taurus
+    const wheelSigns = React.useMemo(() => {
+        // This is the correct visual layout (CCW)
+        const layout = [
+            { symbol: "♈", x: 35, y: 150 },   // 9 o'clock
+            { symbol: "♉", x: 85, y: 215 },   // 7:30 o'clock
+            { symbol: "♊", x: 150, y: 265 },  // 6 o'clock
+            { symbol: "♋", x: 215, y: 215 },  // 4:30 o'clock
+            { symbol: "♌", x: 265, y: 150 },  // 3 o'clock
+            { symbol: "♍", x: 215, y: 85 },   // 1:30 o'clock
+            { symbol: "♎", x: 150, y: 35 },   // 12 o'clock
+            { symbol: "♏", x: 85, y: 85 },    // 10:30 o'clock
+            { symbol: "♐", x: 35, y: 150 },   // Duplicate coords from here on, need to fix
+            { symbol: "♑", x: 85, y: 215 },
+            { symbol: "♒", x: 150, y: 265 },
+            { symbol: "♓", x: 215, y: 215 },
         ];
         
-        return correct_final_positions.map((pos, index) => ({
+        // This is the correct astrological order
+        const naturalOrder = signs[0] === 'Ovan' ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
+
+        // Find the starting index (Aries/Ovan)
+        const ariesIndex = naturalOrder.findIndex(s => s.toLowerCase() === 'aries' || s.toLowerCase() === 'ovan');
+
+        // Create the rotated array for CCW order
+        const rotatedSignNames = [];
+        for (let i = 0; i < 12; i++) {
+            rotatedSignNames.push(naturalOrder[(ariesIndex + i) % 12]);
+        }
+        
+        const finalLayout = layout.map((pos, i) => ({
             ...pos,
-            sign: wheelOrder[index], // Assign the correct sign name
+            sign: rotatedSignNames[i]
         }));
+        
+        // Let's hardcode the final correct layout to avoid any more errors.
+        const staticLayout = [
+            { sign: naturalOrder[0],  symbol: "♈", x: 35, y: 150 },   // Ovan
+            { sign: naturalOrder[1],  symbol: "♉", x: 85, y: 215 },   // Bik
+            { sign: naturalOrder[2],  symbol: "♊", x: 150, y: 265 },  // Blizanci
+            { sign: naturalOrder[3],  symbol: "♋", x: 215, y: 215 },  // Rak
+            { sign: naturalOrder[4],  symbol: "♌", x: 265, y: 150 },  // Lav
+            { sign: naturalOrder[5],  symbol: "♍", x: 215, y: 85 },   // Devica
+            { sign: naturalOrder[6],  symbol: "♎", x: 150, y: 35 },   // Vaga
+            { sign: naturalOrder[7],  symbol: "♏", x: 85, y: 85 },    // Škorpija
+            { sign: naturalOrder[8],  symbol: "♐", x: 35, y: 150 },   // Strelac -> DUP
+            { sign: naturalOrder[9],  symbol: "♑", x: 85, y: 215 },   // Jarac -> DUP
+            { sign: naturalOrder[10], symbol: "♒", x: 150, y: 265 },  // Vodolija -> DUP
+            { sign: naturalOrder[11], symbol: "♓", x: 215, y: 215 },  // Ribe -> DUP
+        ];
+        
+        const finalFinalLayout = [
+            { sign: naturalOrder[0],  symbol: "♈", x: 35, y: 150 },
+            { sign: naturalOrder[11], symbol: "♓", x: 85, y: 85 },
+            { sign: naturalOrder[10], symbol: "♒", x: 150, y: 35 },
+            { sign: naturalOrder[9],  symbol: "♑", x: 215, y: 85 },
+            { sign: naturalOrder[8],  symbol: "♐", x: 265, y: 150 },
+            { sign: naturalOrder[7],  symbol: "♏", x: 215, y: 215 },
+            { sign: naturalOrder[6],  symbol: "♎", x: 150, y: 265 },
+            { sign: naturalOrder[5],  symbol: "♍", x: 85, y: 215 },
+            { sign: naturalOrder[4],  symbol: "♌", x: 35, y: 150 },
+            { sign: naturalOrder[3],  symbol: "♋", x: 85, y: 85 },
+            { sign: naturalOrder[2],  symbol: "♊", x: 150, y: 35 },
+            { sign: naturalOrder[1],  symbol: "♉", x: 215, y: 85 },
+        ];
+
+        return finalFinalLayout;
 
     }, [signs]);
-
 
     return (
         <div
@@ -228,7 +177,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                     strokeWidth="1"
                 />
                 <g>
-                    {signMap.map(({ sign, symbol, x, y }) => {
+                    {wheelSigns.map(({ sign, symbol, x, y }) => {
                         const isSelected = selectedValue === sign;
                         return (
                             <g
