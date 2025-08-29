@@ -37,11 +37,15 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         const isSerbian = signs.includes("Ovan");
         const originalSignNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
-        // The user wants Aries (Ovan) to be at Sagittarius's (Strelac) position (9 o'clock).
+        // Start from Aries and go counter-clockwise.
+        // The wheel drawing logic goes clockwise starting from the top (12 o'clock).
+        // To make it counter-clockwise, we reverse the array.
+        // To start Aries at 9 o'clock, we need to find the offset.
+        // 12 o'clock is index 0. 3 o'clock is index 3. 6 o'clock is index 6. 9 o'clock is index 9.
         const ariesIndex = originalSignNames.indexOf(isSerbian ? "Ovan" : "Aries");
-        const sagittariusIndex = originalSignNames.indexOf(isSerbian ? "Strelac" : "Sagittarius");
+        const startingIndex = 9; // 9 o'clock position
         
-        const rotation = sagittariusIndex - ariesIndex; 
+        const rotation = startingIndex - ariesIndex;
         const rotatedSignNames = [...originalSignNames];
         
         if (rotation > 0) {
