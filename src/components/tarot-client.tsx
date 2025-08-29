@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ZODIAC_SIGNS_SR, type ZodiacSign, ZODIAC_SIGNS_EN } from "@/lib/zodiac";
-import { MagicIcon } from "./magic-icon";
+import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
@@ -166,8 +166,7 @@ export default function TarotClient() {
     }, 100);
 
     try {
-      const { voice, ...readingData } = data;
-      const result = await getTarotReading({ ...readingData, language });
+      const result = await getTarotReading({ ...data, language });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
@@ -218,7 +217,7 @@ export default function TarotClient() {
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       {audioDataUri && <audio ref={audioRef} src={audioDataUri} />}
       <header className="text-center">
-        <MagicIcon className="mx-auto h-16 w-16 text-primary" />
+        <Logo className="mx-auto h-24 w-24 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
           {translations.header.title}
         </h1>
