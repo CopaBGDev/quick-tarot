@@ -47,7 +47,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
             rotatedSignNames.unshift(rotatedSignNames.pop()!);
         }
         
-        const newPositions = rotatedSignNames.map((sign, i) => {
+        const newPositions = rotatedSignNames.reverse().map((sign, i) => {
             // Start from the top (-PI/2) and go counter-clockwise
             const angle = (i / 12) * 2 * Math.PI - Math.PI / 2;
             return {
