@@ -26,24 +26,41 @@ interface SignPosition {
     y: number;
 }
 
+// Static positions to prevent hydration errors
+const getPositions = (signNames: readonly ZodiacSign[]): SignPosition[] => {
+    const radius = 120;
+    const centerX = 150;
+    const centerY = 150;
+    const angleOffset = -Math.PI / 2; // Start from the top
+    
+    // Strelac (Sagittarius) is at the 9 o'clock position.
+    // Natural position of Sagittarius is 9th (index 8).
+    // We want Aries (index 0) to be at that position.
+    // So we need to shift by 8 positions.
+    const rotationOffset = (8 / 12) * 2 * Math.PI;
+
+    return signNames.map((sign, i) => {
+        const angle = angleOffset + (i / 12) * 2 * Math.PI + rotationOffset;
+        return {
+            sign: sign,
+            symbol: ZODIAC_SYMBOLS[sign as keyof typeof ZODIAC_SYMBOLS],
+            x: Math.round(centerX + radius * Math.cos(angle)),
+            y: Math.round(centerY + radius * Math.sin(angle)),
+        };
+    });
+};
+
+
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
     const isSerbian = signs.includes("Ovan");
     const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
-    const positions: SignPosition[] = React.useMemo(() => {
-        const radius = 130;
-        const centerX = 150;
-        const centerY = 150;
-        
-        return signNames.map((sign, i) => {
-            const angle = (i / 12) * 2 * Math.PI - Math.PI / 2;
-            return {
-                sign: sign,
-                symbol: ZODIAC_SYMBOLS[sign as keyof typeof ZODIAC_SYMBOLS],
-                x: centerX + radius * Math.cos(angle),
-                y: centerY + radius * Math.sin(angle),
-            };
-        });
+    // Use a state that is populated on the client side to avoid hydration mismatch
+    const [positions, setPositions] = React.useState<SignPosition[]>([]);
+
+    React.useEffect(() => {
+        const staticPositions = getPositions(signNames);
+        setPositions(staticPositions);
     }, [signNames]);
 
     const handleSignClick = (sign: ZodiacSign) => {
@@ -95,8 +112,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                                     dominantBaseline="central"
                                     fontSize="24"
                                     className={cn(
-                                        "font-sans transition-colors duration-300",
-                                         isSelected ? 'fill-background' : 'fill-foreground'
+                                        "font-sans transition-colors duration-300 pointer-events-none",
+                                         isSelected ? 'fill-primary-foreground' : 'fill-accent-foreground'
                                     )}
                                 >
                                     {symbol}
