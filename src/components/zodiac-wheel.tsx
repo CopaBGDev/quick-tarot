@@ -12,7 +12,7 @@ interface ZodiacWheelProps {
     disabled?: boolean;
 }
 
-const ZODIAC_SYMBOLS: { [key in ZodiacSign]: string } = {
+const ZODIAC_SYMBOLS: { [key in (typeof ZODIAC_SIGNS_EN)[number] | (typeof ZODIAC_SIGNS_SR)[number]]: string } = {
     Aries: "♈", Taurus: "♉", Gemini: "♊", Cancer: "♋", Leo: "♌", Virgo: "♍",
     Libra: "♎", Scorpio: "♏", Sagittarius: "♐", Capricorn: "♑", Aquarius: "♒", Pisces: "♓",
     Ovan: "♈", Bik: "♉", Blizanci: "♊", Rak: "♋", Lav: "♌", Devica: "♍",
@@ -27,38 +27,15 @@ interface SignPosition {
 }
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
-    const [positions, setPositions] = React.useState<SignPosition[]>([]);
+    const isSerbian = signs.includes("Ovan");
+    const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
-    React.useEffect(() => {
+    const positions: SignPosition[] = React.useMemo(() => {
         const radius = 130;
         const centerX = 150;
         const centerY = 150;
         
-        const isSerbian = signs.includes("Ovan");
-        const originalSignNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
-
-        // Start from Aries and go counter-clockwise.
-        // The wheel drawing logic goes clockwise starting from the top (12 o'clock).
-        // To make it counter-clockwise, we reverse the array.
-        // To start Aries at 9 o'clock, we need to find the offset.
-        // 12 o'clock is index 0. 3 o'clock is index 3. 6 o'clock is index 6. 9 o'clock is index 9.
-        const ariesIndex = originalSignNames.indexOf(isSerbian ? "Ovan" : "Aries");
-        const startingIndex = 9; // 9 o'clock position
-        
-        const rotation = startingIndex - ariesIndex;
-        const rotatedSignNames = [...originalSignNames];
-        
-        if (rotation > 0) {
-            for (let i = 0; i < rotation; i++) {
-                rotatedSignNames.unshift(rotatedSignNames.pop()!);
-            }
-        } else {
-            for (let i = 0; i > rotation; i--) {
-                rotatedSignNames.push(rotatedSignNames.shift()!);
-            }
-        }
-        
-        const newPositions = rotatedSignNames.reverse().map((sign, i) => {
+        return signNames.map((sign, i) => {
             const angle = (i / 12) * 2 * Math.PI - Math.PI / 2;
             return {
                 sign: sign,
@@ -67,8 +44,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                 y: centerY + radius * Math.sin(angle),
             };
         });
-        setPositions(newPositions);
-    }, [signs]);
+    }, [signNames]);
 
     const handleSignClick = (sign: ZodiacSign) => {
         if (!disabled) {
@@ -88,10 +64,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
             )}
         >
             <svg viewBox="0 0 300 300" className="w-full h-full">
-                {/* Invisible circle for layout */}
                 <circle cx="150" cy="150" r="145" fill="transparent" />
-
-                {/* Symbols */}
                 <g>
                     {positions.map(({ sign, symbol, x, y }) => {
                         const isSelected = selectedValue === sign;
