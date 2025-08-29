@@ -13,21 +13,6 @@ interface ZodiacWheelProps {
     disabled?: boolean;
 }
 
-const ZODIAC_POSITIONS = [
-    { name: "Aries", x: 300, y: 55 },
-    { name: "Taurus", x: 420, y: 95 },
-    { name: "Gemini", x: 505, y: 190 },
-    { name: "Cancer", x: 545, y: 310 },
-    { name: "Leo", x: 505, y: 430 },
-    { name: "Virgo", x: 420, y: 520 },
-    { name: "Libra", x: 300, y: 555 },
-    { name: "Scorpio", x: 180, y: 520 },
-    { name: "Sagittarius", x: 95, y: 430 },
-    { name: "Capricorn", x: 55, y: 310 },
-    { name: "Aquarius", x: 95, y: 190 },
-    { name: "Pisces", x: 180, y: 95 },
-];
-
 const ZODIAC_SYMBOLS = {
     Aries: "♈", Taurus: "♉", Gemini: "♊", Cancer: "♋", Leo: "♌", Virgo: "♍",
     Libra: "♎", Scorpio: "♏", Sagittarius: "♐", Capricorn: "♑", Aquarius: "♒", Pisces: "♓",
@@ -35,13 +20,36 @@ const ZODIAC_SYMBOLS = {
     Vaga: "♎", Škorpija: "♏", Strelac: "♐", Jarac: "♑", Vodolija: "♒", Ribe: "♓",
 } as const;
 
+interface SignPosition {
+    sign: ZodiacSign;
+    symbol: string;
+    x: number;
+    y: number;
+}
+
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
-    const [isClient, setIsClient] = React.useState(false);
+    const [positions, setPositions] = React.useState<SignPosition[]>([]);
 
     React.useEffect(() => {
-        setIsClient(true);
-    }, []);
+        const radius = 255;
+        const centerX = 300;
+        const centerY = 300;
+        
+        const isSerbian = signs[0] === 'Ovan';
+        const signNames = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
+
+        const newPositions = signNames.map((sign, i) => {
+            const angle = (i / 12) * 2 * Math.PI - Math.PI / 2 - Math.PI / 6;
+            return {
+                sign: sign,
+                symbol: ZODIAC_SYMBOLS[sign as keyof typeof ZODIAC_SYMBOLS],
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle),
+            };
+        });
+        setPositions(newPositions);
+    }, [signs]);
 
     const handleSignClick = (sign: ZodiacSign) => {
         if (!disabled) {
@@ -49,12 +57,9 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         }
     };
     
-    if (!isClient) {
+    if (positions.length === 0) {
         return <div className="relative mx-auto w-full max-w-[400px] sm:max-w-[450px] aspect-square flex items-center justify-center text-muted-foreground">Učitavanje...</div>;
     }
-
-    const isSerbian = signs[0] === "Ovan";
-    const signMap = isSerbian ? ZODIAC_SIGNS_SR : ZODIAC_SIGNS_EN;
 
     return (
         <div
@@ -100,24 +105,23 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
 
                 {/* Symbols */}
                 <g fontFamily="sans-serif" fontSize="32" textAnchor="middle" dominantBaseline="central">
-                    {ZODIAC_POSITIONS.map((pos, i) => {
-                        const currentSign = signMap[i];
-                        const isSelected = selectedValue === currentSign;
+                    {positions.map(({ sign, symbol, x, y }) => {
+                        const isSelected = selectedValue === sign;
                         return (
                             <g
-                                key={pos.name}
-                                onClick={() => handleSignClick(currentSign)}
+                                key={sign}
+                                onClick={() => handleSignClick(sign)}
                                 className="cursor-pointer group"
                             >
                                 <circle 
-                                    cx={pos.x}
-                                    cy={pos.y}
-                                    r="30"
+                                    cx={x}
+                                    cy={y}
+                                    r="35" // Increased radius for easier clicking
                                     fill="transparent"
                                 />
                                 <text
-                                    x={pos.x}
-                                    y={pos.y}
+                                    x={x}
+                                    y={y}
                                     className={cn(
                                         "transition-colors duration-300",
                                         isSelected
@@ -125,7 +129,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                                             : "fill-primary group-hover:fill-accent"
                                     )}
                                 >
-                                    {ZODIAC_SYMBOLS[currentSign as keyof typeof ZODIAC_SYMBOLS]}
+                                    {symbol}
                                 </text>
                             </g>
                         );
