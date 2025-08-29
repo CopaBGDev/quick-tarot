@@ -191,14 +191,18 @@ export default function TarotClient() {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{translations.form.question.label}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder={translations.form.question.placeholder}
-                        {...field}
-                        disabled={disabled}
-                        onKeyDown={handleTextareaKeyDown}
-                      />
-                    </FormControl>
+                    <div className="relative">
+                      <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <FormControl>
+                        <Textarea
+                          placeholder={translations.form.question.placeholder}
+                          {...field}
+                          disabled={disabled}
+                          onKeyDown={handleTextareaKeyDown}
+                          className="pl-10"
+                        />
+                      </FormControl>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}
