@@ -4,11 +4,6 @@ import {
   generateTarotReading,
   type GenerateTarotReadingInput,
 } from "@/ai/flows/generate-tarot-reading";
-import { 
-  generateTarotReadingAudio, 
-  type GenerateTarotReadingAudioInput 
-} from "@/ai/flows/generate-tarot-reading-audio";
-import { VoiceEnum } from "@/ai/flows/types";
 import { z } from "zod";
 
 const ReadingActionSchema = z.object({
@@ -34,28 +29,6 @@ export async function getTarotReading(input: GenerateTarotReadingInput) {
     // Return a user-friendly error message
     throw new Error(
       "Došlo je do greške prilikom generisanja čitanja. Molimo pokušajte ponovo."
-    );
-  }
-}
-
-const AudioActionSchema = z.object({
-  text: z.string(),
-  voice: VoiceEnum,
-});
-
-export async function getTarotAudio(input: GenerateTarotReadingAudioInput) {
-  const validation = AudioActionSchema.safeParse(input);
-  if (!validation.success) {
-    throw new Error(validation.error.errors[0].message);
-  }
-
-  try {
-    const result = await generateTarotReadingAudio(validation.data);
-    return result;
-  } catch (error) {
-    console.error("Audio generation failed in action:", error);
-    throw new Error(
-      "Došlo je do greške prilikom generisanja zvuka. Molimo pokušajte ponovo."
     );
   }
 }

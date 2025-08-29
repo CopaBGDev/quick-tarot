@@ -17,17 +17,10 @@ export interface Translations {
       minLengthError: string;
       maxLengthError: string;
     };
-    voice: {
-      label: string;
-      male: string;
-      female: string;
-    };
   };
   button: {
     default: string;
     loading: string;
-    play: string;
-    pause: string;
   };
   results: {
     title: string;
@@ -44,7 +37,7 @@ export interface Translations {
 
 const sr: Translations = {
   header: {
-    title: "Tarot Sudbina",
+    title: "Quick Tarot",
     subtitle: "Otkrijte šta vam zvezde i karte poručuju. Unesite svoj znak i pitanje da dobijete vaše personalizovano tarot čitanje.",
   },
   form: {
@@ -59,17 +52,10 @@ const sr: Translations = {
       minLengthError: "Pitanje mora imati najmanje 10 karaktera.",
       maxLengthError: "Pitanje ne može biti duže od 200 karaktera.",
     },
-    voice: {
-      label: "Izaberite glas",
-      male: "Muški glas",
-      female: "Ženski glas",
-    },
   },
   button: {
-    default: "Dobij Čitanje",
+    default: "Šta kažu karte?",
     loading: "Generišem...",
-    play: "Pusti",
-    pause: "Pauziraj",
   },
   results: {
     title: "Vaše Karte Sudbine",
@@ -77,7 +63,7 @@ const sr: Translations = {
     loadingText: "Karte se mešaju, vaša sudbina se otkriva...",
   },
   footer: {
-    copyright: "© {year} Tarot Sudbina. Sva prava zadržana.",
+    copyright: "© {year} Quick Tarot. Sva prava zadržana.",
   },
   zodiacSigns: ZODIAC_SIGNS_SR,
   errorTitle: "Greška",
@@ -86,7 +72,7 @@ const sr: Translations = {
 
 const en: Translations = {
   header: {
-    title: "Tarot Fate",
+    title: "Quick Tarot",
     subtitle: "Discover what the stars and cards have in store for you. Enter your sign and question to get your personalized tarot reading.",
   },
   form: {
@@ -101,17 +87,10 @@ const en: Translations = {
       minLengthError: "Question must be at least 10 characters.",
       maxLengthError: "Question cannot be longer than 200 characters.",
     },
-    voice: {
-      label: "Choose a voice",
-      male: "Male voice",
-      female: "Female voice",
-    },
   },
   button: {
-    default: "Get Reading",
+    default: "What do the cards say?",
     loading: "Generating...",
-    play: "Play",
-    pause: "Pause",
   },
   results: {
     title: "Your Cards of Fate",
@@ -119,7 +98,7 @@ const en: Translations = {
     loadingText: "The cards are being shuffled, your fate is being revealed...",
   },
   footer: {
-    copyright: "© {year} Tarot Fate. All rights reserved.",
+    copyright: "© {year} Quick Tarot. All rights reserved.",
   },
   zodiacSigns: ZODIAC_SIGNS_EN,
   errorTitle: "Error",

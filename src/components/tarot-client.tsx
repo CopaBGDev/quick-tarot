@@ -1,12 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Wand2, Loader2, Play, Pause } from "lucide-react";
+import { Sparkles, Wand2, Loader2 } from "lucide-react";
 
-import { getTarotReading, getTarotAudio } from "@/app/actions";
+import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,13 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -32,8 +25,7 @@ import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
-import { VoiceEnum, type Voice } from "@/ai/flows/types";
-import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { ZodiacWheel } from "./zodiac-wheel";
 
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
@@ -43,22 +35,17 @@ const FormSchema = z.object({
     .string()
     .min(10, { message: "Question must be at least 10 characters long." })
     .max(200, { message: "Question cannot be longer than 200 characters." }),
-  voice: VoiceEnum,
 });
 
 type FormValues = z.infer<typeof FormSchema>;
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
-  const [isAudioLoading, setIsAudioLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [typedReading, setTypedReading] = React.useState("");
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  const audioRef = React.useRef<HTMLAudioElement | null>(null);
-  const [audioDataUri, setAudioDataUri] = React.useState<string | null>(null);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -66,7 +53,6 @@ export default function TarotClient() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       question: "",
-      voice: "Algenib",
     },
   });
   
@@ -85,7 +71,6 @@ export default function TarotClient() {
         .string()
         .min(10, { message: newTranslations.form.question.minLengthError })
         .max(200, { message: newTranslations.form.question.maxLengthError }),
-      voice: VoiceEnum,
     });
 
     form.reset(undefined, { keepValues: true });
@@ -109,57 +94,10 @@ export default function TarotClient() {
     return () => clearInterval(typingInterval);
   }, [reading]);
 
-  React.useEffect(() => {
-    if (audioRef.current) {
-        audioRef.current.onended = () => setIsPlaying(false);
-    }
-  }, [audioDataUri]);
-
-  const handlePlayPause = async () => {
-    if (isPlaying) {
-      audioRef.current?.pause();
-      setIsPlaying(false);
-      return;
-    }
-
-    if (audioDataUri) {
-      audioRef.current?.play();
-      setIsPlaying(true);
-      return;
-    }
-
-    if (!reading) return;
-
-    setIsAudioLoading(true);
-    try {
-      const voice = form.getValues('voice');
-      const result = await getTarotAudio({ text: reading.tarotReading, voice });
-      if (result.audioDataUri) {
-        setAudioDataUri(result.audioDataUri);
-        // We need to use a timeout to allow the state to update and the src to be set on the audio element
-        setTimeout(() => {
-            audioRef.current?.play();
-            setIsPlaying(true);
-        }, 0)
-      }
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : translations.unknownError;
-      toast({
-        title: translations.errorTitle,
-        description: errorMessage,
-        variant: "destructive",
-      });
-    } finally {
-      setIsAudioLoading(false);
-    }
-  };
-
   const onSubmit = async (data: FormValues) => {
     setIsFormLoading(true);
     setReading(null);
     setTypedReading("");
-    setAudioDataUri(null);
-    setIsPlaying(false);
     
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -190,7 +128,7 @@ export default function TarotClient() {
     }
   };
 
-  const disabled = isFormLoading || isAudioLoading;
+  const disabled = isFormLoading;
 
   if (!translations) {
     return (
@@ -215,7 +153,6 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      {audioDataUri && <audio ref={audioRef} src={audioDataUri} />}
       <header className="text-center">
         <Logo className="mx-auto h-24 w-24 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-primary via-accent to-primary">
@@ -230,27 +167,21 @@ export default function TarotClient() {
         <CardContent className="p-6 sm:p-8">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
+              <Controller
                 control={form.control}
                 name="zodiacSign"
-                render={({ field }) => (
+                render={({ field, fieldState }) => (
                   <FormItem>
                     <FormLabel>{translations.form.zodiac.label}</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value} disabled={disabled}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder={translations.form.zodiac.placeholder} />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {zodiacSigns.map((sign) => (
-                          <SelectItem key={sign} value={sign}>
-                            {sign}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
+                    <FormControl>
+                        <ZodiacWheel
+                            signs={zodiacSigns}
+                            onSelect={field.onChange}
+                            selectedValue={field.value}
+                            disabled={disabled}
+                        />
+                    </FormControl>
+                    <FormMessage>{fieldState.error?.message}</FormMessage>
                   </FormItem>
                 )}
               />
@@ -267,41 +198,6 @@ export default function TarotClient() {
                         disabled={disabled}
                         onKeyDown={handleTextareaKeyDown}
                       />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-               <FormField
-                control={form.control}
-                name="voice"
-                render={({ field }) => (
-                  <FormItem className="space-y-3">
-                    <FormLabel>{translations.form.voice.label}</FormLabel>
-                    <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col space-y-1"
-                        disabled={disabled}
-                      >
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Algenib" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {translations.form.voice.male}
-                          </FormLabel>
-                        </FormItem>
-                        <FormItem className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value="Achernar" />
-                          </FormControl>
-                          <FormLabel className="font-normal">
-                            {translations.form.voice.female}
-                          </FormLabel>
-                        </FormItem>
-                      </RadioGroup>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -344,20 +240,8 @@ export default function TarotClient() {
 
             {reading && (
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
-                <CardHeader className="flex-row items-center justify-between">
+                <CardHeader>
                   <CardTitle>{translations.results.readingTitle}</CardTitle>
-                   {reading.tarotReading && (
-                    <Button variant="outline" size="icon" onClick={handlePlayPause} disabled={isAudioLoading}>
-                        {isAudioLoading ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : isPlaying ? (
-                            <Pause className="h-4 w-4" />
-                        ) : (
-                            <Play className="h-4 w-4" />
-                        )}
-                      <span className="sr-only">{isPlaying ? translations.button.pause : translations.button.play}</span>
-                    </Button>
-                  )}
                 </CardHeader>
                 <CardContent className="p-6 text-left">
                   <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">

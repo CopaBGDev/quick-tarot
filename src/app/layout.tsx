@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Tarot Sudbina',
+  title: 'Quick Tarot',
   description: 'Dobijte vaše personalizovano tarot čitanje.',
 };
 

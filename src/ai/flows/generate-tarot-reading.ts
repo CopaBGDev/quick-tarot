@@ -10,7 +10,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 import { generateTarotCardImage } from './generate-tarot-card-image';
 
 const GenerateTarotReadingInputSchema = z.object({
