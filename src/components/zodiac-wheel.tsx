@@ -11,23 +11,6 @@ const ZODIAC_SYMBOLS: { [key: string]: string } = {
     "Ovan": "♈", "Bik": "♉", "Blizanci": "♊", "Rak": "♋", "Lav": "♌", "Devica": "♍", "Vaga": "♎", "Škorpija": "♏", "Strelac": "♐", "Jarac": "♑", "Vodolija": "♒", "Ribe": "♓",
 };
 
-// Center (170, 170), Radius 120 (increased by 20% from 100)
-// Angles for CCW layout starting Aries at 9 o'clock
-const FINAL_POSITIONS = [
-    { x: 50, y: 170 },   // Aries (9 o'clock, 180 deg)
-    { x: 80, y: 254 },   // Taurus (210 deg)
-    { x: 140, y: 290 },  // Gemini (240 deg)
-    { x: 170, y: 300 },  // Cancer (270 deg, 6 o'clock)
-    { x: 200, y: 290 },  // Leo (300 deg)
-    { x: 260, y: 254 },  // Virgo (330 deg)
-    { x: 290, y: 170 },  // Libra (0/360 deg, 3 o'clock)
-    { x: 260, y: 86 },   // Scorpio (30 deg)
-    { x: 200, y: 50 },   // Sagittarius (60 deg)
-    { x: 170, y: 40 },   // Capricorn (90 deg, 12 o'clock)
-    { x: 140, y: 50 },   // Aquarius (120 deg)
-    { x: 80, y: 86 },    // Pisces (150 deg)
-];
-
 const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
 
 interface ZodiacWheelProps {
@@ -37,7 +20,32 @@ interface ZodiacWheelProps {
     disabled?: boolean;
 }
 
+interface Position {
+    x: number;
+    y: number;
+}
+
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
+    const [positions, setPositions] = React.useState<Position[]>([]);
+
+    React.useEffect(() => {
+        const newPositions: Position[] = [];
+        const radius = 120;
+        const center = 170;
+        const numSigns = 12;
+        // Start angle for Aries (9 o'clock)
+        const startAngle = Math.PI; 
+
+        for (let i = 0; i < numSigns; i++) {
+            // Angle goes counter-clockwise
+            const angle = startAngle - (i * 2 * Math.PI) / numSigns;
+            const x = center + radius * Math.cos(angle);
+            const y = center + radius * Math.sin(angle);
+            newPositions.push({ x, y });
+        }
+        setPositions(newPositions);
+    }, []);
+
 
     const handleSignClick = (sign: ZodiacSign) => {
         if (!disabled) {
@@ -45,15 +53,12 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         }
     };
     
-    // Determine the order based on the language of the provided signs
     const isSerbian = signs.includes("Ovan");
     const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
 
-    // This is the visual order on the wheel, starting with Aries at 9 o'clock and going CCW
-    const displayOrder = [
-        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
-        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
-    ];
+    if (positions.length === 0) {
+        return <div className="mx-auto w-[340px] h-[340px]" />;
+    }
 
     return (
         <div
@@ -63,10 +68,12 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
             )}
         >
             <div className="w-full h-full relative">
-                {FINAL_POSITIONS.map((pos, index) => {
-                    const englishSignName = displayOrder[index];
-                    const naturalIndex = NATURAL_ORDER_EN.indexOf(englishSignName);
+                {positions.map((pos, index) => {
+                    // This maps the visual order (starting with Aries at 9 o'clock CCW) 
+                    // to the natural zodiac order to get the correct sign name.
+                    const naturalIndex = index;
                     const sign = naturalOrder[naturalIndex];
+                    const englishSignName = NATURAL_ORDER_EN[naturalIndex];
 
                     const symbol = ZODIAC_SYMBOLS[englishSignName];
                     const isSelected = selectedValue === sign;
