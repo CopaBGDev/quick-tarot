@@ -154,7 +154,7 @@ export default function TarotClient() {
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       <header className="text-center">
-        <Logo className="mx-auto h-24 w-24 text-primary" />
+        <Logo className="mx-auto h-32 w-32 text-primary" />
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
           {translations.header.title}
         </h1>
