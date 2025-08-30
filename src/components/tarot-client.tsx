@@ -158,7 +158,7 @@ export default function TarotClient() {
         <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
           {translations.header.title}
         </h1>
-        <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+        <p className="mt-3 max-w-2xl text-center text-base text-muted-foreground sm:text-lg">
           {translations.header.subtitle}
         </p>
       </header>
