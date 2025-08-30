@@ -189,7 +189,7 @@ export default function TarotClient() {
               name="question"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>{translations.form.question.label}</FormLabel>
+                  <FormLabel className="text-center">{translations.form.question.label}</FormLabel>
                   <div className="relative">
                     <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                     <FormControl>
@@ -198,7 +198,7 @@ export default function TarotClient() {
                         {...field}
                         disabled={disabled}
                         onKeyDown={handleTextareaKeyDown}
-                        className="pl-10 bg-input border-border"
+                        className="pl-10 bg-input border-border text-center"
                       />
                     </FormControl>
                   </div>
