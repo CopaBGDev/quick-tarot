@@ -108,7 +108,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                         >
                             <div
                                 className={cn(
-                                    "w-10 h-10 rounded-lg flex items-center justify-center transition-colors duration-300",
+                                    "w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300",
                                     isSelected
                                         ? "bg-primary"
                                         : "bg-accent/70 group-hover:bg-accent"
