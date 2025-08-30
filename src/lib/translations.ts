@@ -42,7 +42,7 @@ const sr: Translations = {
   },
   form: {
     zodiac: {
-      label: "Vaš horoskopski znak",
+      label: "Vaš Znak",
       placeholder: "Izaberite znak...",
       error: "Morate izabrati validan horoskopski znak.",
     },
@@ -77,7 +77,7 @@ const en: Translations = {
   },
   form: {
     zodiac: {
-      label: "Your zodiac sign",
+      label: "Your Sign",
       placeholder: "Select a sign...",
       error: "You must select a valid zodiac sign.",
     },

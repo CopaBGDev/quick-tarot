@@ -18,6 +18,7 @@ interface ZodiacWheelProps {
     onSelect: (sign: ZodiacSign) => void;
     selectedValue?: ZodiacSign;
     disabled?: boolean;
+    label: string;
 }
 
 interface Position {
@@ -25,7 +26,7 @@ interface Position {
     y: number;
 }
 
-export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
+export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<Position[]>([]);
 
     React.useEffect(() => {
@@ -55,6 +56,9 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
     
     const isSerbian = signs.includes("Ovan");
     const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
+    
+    const selectedEnglishSign = NATURAL_ORDER_EN[naturalOrder.indexOf(selectedValue as any)];
+    const selectedSymbol = ZODIAC_SYMBOLS[selectedEnglishSign];
 
     if (positions.length === 0) {
         return <div className="mx-auto w-[340px] h-[340px]" />;
@@ -68,9 +72,23 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
             )}
         >
             <div className="w-full h-full relative">
+                {/* Center circle */}
+                <div 
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
+                >
+                    {selectedValue ? (
+                        <span className="font-sans text-7xl text-primary animate-in fade-in zoom-in-50">
+                            {selectedSymbol}
+                        </span>
+                    ) : (
+                        <span className="text-muted-foreground font-headline text-xl animate-in fade-in">
+                            {label}
+                        </span>
+                    )}
+                </div>
+
+                {/* Zodiac signs */}
                 {positions.map((pos, index) => {
-                    // This maps the visual order (starting with Aries at 9 o'clock CCW) 
-                    // to the natural zodiac order to get the correct sign name.
                     const naturalIndex = index;
                     const sign = naturalOrder[naturalIndex];
                     const englishSignName = NATURAL_ORDER_EN[naturalIndex];
