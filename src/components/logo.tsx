@@ -9,65 +9,38 @@ export function Logo(props: SVGProps<SVGSVGElement>) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="0.5"
+      strokeWidth="1"
       strokeLinecap="round"
       strokeLinejoin="round"
       {...props}
     >
-      <g transform="translate(-2, -2)">
-        {/* Stars */}
-        <path d="M10.83 5.58 10 3.25l-.83 2.33-2.34.83 2.34.83.83 2.33.83-2.33 2.34-.83z" />
-        <path d="M21.17 12.58 22 10.25l-.83 2.33-2.34.83 2.34.83.83 2.33.83-2.33 2.34-.83z" />
-        <path d="M5.17 12.58 6 10.25l-.83 2.33-2.34.83 2.34.83.83 2.33.83-2.33 2.34-.83z" />
-        <path d="M16.83 21.58 16 19.25l-.83 2.33-2.34.83 2.34.83.83 2.33.83-2.33 2.34-.83z" />
+      {/* Stars */}
+      <path d="M4 6.5L5 7.5L4 8.5L3 7.5Z" />
+      <path d="M20 6.5L21 7.5L20 8.5L19 7.5Z" />
+      <path d="M4 17.5L5 18.5L4 19.5L3 18.5Z" />
+      <path d="M20 17.5L21 18.5L20 19.5L19 18.5Z" />
 
-        {/* Sun */}
-        <circle cx="13" cy="7" r="1.5" />
-        <path d="M13 4v-1.5" />
-        <path d="M13 10v-1.5" />
-        <path d="m15.5 4.5-1-1" />
-        <path d="m10.5 9.5-1-1" />
-        <path d="M16 7h1.5" />
-        <path d="M8.5 7H10" />
-        <path d="m15.5 9.5 1-1" />
-        <path d="m10.5 4.5 1-1" />
-        
-        {/* Cards and Eye */}
-        <path
-          d="M19.07 20.53A4.52 4.52 0 0 1 16 22.3a4.52 4.52 0 0 1-3.07-1.77"
-          transform="rotate(-10, 15, 16)"
-        />
-        <path
-          d="M8.93 11.47A4.52 4.52 0 0 1 12 9.7a4.52 4.52 0 0 1 3.07 1.77"
-          transform="rotate(5, 12, 16)"
-        />
-        <path
-          d="M8.93 20.53A4.52 4.52 0 0 0 12 22.3a4.52 4.52 0 0 0 3.07-1.77"
-          transform="rotate(5, 12, 16)"
-        />
-        <path
-          d="M19.07 11.47A4.52 4.52 0 0 0 16 9.7a4.52 4.52 0 0 0-3.07 1.77"
-          transform="rotate(-10, 15, 16)"
-        />
-        <path
-          d="M17.5 8.83V20.3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5V8.83"
-          transform="rotate(5, 12, 16)"
-          />
-        <path
-          d="M20.5 8.83V20.3a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5V8.83"
-          transform="rotate(-10, 15, 16)"
-        />
-        
-        <path d="M9 13.25c1.5-1 4.5-1 6 0" />
-        <path d="M9 13.25c1.5 1 4.5 1 6 0" />
-        <circle cx="12" cy="13.25" r="1" fill="currentColor" />
+      {/* Sun */}
+      <path d="M12 4 a2,2 0 0,1 0,-2 a2,2 0 0,1 0,2" />
+      <path d="M12 1V0" />
+      <path d="M10 2.5 L9 2" />
+      <path d="M14 2.5 L15 2" />
+      <path d="M8.5 4 L7.5 4" />
+      <path d="M15.5 4 L16.5 4" />
+      
+      {/* Cards */}
+      <path d="M7 6 L17 6 L17 21 L7 21 Z"  transform="rotate(-5, 12, 13)"/>
+      <path d="M6 7 L18 7 L18 22 L6 22 Z" />
 
-        {/* Eyelashes */}
-        <path d="M10.5 11.25 10 10" />
-        <path d="m11.5 10.75-.5-1.5" />
-        <path d="m12.5 10.75.5-1.5" />
-        <path d="M13.5 11.25 14 10" />
-      </g>
+      {/* Eye */}
+      <path d="M9 13 C10.5 11.5, 13.5 11.5, 15 13" />
+      <path d="M9 13 C10.5 14.5, 13.5 14.5, 15 13" />
+      <circle cx="12" cy="13" r="1" fill="currentColor" />
+
+       {/* Eye rays */}
+      <path d="M12 11 L12 10" />
+      <path d="M10.5 11.5 L10 11" />
+      <path d="M13.5 11.5 L14 11" />
     </svg>
   );
 }
