@@ -21,11 +21,17 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
       <div
         className={cn(
           "relative h-full w-full rounded-lg shadow-lg transition-transform duration-700 [transform-style:preserve-3d]",
-          { "[transform:rotateY(180deg)]": isFlipped, "animate-pulse-slow": !isFlipped }
+          { "[transform:rotateY(180deg)]": isFlipped }
         )}
       >
         {/* Card Back */}
-        <div className="absolute h-full w-full rounded-lg border-2 border-primary/50 bg-secondary p-2 [backface-visibility:hidden] flex items-center justify-center">
+        <div 
+          className={cn(
+            "absolute h-full w-full rounded-lg border-2 border-primary/50 bg-secondary p-2 [backface-visibility:hidden] flex items-center justify-center",
+            { "animate-pulse-slow": !isFlipped }
+          )}
+          style={{ animationDelay: `${delay}ms` }}
+        >
           <div className="flex h-full w-full flex-col items-center justify-center rounded-md border border-dashed border-primary/50 p-4">
             <Logo className="h-28 w-28 text-primary/70 opacity-80" />
             <Sparkles className="absolute h-8 w-8 animate-pulse text-primary/70 top-4 right-4" />
