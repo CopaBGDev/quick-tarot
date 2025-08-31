@@ -8,17 +8,17 @@ import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations } from "@/lib/translations";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
-    "Aries": "/zodiac/Ovan.svg",
-    "Taurus": "/zodiac/bik.png",
-    "Gemini": "/zodiac/blizanci.png",
+    "Aries": "/zodiac/Ovan.png",
+    "Taurus": "/zodiac/Bik.png",
+    "Gemini": "/zodiac/Blizanci.png",
     "Cancer": "/zodiac/Rak.png",
-    "Leo": "/zodiac/lav.png",
-    "Virgo": "/zodiac/devica.png",
+    "Leo": "/zodiac/Lav.png",
+    "Virgo": "/zodiac/Devica.png",
     "Libra": "/zodiac/Vaga.png",
-    "Scorpio": "/zodiac/Škorpija.png",
+    "Scorpio": "/zodiac/Skorpija.png",
     "Sagittarius": "/zodiac/Strelac.png",
-    "Capricorn": "/zodiac/jarac.png",
-    "Aquarius": "/zodiac/vodolija.png",
+    "Capricorn": "/zodiac/Jarac.png",
+    "Aquarius": "/zodiac/Vodolija.png",
     "Pisces": "/zodiac/Ribe.png",
 };
 
