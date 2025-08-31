@@ -132,7 +132,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                                     className={cn(
                                         "w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110",
                                         isSelected
-                                            ? "scale-110 ring-2 ring-primary ring-offset-2 ring-offset-background"
+                                            ? "scale-110 ring-2 ring-primary"
                                             : "bg-transparent"
                                     )}
                                 >
