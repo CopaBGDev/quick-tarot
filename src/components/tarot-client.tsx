@@ -290,13 +290,8 @@ export default function TarotClient() {
         )}
       </section>
 
-      <div className="fixed bottom-0 left-0 w-full bg-background/80 backdrop-blur-sm border-t border-border z-50">
-        <div className="max-w-md mx-auto py-4">
-            <AdPlaceholder />
-        </div>
-      </div>
-
-      <footer className="mt-12 flex w-full max-w-md flex-col items-center gap-8 pt-10 lg:max-w-4xl">
+      <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
+        <AdPlaceholder />
         <p className="text-sm text-muted-foreground">
           {translations.footer.copyright.replace(
             "{year}",
