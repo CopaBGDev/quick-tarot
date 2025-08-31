@@ -151,46 +151,49 @@ export default function TarotClient() {
         { name: "The High Priestess", image: "https://placehold.co/320x480.png", hint: "tarot card" },
       ];
 
-
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-        <header className="text-center">
-          <Logo className="mx-auto h-40 w-40 text-primary" />
-          <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-            {translations.header.title}
-          </h1>
-          <p className="mt-3 max-w-2xl text-center text-base text-muted-foreground sm:text-lg">
-            {translations.header.subtitle}
-          </p>
-        </header>
+      <div className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <Form {...form}>
+          <div className="row-start-2 flex items-center justify-center lg:row-start-1">
+            <Controller
+              control={form.control}
+              name="zodiacSign"
+              render={({ field, fieldState }) => (
+                <FormItem>
+                  <FormControl>
+                    <ZodiacWheel
+                      signs={zodiacSigns}
+                      onSelect={field.onChange}
+                      selectedValue={field.value}
+                      disabled={disabled}
+                      label={translations.form.zodiac.label}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-center">{fieldState.error?.message}</FormMessage>
+                </FormItem>
+              )}
+            />
+          </div>
 
-        <div className="w-full max-w-md space-y-8">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <Controller
-                control={form.control}
-                name="zodiacSign"
-                render={({ field, fieldState }) => (
-                  <FormItem>
-                    <FormControl>
-                        <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={field.onChange}
-                            selectedValue={field.value}
-                            disabled={disabled}
-                            label={translations.form.zodiac.label}
-                        />
-                    </FormControl>
-                    <FormMessage className="text-center">{fieldState.error?.message}</FormMessage>
-                  </FormItem>
-                )}
-              />
+          <div className="row-start-1 flex flex-col items-center lg:items-start lg:row-start-1">
+            <header className="text-center lg:text-left">
+              <Logo className="mx-auto h-24 w-24 text-primary lg:mx-0" />
+              <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                {translations.header.title}
+              </h1>
+              <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                {translations.header.subtitle}
+              </p>
+            </header>
+
+            <form onSubmit={form.handleSubmit(onSubmit)} className="mt-8 w-full max-w-md space-y-8">
               <FormField
                 control={form.control}
                 name="question"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-center w-full block">{translations.form.question.label}</FormLabel>
+                    <FormLabel>{translations.form.question.label}</FormLabel>
                     <div className="relative">
                       <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                       <FormControl>
@@ -199,7 +202,7 @@ export default function TarotClient() {
                           {...field}
                           disabled={disabled}
                           onKeyDown={handleTextareaKeyDown}
-                          className="pl-10 bg-input border-border text-center"
+                          className="pl-10 bg-input border-border"
                         />
                       </FormControl>
                     </div>
@@ -221,11 +224,11 @@ export default function TarotClient() {
                 )}
               </Button>
             </form>
-          </Form>
-        </div>
+          </div>
+        </Form>
+      </div>
 
-
-      <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8">
+      <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8 mt-12">
         {(isFormLoading || reading) && (
           <>
             <h2 className="font-headline text-3xl font-bold text-primary">{translations.results.title}</h2>
@@ -258,7 +261,7 @@ export default function TarotClient() {
         )}
       </section>
 
-      <footer className="mt-12 flex w-full flex-col items-center gap-8 pt-10">
+      <footer className="mt-12 flex w-full max-w-md flex-col items-center gap-8 pt-10 lg:max-w-4xl">
         <AdPlaceholder />
         <p className="text-sm text-muted-foreground">{translations.footer.copyright.replace('{year}', new Date().getFullYear().toString())}</p>
       </footer>
