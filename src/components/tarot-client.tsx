@@ -170,6 +170,7 @@ export default function TarotClient() {
                     selectedValue={field.value}
                     disabled={disabled}
                     label={translations.form.zodiac.label}
+                    language={language}
                   />
                 </FormControl>
                 <FormMessage className="text-center">

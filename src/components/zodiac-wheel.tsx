@@ -30,6 +30,7 @@ interface ZodiacWheelProps {
     selectedValue?: ZodiacSign;
     disabled?: boolean;
     label: string;
+    language: string;
 }
 
 interface Position {
@@ -37,7 +38,7 @@ interface Position {
     y: number;
 }
 
-export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }: ZodiacWheelProps) {
+export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, language }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<Position[]>([]);
 
     React.useEffect(() => {
@@ -65,11 +66,11 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
         }
     };
     
-    const isSerbian = signs.includes("Ovan");
+    const isSerbian = language === 'sr';
     const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
     
-    const selectedEnglishSign = NATURAL_ORDER_EN[naturalOrder.indexOf(selectedValue as any)];
-    const selectedImage = ZODIAC_IMAGES[selectedEnglishSign];
+    const selectedEnglishSign = selectedValue ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedValue as any)] : undefined;
+    const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
 
     if (positions.length === 0) {
         return <div className="mx-auto w-[472px] h-[472px]" />;
@@ -87,7 +88,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                 <div 
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
                 >
-                    {selectedValue ? (
+                    {selectedImage && selectedValue ? (
                          <Image
                             src={selectedImage}
                             alt={selectedValue}
