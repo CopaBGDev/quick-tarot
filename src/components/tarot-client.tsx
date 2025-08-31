@@ -152,7 +152,7 @@ export default function TarotClient() {
       ];
 
   return (
-    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
+    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 pb-40">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -277,7 +277,7 @@ export default function TarotClient() {
             {reading && (
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader>
-                  <CardTitle>{translations.results.readingTitle}</CardTitle>
+                  <CardTitle className="text-center">{translations.results.readingTitle}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 text-left">
                   <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
@@ -290,8 +290,13 @@ export default function TarotClient() {
         )}
       </section>
 
+      <div className="fixed bottom-0 left-0 w-full bg-background/80 backdrop-blur-sm border-t border-border z-50">
+        <div className="max-w-md mx-auto py-4">
+            <AdPlaceholder />
+        </div>
+      </div>
+
       <footer className="mt-12 flex w-full max-w-md flex-col items-center gap-8 pt-10 lg:max-w-4xl">
-        <AdPlaceholder />
         <p className="text-sm text-muted-foreground">
           {translations.footer.copyright.replace(
             "{year}",
