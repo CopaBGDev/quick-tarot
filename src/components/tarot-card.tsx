@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -20,7 +21,7 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
       <div
         className={cn(
           "relative h-full w-full rounded-lg shadow-lg transition-transform duration-700 [transform-style:preserve-3d]",
-          { "[transform:rotateY(180deg)]": isFlipped }
+          { "[transform:rotateY(180deg)]": isFlipped, "animate-pulse-slow": !isFlipped }
         )}
       >
         {/* Card Back */}
