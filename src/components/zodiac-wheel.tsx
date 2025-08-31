@@ -2,13 +2,24 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations } from "@/lib/translations";
 
-const ZODIAC_SYMBOLS: { [key: string]: string } = {
-    "Aries": "♈", "Taurus": "♉", "Gemini": "♊", "Cancer": "♋", "Leo": "♌", "Virgo": "♍", "Libra": "♎", "Scorpio": "♏", "Sagittarius": "♐", "Capricorn": "♑", "Aquarius": "♒", "Pisces": "♓",
-    "Ovan": "♈", "Bik": "♉", "Blizanci": "♊", "Rak": "♋", "Lav": "♌", "Devica": "♍", "Vaga": "♎", "Škorpija": "♏", "Strelac": "♐", "Jarac": "♑", "Vodolija": "♒", "Ribe": "♓",
+const ZODIAC_IMAGES: { [key: string]: string } = {
+    "Aries": "/zodiac/Ovan.png",
+    "Taurus": "/zodiac/bik.png",
+    "Gemini": "/zodiac/blizanci.png",
+    "Cancer": "/zodiac/Rak.png",
+    "Leo": "/zodiac/lav.png",
+    "Virgo": "/zodiac/devica.png",
+    "Libra": "/zodiac/Vaga.png",
+    "Scorpio": "/zodiac/Škorpija.png",
+    "Sagittarius": "/zodiac/Strelac.png",
+    "Capricorn": "/zodiac/jarac.png",
+    "Aquarius": "/zodiac/vodolija.png",
+    "Pisces": "/zodiac/Ribe.png",
 };
 
 const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
@@ -58,7 +69,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
     const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
     
     const selectedEnglishSign = NATURAL_ORDER_EN[naturalOrder.indexOf(selectedValue as any)];
-    const selectedSymbol = ZODIAC_SYMBOLS[selectedEnglishSign];
+    const selectedImage = ZODIAC_IMAGES[selectedEnglishSign];
 
     if (positions.length === 0) {
         return <div className="mx-auto w-[472px] h-[472px]" />;
@@ -77,9 +88,13 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
                 >
                     {selectedValue ? (
-                        <span className="font-sans text-8xl text-primary animate-in fade-in zoom-in-50">
-                            {selectedSymbol}
-                        </span>
+                         <Image
+                            src={selectedImage}
+                            alt={selectedValue}
+                            width={160}
+                            height={160}
+                            className="rounded-full animate-in fade-in zoom-in-50"
+                        />
                     ) : (
                         <span className="text-muted-foreground font-headline text-xl animate-in fade-in">
                             {label}
@@ -93,7 +108,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                     const sign = naturalOrder[naturalIndex];
                     const englishSignName = NATURAL_ORDER_EN[naturalIndex];
 
-                    const symbol = ZODIAC_SYMBOLS[englishSignName];
+                    const image = ZODIAC_IMAGES[englishSignName];
                     const isSelected = selectedValue === sign;
                     return (
                         <div
@@ -108,20 +123,22 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                         >
                             <div
                                 className={cn(
-                                    "w-14 h-14 rounded-full flex items-center justify-center transition-colors duration-300",
+                                    "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 transform group-hover:scale-110",
                                     isSelected
-                                        ? "bg-primary"
-                                        : "bg-accent/70 group-hover:bg-accent"
+                                        ? "scale-110 ring-2 ring-primary ring-offset-4 ring-offset-background"
+                                        : "bg-transparent"
                                 )}
                             >
-                                <span
+                               <Image
+                                    src={image}
+                                    alt={sign}
+                                    width={56}
+                                    height={56}
                                     className={cn(
-                                        "font-sans text-3xl transition-colors duration-300 pointer-events-none",
-                                        isSelected ? 'text-primary-foreground' : 'text-accent-foreground'
+                                        "rounded-full transition-all duration-300",
+                                        isSelected ? " " : "opacity-70 group-hover:opacity-100"
                                     )}
-                                >
-                                    {symbol}
-                                </span>
+                                />
                             </div>
                         </div>
                     );
