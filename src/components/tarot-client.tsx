@@ -199,7 +199,7 @@ export default function TarotClient() {
                 name="question"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="w-full block text-left">
+                    <FormLabel className="w-full block text-right font-bold text-primary">
                       {translations.form.question.label}
                     </FormLabel>
                     <div className="relative">
