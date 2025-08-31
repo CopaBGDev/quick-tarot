@@ -31,8 +31,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
 
     React.useEffect(() => {
         const newPositions: Position[] = [];
-        const radius = 180;
-        const center = 255;
+        const radius = 144;
+        const center = 205;
         const numSigns = 12;
         // Start angle for Aries (9 o'clock)
         const startAngle = Math.PI; 
@@ -61,23 +61,23 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
     const selectedSymbol = ZODIAC_SYMBOLS[selectedEnglishSign];
 
     if (positions.length === 0) {
-        return <div className="mx-auto w-[510px] h-[510px]" />;
+        return <div className="mx-auto w-[410px] h-[410px]" />;
     }
 
     return (
         <div
             className={cn(
-                "relative mx-auto w-[510px] h-[510px]",
+                "relative mx-auto w-[410px] h-[410px]",
                 disabled && "opacity-50 cursor-not-allowed"
             )}
         >
             <div className="w-full h-full relative">
                 {/* Center circle */}
                 <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
                 >
                     {selectedValue ? (
-                        <span className="font-sans text-9xl text-primary animate-in fade-in zoom-in-50">
+                        <span className="font-sans text-8xl text-primary animate-in fade-in zoom-in-50">
                             {selectedSymbol}
                         </span>
                     ) : (
@@ -108,7 +108,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                         >
                             <div
                                 className={cn(
-                                    "w-14 h-14 rounded-full flex items-center justify-center transition-colors duration-300",
+                                    "w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-300",
                                     isSelected
                                         ? "bg-primary"
                                         : "bg-accent/70 group-hover:bg-accent"
@@ -116,7 +116,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
                             >
                                 <span
                                     className={cn(
-                                        "font-sans text-3xl transition-colors duration-300 pointer-events-none",
+                                        "font-sans text-2xl transition-colors duration-300 pointer-events-none",
                                         isSelected ? 'text-primary-foreground' : 'text-accent-foreground'
                                     )}
                                 >
