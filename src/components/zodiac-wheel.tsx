@@ -31,8 +31,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
 
     React.useEffect(() => {
         const newPositions: Position[] = [];
-        const radius = 120;
-        const center = 170;
+        const radius = 180;
+        const center = 255;
         const numSigns = 12;
         // Start angle for Aries (9 o'clock)
         const startAngle = Math.PI; 
@@ -61,23 +61,23 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label }:
     const selectedSymbol = ZODIAC_SYMBOLS[selectedEnglishSign];
 
     if (positions.length === 0) {
-        return <div className="mx-auto w-[340px] h-[340px]" />;
+        return <div className="mx-auto w-[510px] h-[510px]" />;
     }
 
     return (
         <div
             className={cn(
-                "relative mx-auto w-[340px] h-[340px]",
+                "relative mx-auto w-[510px] h-[510px]",
                 disabled && "opacity-50 cursor-not-allowed"
             )}
         >
             <div className="w-full h-full relative">
                 {/* Center circle */}
                 <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
                 >
                     {selectedValue ? (
-                        <span className="font-sans text-7xl text-primary animate-in fade-in zoom-in-50">
+                        <span className="font-sans text-9xl text-primary animate-in fade-in zoom-in-50">
                             {selectedSymbol}
                         </span>
                     ) : (
