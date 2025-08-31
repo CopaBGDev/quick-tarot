@@ -50,6 +50,7 @@ export default function TarotClient() {
   const [language, setLanguage] = React.useState('sr');
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
+  const questionFormRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -109,7 +110,12 @@ export default function TarotClient() {
 
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (zodiacWheelRef.current && !zodiacWheelRef.current.contains(event.target as Node)) {
+      if (
+        zodiacWheelRef.current && 
+        !zodiacWheelRef.current.contains(event.target as Node) &&
+        questionFormRef.current && 
+        !questionFormRef.current.contains(event.target as Node)
+      ) {
         if (form.getValues('zodiacSign')) {
             form.setValue('zodiacSign', undefined, { shouldValidate: false });
         }
@@ -214,7 +220,7 @@ export default function TarotClient() {
             />
           </div>
 
-          <div className="flex flex-col items-start text-left">
+          <div className="flex flex-col items-start text-left" ref={questionFormRef}>
             <header className="flex w-full max-w-md flex-col items-start text-left">
               <div className="flex items-center">
                 <Logo className="h-28 w-28 text-primary" />
