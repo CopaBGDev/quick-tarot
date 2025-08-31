@@ -5,7 +5,7 @@ import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { ZodiacSign } from "@/lib/zodiac";
-import { getTranslations } from "@/lib/translations";
+import { getTranslations, Translations } from "@/lib/translations";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
     "Aries": "/zodiac/ovan.svg",
@@ -38,7 +38,7 @@ interface Position {
     y: number;
 }
 
-const ZodiacSignImage = ({ sign, image, isSelected, onClick }: { sign: ZodiacSign, image: string, isSelected: boolean, onClick: () => void }) => {
+const ZodiacSignDisplay = ({ sign, image, isSelected, onClick }: { sign: ZodiacSign, image: string, isSelected: boolean, onClick: () => void }) => {
     return (
         <div
             onClick={onClick}
@@ -46,7 +46,7 @@ const ZodiacSignImage = ({ sign, image, isSelected, onClick }: { sign: ZodiacSig
         >
             <div
                 className={cn(
-                    "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 transform group-hover:scale-110",
+                    "w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 transform group-hover:scale-110",
                     isSelected
                         ? "scale-110 ring-2 ring-primary ring-offset-4 ring-offset-background"
                         : "bg-transparent"
@@ -64,6 +64,9 @@ const ZodiacSignImage = ({ sign, image, isSelected, onClick }: { sign: ZodiacSig
                     unoptimized
                 />
             </div>
+             <p className={cn("text-center mt-2 text-sm transition-opacity", isSelected ? "opacity-100 font-bold text-primary" : "opacity-0 group-hover:opacity-100 text-muted-foreground")}>
+                {sign}
+            </p>
         </div>
     );
 };
@@ -120,16 +123,18 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                     className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
                 >
                     {selectedImage && selectedValue ? (
-                         <Image
-                            src={selectedImage}
-                            alt={selectedValue}
-                            width={160}
-                            height={160}
-                            className="rounded-full animate-in fade-in zoom-in-50"
-                            unoptimized
-                        />
+                         <div className="flex flex-col items-center justify-center">
+                            <Image
+                                src={selectedImage}
+                                alt={selectedValue}
+                                width={120}
+                                height={120}
+                                className="rounded-full animate-in fade-in zoom-in-50"
+                                unoptimized
+                            />
+                         </div>
                     ) : (
-                        <span className="text-muted-foreground font-headline text-xl animate-in fade-in">
+                        <span className="text-muted-foreground font-headline text-xl animate-in fade-in px-4">
                             {label}
                         </span>
                     )}
@@ -153,7 +158,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                                 transform: 'translate(-50%, -50%)',
                             }}
                         >
-                            <ZodiacSignImage
+                            <ZodiacSignDisplay
                                 sign={sign}
                                 image={image}
                                 isSelected={isSelected}
