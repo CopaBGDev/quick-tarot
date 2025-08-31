@@ -6,6 +6,7 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations, Translations } from "@/lib/translations";
+import { Logo } from "./logo";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
     "Aries": "/zodiac/ovan.svg",
@@ -100,9 +101,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                             />
                          </div>
                     ) : (
-                        <span className="text-muted-foreground font-headline text-xl animate-in fade-in px-4">
-                            {label}
-                        </span>
+                        <Logo className="w-32 h-32 text-primary/40 animate-in fade-in" />
                     )}
                 </div>
 
