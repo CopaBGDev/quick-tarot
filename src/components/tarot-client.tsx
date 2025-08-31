@@ -152,7 +152,7 @@ export default function TarotClient() {
       ];
 
   return (
-    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 pb-40">
+    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -179,8 +179,8 @@ export default function TarotClient() {
             )}
           />
 
-          <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
-            <header className="flex w-full max-w-md flex-col items-center text-center lg:items-start lg:text-left">
+          <div className="flex flex-col items-start text-left">
+            <header className="flex w-full max-w-md flex-col items-start text-left">
               <div className="flex items-center gap-4">
                 <Logo className="h-28 w-28 text-primary" />
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -198,7 +198,7 @@ export default function TarotClient() {
                 name="question"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-center w-full block lg:text-left">
+                    <FormLabel className="w-full block text-left">
                       {translations.form.question.label}
                     </FormLabel>
                     <div className="relative">
@@ -209,7 +209,7 @@ export default function TarotClient() {
                           {...field}
                           disabled={disabled}
                           onKeyDown={handleTextareaKeyDown}
-                          className="pl-10 bg-input border-border text-center"
+                          className="pl-10"
                         />
                       </FormControl>
                     </div>
