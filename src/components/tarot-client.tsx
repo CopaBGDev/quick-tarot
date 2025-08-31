@@ -31,7 +31,7 @@ import { ZodiacWheel } from "./zodiac-wheel";
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
     message: "You must select a valid zodiac sign.",
-  }),
+  }).optional(),
   question: z
     .string()
     .min(10, { message: "Question must be at least 10 characters long." })
@@ -49,6 +49,7 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const resultsRef = React.useRef<HTMLDivElement>(null);
+  const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -68,7 +69,7 @@ export default function TarotClient() {
     const zodSchema = z.object({
       zodiacSign: z.custom<ZodiacSign>((val) => newTranslations.zodiacSigns.includes(val as ZodiacSign), {
         message: newTranslations.form.zodiac.error,
-      }),
+      }).optional(),
       question: z
         .string()
         .min(10, { message: newTranslations.form.question.minLengthError })
@@ -106,7 +107,26 @@ export default function TarotClient() {
     };
   }, [reading]);
 
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (zodiacWheelRef.current && !zodiacWheelRef.current.contains(event.target as Node)) {
+        if (form.getValues('zodiacSign')) {
+            form.setValue('zodiacSign', undefined, { shouldValidate: false });
+        }
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [form]);
+
   const onSubmit = async (data: FormValues) => {
+    if (!data.zodiacSign) {
+        form.setError("zodiacSign", { type: "manual", message: translations.form.zodiac.error });
+        return;
+    }
+
     setIsFormLoading(true);
     setReading(null);
     setTypedReading("");
@@ -117,7 +137,7 @@ export default function TarotClient() {
     }, 100);
 
     try {
-      const result = await getTarotReading({ ...data, language });
+      const result = await getTarotReading({ ...data, language } as { zodiacSign: string; question: string; language: string});
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
@@ -170,27 +190,29 @@ export default function TarotClient() {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
         >
-          <FormField
-            control={form.control}
-            name="zodiacSign"
-            render={({ field, fieldState }) => (
-              <FormItem className="flex flex-col items-center">
-                <FormControl>
-                  <ZodiacWheel
-                    signs={zodiacSigns}
-                    onSelect={field.onChange}
-                    selectedValue={field.value}
-                    disabled={disabled}
-                    label={translations.form.zodiac.label}
-                    language={language}
-                  />
-                </FormControl>
-                <FormMessage className="text-center">
-                  {fieldState.error?.message}
-                </FormMessage>
-              </FormItem>
-            )}
-          />
+          <div ref={zodiacWheelRef}>
+            <FormField
+              control={form.control}
+              name="zodiacSign"
+              render={({ field, fieldState }) => (
+                <FormItem className="flex flex-col items-center">
+                  <FormControl>
+                    <ZodiacWheel
+                      signs={zodiacSigns}
+                      onSelect={field.onChange}
+                      selectedValue={field.value}
+                      disabled={disabled}
+                      label={translations.form.zodiac.label}
+                      language={language}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-center">
+                    {fieldState.error?.message}
+                  </FormMessage>
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="flex flex-col items-start text-left">
             <header className="flex w-full max-w-md flex-col items-start text-left">

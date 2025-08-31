@@ -101,7 +101,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                             />
                          </div>
                     ) : (
-                        <Logo className="w-52 h-52 text-primary/40 animate-in fade-in" />
+                        <Logo className="h-52 w-52 text-primary/40 animate-in fade-in" />
                     )}
                 </div>
 
