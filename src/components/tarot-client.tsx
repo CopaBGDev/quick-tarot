@@ -43,6 +43,7 @@ type FormValues = z.infer<typeof FormSchema>;
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
+  const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
@@ -80,7 +81,14 @@ export default function TarotClient() {
   }, [form]);
   
   React.useEffect(() => {
-    if (!reading) return;
+    if (!reading) {
+        setCardsFlipped(false);
+        return;
+    };
+
+    const flipTimeout = setTimeout(() => {
+        setCardsFlipped(true);
+    }, 500);
 
     setTypedReading("");
     let index = 0;
@@ -92,13 +100,17 @@ export default function TarotClient() {
       }
     }, 25);
 
-    return () => clearInterval(typingInterval);
+    return () => {
+        clearInterval(typingInterval);
+        clearTimeout(flipTimeout);
+    };
   }, [reading]);
 
   const onSubmit = async (data: FormValues) => {
     setIsFormLoading(true);
     setReading(null);
     setTypedReading("");
+    setCardsFlipped(false);
     
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -140,15 +152,15 @@ export default function TarotClient() {
   }
 
   const tarotCards = reading
-    ? reading.cards.map(card => ({
-        name: card.name,
-        image: card.image,
-        hint: card.name.toLowerCase().replace(/ /g, " "),
-      }))
+    ? [
+        { name: "Vi", image: reading.cards[0].image, hint: reading.cards[0].name.toLowerCase().replace(/ /g, " ")},
+        { name: "Situacija", image: reading.cards[1].image, hint: reading.cards[1].name.toLowerCase().replace(/ /g, " ")},
+        { name: "Ishod", image: reading.cards[2].image, hint: reading.cards[2].name.toLowerCase().replace(/ /g, " ")},
+      ]
     : [
-        { name: "The Fool", image: "https://placehold.co/320x480.png", hint: "tarot card" },
-        { name: "The Magician", image: "https://placehold.co/320x480.png", hint: "tarot card" },
-        { name: "The High Priestess", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "Vi", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "Situacija", image: "https://placehold.co/320x480.png", hint: "tarot card" },
+        { name: "Ishod", image: "https://placehold.co/320x480.png", hint: "tarot card" },
       ];
 
   return (
@@ -248,17 +260,17 @@ export default function TarotClient() {
             </h2>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
               <TarotCard
-                isFlipped={isFormLoading || !!reading}
+                isFlipped={cardsFlipped}
                 delay={0}
                 card={tarotCards[0]}
               />
               <TarotCard
-                isFlipped={isFormLoading || !!reading}
+                isFlipped={cardsFlipped}
                 delay={150}
                 card={tarotCards[1]}
               />
               <TarotCard
-                isFlipped={isFormLoading || !!reading}
+                isFlipped={cardsFlipped}
                 delay={300}
                 card={tarotCards[2]}
               />

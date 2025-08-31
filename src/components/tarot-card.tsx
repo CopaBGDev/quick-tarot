@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Sparkles } from "lucide-react";
+import { Logo } from "./logo";
 
 type TarotCardProps = {
   isFlipped: boolean;
@@ -23,9 +24,11 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
         )}
       >
         {/* Card Back */}
-        <div className="absolute h-full w-full rounded-lg border-2 border-primary/50 bg-secondary p-4 [backface-visibility:hidden]">
-          <div className="flex h-full w-full items-center justify-center rounded-md border border-dashed border-primary/50">
-            <Sparkles className="h-12 w-12 animate-pulse text-primary/70" />
+        <div className="absolute h-full w-full rounded-lg border-2 border-primary/50 bg-secondary p-2 [backface-visibility:hidden] flex items-center justify-center">
+          <div className="flex h-full w-full flex-col items-center justify-center rounded-md border border-dashed border-primary/50 p-4">
+            <Logo className="h-16 w-16 text-primary/70 opacity-80" />
+            <Sparkles className="absolute h-8 w-8 animate-pulse text-primary/70 top-4 right-4" />
+             <Sparkles className="absolute h-8 w-8 animate-pulse text-primary/70 bottom-4 left-4" style={{ animationDelay: '250ms' }} />
           </div>
         </div>
         {/* Card Front */}
