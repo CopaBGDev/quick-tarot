@@ -8,18 +8,18 @@ import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations } from "@/lib/translations";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
-    "Aries": "/zodiac/ovan.png",
-    "Taurus": "/zodiac/bik.png",
-    "Gemini": "/zodiac/blizanci.png",
-    "Cancer": "/zodiac/rak.png",
-    "Leo": "/zodiac/lav.png",
-    "Virgo": "/zodiac/devica.png",
-    "Libra": "/zodiac/vaga.png",
-    "Scorpio": "/zodiac/skorpija.png",
-    "Sagittarius": "/zodiac/strelac.png",
-    "Capricorn": "/zodiac/jarac.png",
-    "Aquarius": "/zodiac/vodolija.png",
-    "Pisces": "/zodiac/ribe.png",
+    "Aries": "/zodiac/ovan.svg",
+    "Taurus": "/zodiac/bik.svg",
+    "Gemini": "/zodiac/blizanci.svg",
+    "Cancer": "/zodiac/rak.svg",
+    "Leo": "/zodiac/lav.svg",
+    "Virgo": "/zodiac/devica.svg",
+    "Libra": "/zodiac/vaga.svg",
+    "Scorpio": "/zodiac/skorpija.svg",
+    "Sagittarius": "/zodiac/strelac.svg",
+    "Capricorn": "/zodiac/jarac.svg",
+    "Aquarius": "/zodiac/vodolija.svg",
+    "Pisces": "/zodiac/ribe.svg",
 };
 
 const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
@@ -37,6 +37,37 @@ interface Position {
     x: number;
     y: number;
 }
+
+const ZodiacSignImage = ({ sign, image, isSelected, onClick }: { sign: ZodiacSign, image: string, isSelected: boolean, onClick: () => void }) => {
+    return (
+        <div
+            onClick={onClick}
+            className="cursor-pointer group"
+        >
+            <div
+                className={cn(
+                    "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 transform group-hover:scale-110",
+                    isSelected
+                        ? "scale-110 ring-2 ring-primary ring-offset-4 ring-offset-background"
+                        : "bg-transparent"
+                )}
+            >
+               <Image
+                    src={image}
+                    alt={sign}
+                    width={56}
+                    height={56}
+                    className={cn(
+                        "rounded-full transition-all duration-300",
+                        isSelected ? " " : "opacity-70 group-hover:opacity-100"
+                    )}
+                    unoptimized
+                />
+            </div>
+        </div>
+    );
+};
+
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, language }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<Position[]>([]);
@@ -95,6 +126,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                             width={160}
                             height={160}
                             className="rounded-full animate-in fade-in zoom-in-50"
+                            unoptimized
                         />
                     ) : (
                         <span className="text-muted-foreground font-headline text-xl animate-in fade-in">
@@ -108,39 +140,25 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                     const naturalIndex = index;
                     const sign = naturalOrder[naturalIndex];
                     const englishSignName = NATURAL_ORDER_EN[naturalIndex];
-
                     const image = ZODIAC_IMAGES[englishSignName];
                     const isSelected = selectedValue === sign;
+
                     return (
                         <div
                             key={sign}
-                            onClick={() => handleSignClick(sign)}
-                            className="cursor-pointer group absolute"
+                            className="absolute"
                             style={{
                                 left: `${pos.x}px`,
                                 top: `${pos.y}px`,
                                 transform: 'translate(-50%, -50%)',
                             }}
                         >
-                            <div
-                                className={cn(
-                                    "w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 transform group-hover:scale-110",
-                                    isSelected
-                                        ? "scale-110 ring-2 ring-primary ring-offset-4 ring-offset-background"
-                                        : "bg-transparent"
-                                )}
-                            >
-                               <Image
-                                    src={image}
-                                    alt={sign}
-                                    width={56}
-                                    height={56}
-                                    className={cn(
-                                        "rounded-full transition-all duration-300",
-                                        isSelected ? " " : "opacity-70 group-hover:opacity-100"
-                                    )}
-                                />
-                            </div>
+                            <ZodiacSignImage
+                                sign={sign}
+                                image={image}
+                                isSelected={isSelected}
+                                onClick={() => handleSignClick(sign)}
+                            />
                         </div>
                     );
                 })}
