@@ -38,40 +38,6 @@ interface Position {
     y: number;
 }
 
-const ZodiacSignDisplay = ({ sign, image, isSelected, onClick }: { sign: ZodiacSign, image: string, isSelected: boolean, onClick: () => void }) => {
-    return (
-        <div
-            onClick={onClick}
-            className="cursor-pointer group"
-        >
-            <div
-                className={cn(
-                    "w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110",
-                    isSelected
-                        ? "scale-110 ring-2 ring-primary ring-offset-4 ring-offset-background"
-                        : "bg-transparent"
-                )}
-            >
-               <Image
-                    src={image}
-                    alt={sign}
-                    width={56}
-                    height={56}
-                    className={cn(
-                        "rounded-full transition-all duration-300",
-                        isSelected ? " " : "opacity-70 group-hover:opacity-100"
-                    )}
-                    unoptimized
-                />
-            </div>
-             <p className={cn("text-center mt-2 text-sm transition-opacity", isSelected ? "opacity-100 font-bold text-primary" : "opacity-0 group-hover:opacity-100 text-muted-foreground")}>
-                {sign}
-            </p>
-        </div>
-    );
-};
-
-
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, language }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<Position[]>([]);
 
