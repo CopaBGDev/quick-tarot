@@ -8,7 +8,7 @@ import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations } from "@/lib/translations";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
-    "Aries": "/zodiac/Ovan.png",
+    "Aries": "/zodiac/Aries.png",
     "Taurus": "/zodiac/bik.png",
     "Gemini": "/zodiac/blizanci.png",
     "Cancer": "/zodiac/Rak.png",
