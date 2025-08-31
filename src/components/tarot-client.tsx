@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -153,18 +154,17 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-        <header className="text-center md:text-left">
-          <Logo className="mx-auto md:mx-0 h-40 w-40 text-primary" />
+        <header className="text-center">
+          <Logo className="mx-auto h-40 w-40 text-primary" />
           <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
             {translations.header.title}
           </h1>
-          <p className="mt-3 max-w-2xl text-center md:text-left text-base text-muted-foreground sm:text-lg">
+          <p className="mt-3 max-w-2xl text-center text-base text-muted-foreground sm:text-lg">
             {translations.header.subtitle}
           </p>
         </header>
 
-        <div className="w-full space-y-8">
+        <div className="w-full max-w-md space-y-8">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <Controller
@@ -223,7 +223,6 @@ export default function TarotClient() {
             </form>
           </Form>
         </div>
-      </div>
 
 
       <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8">
