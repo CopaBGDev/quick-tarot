@@ -153,75 +153,78 @@ export default function TarotClient() {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      <header className="text-center">
-        <Logo className="mx-auto h-40 w-40 text-primary" />
-        <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-          {translations.header.title}
-        </h1>
-        <p className="mt-3 max-w-2xl text-center text-base text-muted-foreground sm:text-lg">
-          {translations.header.subtitle}
-        </p>
-      </header>
+      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <header className="text-center md:text-left">
+          <Logo className="mx-auto md:mx-0 h-40 w-40 text-primary" />
+          <h1 className="mt-4 font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl md:text-6xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+            {translations.header.title}
+          </h1>
+          <p className="mt-3 max-w-2xl text-center md:text-left text-base text-muted-foreground sm:text-lg">
+            {translations.header.subtitle}
+          </p>
+        </header>
 
-      <div className="w-full space-y-8">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <Controller
-              control={form.control}
-              name="zodiacSign"
-              render={({ field, fieldState }) => (
-                <FormItem>
-                  <FormControl>
-                      <ZodiacWheel
-                          signs={zodiacSigns}
-                          onSelect={field.onChange}
-                          selectedValue={field.value}
-                          disabled={disabled}
-                          label={translations.form.zodiac.label}
-                      />
-                  </FormControl>
-                  <FormMessage className="text-center">{fieldState.error?.message}</FormMessage>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="question"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-center">{translations.form.question.label}</FormLabel>
-                  <div className="relative">
-                    <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <div className="w-full space-y-8">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <Controller
+                control={form.control}
+                name="zodiacSign"
+                render={({ field, fieldState }) => (
+                  <FormItem>
                     <FormControl>
-                      <Textarea
-                        placeholder={translations.form.question.placeholder}
-                        {...field}
-                        disabled={disabled}
-                        onKeyDown={handleTextareaKeyDown}
-                        className="pl-10 bg-input border-border text-center"
-                      />
+                        <ZodiacWheel
+                            signs={zodiacSigns}
+                            onSelect={field.onChange}
+                            selectedValue={field.value}
+                            disabled={disabled}
+                            label={translations.form.zodiac.label}
+                        />
                     </FormControl>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full" disabled={disabled} size="lg">
-              {isFormLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {translations.button.loading}
-                </>
-              ) : (
-                <>
-                  <Wand2 className="mr-2 h-4 w-4" />
-                  {translations.button.default}
-                </>
-              )}
-            </Button>
-          </form>
-        </Form>
+                    <FormMessage className="text-center">{fieldState.error?.message}</FormMessage>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="question"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-center w-full block">{translations.form.question.label}</FormLabel>
+                    <div className="relative">
+                      <Wand2 className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                      <FormControl>
+                        <Textarea
+                          placeholder={translations.form.question.placeholder}
+                          {...field}
+                          disabled={disabled}
+                          onKeyDown={handleTextareaKeyDown}
+                          className="pl-10 bg-input border-border text-center"
+                        />
+                      </FormControl>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full" disabled={disabled} size="lg">
+                {isFormLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {translations.button.loading}
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="mr-2 h-4 w-4" />
+                    {translations.button.default}
+                  </>
+                )}
+              </Button>
+            </form>
+          </Form>
+        </div>
       </div>
+
 
       <section ref={resultsRef} className="w-full max-w-4xl text-center scroll-mt-8">
         {(isFormLoading || reading) && (
