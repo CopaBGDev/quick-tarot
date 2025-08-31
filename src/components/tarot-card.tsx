@@ -14,7 +14,7 @@ type TarotCardProps = {
 export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
   return (
     <div
-      className="group h-48 w-32 [perspective:1000px] sm:h-60 sm:w-40"
+      className="group h-48 w-32 [perspective:1000px] sm:h-60 sm:w-40 animate-in fade-in zoom-in-50"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div
@@ -26,7 +26,7 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
         {/* Card Back */}
         <div className="absolute h-full w-full rounded-lg border-2 border-primary/50 bg-secondary p-2 [backface-visibility:hidden] flex items-center justify-center">
           <div className="flex h-full w-full flex-col items-center justify-center rounded-md border border-dashed border-primary/50 p-4">
-            <Logo className="h-16 w-16 text-primary/70 opacity-80" />
+            <Logo className="h-28 w-28 text-primary/70 opacity-80" />
             <Sparkles className="absolute h-8 w-8 animate-pulse text-primary/70 top-4 right-4" />
              <Sparkles className="absolute h-8 w-8 animate-pulse text-primary/70 bottom-4 left-4" style={{ animationDelay: '250ms' }} />
           </div>
