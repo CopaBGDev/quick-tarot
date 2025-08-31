@@ -8,18 +8,18 @@ import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations } from "@/lib/translations";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
-    "Aries": "/zodiac/Ovan.png",
-    "Taurus": "/zodiac/Bik.png",
-    "Gemini": "/zodiac/Blizanci.png",
-    "Cancer": "/zodiac/Rak.png",
-    "Leo": "/zodiac/Lav.png",
-    "Virgo": "/zodiac/Devica.png",
-    "Libra": "/zodiac/Vaga.png",
-    "Scorpio": "/zodiac/Skorpija.png",
-    "Sagittarius": "/zodiac/Strelac.png",
-    "Capricorn": "/zodiac/Jarac.png",
-    "Aquarius": "/zodiac/Vodolija.png",
-    "Pisces": "/zodiac/Ribe.png",
+    "Aries": "/zodiac/ovan.png",
+    "Taurus": "/zodiac/bik.png",
+    "Gemini": "/zodiac/blizanci.png",
+    "Cancer": "/zodiac/rak.png",
+    "Leo": "/zodiac/lav.png",
+    "Virgo": "/zodiac/devica.png",
+    "Libra": "/zodiac/vaga.png",
+    "Scorpio": "/zodiac/skorpija.png",
+    "Sagittarius": "/zodiac/strelac.png",
+    "Capricorn": "/zodiac/jarac.png",
+    "Aquarius": "/zodiac/vodolija.png",
+    "Pisces": "/zodiac/ribe.png",
 };
 
 const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
