@@ -129,7 +129,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                             >
                                 <div
                                     className={cn(
-                                        "w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110",
+                                        "w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110",
                                         isSelected
                                             ? "scale-110 ring-2 ring-primary"
                                             : "bg-transparent"
@@ -138,8 +138,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
                                    <Image
                                         src={image}
                                         alt={sign}
-                                        width={56}
-                                        height={56}
+                                        width={40}
+                                        height={40}
                                         className={cn(
                                             "rounded-full transition-all duration-300",
                                             isSelected ? " " : "opacity-70 group-hover:opacity-100"
