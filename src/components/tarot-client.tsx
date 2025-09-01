@@ -45,6 +45,11 @@ type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 45;
 
+const getCardImagePath = (cardName: string) => {
+  const formattedName = cardName.toLowerCase().replace(/\s+/g, '_');
+  return `/cards/${formattedName}.jpg`;
+};
+
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -246,7 +251,7 @@ React.useEffect(() => {
   }
   
   const tarotCards = reading
-    ? reading.cards
+    ? reading.cards.map(card => ({ name: card.name, imagePath: getCardImagePath(card.name) }))
     : [
         { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
@@ -435,16 +440,27 @@ React.useEffect(() => {
               )}
 
               {reading && (
-                <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
-                  <CardHeader>
-                    <CardTitle className="text-center">{translations.results.readingTitle}</CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6 text-left">
-                    <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                      {typedReading}
-                    </p>
-                  </CardContent>
-                </Card>
+                <>
+                  <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
+                    <CardHeader>
+                      <CardTitle className="text-center">{translations.results.readingTitle}</CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6 text-left">
+                      <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
+                        {typedReading}
+                      </p>
+                    </CardContent>
+                  </Card>
+                  
+                  <div className="mt-4 p-4 border border-dashed rounded-lg">
+                    <h3 className="font-bold text-left mb-2">Primljena imena karata (za debagovanje):</h3>
+                    <ul className="list-disc list-inside text-left text-sm text-muted-foreground">
+                      {reading.cards.map((card, index) => (
+                        <li key={index}>{card.name}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
               )}
             </>
           )}
@@ -464,3 +480,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
