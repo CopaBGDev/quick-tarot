@@ -119,10 +119,10 @@ export default function TarotClient() {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (isFormLoading === false && reading !== null) {
+    } else if (reading) {
       resetForm();
     }
-  }, [countdown, isFormLoading, reading]);
+  }, [countdown, reading]);
 
 
   React.useEffect(() => {
@@ -184,12 +184,11 @@ React.useEffect(() => {
     }
 
     setIsFormLoading(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
     setReading(null);
     setTypedReading("");
     setCardsFlipped(false);
-    setCountdown(READING_COOLDOWN_SECONDS);
     
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -197,6 +196,7 @@ React.useEffect(() => {
     try {
       const result = await getTarotReading({ ...data, language } as { zodiacSign: string; question: string; language: string});
       setReading(result);
+      setCountdown(READING_COOLDOWN_SECONDS);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
       toast({
@@ -265,11 +265,11 @@ React.useEffect(() => {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      {showMinimizedView ? (
-        <div className="w-full max-w-4xl animate-in fade-in">
-           <div className="flex items-center justify-between gap-4 rounded-lg border border-primary/20 bg-secondary/50 p-4 shadow-lg">
+      {showMinimizedView && (
+        <div className="fixed top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
+          <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between gap-4 px-4">
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 flex-1">
               {selectedImage && selectedSign && (
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
                     <Image
@@ -281,14 +281,14 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground sm:text-left">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground sm:text-left truncate">{submittedValues.question}</p>
             </div>
 
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex items-center justify-center">
                 <Logo className="h-14 w-14 text-primary" />
             </div>
 
-            <div className="flex items-center justify-end gap-4">
+            <div className="flex items-center justify-end gap-4 flex-1">
               {countdown > 0 && (
                   <div className="flex items-center gap-2 text-sm text-primary font-mono">
                       <span className="text-xs text-muted-foreground hidden lg:inline">{translations.countdownText}</span>
@@ -303,8 +303,11 @@ React.useEffect(() => {
             </div>
           </div>
         </div>
-      ) : (
-      <Form {...form}>
+      )}
+      
+      <div className={`w-full ${showMinimizedView ? 'pt-24' : 'flex items-center justify-center'}`}>
+      {!showMinimizedView ? (
+        <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid w-full grid-cols-1 items-center justify-center gap-12 lg:grid-cols-2 lg:gap-16"
@@ -384,59 +387,60 @@ React.useEffect(() => {
           </div>
         </form>
       </Form>
-      )}
-
-      <section
-        ref={resultsRef}
-        className="w-full max-w-4xl text-center scroll-mt-8 mt-12"
-      >
-        {(isFormLoading || reading) && (
-          <>
-            <h2 className="font-headline text-3xl font-bold text-primary">
-              {translations.results.title}
-            </h2>
-            <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-              <TarotCard
-                isFlipped={cardsFlipped}
-                delay={0}
-                card={tarotCards[0]}
-              />
-              <TarotCard
-                isFlipped={cardsFlipped}
-                delay={150}
-                card={tarotCards[1]}
-              />
-              <TarotCard
-                isFlipped={cardsFlipped}
-                delay={300}
-                card={tarotCards[2]}
-              />
-            </div>
-
-            {isFormLoading && !reading && (
-               <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
-                <Sparkles className="h-8 w-8 animate-pulse text-primary" />
-                <p className="text-center">{translations.results.loadingText}</p>
-                <Progress value={progress} className="w-full h-2" />
-                <p className="text-sm text-muted-foreground">{translations.results.loadingSubtext}</p>
+      ) : (
+        <section
+          ref={resultsRef}
+          className="w-full max-w-4xl text-center scroll-mt-8"
+        >
+          {(isFormLoading || reading) && (
+            <>
+              <h2 className="font-headline text-3xl font-bold text-primary">
+                {translations.results.title}
+              </h2>
+              <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+                <TarotCard
+                  isFlipped={cardsFlipped}
+                  delay={0}
+                  card={tarotCards[0]}
+                />
+                <TarotCard
+                  isFlipped={cardsFlipped}
+                  delay={150}
+                  card={tarotCards[1]}
+                />
+                <TarotCard
+                  isFlipped={cardsFlipped}
+                  delay={300}
+                  card={tarotCards[2]}
+                />
               </div>
-            )}
 
-            {reading && (
-              <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-center">{translations.results.readingTitle}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 text-left">
-                  <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                    {typedReading}
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </>
-        )}
-      </section>
+              {isFormLoading && !reading && (
+                 <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
+                  <Sparkles className="h-8 w-8 animate-pulse text-primary" />
+                  <p className="text-center">{translations.results.loadingText}</p>
+                  <Progress value={progress} className="w-full h-2" />
+                  <p className="text-sm text-muted-foreground">{translations.results.loadingSubtext}</p>
+                </div>
+              )}
+
+              {reading && (
+                <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
+                  <CardHeader>
+                    <CardTitle className="text-center">{translations.results.readingTitle}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6 text-left">
+                    <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
+                      {typedReading}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </>
+          )}
+        </section>
+      )}
+      </div>
 
       <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
         <AdPlaceholder />
@@ -450,11 +454,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
-
-    
-
-
-
-    
