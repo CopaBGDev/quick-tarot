@@ -229,7 +229,7 @@ React.useEffect(() => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid w-full grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16"
+          className="grid w-full grid-cols-1 items-center justify-center gap-12 lg:grid-cols-2 lg:gap-16"
         >
           <div ref={zodiacWheelRef}>
             <FormField
@@ -253,9 +253,9 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-start text-left" ref={questionFormRef}>
-            <header className="flex w-full max-w-md flex-col items-start text-left">
-              <div className="flex items-center">
+          <div className="flex flex-col items-center" ref={questionFormRef}>
+            <header className="flex w-full max-w-md flex-col items-center text-center">
+              <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                   {translations.header.title}
@@ -371,3 +371,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
