@@ -248,7 +248,7 @@ React.useEffect(() => {
   const tarotCards = reading
     ? reading.cards
     : [
-        { name: "Karta 1", imagePath: "/zodiac/cards/the_justice.jpeg" },
+        { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 3", imagePath: "/cards/card_back.jpg" },
       ];
@@ -409,7 +409,7 @@ React.useEffect(() => {
               </h2>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
                 <TarotCard
-                  isFlipped={cardsFlipped || !reading}
+                  isFlipped={cardsFlipped}
                   delay={0}
                   card={tarotCards[0]}
                 />
@@ -464,5 +464,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
