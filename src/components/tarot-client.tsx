@@ -292,7 +292,7 @@ React.useEffect(() => {
             </div>
 
             <div className="flex items-center justify-end gap-4 flex-1">
-              {(isFormLoading || countdown > 0) && (
+              {(isFormLoading || reading) && (
                   <div className="flex items-center gap-2 text-sm text-primary font-mono">
                       <span className="text-xs text-muted-foreground hidden lg:inline">{countdown > 0 ? translations.countdownText : translations.countdownFinishedText}</span>
                       {countdown > 0 ? (
@@ -468,11 +468,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
-
-    
-
-    
-
-    
