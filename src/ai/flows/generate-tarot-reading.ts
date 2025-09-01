@@ -20,10 +20,8 @@ const GenerateTarotReadingInputSchema = z.object({
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 
-// The output now contains the card name and the full image path.
 const TarotCardOutputSchema = z.object({
   name: z.string().describe('The name of the tarot card in English. For example: "The Fool", "The Magician", "Ace of Wands".'),
-  imagePath: z.string().describe('The web path to the card image. This MUST be in the format /cards/card_name.jpg, where card_name is the lowercased card name with spaces replaced by underscores. For example, for "The Fool" the path is "/cards/the_fool.jpg".'),
 });
 
 const GenerateTarotReadingOutputSchema = z.object({
@@ -40,7 +38,7 @@ const tarotReadingPrompt = ai.definePrompt({
   name: 'tarotReadingPrompt',
   input: { schema: GenerateTarotReadingInputSchema },
   output: { schema: GenerateTarotReadingOutputSchema },
-  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language. IMPORTANT: For each card, you must provide both its name in English and the corresponding imagePath. The imagePath must follow the format /cards/card_name.jpg, where card_name is the lowercased card name with spaces replaced by underscores (e.g., "The Fool" becomes "/cards/the_fool.jpg", "Page of Wands" becomes "/cards/page_of_wands.jpg").',
+  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language. IMPORTANT: For each card, you must provide its name in English.',
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.'
 });
 

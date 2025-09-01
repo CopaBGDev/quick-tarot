@@ -451,15 +451,6 @@ React.useEffect(() => {
                       </p>
                     </CardContent>
                   </Card>
-                  
-                  <div className="mt-4 p-4 border border-dashed rounded-lg">
-                    <h3 className="font-bold text-left mb-2">Primljena imena karata (za debagovanje):</h3>
-                    <ul className="list-disc list-inside text-left text-sm text-muted-foreground">
-                      {reading.cards.map((card, index) => (
-                        <li key={index}>{card.name}</li>
-                      ))}
-                    </ul>
-                  </div>
                 </>
               )}
             </>
@@ -480,5 +471,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
