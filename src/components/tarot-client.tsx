@@ -284,8 +284,7 @@ React.useEffect(() => {
             </div>
 
             <div className="flex items-center justify-center gap-2">
-                <Logo className="h-8 w-8 text-primary" />
-                <span className="font-headline text-xl font-bold text-primary hidden md:inline">Quick Tarot</span>
+                <Logo className="h-14 w-14 text-primary" />
             </div>
 
             <div className="flex items-center justify-end gap-4">
@@ -454,3 +453,4 @@ React.useEffect(() => {
     
 
     
+
