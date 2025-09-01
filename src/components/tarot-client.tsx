@@ -102,7 +102,7 @@ export default function TarotClient() {
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
-      setTypedReading((prev) => prev + reading.tarotReading[index]);
+      setTypedReading(reading.tarotReading.substring(0, index + 1));
       index++;
       if (index >= reading.tarotReading.length) {
         clearInterval(typingInterval);
