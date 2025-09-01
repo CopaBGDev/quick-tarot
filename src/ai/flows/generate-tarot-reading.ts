@@ -22,7 +22,6 @@ export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInput
 
 const TarotCardOutputSchema = z.object({
   name: z.string().describe('The name of the tarot card in English. For example: "The Fool", "The Magician", "Ace of Wands".'),
-  imagePath: z.string().describe('The exact path to the card image. This path MUST be in the format /cards/card_name.jpg or /cards/card_name.jpeg, where card_name is the lowercased card name with spaces replaced by underscores. For example, for "The Lovers", the path must be /cards/the_lovers.jpg.'),
 });
 
 const GenerateTarotReadingOutputSchema = z.object({
@@ -41,14 +40,7 @@ const tarotReadingPrompt = ai.definePrompt({
   output: { schema: GenerateTarotReadingOutputSchema },
   system: `You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user's question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user's question. The entire reading must be in the requested language.
 
-IMPORTANT: For each card, you must provide its name in English and the exact path to its image. The image path must follow this strict format: '/cards/card_name.ext'.
-- 'card_name' is the English card name in all lowercase letters, with spaces replaced by underscores.
-- '.ext' is the file extension, which will typically be '.jpg' or '.jpeg'.
-For example:
-- For "The Fool", the imagePath must be "/cards/the_fool.jpg".
-- For "Page of Wands", the imagePath must be "/cards/page_of_wands.jpg".
-- For "The Justice", the imagePath must be "/cards/the_justice.jpeg".
-You must ensure the generated imagePath corresponds to an actual file.`,
+IMPORTANT: For each card, you must provide its name in English.`,
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.'
 });
 

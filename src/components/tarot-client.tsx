@@ -30,6 +30,7 @@ import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
+import { TAROT_CARD_IMAGES } from "@/lib/cards";
 
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
@@ -44,6 +45,8 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 45;
+
+const CARD_BACK = { name: "Card Back", imagePath: "/cards/card_back.jpg" };
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
@@ -228,13 +231,16 @@ React.useEffect(() => {
     }
   };
   
-  const tarotCards = reading
-    ? reading.cards
-    : [
-        { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
-        { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
-        { name: "Karta 3", imagePath: "/cards/card_back.jpg" },
-      ];
+  const tarotCards = React.useMemo(() => {
+    if (reading) {
+      return reading.cards.map((card) => ({
+        name: card.name,
+        imagePath: TAROT_CARD_IMAGES[card.name as keyof typeof TAROT_CARD_IMAGES] || CARD_BACK.imagePath,
+      }));
+    }
+    return [CARD_BACK, CARD_BACK, CARD_BACK];
+  }, [reading]);
+
 
   const disabled = isFormLoading || countdown > 0;
   
