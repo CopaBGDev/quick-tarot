@@ -35,6 +35,7 @@ export interface Translations {
   zodiacSigns: readonly ZodiacSign[];
   errorTitle: string;
   unknownError: string;
+  countdownText: string;
 }
 
 const sr: Translations = {
@@ -71,6 +72,7 @@ const sr: Translations = {
   zodiacSigns: ZODIAC_SIGNS_SR,
   errorTitle: "Greška",
   unknownError: "Došlo je do nepoznate greške.",
+  countdownText: "Novo tarot čitanje je moguće za:",
 };
 
 const en: Translations = {
@@ -107,6 +109,7 @@ const en: Translations = {
   zodiacSigns: ZODIAC_SIGNS_EN,
   errorTitle: "Error",
   unknownError: "An unknown error occurred.",
+  countdownText: "Next tarot reading is available in:",
 };
 
 const translations: Record<string, Translations> = {

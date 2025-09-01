@@ -99,7 +99,6 @@ export default function TarotClient() {
         setCardsFlipped(true);
     }, 500);
     
-    setCountdown(READING_COOLDOWN_SECONDS);
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
@@ -186,6 +185,7 @@ React.useEffect(() => {
     setReading(null);
     setTypedReading("");
     setCardsFlipped(false);
+    setCountdown(READING_COOLDOWN_SECONDS);
     
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -201,7 +201,8 @@ React.useEffect(() => {
         description: errorMessage,
         variant: "destructive",
       });
-      setIsFormLoading(false);
+    } finally {
+        setIsFormLoading(false);
     }
   };
   
@@ -255,15 +256,17 @@ React.useEffect(() => {
   const formattedCountdown = `${Math.floor(countdown / 60)
     .toString()
     .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
+  
+  const showMinimizedView = isFormLoading || reading;
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
-      {isFormLoading || reading ? (
+      {showMinimizedView ? (
         <div className="w-full max-w-4xl animate-in fade-in">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 rounded-lg border border-primary/20 bg-secondary/50 p-6 shadow-lg">
-            {selectedImage && selectedSign && (
-              <div className="flex flex-col items-center gap-2">
-                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
+          <div className="flex flex-col items-center gap-6 rounded-lg border border-primary/20 bg-secondary/50 p-6 shadow-lg sm:flex-row sm:justify-between">
+            <div className="flex items-center gap-4">
+              {selectedImage && selectedSign && (
+                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
                     <Image
                       src={selectedImage}
                       alt={selectedSign}
@@ -271,22 +274,25 @@ React.useEffect(() => {
                       height={48}
                       unoptimized
                     />
-                 </div>
-              </div>
-            )}
-            <div className="flex-1 text-center sm:text-left">
-              <p className="text-muted-foreground">{submittedValues.question}</p>
-            </div>
-            {countdown > 0 && (
-                <div className="flex items-center gap-2 text-sm text-primary font-mono">
-                    <Timer className="h-4 w-4" />
-                    <span>{formattedCountdown}</span>
                 </div>
-            )}
-            <Button variant="ghost" size="icon" onClick={resetForm} disabled={countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-              <Edit3 className="h-5 w-5" />
-              <span className="sr-only">Edit</span>
-            </Button>
+              )}
+              <p className="flex-1 text-center text-muted-foreground sm:text-left">{submittedValues.question}</p>
+            </div>
+            <div className="flex items-center gap-4">
+              {countdown > 0 && (
+                  <div className="flex flex-col items-center sm:items-end gap-1 text-sm text-primary font-mono">
+                      <span className="text-xs text-muted-foreground">{translations.countdownText}</span>
+                      <div className="flex items-center gap-2">
+                        <Timer className="h-4 w-4" />
+                        <span>{formattedCountdown}</span>
+                      </div>
+                  </div>
+              )}
+              <Button variant="ghost" size="icon" onClick={resetForm} disabled={disabled} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                <Edit3 className="h-5 w-5" />
+                <span className="sr-only">Edit</span>
+              </Button>
+            </div>
           </div>
         </div>
       ) : (
