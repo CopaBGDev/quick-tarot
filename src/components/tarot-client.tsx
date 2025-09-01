@@ -246,11 +246,7 @@ React.useEffect(() => {
   }
   
   const tarotCards = reading
-    ? [
-        { name: "Aries", imagePath: ZODIAC_IMAGES["Aries"] },
-        { name: "Taurus", imagePath: ZODIAC_IMAGES["Taurus"] },
-        { name: "Gemini", imagePath: ZODIAC_IMAGES["Gemini"] },
-      ]
+    ? reading.cards
     : [
         { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 2", imagePath: "/cards/card_back.jpg" },

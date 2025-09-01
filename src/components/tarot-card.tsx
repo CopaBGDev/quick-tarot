@@ -60,5 +60,3 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
     </div>
   );
 }
-
-    
