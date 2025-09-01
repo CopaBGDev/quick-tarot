@@ -473,5 +473,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
