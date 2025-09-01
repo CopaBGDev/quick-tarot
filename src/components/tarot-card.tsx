@@ -9,7 +9,7 @@ import { Logo } from "./logo";
 type TarotCardProps = {
   isFlipped: boolean;
   delay: number;
-  card: { name: string; image: string; hint: string };
+  card: { name: string; imagePath: string; };
 };
 
 export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
@@ -43,12 +43,11 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
           <div className="flex h-full w-full flex-col items-center justify-between p-2">
             <div className="relative h-full w-full overflow-hidden rounded-md">
               <Image
-                src={card.image}
+                src={card.imagePath}
                 alt={card.name}
                 width={320}
                 height={480}
                 className="object-cover h-full w-full"
-                data-ai-hint={card.hint}
                 unoptimized
               />
             </div>

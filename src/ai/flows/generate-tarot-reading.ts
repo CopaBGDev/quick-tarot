@@ -11,7 +11,6 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { generateTarotCardImage } from './generate-tarot-card-image';
 
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
@@ -20,9 +19,9 @@ const GenerateTarotReadingInputSchema = z.object({
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 
+// The output now only contains the card name. The image path will be constructed on the client.
 const TarotCardOutputSchema = z.object({
-  name: z.string().describe('The name of the tarot card.'),
-  image: z.string().describe("A data URI of a generated image for the tarot card. Expected format: 'data:image/png;base64,<encoded_data>'."),
+  name: z.string().describe('The name of the tarot card in English.'),
 });
 
 const GenerateTarotReadingOutputSchema = z.object({
@@ -35,18 +34,24 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
   return generateTarotReadingFlow(input);
 }
 
-const ReadingPromptInputSchema = GenerateTarotReadingInputSchema;
+const ReadingPromptInputSchema = z.object({
+  zodiacSign: z.string().describe('The zodiac sign of the user.'),
+  question: z.string().describe('The question asked by the user.'),
+  language: z.string().optional().default('sr').describe('The language for the output, e.g., "en" for English.'),
+});
+
 
 const tarotReadingPrompt = ai.definePrompt({
   name: 'tarotReadingPrompt',
   input: { schema: ReadingPromptInputSchema },
   output: { schema: z.object({
-    card1: z.string().describe('The name of the first tarot card.'),
-    card2: z.string().describe('The name of the second tarot card.'),
-    card3: z.string().describe('The name of the third tarot card.'),
+    // Card names must be in English to match the image file names.
+    card1: z.string().describe('The name of the first tarot card, in English.'),
+    card2: z.string().describe('The name of the second tarot card, in English.'),
+    card3: z.string().describe('The name of the third tarot card, in English.'),
     tarotReading: z.string().describe('The generated tarot reading, in the requested language.'),
   })},
-  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language.',
+  system: 'You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user\'s question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user\'s question. The entire reading must be in the requested language. IMPORTANT: The names of the three cards (card1, card2, card3) must be in English.',
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.'
 });
 
@@ -57,34 +62,18 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { zodiacSign, question, language } = input;
-    
-    // Step 1: Generate the text-based reading and card names.
-    const readingResponse = await tarotReadingPrompt({ zodiacSign, question, language });
-    if (!readingResponse.output) {
+    const { output } = await tarotReadingPrompt(input);
+    if (!output) {
       throw new Error('Failed to generate tarot reading.');
     }
-    const { card1, card2, card3, tarotReading } = readingResponse.output;
-
-    // Step 2: Generate images for the cards in parallel.
-    const imagePromises = [
-        generateTarotCardImage({ cardName: card1 }),
-        generateTarotCardImage({ cardName: card2 }),
-        generateTarotCardImage({ cardName: card3 }),
-    ];
     
-    const imageResults = await Promise.allSettled(imagePromises);
-
-    const placeholderImage = "https://placehold.co/320x480.png";
-    const image1 = imageResults[0].status === 'fulfilled' ? imageResults[0].value.dataUri : placeholderImage;
-    const image2 = imageResults[1].status === 'fulfilled' ? imageResults[1].value.dataUri : placeholderImage;
-    const image3 = imageResults[2].status === 'fulfilled' ? imageResults[2].value.dataUri : placeholderImage;
+    const { card1, card2, card3, tarotReading } = output;
 
     return {
       cards: [
-        { name: card1, image: image1 },
-        { name: card2, image: image2 },
-        { name: card3, image: image3 },
+        { name: card1 },
+        { name: card2 },
+        { name: card3 },
       ],
       tarotReading,
     };
