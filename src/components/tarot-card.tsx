@@ -45,8 +45,8 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
               <Image
                 src={card.imagePath}
                 alt={card.name}
-                width={320}
-                height={480}
+                width={150}
+                height={220}
                 className="object-cover h-full w-full"
               />
             </div>
