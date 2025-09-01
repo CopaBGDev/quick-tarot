@@ -284,8 +284,11 @@ React.useEffect(() => {
               <p className="flex-1 text-muted-foreground sm:text-left truncate">{submittedValues.question}</p>
             </div>
 
-            <div className="flex items-center justify-center">
-                <Logo className="h-24 w-24 text-primary" />
+            <div className="flex items-center justify-center gap-2">
+                <Logo className="h-14 w-14 text-primary" />
+                 <h1 className="font-headline text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                  Quick Tarot
+                </h1>
             </div>
 
             <div className="flex items-center justify-end gap-4 flex-1">
@@ -459,6 +462,8 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
 
     
 
