@@ -43,7 +43,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-const READING_COOLDOWN_SECONDS = 30;
+const READING_COOLDOWN_SECONDS = 45;
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
