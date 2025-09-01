@@ -237,7 +237,7 @@ React.useEffect(() => {
     }
     return reading.cards.map((card) => ({
       name: card.name,
-      imagePath: TAROT_CARD_IMAGES[card.name as keyof typeof TAROT_CARD_IMAGES] || CARD_BACK.imagePath,
+      imagePath: TAROT_CARD_IMAGES[card.name] || CARD_BACK.imagePath,
     }));
   }, [reading]);
 
@@ -472,7 +472,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
-
-    

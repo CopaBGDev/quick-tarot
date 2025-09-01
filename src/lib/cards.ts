@@ -1,5 +1,4 @@
-
-export const TAROT_CARD_IMAGES = {
+export const TAROT_CARD_IMAGES: Record<string, string> = {
   "The Fool": "/zodiac/cards/the_fool.jpg",
   "The Magician": "/zodiac/cards/the_magician.jpg",
   "The High Priestess": "/zodiac/cards/the_high_priestess.jpg",
