@@ -45,12 +45,6 @@ type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 45;
 
-// Helper to format card names into file paths
-const getCardImagePath = (cardName: string) => {
-    const formattedName = cardName.toLowerCase().replace(/ /g, "_");
-    return `/cards/${formattedName}.jpg`;
-}
-
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -252,7 +246,7 @@ React.useEffect(() => {
   }
   
   const tarotCards = reading
-    ? reading.cards.map(card => ({ name: card.name, imagePath: getCardImagePath(card.name) }))
+    ? reading.cards
     : [
         { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
