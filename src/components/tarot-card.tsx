@@ -48,7 +48,6 @@ export function TarotCard({ isFlipped, delay, card }: TarotCardProps) {
                 width={320}
                 height={480}
                 className="object-cover h-full w-full"
-                unoptimized
               />
             </div>
             <p className="mt-1 flex-shrink-0 font-headline text-sm text-center text-primary">
