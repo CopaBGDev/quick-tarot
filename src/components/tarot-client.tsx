@@ -266,35 +266,34 @@ React.useEffect(() => {
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       {showMinimizedView ? (
         <div className="w-full max-w-4xl animate-in fade-in">
-           <div className="flex flex-col items-center gap-4 rounded-lg border border-primary/20 bg-secondary/50 p-6 shadow-lg">
-            <div className="flex w-full items-center gap-4">
+           <div className="flex items-center justify-between gap-4 rounded-lg border border-primary/20 bg-secondary/50 p-4 shadow-lg">
+            
+            <div className="flex items-center gap-4">
               {selectedImage && selectedSign && (
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
                     <Image
                       src={selectedImage}
                       alt={selectedSign}
-                      width={48}
-                      height={48}
+                      width={36}
+                      height={36}
                       unoptimized
                     />
                 </div>
               )}
-              <p className="flex-1 text-center text-muted-foreground sm:text-left">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground sm:text-left">{submittedValues.question}</p>
             </div>
 
-            <div className="flex items-center justify-center gap-2 my-2">
+            <div className="flex items-center justify-center gap-2">
                 <Logo className="h-8 w-8 text-primary" />
-                <span className="font-headline text-xl font-bold text-primary">Quick Tarot</span>
+                <span className="font-headline text-xl font-bold text-primary hidden md:inline">Quick Tarot</span>
             </div>
 
-            <div className="flex w-full items-center justify-end gap-4">
+            <div className="flex items-center justify-end gap-4">
               {countdown > 0 && (
-                  <div className="flex items-center gap-1 text-sm text-primary font-mono">
-                      <span className="text-xs text-muted-foreground">{translations.countdownText}</span>
-                      <div className="flex items-center gap-2">
-                        <Timer className="h-4 w-4" />
-                        <span>{formattedCountdown}</span>
-                      </div>
+                  <div className="flex items-center gap-2 text-sm text-primary font-mono">
+                      <span className="text-xs text-muted-foreground hidden lg:inline">{translations.countdownText}</span>
+                      <Timer className="h-4 w-4" />
+                      <span>{formattedCountdown}</span>
                   </div>
               )}
               <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
@@ -451,5 +450,7 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
 
     
