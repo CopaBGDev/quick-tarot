@@ -43,7 +43,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-const READING_COOLDOWN_SECONDS = 150;
+const READING_COOLDOWN_SECONDS = 30;
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
@@ -107,7 +107,7 @@ export default function TarotClient() {
       if (index >= reading.tarotReading.length) {
         clearInterval(typingInterval);
       }
-    }, 25);
+    }, 50);
 
     return () => {
         clearInterval(typingInterval);
