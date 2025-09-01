@@ -296,7 +296,7 @@ React.useEffect(() => {
                       <span>{formattedCountdown}</span>
                   </div>
               )}
-              <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+              <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
                 <Edit3 className="h-5 w-5" />
                 <span className="sr-only">Edit</span>
               </Button>
