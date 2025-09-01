@@ -57,7 +57,7 @@ const sr: Translations = {
   },
   button: {
     default: "Šta kažu karte?",
-    loading: "Generišem...",
+    loading: "Karte se mešaju...",
   },
   results: {
     title: "Vaše Karte Sudbine",
@@ -93,7 +93,7 @@ const en: Translations = {
   },
   button: {
     default: "What do the cards say?",
-    loading: "Generating...",
+    loading: "Shuffling the cards...",
   },
   results: {
     title: "Your Cards of Fate",

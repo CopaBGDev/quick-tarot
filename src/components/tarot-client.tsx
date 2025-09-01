@@ -5,7 +5,7 @@ import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Wand2, Loader2 } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
 
 import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
@@ -289,7 +289,7 @@ React.useEffect(() => {
               />
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full font-bold"
                 disabled={disabled}
                 size="lg"
               >
@@ -299,10 +299,7 @@ React.useEffect(() => {
                     {translations.button.loading}
                   </>
                 ) : (
-                  <>
-                    <Wand2 className="mr-2 h-4 w-4" />
-                    {translations.button.default}
-                  </>
+                  <>{translations.button.default}</>
                 )}
               </Button>
             </div>
