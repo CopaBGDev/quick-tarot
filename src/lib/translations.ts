@@ -63,7 +63,7 @@ const sr: Translations = {
     title: "Vaše Karte Sudbine",
     readingTitle: "Vaše Tarot Čitanje",
     loadingText: "Karte se mešaju, vaša sudbina se otkriva...",
-    loadingSubtext: "Prosečno vreme generisanja je oko 20 sekundi.",
+    loadingSubtext: "Karte se prosečno mešaju 20 sekundi",
   },
   footer: {
     copyright: "© {year} Quick Tarot. Sva prava zadržana.",
