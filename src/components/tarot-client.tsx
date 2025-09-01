@@ -5,7 +5,7 @@ import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer } from "lucide-react";
+import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 
@@ -285,18 +285,24 @@ React.useEffect(() => {
             </div>
 
             <div className="flex items-center justify-center gap-2">
-                <Logo className="h-14 w-14 text-primary" />
+                <Logo className="h-20 w-20 text-primary" />
                  <h1 className="font-headline text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                   Quick Tarot
                 </h1>
             </div>
 
             <div className="flex items-center justify-end gap-4 flex-1">
-              {countdown > 0 && (
+              {(isFormLoading || countdown > 0) && (
                   <div className="flex items-center gap-2 text-sm text-primary font-mono">
-                      <span className="text-xs text-muted-foreground hidden lg:inline">{translations.countdownText}</span>
-                      <Timer className="h-4 w-4" />
-                      <span>{formattedCountdown}</span>
+                      <span className="text-xs text-muted-foreground hidden lg:inline">{countdown > 0 ? translations.countdownText : translations.countdownFinishedText}</span>
+                      {countdown > 0 ? (
+                        <>
+                          <Timer className="h-4 w-4" />
+                          <span>{formattedCountdown}</span>
+                        </>
+                      ) : !isFormLoading && (
+                        <ArrowRight className="h-5 w-5 animate-pulse text-primary" />
+                      )}
                   </div>
               )}
               <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
@@ -462,6 +468,8 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
 
     
 

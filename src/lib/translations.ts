@@ -36,6 +36,7 @@ export interface Translations {
   errorTitle: string;
   unknownError: string;
   countdownText: string;
+  countdownFinishedText: string;
 }
 
 const sr: Translations = {
@@ -73,6 +74,7 @@ const sr: Translations = {
   errorTitle: "Greška",
   unknownError: "Došlo je do nepoznate greške.",
   countdownText: "Novo čitanje:",
+  countdownFinishedText: "Spremno za novo čitanje:",
 };
 
 const en: Translations = {
@@ -110,6 +112,7 @@ const en: Translations = {
   errorTitle: "Error",
   unknownError: "An unknown error occurred.",
   countdownText: "Next reading:",
+  countdownFinishedText: "Ready for a new reading:",
 };
 
 const translations: Record<string, Translations> = {
