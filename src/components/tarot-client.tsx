@@ -233,10 +233,10 @@ React.useEffect(() => {
   
   const tarotCards = React.useMemo(() => {
     if (reading) {
-      return reading.cards.map((card) => ({
-        name: card.name,
-        imagePath: TAROT_CARD_IMAGES[card.name as keyof typeof TAROT_CARD_IMAGES] || CARD_BACK.imagePath,
-      }));
+      return reading.cards.map((card) => {
+        const imagePath = TAROT_CARD_IMAGES[card.name as keyof typeof TAROT_CARD_IMAGES] || CARD_BACK.imagePath;
+        return { name: card.name, imagePath };
+      });
     }
     return [CARD_BACK, CARD_BACK, CARD_BACK];
   }, [reading]);
