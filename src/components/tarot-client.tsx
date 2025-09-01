@@ -43,7 +43,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-const READING_COOLDOWN_SECONDS = 60;
+const READING_COOLDOWN_SECONDS = 150;
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
@@ -119,8 +119,10 @@ export default function TarotClient() {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
+    } else if (isFormLoading === false && reading !== null) {
+      resetForm();
     }
-  }, [countdown]);
+  }, [countdown, isFormLoading, reading]);
 
 
   React.useEffect(() => {
@@ -201,6 +203,7 @@ React.useEffect(() => {
         description: errorMessage,
         variant: "destructive",
       });
+      setCountdown(0);
     } finally {
         setIsFormLoading(false);
     }
@@ -263,8 +266,8 @@ React.useEffect(() => {
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       {showMinimizedView ? (
         <div className="w-full max-w-4xl animate-in fade-in">
-          <div className="flex flex-col items-center gap-6 rounded-lg border border-primary/20 bg-secondary/50 p-6 shadow-lg sm:flex-row sm:justify-between">
-            <div className="flex items-center gap-4">
+           <div className="flex flex-col items-center gap-4 rounded-lg border border-primary/20 bg-secondary/50 p-6 shadow-lg">
+            <div className="flex w-full items-center gap-4">
               {selectedImage && selectedSign && (
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
                     <Image
@@ -278,9 +281,15 @@ React.useEffect(() => {
               )}
               <p className="flex-1 text-center text-muted-foreground sm:text-left">{submittedValues.question}</p>
             </div>
-            <div className="flex items-center gap-4">
+
+            <div className="flex items-center justify-center gap-2 my-2">
+                <Logo className="h-8 w-8 text-primary" />
+                <span className="font-headline text-xl font-bold text-primary">Quick Tarot</span>
+            </div>
+
+            <div className="flex w-full items-center justify-end gap-4">
               {countdown > 0 && (
-                  <div className="flex flex-col items-center sm:items-end gap-1 text-sm text-primary font-mono">
+                  <div className="flex items-center gap-1 text-sm text-primary font-mono">
                       <span className="text-xs text-muted-foreground">{translations.countdownText}</span>
                       <div className="flex items-center gap-2">
                         <Timer className="h-4 w-4" />
@@ -288,7 +297,7 @@ React.useEffect(() => {
                       </div>
                   </div>
               )}
-              <Button variant="ghost" size="icon" onClick={resetForm} disabled={disabled} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+              <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
                 <Edit3 className="h-5 w-5" />
                 <span className="sr-only">Edit</span>
               </Button>
