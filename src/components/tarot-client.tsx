@@ -250,12 +250,13 @@ React.useEffect(() => {
       </div>
     )
   }
-
+  
   const tarotCards = reading
-    ? reading.cards.map((card) => ({
-        name: card.name,
-        imagePath: getCardImagePath(card.name),
-      }))
+    ? [
+        { name: "The Fool", imagePath: getCardImagePath("The Fool") },
+        { name: "The Magician", imagePath: getCardImagePath("The Magician") },
+        { name: "The Lovers", imagePath: getCardImagePath("The Lovers") },
+      ]
     : [
         { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
