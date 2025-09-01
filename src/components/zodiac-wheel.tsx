@@ -8,7 +8,7 @@ import type { ZodiacSign } from "@/lib/zodiac";
 import { getTranslations } from "@/lib/translations";
 import { Logo } from "./logo";
 
-const ZODIAC_IMAGES: { [key: string]: string } = {
+export const ZODIAC_IMAGES: { [key: string]: string } = {
     "Aries": "/zodiac/ovan.svg",
     "Taurus": "/zodiac/bik.svg",
     "Gemini": "/zodiac/blizanci.svg",
@@ -23,7 +23,7 @@ const ZODIAC_IMAGES: { [key: string]: string } = {
     "Pisces": "/zodiac/ribe.svg",
 };
 
-const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
+export const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces" ];
 
 interface ZodiacWheelProps {
     signs: readonly ZodiacSign[];
@@ -153,3 +153,5 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         </div>
     );
 }
+
+    

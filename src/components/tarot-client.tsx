@@ -5,7 +5,9 @@ import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2, Edit3, User, HelpCircle } from "lucide-react";
+import Image from "next/image";
+
 
 import { getTarotReading } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
@@ -27,7 +29,7 @@ import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
-import { ZodiacWheel } from "./zodiac-wheel";
+import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
@@ -187,10 +189,17 @@ React.useEffect(() => {
         description: errorMessage,
         variant: "destructive",
       });
-    } finally {
       setIsFormLoading(false);
     }
   };
+  
+  const resetForm = () => {
+    setReading(null);
+    setIsFormLoading(false);
+    form.setValue('question', '');
+    form.clearErrors();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   const handleTextareaKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -203,6 +212,13 @@ React.useEffect(() => {
   };
 
   const disabled = isFormLoading;
+  
+  const submittedValues = form.watch();
+  const selectedSign = submittedValues.zodiacSign;
+  const isSerbian = zodiacSigns[0] === 'Ovan';
+  const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
+  const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
+  const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
 
   if (!translations) {
     return (
@@ -226,6 +242,33 @@ React.useEffect(() => {
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
+      {isFormLoading || reading ? (
+        <div className="w-full max-w-4xl animate-in fade-in">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 rounded-lg border border-primary/20 bg-secondary/50 p-6 shadow-lg">
+            {selectedImage && selectedSign && (
+              <div className="flex flex-col items-center gap-2">
+                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
+                    <Image
+                      src={selectedImage}
+                      alt={selectedSign}
+                      width={48}
+                      height={48}
+                      unoptimized
+                    />
+                 </div>
+                 <p className="font-bold text-primary">{selectedSign}</p>
+              </div>
+            )}
+            <div className="flex-1 text-center sm:text-left">
+              <p className="text-muted-foreground">{submittedValues.question}</p>
+            </div>
+            <Button variant="ghost" size="icon" onClick={resetForm} className="text-primary hover:bg-primary/10">
+              <Edit3 className="h-5 w-5" />
+              <span className="sr-only">Edit</span>
+            </Button>
+          </div>
+        </div>
+      ) : (
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -306,6 +349,7 @@ React.useEffect(() => {
           </div>
         </form>
       </Form>
+      )}
 
       <section
         ref={resultsRef}
