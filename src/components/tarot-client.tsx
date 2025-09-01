@@ -5,7 +5,7 @@ import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2, Edit3, User, HelpCircle } from "lucide-react";
+import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer } from "lucide-react";
 import Image from "next/image";
 
 
@@ -43,6 +43,8 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
+const READING_COOLDOWN_SECONDS = 60;
+
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -52,6 +54,7 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
   const [progress, setProgress] = React.useState(0);
+  const [countdown, setCountdown] = React.useState(0);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
   const questionFormRef = React.useRef<HTMLDivElement>(null);
@@ -95,7 +98,8 @@ export default function TarotClient() {
     const flipTimeout = setTimeout(() => {
         setCardsFlipped(true);
     }, 500);
-
+    
+    setCountdown(READING_COOLDOWN_SECONDS);
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
@@ -111,6 +115,14 @@ export default function TarotClient() {
         clearTimeout(flipTimeout);
     };
   }, [reading]);
+
+  React.useEffect(() => {
+    if (countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [countdown]);
+
 
   React.useEffect(() => {
     let timer: NodeJS.Timeout | undefined;
@@ -211,7 +223,7 @@ React.useEffect(() => {
     }
   };
 
-  const disabled = isFormLoading;
+  const disabled = isFormLoading || countdown > 0;
   
   const submittedValues = form.watch();
   const selectedSign = submittedValues.zodiacSign;
@@ -240,6 +252,10 @@ React.useEffect(() => {
         { name: "Karta 3", image: "https://placehold.co/320x480.png", hint: "tarot card" },
       ];
 
+  const formattedCountdown = `${Math.floor(countdown / 60)
+    .toString()
+    .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
+
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
       {isFormLoading || reading ? (
@@ -256,13 +272,18 @@ React.useEffect(() => {
                       unoptimized
                     />
                  </div>
-                 <p className="font-bold text-primary">{selectedSign}</p>
               </div>
             )}
             <div className="flex-1 text-center sm:text-left">
               <p className="text-muted-foreground">{submittedValues.question}</p>
             </div>
-            <Button variant="ghost" size="icon" onClick={resetForm} className="text-primary hover:bg-primary/10">
+            {countdown > 0 && (
+                <div className="flex items-center gap-2 text-sm text-primary font-mono">
+                    <Timer className="h-4 w-4" />
+                    <span>{formattedCountdown}</span>
+                </div>
+            )}
+            <Button variant="ghost" size="icon" onClick={resetForm} disabled={countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
               <Edit3 className="h-5 w-5" />
               <span className="sr-only">Edit</span>
             </Button>
