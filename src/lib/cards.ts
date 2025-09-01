@@ -11,7 +11,7 @@ export const TAROT_CARD_IMAGES = {
   "Strength": "/zodiac/cards/strength.jpg",
   "The Hermit": "/zodiac/cards/the_hermit.jpg",
   "Wheel of Fortune": "/zodiac/cards/wheel_of_fortune.jpg",
-  "Justice": "/zodiac/cards/the_justice.jpeg",
+  "Justice": "/zodiac/cards/justice.jpg",
   "The Hanged Man": "/zodiac/cards/the_hanged_man.jpg",
   "Death": "/zodiac/cards/death.jpg",
   "Temperance": "/zodiac/cards/temperance.jpg",
