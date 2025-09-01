@@ -45,11 +45,6 @@ type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 45;
 
-const getCardImagePath = (cardName: string) => {
-  const formattedName = cardName.toLowerCase().replace(/\s+/g, '_');
-  return `/cards/${formattedName}.jpg`;
-};
-
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
@@ -233,6 +228,19 @@ React.useEffect(() => {
     }
   };
 
+  const getCardImagePath = (cardName: string) => {
+    const formattedName = cardName.toLowerCase().replace(/\s+/g, '_');
+    return `/cards/${formattedName}.jpg`;
+  };
+
+  const tarotCards = reading
+  ? reading.cards.map(card => ({ name: card.name, imagePath: getCardImagePath(card.name) }))
+  : [
+      { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
+      { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
+      { name: "Karta 3", imagePath: "/cards/card_back.jpg" },
+    ];
+
   const disabled = isFormLoading || countdown > 0;
   
   const submittedValues = form.watch();
@@ -250,14 +258,6 @@ React.useEffect(() => {
     )
   }
   
-  const tarotCards = reading
-    ? reading.cards.map(card => ({ name: card.name, imagePath: getCardImagePath(card.name) }))
-    : [
-        { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
-        { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
-        { name: "Karta 3", imagePath: "/cards/card_back.jpg" },
-      ];
-
   const formattedCountdown = `${Math.floor(countdown / 60)
     .toString()
     .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
