@@ -248,7 +248,7 @@ React.useEffect(() => {
   const tarotCards = reading
     ? reading.cards
     : [
-        { name: "Karta 1", imagePath: "/cards/card_back.jpg" },
+        { name: "Karta 1", imagePath: "/zodiac/cards/the_justice.jpeg" },
         { name: "Karta 2", imagePath: "/cards/card_back.jpg" },
         { name: "Karta 3", imagePath: "/cards/card_back.jpg" },
       ];
