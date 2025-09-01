@@ -409,7 +409,7 @@ React.useEffect(() => {
               </h2>
               <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
                 <TarotCard
-                  isFlipped={cardsFlipped}
+                  isFlipped={cardsFlipped || !reading}
                   delay={0}
                   card={tarotCards[0]}
                 />
@@ -464,3 +464,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
