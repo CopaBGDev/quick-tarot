@@ -119,10 +119,8 @@ export default function TarotClient() {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (reading) {
-      resetForm();
     }
-  }, [countdown, reading]);
+  }, [countdown]);
 
 
   React.useEffect(() => {
@@ -187,8 +185,10 @@ React.useEffect(() => {
     setReading(null);
     setTypedReading("");
     setCardsFlipped(false);
+    setCountdown(READING_COOLDOWN_SECONDS);
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    
     setTimeout(() => {
         resultsRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -196,7 +196,6 @@ React.useEffect(() => {
     try {
       const result = await getTarotReading({ ...data, language } as { zodiacSign: string; question: string; language: string});
       setReading(result);
-      setCountdown(READING_COOLDOWN_SECONDS);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
       toast({
@@ -213,6 +212,7 @@ React.useEffect(() => {
   const resetForm = () => {
     setReading(null);
     setIsFormLoading(false);
+    setCountdown(0);
     form.setValue('question', '');
     form.clearErrors();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -285,7 +285,7 @@ React.useEffect(() => {
             </div>
 
             <div className="flex items-center justify-center">
-                <Logo className="h-14 w-14 text-primary" />
+                <Logo className="h-24 w-24 text-primary" />
             </div>
 
             <div className="flex items-center justify-end gap-4 flex-1">
@@ -296,7 +296,7 @@ React.useEffect(() => {
                       <span>{formattedCountdown}</span>
                   </div>
               )}
-              <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+              <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
                 <Edit3 className="h-5 w-5" />
                 <span className="sr-only">Edit</span>
               </Button>
@@ -379,6 +379,11 @@ React.useEffect(() => {
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     {translations.button.loading}
                   </>
+                ) : countdown > 0 ? (
+                  <div className="flex items-center gap-2">
+                    <Timer className="h-4 w-4" />
+                    <span>{formattedCountdown}</span>
+                  </div>
                 ) : (
                   <>{translations.button.default}</>
                 )}
@@ -454,3 +459,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
