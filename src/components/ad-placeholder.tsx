@@ -1,3 +1,4 @@
+
 import { GoogleAd } from "./google-ad";
 
 export function AdPlaceholder() {
