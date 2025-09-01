@@ -208,8 +208,6 @@ export default function TarotClient() {
                       onSelect={field.onChange}
                       selectedValue={field.value}
                       disabled={disabled}
-                      label={translations.form.zodiac.label}
-                      language={language}
                     />
                   </FormControl>
                   <FormMessage className="text-center">

@@ -5,7 +5,7 @@ import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import type { ZodiacSign } from "@/lib/zodiac";
-import { getTranslations, Translations } from "@/lib/translations";
+import { getTranslations } from "@/lib/translations";
 import { Logo } from "./logo";
 
 const ZODIAC_IMAGES: { [key: string]: string } = {
@@ -30,8 +30,6 @@ interface ZodiacWheelProps {
     onSelect: (sign: ZodiacSign) => void;
     selectedValue?: ZodiacSign;
     disabled?: boolean;
-    label: string;
-    language: string;
 }
 
 interface Position {
@@ -39,7 +37,7 @@ interface Position {
     y: number;
 }
 
-export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, language }: ZodiacWheelProps) {
+export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<Position[]>([]);
 
     React.useEffect(() => {
@@ -67,7 +65,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled, label, l
         }
     };
     
-    const isSerbian = language === 'sr';
+    const isSerbian = signs[0] === 'Ovan';
     const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
     
     const selectedEnglishSign = selectedValue ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedValue as any)] : undefined;
