@@ -23,8 +23,8 @@ export const GoogleAd = () => {
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" // VAŽNO: Zamenite sa vašim publisher ID
-        data-ad-slot="YYYYYYYYYY" // VAŽNO: Zamenite sa vašim ad slot ID
+        data-ad-client="ca-pub-2968048666598097" // VAŽNO: Zamenite sa vašim publisher ID
+        data-ad-slot="1242502629" // VAŽNO: Zamenite sa vašim ad slot ID
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>

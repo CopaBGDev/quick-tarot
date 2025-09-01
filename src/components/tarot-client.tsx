@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import { ZODIAC_SIGNS_SR, type ZodiacSign, ZODIAC_SIGNS_EN } from "@/lib/zodiac";
 import { Logo } from "./logo";
@@ -48,6 +49,7 @@ export default function TarotClient() {
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [language, setLanguage] = React.useState('sr');
+  const [progress, setProgress] = React.useState(0);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
   const questionFormRef = React.useRef<HTMLDivElement>(null);
@@ -107,6 +109,39 @@ export default function TarotClient() {
         clearTimeout(flipTimeout);
     };
   }, [reading]);
+
+  React.useEffect(() => {
+    let timer: NodeJS.Timeout | undefined;
+    if (isFormLoading && !reading) {
+      setProgress(0);
+      const duration = 20000; // 20 seconds
+      const interval = 200; 
+      const totalSteps = duration / interval;
+      
+      timer = setInterval(() => {
+        setProgress(prev => {
+          const next = prev + (100 / totalSteps);
+          if (next >= 95) {
+            clearInterval(timer);
+            return 95;
+          }
+          return next;
+        });
+      }, interval);
+    } else {
+        setProgress(0);
+    }
+
+    return () => {
+        if (timer) clearInterval(timer);
+    };
+}, [isFormLoading, reading]);
+
+React.useEffect(() => {
+    if (reading) {
+        setProgress(100);
+    }
+}, [reading]);
 
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -303,9 +338,11 @@ export default function TarotClient() {
             </div>
 
             {isFormLoading && !reading && (
-              <div className="mt-8 flex items-center justify-center gap-2 text-lg text-muted-foreground">
-                <Sparkles className="h-5 w-5 animate-pulse" />
-                <p>{translations.results.loadingText}</p>
+               <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
+                <Sparkles className="h-8 w-8 animate-pulse text-primary" />
+                <p className="text-center">{translations.results.loadingText}</p>
+                <Progress value={progress} className="w-full h-2" />
+                <p className="text-sm text-muted-foreground">{translations.results.loadingSubtext}</p>
               </div>
             )}
 

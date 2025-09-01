@@ -1,3 +1,4 @@
+
 import { ZODIAC_SIGNS_SR, ZODIAC_SIGNS_EN, ZodiacSign } from "./zodiac";
 
 export interface Translations {
@@ -26,6 +27,7 @@ export interface Translations {
     title: string;
     readingTitle: string;
     loadingText: string;
+    loadingSubtext: string;
   };
   footer: {
     copyright: string;
@@ -61,6 +63,7 @@ const sr: Translations = {
     title: "Vaše Karte Sudbine",
     readingTitle: "Vaše Tarot Čitanje",
     loadingText: "Karte se mešaju, vaša sudbina se otkriva...",
+    loadingSubtext: "Prosečno vreme generisanja je oko 20 sekundi.",
   },
   footer: {
     copyright: "© {year} Quick Tarot. Sva prava zadržana.",
@@ -96,6 +99,7 @@ const en: Translations = {
     title: "Your Cards of Fate",
     readingTitle: "Your Tarot Reading",
     loadingText: "The cards are being shuffled, your fate is being revealed...",
+    loadingSubtext: "The average generation time is about 20 seconds.",
   },
   footer: {
     copyright: "© {year} Quick Tarot. All rights reserved.",
