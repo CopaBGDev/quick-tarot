@@ -184,6 +184,7 @@ React.useEffect(() => {
     }
 
     setIsFormLoading(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setReading(null);
     setTypedReading("");
     setCardsFlipped(false);
@@ -454,3 +455,6 @@ React.useEffect(() => {
 
     
 
+
+
+    

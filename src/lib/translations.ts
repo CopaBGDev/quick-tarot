@@ -72,7 +72,7 @@ const sr: Translations = {
   zodiacSigns: ZODIAC_SIGNS_SR,
   errorTitle: "Greška",
   unknownError: "Došlo je do nepoznate greške.",
-  countdownText: "Novo tarot čitanje je moguće za:",
+  countdownText: "Novo čitanje:",
 };
 
 const en: Translations = {
@@ -109,7 +109,7 @@ const en: Translations = {
   zodiacSigns: ZODIAC_SIGNS_EN,
   errorTitle: "Error",
   unknownError: "An unknown error occurred.",
-  countdownText: "Next tarot reading is available in:",
+  countdownText: "Next reading:",
 };
 
 const translations: Record<string, Translations> = {
@@ -120,3 +120,5 @@ const translations: Record<string, Translations> = {
 export function getTranslations(lang: string): Translations {
   return translations[lang] || translations.sr;
 }
+
+    
