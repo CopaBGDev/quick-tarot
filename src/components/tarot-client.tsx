@@ -46,7 +46,7 @@ type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 45;
 
-const CARD_BACK = { name: "Card Back", imagePath: "/cards/card_back.jpg" };
+const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
@@ -472,3 +472,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
