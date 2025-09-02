@@ -1,4 +1,3 @@
-
 "use server";
 
 import {
@@ -14,10 +13,10 @@ const ReadingActionSchema = z.object({
     .string()
     .min(10, "Pitanje mora imati najmanje 10 karaktera.")
     .max(200, "Pitanje ne može biti duže od 200 karaktera."),
-  language: z.string(),
+  language: z.string().optional(), // Sada je jezik opcionalan u shemi
 });
 
-export async function getTarotReading(input: { zodiacSign: string, question: string, language: string }) {
+export async function getTarotReading(input: { zodiacSign: string, question: string, language?: string }) {
   // We re-validate on the server as a security measure.
   const validation = ReadingActionSchema.safeParse(input);
   if (!validation.success) {
@@ -26,8 +25,14 @@ export async function getTarotReading(input: { zodiacSign: string, question: str
   }
 
   try {
-    // Pass the validated data directly. The language is now required.
-    const result = await generateTarotReading(validation.data);
+    // Proveravamo da li je jezik definisan i postavljamo podrazumevanu vrednost
+    const validatedData = {
+      ...validation.data,
+      language: validation.data.language || 'sr', // Postavlja 'sr' kao podrazumevani
+    };
+
+    // Prosleđujemo proverene i kompletne podatke
+    const result = await generateTarotReading(validatedData);
     return result;
   } catch (error) {
     console.error("Error in getTarotReading:", error);

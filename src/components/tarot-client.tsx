@@ -57,7 +57,7 @@ export default function TarotClient() {
   const [typedReading, setTypedReading] = React.useState("");
   const [language, setLanguage] = React.useState('sr'); // Default to 'sr', never null.
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
-  const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
+  const [zodiacSigns, setZodiacSigns] = React.useState<ZodiacSign[] | readonly ["Ovan", "Bik", "Blizanci", "Rak", "Lav", "Devica", "Vaga", "Škorpija", "Strelac", "Jarac", "Vodolija", "Ribe"]>(ZODIAC_SIGNS_SR);
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
   const resultsRef = React.useRef<HTMLDivElement>(null);
@@ -77,7 +77,7 @@ export default function TarotClient() {
     if (userLang !== language) {
         setLanguage(userLang);
         setTranslations(getTranslations(userLang));
-        setZodiacSigns(getTranslations(userLang).zodiacSigns);
+        setZodiacSigns([...getTranslations(userLang).zodiacSigns]);
     }
   }, [language]); // Depend on language to avoid re-running if not changed.
   
