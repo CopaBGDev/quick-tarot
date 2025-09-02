@@ -6,6 +6,7 @@
  *
  * - generateTarotReading - A function that generates a tarot reading.
  * - GenerateTarotReadingInput - The input type for the generateTarotReading function.
+ * - GenerateTarotReadingOutput - The output type for the generateTarotReading function.
  */
 
 import {ai} from '@/ai/genkit';
@@ -25,13 +26,13 @@ const InternalPromptInputSchema = GenerateTarotReadingInputSchema.extend({
     fullDeck: z.array(z.string()).describe("The entire deck of 78 tarot cards.")
 });
 
-
 // The output is now a plain string that we will parse manually.
 // This avoids potential issues with Zod schemas in the Vercel environment.
-export type GenerateTarotReadingOutput = {
-  cards: { name: string }[];
-  tarotReading: string;
-};
+const GenerateTarotReadingOutputSchema = z.object({
+  cards: z.array(z.object({ name: z.string() })).length(3).describe("An array containing exactly three chosen tarot cards, each with a name."),
+  tarotReading: z.string().describe("The detailed tarot reading based on the chosen cards, user's question, and zodiac sign, in the requested language."),
+});
+export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
 
 
 export async function generateTarotReading(input: GenerateTarotReadingInput): Promise<GenerateTarotReadingOutput> {
@@ -41,16 +42,13 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
 const tarotReadingPrompt = ai.definePrompt({
   name: 'tarotReadingPrompt',
   input: { schema: InternalPromptInputSchema }, // Use the internal schema
+  output: { schema: GenerateTarotReadingOutputSchema },
   system: `You are a tarot reader. Your task is to randomly select exactly three cards from the provided list of all 78 tarot cards. Then, provide a detailed tarot reading based *only* on the three cards you have chosen, connecting them to the user's question and zodiac sign. The entire reading must be in the requested language.
 
 Here is the full deck of cards you must choose from:
 {{#each fullDeck}}
 - {{{this}}}
-{{/each}}
-
-You MUST format your response as a valid JSON object with NO MARKDOWN formatting. The JSON object must have two keys:
-1. "cards": an array of three objects, where each object has a "name" key with the English name of the card you selected. Example: [{"name": "The Fool"}, {"name": "The Magician"}, {"name": "The Justice"}]
-2. "tarotReading": a string containing the full, detailed tarot reading in the requested language.`,
+{{/each}}`,
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now based on the three cards you have randomly selected from the full deck.'
 });
 
@@ -58,7 +56,7 @@ const generateTarotReadingFlow = ai.defineFlow(
   {
     name: 'generateTarotReadingFlow',
     inputSchema: GenerateTarotReadingInputSchema,
-    outputSchema: z.any(), // We will handle parsing manually
+    outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
     // 1. Create the input for the prompt, including the full deck.
@@ -67,27 +65,13 @@ const generateTarotReadingFlow = ai.defineFlow(
         fullDeck: FULL_DECK,
     };
 
-    // 2. Call the prompt and get the raw text output.
+    // 2. Call the prompt and get the structured output.
     const { output } = await tarotReadingPrompt(promptInput);
     if (!output) {
       throw new Error('Failed to generate tarot reading. The AI model did not return a valid output.');
     }
     
-    // 3. Manually parse the JSON string.
-    try {
-      // The output from the LLM is a string, so we need to parse it.
-      const parsedOutput = JSON.parse(output as string);
-      
-      // Basic validation to ensure the parsed object has the keys we expect.
-      if (!parsedOutput.cards || !parsedOutput.tarotReading) {
-        throw new Error("AI output is missing required keys 'cards' or 'tarotReading'.");
-      }
-      
-      return parsedOutput as GenerateTarotReadingOutput;
-    } catch (e) {
-      console.error("Failed to parse AI output:", e);
-      console.error("Raw AI output:", output);
-      throw new Error("There was an issue interpreting the response from the AI. Please try again.");
-    }
+    // 3. The output is already a valid JSON object thanks to the Zod schema.
+    return output;
   }
 );

@@ -1,5 +1,7 @@
 import TarotClient from '@/components/tarot-client';
 
+export const runtime = 'nodejs';
+
 export default function Home() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-background">
