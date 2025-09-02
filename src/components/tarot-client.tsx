@@ -243,6 +243,7 @@ React.useEffect(() => {
     .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
   
   const showMinimizedView = isFormLoading || reading;
+  const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4">
@@ -262,7 +263,7 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground sm:text-left truncate hidden sm:block">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground text-left truncate block">{submittedValues.question}</p>
             </div>
 
             <div className="flex-shrink-0 hidden sm:flex items-center justify-center gap-2">
@@ -273,24 +274,19 @@ React.useEffect(() => {
             </div>
 
             <div className="flex items-center justify-end gap-4 flex-1">
-              {(isFormLoading || reading) && (
-                  <div className="flex items-center gap-2 text-sm text-primary font-mono">
-                      <span className="text-xs text-muted-foreground hidden lg:inline">{countdown > 0 ? translations.countdownText : translations.countdownFinishedText}</span>
-                      {countdown > 0 ? (
-                        <>
-                          <Timer className="h-4 w-4" />
-                          <span>{formattedCountdown}</span>
-                        </>
-                      ) : !isFormLoading && (
-                        <>
-                          <Logo className="h-8 w-8 text-primary/80 animate-pulse hidden sm:block" />
-                          <ArrowRight className="h-5 w-5 animate-pulse text-primary sm:hidden" />
-                        </>
-                      )}
-                  </div>
-              )}
+                {countdown > 0 && (
+                    <div className="flex items-center gap-2 text-sm text-primary font-mono">
+                        <span className="text-xs text-muted-foreground hidden lg:inline">{translations.countdownText}</span>
+                        <Timer className="h-4 w-4" />
+                        <span>{formattedCountdown}</span>
+                    </div>
+                )}
               <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                <Edit3 className="h-5 w-5" />
+                {isReadyForNewReading ? (
+                    <Logo className="h-8 w-8 text-primary/80 animate-pulse" />
+                ) : (
+                    <Edit3 className="h-5 w-5" />
+                )}
                 <span className="sr-only">Edit</span>
               </Button>
             </div>
@@ -454,5 +450,7 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
 
     
