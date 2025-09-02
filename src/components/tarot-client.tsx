@@ -235,6 +235,13 @@ React.useEffect(() => {
   const showMinimizedView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
 
+  let formattedCountdown = '00:00';
+  if (countdown) {
+      formattedCountdown = `${Math.floor(countdown / 60)
+        .toString()
+        .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
+  }
+
   const minimizedView = (
     <div className="fixed top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
       <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between gap-4 px-4">
@@ -275,7 +282,7 @@ React.useEffect(() => {
              {isReadyForNewReading ? (
                <>
                  <button onClick={resetForm} className="block sm:hidden text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                   <Logo className="h-14 w-14" />
+                   <Logo className="h-16 w-16" />
                  </button>
                  <Button onClick={resetForm} className="hidden sm:flex" variant="default" size="sm">
                    {translations.countdownFinishedText}
@@ -581,3 +588,4 @@ React.useEffect(() => {
 }
 
     
+
