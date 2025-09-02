@@ -263,7 +263,8 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground text-left truncate sm:hidden">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground text-left truncate hidden sm:block">{submittedValues.question}</p>
             </div>
 
             <div className="flex-shrink-0 hidden sm:flex items-center justify-center gap-2 h-full">
@@ -315,7 +316,7 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          <div className="w-full max-w-md mx-auto lg:order-2">
+          <div className="w-full max-w-md mx-auto lg:order-1">
             <FormField
               control={form.control}
               name="zodiacSign"
@@ -337,7 +338,7 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-center w-full lg:order-1">
+          <div className="flex flex-col items-center w-full lg:order-2">
             <header className="flex w-full max-w-md flex-col items-center text-center order-1 lg:order-none">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
@@ -464,7 +465,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
-
-    
