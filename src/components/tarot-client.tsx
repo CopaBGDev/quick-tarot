@@ -286,8 +286,8 @@ React.useEffect(() => {
            <div className="relative">
              {isReadyForNewReading ? (
                <>
-                 <Button variant="ghost" onClick={resetForm} className="block sm:hidden text-primary hover:bg-primary/10 h-12 w-12">
-                   <Logo className="h-10 w-10" />
+                 <Button variant="ghost" onClick={resetForm} className="block sm:hidden text-primary hover:bg-primary/10 h-16 w-16 p-0">
+                   <Logo className="h-12 w-12" />
                    <span className="sr-only">Novo čitanje</span>
                  </Button>
                  <Button onClick={resetForm} className="hidden sm:flex" variant="default" size="sm">
@@ -575,5 +575,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
