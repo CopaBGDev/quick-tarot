@@ -9,7 +9,7 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
   "The Chariot": "/zodiac/cards/the_chariot.jpeg",
   "Strength": "/zodiac/cards/strength.jpeg",
   "The Hermit": "/zodiac/cards/the_hermit.jpeg",
-  "Wheel of Fortune": "/zodiac/cards/wheel_of_fortune.jpeg",
+  "The Wheel of Fortune": "/zodiac/cards/the_wheel_of_fortune.jpeg",
   "Justice": "/zodiac/cards/justice.jpeg",
   "The Hanged Man": "/zodiac/cards/the_hanged_man.jpeg",
   "Death": "/zodiac/cards/death.jpeg",
@@ -80,7 +80,7 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
 };
 
 const MAJOR_ARCANA_PREFIXABLE = new Set([
-  "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", "Lovers", "Chariot", "Hermit", "Hanged Man", "Devil", "Tower", "Star", "Moon", "Sun", "World"
+  "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", "Lovers", "Chariot", "Hermit", "Hanged Man", "Devil", "Tower", "Star", "Moon", "Sun", "World", "Wheel of Fortune"
 ]);
 
 export function getCardImagePath(name: string): string {
