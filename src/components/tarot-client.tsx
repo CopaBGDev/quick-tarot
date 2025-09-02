@@ -312,32 +312,9 @@ React.useEffect(() => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full lg:grid lg:grid-cols-[472px_1fr] lg:gap-16"
+            className="w-full flex flex-col items-center"
           >
-            <div className="lg:sticky lg:top-24 h-fit">
-              <FormField
-                control={form.control}
-                name="zodiacSign"
-                render={({ field, fieldState }) => (
-                  <FormItem className="flex flex-col items-center">
-                    <FormControl>
-                      <ZodiacWheel
-                        signs={zodiacSigns}
-                        onSelect={field.onChange}
-                        selectedValue={field.value}
-                        disabled={disabled}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-center mt-4">
-                      {fieldState.error?.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <div className="flex flex-col items-center justify-center gap-12 mt-12 lg:mt-0">
-               <header className="flex w-full max-w-md flex-col items-center text-center">
+              <header className="flex w-full max-w-md flex-col items-center text-center">
                 <div className="flex flex-col items-center">
                   <Logo className="h-28 w-28 text-primary" />
                   <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -349,7 +326,29 @@ React.useEffect(() => {
                 </p>
               </header>
 
-              <div className="w-full max-w-md space-y-8">
+              <div className="w-full mt-12">
+                 <FormField
+                    control={form.control}
+                    name="zodiacSign"
+                    render={({ field, fieldState }) => (
+                      <FormItem className="flex flex-col items-center">
+                        <FormControl>
+                          <ZodiacWheel
+                            signs={zodiacSigns}
+                            onSelect={field.onChange}
+                            selectedValue={field.value}
+                            disabled={disabled}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-center mt-4">
+                          {fieldState.error?.message}
+                        </FormMessage>
+                      </FormItem>
+                    )}
+                  />
+              </div>
+
+              <div className="w-full max-w-md space-y-8 mt-12">
                   <FormField
                     control={form.control}
                     name="question"
@@ -391,7 +390,6 @@ React.useEffect(() => {
                     )}
                   </Button>
               </div>
-            </div>
           </form>
         </Form>
       ) : (
@@ -464,3 +462,5 @@ React.useEffect(() => {
   );
 }
 
+
+    
