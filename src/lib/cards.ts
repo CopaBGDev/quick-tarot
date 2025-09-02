@@ -71,7 +71,7 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
   "Six of Pentacles": "/zodiac/cards/six_of_pentacles.jpeg",
   "Seven of Pentacles": "/zodiac/cards/seven_of_pentacles.jpeg",
   "Eight of Pentacles": "/zodiac/cards/eight_of_pentacles.jpeg",
-  "Nine of Pentacles": "/ziac/cards/nine_of_pentacles.jpeg",
+  "Nine of Pentacles": "/zodiac/cards/nine_of_pentacles.jpeg",
   "Ten of Pentacles": "/zodiac/cards/ten_of_pentacles.jpeg",
   "Page of Pentacles": "/zodiac/cards/page_of_pentacles.jpeg",
   "Knight of Pentacles": "/zodiac/cards/knight_of_pentacles.jpeg",
