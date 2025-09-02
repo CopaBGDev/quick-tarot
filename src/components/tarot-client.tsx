@@ -232,18 +232,6 @@ React.useEffect(() => {
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
 
-  if (isMobile === undefined) {
-    return (
-      <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
-        <Loader2 className="h-16 w-16 animate-spin text-primary" />
-      </div>
-    )
-  }
-  
-  const formattedCountdown = `${Math.floor(countdown / 60)
-    .toString()
-    .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
-  
   const showMinimizedView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
 
@@ -286,10 +274,9 @@ React.useEffect(() => {
            <div className="relative">
              {isReadyForNewReading ? (
                <>
-                 <Button variant="ghost" onClick={resetForm} className="block sm:hidden text-primary hover:bg-primary/10 h-16 w-16 p-0">
-                   <Logo className="h-12 w-12" />
-                   <span className="sr-only">Novo čitanje</span>
-                 </Button>
+                 <button onClick={resetForm} className="block sm:hidden text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                   <Logo className="h-14 w-14" />
+                 </button>
                  <Button onClick={resetForm} className="hidden sm:flex" variant="default" size="sm">
                    {translations.countdownFinishedText}
                    <ArrowRight className="h-4 w-4 ml-2" />
@@ -363,6 +350,27 @@ React.useEffect(() => {
     </section>
   );
 
+  // Conditional Rendering based on Mobile or Desktop
+  if (isMobile === undefined) {
+    return (
+      <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    )
+  }
+
+  const footerContent = (
+    <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
+      <AdPlaceholder />
+      <p className="text-sm text-muted-foreground">
+        {translations.footer.copyright.replace(
+          "{year}",
+          new Date().getFullYear().toString()
+        )}
+      </p>
+    </footer>
+  );
+
   if (isMobile) {
     return (
       <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4">
@@ -374,6 +382,7 @@ React.useEffect(() => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col items-center gap-8 w-full"
             >
+                {/* 1. Header */}
                 <header className="flex w-full flex-col items-center text-center order-1">
                   <div className="flex flex-col items-center">
                     <Logo className="h-28 w-28 text-primary" />
@@ -383,6 +392,7 @@ React.useEffect(() => {
                   </div>
                 </header>
 
+                {/* 2. Zodiac Wheel */}
                 <div className="w-full mt-4 order-2">
                   <FormField
                     control={form.control}
@@ -405,6 +415,7 @@ React.useEffect(() => {
                   />
                 </div>
                 
+                {/* 3. Question Form */}
                 <div className="w-full order-3">
                   <div className="w-full max-w-md space-y-8 lg:mt-0 mx-auto">
                     <FormField
@@ -441,7 +452,9 @@ React.useEffect(() => {
                       ) : countdown > 0 ? (
                         <div className="flex items-center gap-2">
                           <Timer className="h-4 w-4" />
-                          <span>{formattedCountdown}</span>
+                          <span>{`${Math.floor(countdown / 60)
+                            .toString()
+                            .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
                         </div>
                       ) : (
                         <>{translations.button.default}</>
@@ -455,15 +468,7 @@ React.useEffect(() => {
           resultsContent
         )}
         </div>
-        <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
-          <AdPlaceholder />
-          <p className="text-sm text-muted-foreground">
-            {translations.footer.copyright.replace(
-              "{year}",
-              new Date().getFullYear().toString()
-            )}
-          </p>
-        </footer>
+        {footerContent}
       </div>
     );
   }
@@ -479,6 +484,7 @@ React.useEffect(() => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-full max-w-5xl mx-auto lg:grid lg:grid-cols-[472px_1fr] lg:gap-x-12 lg:items-start"
             >
+              {/* Left Column: Zodiac Wheel */}
               <div className="w-full lg:sticky lg:top-28">
                  <FormField
                     control={form.control}
@@ -500,19 +506,23 @@ React.useEffect(() => {
                     )}
                   />
               </div>
+
+              {/* Right Column: Header and Form */}
               <div className="flex flex-col h-full mt-12 lg:mt-0">
                 <header className="flex w-full flex-col items-center text-center">
                     <div className="flex flex-col items-center">
                         <Logo className="h-28 w-28 text-primary" />
                         <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                        {translations.header.title}
+                           {translations.header.title}
                         </h1>
                     </div>
                      <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
                         {translations.header.subtitle}
                     </p>
                 </header>
+                
                 <div className="flex-grow"></div>
+
                 <div className="w-full max-w-md space-y-8 lg:mt-0 mx-auto">
                     <FormField
                       control={form.control}
@@ -548,7 +558,9 @@ React.useEffect(() => {
                       ) : countdown > 0 ? (
                         <div className="flex items-center gap-2">
                           <Timer className="h-4 w-4" />
-                          <span>{formattedCountdown}</span>
+                          <span>{`${Math.floor(countdown / 60)
+                            .toString()
+                            .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
                         </div>
                       ) : (
                         <>{translations.button.default}</>
@@ -563,15 +575,9 @@ React.useEffect(() => {
         )}
       </div>
 
-      <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
-        <AdPlaceholder />
-        <p className="text-sm text-muted-foreground">
-          {translations.footer.copyright.replace(
-            "{year}",
-            new Date().getFullYear().toString()
-          )}
-        </p>
-      </footer>
+      {footerContent}
     </div>
   );
 }
+
+    
