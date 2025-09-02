@@ -33,10 +33,11 @@ import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
 import { useIsMobile } from "@/hooks/use-mobile";
 
+// This schema is now static and won't be dynamically updated.
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
     message: "You must select a valid zodiac sign.",
-  }).optional(),
+  }).optional(), // Optional on the client, error is handled manually.
   question: z
     .string()
     .min(10, { message: "Question must be at least 10 characters long." })
@@ -54,7 +55,7 @@ export default function TarotClient() {
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
-  const [language, setLanguage] = React.useState('sr'); // Default to 'sr'
+  const [language, setLanguage] = React.useState('sr'); // Default to 'sr', never null.
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [progress, setProgress] = React.useState(0);
@@ -71,27 +72,14 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
-    // This code runs only on the client, preventing server-side errors.
+    // This code runs only on the client to detect browser language.
     const userLang = navigator.language.split('-')[0] || 'sr';
-    const newTranslations = getTranslations(userLang);
-    setLanguage(userLang);
-    setTranslations(newTranslations);
-    setZodiacSigns(newTranslations.zodiacSigns);
-    
-    // Update zod resolver with new translations
-    const zodSchema = z.object({
-      zodiacSign: z.custom<ZodiacSign>((val) => newTranslations.zodiacSigns.includes(val as ZodiacSign), {
-        message: newTranslations.form.zodiac.error,
-      }).optional(),
-      question: z
-        .string()
-        .min(10, { message: newTranslations.form.question.minLengthError })
-        .max(200, { message: newTranslations.form.question.maxLengthError }),
-    });
-
-    (form as any).resolver = zodResolver(zodSchema);
-
-  }, []);
+    if (userLang !== language) {
+        setLanguage(userLang);
+        setTranslations(getTranslations(userLang));
+        setZodiacSigns(getTranslations(userLang).zodiacSigns);
+    }
+  }, [language]); // Depend on language to avoid re-running if not changed.
   
   React.useEffect(() => {
     if (!reading) {
@@ -179,7 +167,8 @@ React.useEffect(() => {
     }, 100);
 
     try {
-      const result = await getTarotReading({ ...data, language });
+      // Language is now required and guaranteed to be a string.
+      const result = await getTarotReading({ ...data, zodiacSign: data.zodiacSign, language });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
@@ -583,5 +572,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    

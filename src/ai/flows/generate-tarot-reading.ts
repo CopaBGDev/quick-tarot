@@ -19,7 +19,7 @@ import { randomInt } from 'crypto';
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
   question: z.string().describe('The question asked by the user.'),
-  language: z.string().optional().default('sr').describe('The language for the output, e.g., "en" for English.'),
+  language: z.string().describe('The language for the output, e.g., "sr" for Serbian.'),
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 
@@ -34,7 +34,7 @@ const TarotCardOutputSchema = z.object({
 });
 
 const GenerateTarotReadingOutputSchema = z.object({
-  cards: z.array(TarotCardOutputSchema).length(3).describe('The three tarot cards that were drawn.'),
+  cards: z.array(TarotCardOutputSchema).describe('The three tarot cards that were drawn.'),
   tarotReading: z.string().describe('The generated tarot reading in the requested language.'),
 });
 export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
@@ -88,13 +88,14 @@ const generateTarotReadingFlow = ai.defineFlow(
     // 3. Call the prompt with the selected cards.
     const { output } = await tarotReadingPrompt(promptInput);
     if (!output) {
-      throw new Error('Failed to generate tarot reading.');
+      throw new Error('Failed to generate tarot reading. The AI model did not return a valid output.');
     }
     
     // 4. Ensure the output cards match the drawn cards.
-    // This is a safeguard against the AI hallucinating different cards.
+    // This is a critical safeguard against the AI hallucinating different cards
+    // and ensures data consistency.
     const finalOutput: GenerateTarotReadingOutput = {
-      ...output,
+      tarotReading: output.tarotReading,
       cards: drawnCards.map(cardName => ({ name: cardName })),
     };
 
