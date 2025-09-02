@@ -263,10 +263,7 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate sm:hidden">
-                {submittedValues.question}
-              </p>
-              <p className="flex-1 text-muted-foreground text-left truncate hidden sm:block">
+              <p className="flex-1 text-muted-foreground text-left truncate">
                 {submittedValues.question}
               </p>
             </div>
@@ -320,7 +317,8 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          <div className="w-full max-w-md mx-auto lg:order-1 order-2">
+          {/* Zodiac Wheel - Order 2 on mobile, 1 on desktop */}
+          <div className="w-full max-w-md mx-auto order-2 lg:order-1">
             <FormField
               control={form.control}
               name="zodiacSign"
@@ -342,8 +340,10 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-center w-full lg:order-2">
-            <header className="flex w-full max-w-md flex-col items-center text-center order-1 lg:order-none">
+          {/* This column contains Header and Question form */}
+          <div className="flex flex-col items-center w-full order-1 lg:order-2">
+            {/* Header - Stays at the top of this column */}
+            <header className="flex w-full max-w-md flex-col items-center text-center">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -355,7 +355,8 @@ React.useEffect(() => {
               </p>
             </header>
 
-            <div className="mt-8 w-full max-w-md space-y-8 order-3 lg:order-none">
+            {/* Question Form - Placed after header in this column, making it 3rd on mobile */}
+            <div className="mt-8 w-full max-w-md space-y-8 lg:order-3">
               <FormField
                 control={form.control}
                 name="question"
@@ -469,3 +470,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
