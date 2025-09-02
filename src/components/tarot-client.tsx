@@ -5,7 +5,7 @@ import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer, ArrowRight } from "lucide-react";
+import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer, ArrowRight, Volume2, Pause } from "lucide-react";
 import Image from "next/image";
 
 
@@ -58,6 +58,8 @@ export default function TarotClient() {
   const [language, setLanguage] = React.useState('sr');
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
+  const [isSpeaking, setIsSpeaking] = React.useState(false);
+  const [isSpeechSupported, setIsSpeechSupported] = React.useState(false);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
   const questionFormRef = React.useRef<HTMLDivElement>(null);
@@ -70,6 +72,10 @@ export default function TarotClient() {
     },
   });
   
+  React.useEffect(() => {
+    setIsSpeechSupported(typeof window !== 'undefined' && 'speechSynthesis' in window);
+  }, []);
+
   React.useEffect(() => {
     const userLang = navigator.language.split('-')[0];
     setLanguage(userLang);
@@ -115,6 +121,11 @@ export default function TarotClient() {
     return () => {
         clearInterval(typingInterval);
         clearTimeout(flipTimeout);
+        // Clean up speech synthesis on new reading
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+          setIsSpeaking(false);
+        }
     };
   }, [reading]);
 
@@ -213,8 +224,12 @@ React.useEffect(() => {
   };
   
   const resetForm = () => {
+    if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+    }
     setReading(null);
     setIsFormLoading(false);
+    setIsSpeaking(false);
     setCountdown(0);
     form.setValue('question', '');
     form.clearErrors();
@@ -229,6 +244,40 @@ React.useEffect(() => {
             form.handleSubmit(onSubmit)();
         }
     }
+  };
+
+  const handleSpeak = () => {
+    if (!isSpeechSupported || !reading) return;
+
+    if (isSpeaking) {
+        window.speechSynthesis.cancel();
+        setIsSpeaking(false);
+        return;
+    }
+
+    // Ensure typing is finished
+    if (typedReading.length < reading.tarotReading.length) return;
+
+    const utterance = new SpeechSynthesisUtterance(reading.tarotReading);
+    
+    // Attempt to find a Serbian voice
+    const voices = window.speechSynthesis.getVoices();
+    const serbianVoice = voices.find(voice => voice.lang.startsWith('sr'));
+    if (serbianVoice) {
+        utterance.voice = serbianVoice;
+    } else {
+        // Fallback for other languages or default
+        const langVoice = voices.find(voice => voice.lang.startsWith(language));
+        if (langVoice) {
+            utterance.voice = langVoice;
+        }
+    }
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    window.speechSynthesis.speak(utterance);
   };
   
   const tarotCards = React.useMemo(() => {
@@ -264,6 +313,7 @@ React.useEffect(() => {
     .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
   
   const showMinimizedView = isFormLoading || reading;
+  const isTypingFinished = reading ? typedReading.length === reading.tarotReading.length : false;
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
@@ -444,7 +494,21 @@ React.useEffect(() => {
                 <>
                   <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                     <CardHeader>
-                      <CardTitle className="text-center">{translations.results.readingTitle}</CardTitle>
+                        <div className="flex items-center justify-center relative">
+                            <CardTitle>{translations.results.readingTitle}</CardTitle>
+                            {isSpeechSupported && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={handleSpeak}
+                                    disabled={!isTypingFinished}
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:bg-primary/10 disabled:opacity-50"
+                                >
+                                    {isSpeaking ? <Pause className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
+                                    <span className="sr-only">Pročitaj tekst</span>
+                                </Button>
+                            )}
+                        </div>
                     </CardHeader>
                     <CardContent className="p-6 text-left">
                       <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
@@ -472,3 +536,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    

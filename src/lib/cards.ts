@@ -82,7 +82,7 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
 
 export const FULL_DECK: string[] = Object.keys(TAROT_CARD_IMAGES);
 
-// This list contains the base names of all Major Arcana cards that should have "The" as a prefix.
+// This list contains the base names of all Major Arcana cards.
 // Our logic will ensure "The" is added if it's missing from the AI's response.
 const MAJOR_ARCANA_BASE_NAMES = new Set([
   "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", 
@@ -91,26 +91,23 @@ const MAJOR_ARCANA_BASE_NAMES = new Set([
   "Sun", "Judgement", "World"
 ]);
 
-
 export function getCardImagePath(name: string): string {
-  let normalizedName = name;
+    let normalizedName = name.trim();
 
-  // Check if the AI returned a name that should have "The" but doesn't.
-  // For example, if AI returns "Lovers", this will convert it to "The Lovers".
-  if (MAJOR_ARCANA_BASE_NAMES.has(name) && !name.startsWith("The ")) {
-    if (name === 'Judgement') {
-        normalizedName = `The Judgement`;
-    } else {
-        normalizedName = `The ${name}`;
+    // Handle names that should have "The " but might not
+    const baseName = normalizedName.replace(/^The\s/, '');
+    if (MAJOR_ARCANA_BASE_NAMES.has(baseName) && !normalizedName.startsWith("The ")) {
+        normalizedName = `The ${baseName}`;
     }
-  }
-
-  const imagePath = TAROT_CARD_IMAGES[normalizedName];
   
-  if (imagePath) {
-    return imagePath;
+    const imagePath = TAROT_CARD_IMAGES[normalizedName];
+    if (imagePath) {
+      return imagePath;
+    }
+  
+    // Fallback if no image is found, but the logic above should be robust.
+    console.warn(`Image not found for card: "${name}" (normalized to: "${normalizedName}")`);
+    return "/zodiac/cards/card_back.jpeg";
   }
 
-  // Fallback just in case, but the logic above should handle most cases.
-  return "/zodiac/cards/card_back.jpeg";
-}
+    
