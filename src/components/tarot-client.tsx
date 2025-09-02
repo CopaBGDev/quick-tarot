@@ -71,12 +71,15 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
-    const userLang = navigator.language.split('-')[0];
-    setLanguage(userLang);
+    // This code runs only on the client, preventing server-side errors.
+    const userLang = navigator.language.split('-')[0] || 'sr';
     const newTranslations = getTranslations(userLang);
+    
+    setLanguage(userLang);
     setTranslations(newTranslations);
     setZodiacSigns(newTranslations.zodiacSigns);
     
+    // Create a new Zod schema with translated error messages
     const zodSchema = z.object({
       zodiacSign: z.custom<ZodiacSign>((val) => newTranslations.zodiacSigns.includes(val as ZodiacSign), {
         message: newTranslations.form.zodiac.error,
@@ -87,7 +90,8 @@ export default function TarotClient() {
         .max(200, { message: newTranslations.form.question.maxLengthError }),
     });
 
-    form.reset(undefined, { keepValues: true });
+    // Update the form resolver with the new schema
+    form.reset(undefined, { keepValues: true }); // Keep existing values
     (form as any).resolver = zodResolver(zodSchema);
 
   }, [form]);
@@ -589,3 +593,4 @@ React.useEffect(() => {
 
     
 
+    
