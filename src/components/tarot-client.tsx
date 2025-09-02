@@ -266,7 +266,7 @@ React.useEffect(() => {
   const showMinimizedView = isFormLoading || reading;
 
   return (
-    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12">
+    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4">
       {showMinimizedView && (
         <div className="fixed top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
           <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between gap-4 px-4">
@@ -287,8 +287,8 @@ React.useEffect(() => {
             </div>
 
             <div className="flex items-center justify-center gap-2">
-                <Logo className="h-20 w-20 text-primary" />
-                 <h1 className="font-headline text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                <Logo className="h-16 w-16 sm:h-20 sm:w-20 text-primary" />
+                 <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                   Quick Tarot
                 </h1>
             </div>
@@ -323,7 +323,7 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="grid w-full grid-cols-1 items-center justify-center gap-12 lg:grid-cols-2 lg:gap-16"
         >
-          <div ref={zodiacWheelRef}>
+          <div ref={zodiacWheelRef} className="w-full max-w-md mx-auto">
             <FormField
               control={form.control}
               name="zodiacSign"
@@ -413,7 +413,7 @@ React.useEffect(() => {
               <h2 className="font-headline text-3xl font-bold text-primary">
                 {translations.results.title}
               </h2>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+              <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
                 <TarotCard
                   isFlipped={cardsFlipped}
                   delay={0}

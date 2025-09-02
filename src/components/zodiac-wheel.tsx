@@ -39,23 +39,31 @@ interface Position {
 
 export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: ZodiacWheelProps) {
     const [positions, setPositions] = React.useState<Position[]>([]);
+    const containerRef = React.useRef<HTMLDivElement>(null);
 
     React.useEffect(() => {
-        const newPositions: Position[] = [];
-        const radius = 166;
-        const center = 236;
-        const numSigns = 12;
-        // Start angle for Aries (9 o'clock)
-        const startAngle = Math.PI; 
+        const calculatePositions = () => {
+            if (!containerRef.current) return;
 
-        for (let i = 0; i < numSigns; i++) {
-            // Angle goes counter-clockwise
-            const angle = startAngle - (i * 2 * Math.PI) / numSigns;
-            const x = center + radius * Math.cos(angle);
-            const y = center + radius * Math.sin(angle);
-            newPositions.push({ x, y });
-        }
-        setPositions(newPositions);
+            const containerSize = containerRef.current.offsetWidth;
+            const center = containerSize / 2;
+            const radius = containerSize * 0.35; // Responsive radius
+            const numSigns = 12;
+            const startAngle = Math.PI;
+            const newPositions: Position[] = [];
+
+            for (let i = 0; i < numSigns; i++) {
+                const angle = startAngle - (i * 2 * Math.PI) / numSigns;
+                const x = center + radius * Math.cos(angle);
+                const y = center + radius * Math.sin(angle);
+                newPositions.push({ x, y });
+            }
+            setPositions(newPositions);
+        };
+
+        calculatePositions();
+        window.addEventListener('resize', calculatePositions);
+        return () => window.removeEventListener('resize', calculatePositions);
     }, []);
 
 
@@ -72,34 +80,35 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
     const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
 
     if (positions.length === 0) {
-        return <div className="mx-auto w-[472px] h-[472px]" />;
+        return <div ref={containerRef} className="w-full max-w-[472px] aspect-square mx-auto" />;
     }
 
     return (
         <div
+            ref={containerRef}
             className={cn(
-                "relative mx-auto w-[472px] h-[472px]",
+                "relative mx-auto w-full max-w-[472px] aspect-square",
                 disabled && "opacity-50 cursor-not-allowed"
             )}
         >
             <div className="w-full h-full relative">
                 {/* Center circle */}
                 <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] h-[45%] rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
                 >
                     {selectedImage && selectedValue ? (
-                         <div className="flex flex-col items-center justify-center">
+                         <div className="flex flex-col items-center justify-center w-full h-full p-4">
                             <Image
                                 src={selectedImage}
                                 alt={selectedValue}
                                 width={120}
                                 height={120}
-                                className="rounded-full animate-in fade-in zoom-in-50"
+                                className="w-full h-full object-contain animate-in fade-in zoom-in-50"
                                 unoptimized
                             />
                          </div>
                     ) : (
-                        <Logo className="h-52 w-52 text-primary/40 animate-in fade-in" />
+                        <Logo className="w-full h-full text-primary/40 p-4 animate-in fade-in" />
                     )}
                 </div>
 
@@ -114,7 +123,7 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                     return (
                         <div
                             key={sign}
-                            className="absolute"
+                            className="absolute w-[17%] h-[17%]" // Responsive sign container
                             style={{
                                 left: `${pos.x}px`,
                                 top: `${pos.y}px`,
@@ -123,11 +132,11 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                         >
                              <div
                                 onClick={() => handleSignClick(sign)}
-                                className="cursor-pointer group"
+                                className="cursor-pointer group w-full h-full"
                             >
                                 <div
                                     className={cn(
-                                        "w-20 h-20 rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110",
+                                        "w-full h-full rounded-full flex items-center justify-center transition-all duration-300 transform hover:scale-110",
                                         isSelected
                                             ? "scale-110 ring-2 ring-primary"
                                             : "bg-transparent"
@@ -139,8 +148,8 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
                                         width={56}
                                         height={56}
                                         className={cn(
-                                            "rounded-full transition-all duration-300",
-                                            isSelected ? " " : "opacity-70 group-hover:opacity-100"
+                                            "rounded-full transition-all duration-300 w-full h-full p-1",
+                                            isSelected ? "" : "opacity-70 group-hover:opacity-100"
                                         )}
                                         unoptimized
                                     />
@@ -153,5 +162,3 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         </div>
     );
 }
-
-    
