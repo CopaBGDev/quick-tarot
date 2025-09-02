@@ -6,9 +6,6 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "frameworksBackend": {
-      "id": "tarot-sudbina",
-      "region": "us-central1"
-    }
+    "frameworksBackend": {}
   }
 }
