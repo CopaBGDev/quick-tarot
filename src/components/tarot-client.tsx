@@ -263,7 +263,7 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate">
+              <p className="flex-1 text-muted-foreground text-left truncate block">
                 {submittedValues.question}
               </p>
             </div>
@@ -317,7 +317,6 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          {/* Zodiac Wheel - Order 2 on mobile, 1 on desktop */}
           <div className="w-full max-w-md mx-auto order-2 lg:order-1">
             <FormField
               control={form.control}
@@ -340,9 +339,7 @@ React.useEffect(() => {
             />
           </div>
 
-          {/* This column contains Header and Question form */}
           <div className="flex flex-col items-center w-full order-1 lg:order-2">
-            {/* Header - Stays at the top of this column */}
             <header className="flex w-full max-w-md flex-col items-center text-center">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
@@ -354,9 +351,9 @@ React.useEffect(() => {
                 {translations.header.subtitle}
               </p>
             </header>
-
-            {/* Question Form - Placed after header in this column, making it 3rd on mobile */}
-            <div className="mt-8 w-full max-w-md space-y-8 lg:order-3">
+          </div>
+          
+          <div className="mt-8 w-full max-w-md space-y-8 order-3 lg:order-3">
               <FormField
                 control={form.control}
                 name="question"
@@ -398,7 +395,6 @@ React.useEffect(() => {
                 )}
               </Button>
             </div>
-          </div>
         </form>
       </Form>
       ) : (
@@ -471,4 +467,5 @@ React.useEffect(() => {
   );
 }
 
+    
     
