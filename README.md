@@ -13,16 +13,11 @@ To create a production-ready version of your app, run the following command in y
 ```bash
 npm run build
 ```
-This will compile your Next.js application and prepare all the necessary assets in an `out` directory.
+This will compile your Next.js application and prepare all the necessary assets.
 
 ### Deploying to Firebase App Hosting
 
-Once your application is built, you can deploy it to Firebase. Make sure you have the Firebase CLI installed and you are logged into your Firebase account.
-
-If you don't have the Firebase CLI, you can install it globally via npm:
-```bash
-npm install -g firebase-tools
-```
+Once your application is built, you can deploy it to Firebase. Make sure you are logged into your Firebase account.
 
 To deploy your application, run:
 ```bash
