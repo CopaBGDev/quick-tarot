@@ -6,22 +6,14 @@ To get started, take a look at src/app/page.tsx.
 
 ## Building and Deploying
 
-### Building the Application
+The recommended way to deploy this Next.js application is by using **Vercel**, the platform created by the makers of Next.js. Vercel offers a seamless deployment experience and a generous free tier.
 
-To create a production-ready version of your app, run the following command in your terminal:
+### Deploying with Vercel
 
-```bash
-npm run build
-```
-This will compile your Next.js application and prepare all the necessary assets.
+1.  **Push to a Git Repository**: Make sure your project code is on a Git provider like GitHub, GitLab, or Bitbucket.
+2.  **Sign up on Vercel**: Create an account on [Vercel](https://vercel.com/signup) using your Git account.
+3.  **Import Project**: From your Vercel dashboard, click "Add New... > Project".
+4.  **Select Your Repository**: Find and select the Git repository for this project.
+5.  **Deploy**: Vercel will automatically detect that you are using Next.js and configure the build settings for you. Click the "Deploy" button.
 
-### Deploying to Firebase App Hosting
-
-Once your application is built, you can deploy it to Firebase. Make sure you are logged into your Firebase account.
-
-To deploy your application, run:
-```bash
-firebase deploy
-```
-
-This command will upload your built application to Firebase App Hosting. Once the deployment is complete, the CLI will provide you with the URL to your live application.
+That's it! Vercel will build and deploy your application, providing you with a live URL once it's done.
