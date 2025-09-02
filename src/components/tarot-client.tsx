@@ -60,6 +60,7 @@ export default function TarotClient() {
   const [countdown, setCountdown] = React.useState(0);
   const [isSpeaking, setIsSpeaking] = React.useState(false);
   const [isSpeechSupported, setIsSpeechSupported] = React.useState(false);
+  const [voices, setVoices] = React.useState<SpeechSynthesisVoice[]>([]);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
   const questionFormRef = React.useRef<HTMLDivElement>(null);
@@ -73,7 +74,24 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
-    setIsSpeechSupported(typeof window !== 'undefined' && 'speechSynthesis' in window);
+    const speechSupported = typeof window !== 'undefined' && 'speechSynthesis' in window;
+    setIsSpeechSupported(speechSupported);
+    
+    if (speechSupported) {
+      const loadVoices = () => {
+        setVoices(window.speechSynthesis.getVoices());
+      };
+      
+      // Initial load
+      loadVoices();
+      
+      // The event is fired when the list of voices has been loaded.
+      window.speechSynthesis.onvoiceschanged = loadVoices;
+      
+      return () => {
+        window.speechSynthesis.onvoiceschanged = null;
+      }
+    }
   }, []);
 
   React.useEffect(() => {
@@ -247,7 +265,7 @@ React.useEffect(() => {
   };
 
   const handleSpeak = () => {
-    if (!isSpeechSupported || !reading) return;
+    if (!isSpeechSupported || !reading || voices.length === 0) return;
 
     if (isSpeaking) {
         window.speechSynthesis.cancel();
@@ -260,17 +278,14 @@ React.useEffect(() => {
 
     const utterance = new SpeechSynthesisUtterance(reading.tarotReading);
     
-    // Attempt to find a Serbian voice
-    const voices = window.speechSynthesis.getVoices();
+    // Attempt to find a Serbian voice, then fallback to current language, then default
     const serbianVoice = voices.find(voice => voice.lang.startsWith('sr'));
+    const langVoice = voices.find(voice => voice.lang.startsWith(language));
+    
     if (serbianVoice) {
         utterance.voice = serbianVoice;
-    } else {
-        // Fallback for other languages or default
-        const langVoice = voices.find(voice => voice.lang.startsWith(language));
-        if (langVoice) {
-            utterance.voice = langVoice;
-        }
+    } else if (langVoice) {
+        utterance.voice = langVoice;
     }
 
     utterance.onstart = () => setIsSpeaking(true);
@@ -501,7 +516,7 @@ React.useEffect(() => {
                                     variant="ghost"
                                     size="icon"
                                     onClick={handleSpeak}
-                                    disabled={!isTypingFinished}
+                                    disabled={!isTypingFinished || voices.length === 0}
                                     className="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:bg-primary/10 disabled:opacity-50"
                                 >
                                     {isSpeaking ? <Pause className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
