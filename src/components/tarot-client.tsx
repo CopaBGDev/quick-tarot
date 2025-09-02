@@ -314,29 +314,8 @@ React.useEffect(() => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full max-w-5xl mx-auto flex flex-col lg:grid lg:grid-cols-[472px_1fr] lg:gap-x-12 lg:items-start"
           >
-            <div className="w-full lg:order-1 order-2">
-              <FormField
-                control={form.control}
-                name="zodiacSign"
-                render={({ field, fieldState }) => (
-                  <FormItem className="flex flex-col items-center">
-                    <FormControl>
-                      <ZodiacWheel
-                        signs={zodiacSigns}
-                        onSelect={field.onChange}
-                        selectedValue={field.value}
-                        disabled={disabled}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-center mt-4">
-                      {fieldState.error?.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-            </div>
-            
-            <div className="flex flex-col items-center w-full lg:order-2 order-1">
+            {/* This div wraps the right column content for desktop */}
+            <div className="flex flex-col items-center w-full order-1 lg:order-2">
                 <header className="flex w-full max-w-md flex-col items-center text-center">
                   <div className="flex flex-col items-center">
                     <Logo className="h-28 w-28 text-primary" />
@@ -349,7 +328,7 @@ React.useEffect(() => {
                   </p>
                 </header>
 
-                <div className="w-full max-w-md space-y-8 mt-12 lg:order-3 order-3">
+                <div className="w-full max-w-md space-y-8 mt-12 order-3 lg:order-none">
                     <FormField
                       control={form.control}
                       name="question"
@@ -392,6 +371,28 @@ React.useEffect(() => {
                     </Button>
                 </div>
               </div>
+            {/* This div wraps the left column content for desktop */}
+            <div className="w-full lg:order-1 order-2">
+              <FormField
+                control={form.control}
+                name="zodiacSign"
+                render={({ field, fieldState }) => (
+                  <FormItem className="flex flex-col items-center">
+                    <FormControl>
+                      <ZodiacWheel
+                        signs={zodiacSigns}
+                        onSelect={field.onChange}
+                        selectedValue={field.value}
+                        disabled={disabled}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-center mt-4">
+                      {fieldState.error?.message}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+            </div>
           </form>
         </Form>
       ) : (
