@@ -13,6 +13,8 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { FULL_DECK } from '@/lib/cards';
+import { randomInt } from 'crypto';
+
 
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
@@ -56,13 +58,14 @@ IMPORTANT: For the output, you must list the exact three card names provided abo
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now based on the provided cards.'
 });
 
-// Helper function to shuffle an array
+// Helper function to shuffle an array using a more robust random source
 function shuffleArray<T>(array: T[]): T[] {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+    const newArr = [...array];
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const j = randomInt(0, i + 1);
+        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
     }
-    return array;
+    return newArr;
 }
 
 const generateTarotReadingFlow = ai.defineFlow(
@@ -73,7 +76,7 @@ const generateTarotReadingFlow = ai.defineFlow(
   },
   async (input) => {
     // 1. Shuffle the deck and draw 3 cards.
-    const shuffledDeck = shuffleArray([...FULL_DECK]);
+    const shuffledDeck = shuffleArray(FULL_DECK);
     const drawnCards = shuffledDeck.slice(0, 3);
     
     // 2. Create the input for the prompt, including the drawn cards.

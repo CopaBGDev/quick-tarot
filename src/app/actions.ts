@@ -26,11 +26,10 @@ export async function getTarotReading(input: { zodiacSign: string, question: str
   }
 
   try {
-    // Explicitly use the validated data, ensuring 'language' has a fallback.
+    // Pass the validated data directly. The AI flow will handle the default language.
     const result = await generateTarotReading({
-      zodiacSign: validation.data.zodiacSign,
-      question: validation.data.question,
-      language: validation.data.language || 'sr', // Fallback for safety
+        ...validation.data,
+        language: validation.data.language || 'sr'
     });
     return result;
   } catch (error) {
