@@ -9,7 +9,7 @@ import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer, ArrowRight } from "l
 import Image from "next/image";
 
 
-import { getTarotReading } from "@/app/actions";
+import { generateTarotReading } from "@/ai/flows/generate-tarot-reading";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
@@ -168,7 +168,7 @@ React.useEffect(() => {
 
     try {
       // Language is now required and guaranteed to be a string.
-      const result = await getTarotReading({ ...data, zodiacSign: data.zodiacSign, language });
+      const result = await generateTarotReading({ ...data, zodiacSign: data.zodiacSign, language });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
