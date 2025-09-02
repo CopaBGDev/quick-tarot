@@ -31,6 +31,7 @@ import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
@@ -60,6 +61,7 @@ export default function TarotClient() {
   const [countdown, setCountdown] = React.useState(0);
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -230,9 +232,9 @@ React.useEffect(() => {
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
 
-  if (!translations) {
+  if (translations === undefined || isMobile === undefined) {
     return (
-      <div className="flex w-full flex-col items-center justify-center gap-8 py-10">
+      <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
         <Loader2 className="h-16 w-16 animate-spin text-primary" />
       </div>
     )
@@ -244,6 +246,110 @@ React.useEffect(() => {
   
   const showMinimizedView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
+
+  const renderFormContent = (isMobileLayout: boolean) => {
+    const zodiacWheel = (
+      <FormField
+        control={form.control}
+        name="zodiacSign"
+        render={({ field, fieldState }) => (
+          <FormItem className="flex flex-col items-center">
+            <FormControl>
+              <ZodiacWheel
+                signs={zodiacSigns}
+                onSelect={field.onChange}
+                selectedValue={field.value}
+                disabled={disabled}
+              />
+            </FormControl>
+            <FormMessage className="text-center mt-4">
+              {fieldState.error?.message}
+            </FormMessage>
+          </FormItem>
+        )}
+      />
+    );
+
+    const questionForm = (
+      <div className="w-full max-w-md space-y-8 mt-12 lg:mt-0 mx-auto">
+        <FormField
+          control={form.control}
+          name="question"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="w-full block text-right font-bold text-primary">
+                {translations.form.question.label}
+              </FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder={translations.form.question.placeholder}
+                  {...field}
+                  disabled={disabled}
+                  onKeyDown={handleTextareaKeyDown}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button
+          type="submit"
+          className="w-full font-bold"
+          disabled={disabled}
+          size="lg"
+        >
+          {isFormLoading ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              {translations.button.loading}
+            </>
+          ) : countdown > 0 ? (
+            <div className="flex items-center gap-2">
+              <Timer className="h-4 w-4" />
+              <span>{formattedCountdown}</span>
+            </div>
+          ) : (
+            <>{translations.button.default}</>
+          )}
+        </Button>
+      </div>
+    );
+
+    const header = (
+        <header className="flex w-full flex-col items-center text-center">
+            <div className="flex flex-col items-center">
+            <Logo className="h-28 w-28 text-primary" />
+            <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                {translations.header.title}
+            </h1>
+            </div>
+            <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+            {translations.header.subtitle}
+            </p>
+        </header>
+    );
+
+    if (isMobileLayout) {
+        return (
+            <div className="w-full max-w-5xl mx-auto flex flex-col items-center">
+                {header}
+                <div className="w-full mt-12">{zodiacWheel}</div>
+                {questionForm}
+            </div>
+        )
+    }
+
+    return (
+        <div className="w-full max-w-5xl mx-auto grid lg:grid-cols-[472px_1fr] lg:gap-x-12">
+            <div className="w-full">{zodiacWheel}</div>
+            <div className="flex flex-col">
+                {header}
+                <div className="flex-grow"></div>
+                {questionForm}
+            </div>
+        </div>
+    );
+  }
 
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4">
@@ -312,87 +418,8 @@ React.useEffect(() => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full max-w-5xl mx-auto flex flex-col lg:grid lg:grid-cols-[472px_1fr] lg:gap-x-12"
           >
-            <div className="order-1 lg:order-2 flex flex-col">
-                <header className="flex w-full flex-col items-center text-center">
-                  <div className="flex flex-col items-center">
-                    <Logo className="h-28 w-28 text-primary" />
-                    <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                      {translations.header.title}
-                    </h1>
-                  </div>
-                  <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                    {translations.header.subtitle}
-                  </p>
-                </header>
-                <div className="flex-grow"></div>
-                <div className="w-full max-w-md space-y-8 mt-12 lg:mt-0 mx-auto">
-                    <FormField
-                      control={form.control}
-                      name="question"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="w-full block text-right font-bold text-primary">
-                            {translations.form.question.label}
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder={translations.form.question.placeholder}
-                              {...field}
-                              disabled={disabled}
-                              onKeyDown={handleTextareaKeyDown}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      type="submit"
-                      className="w-full font-bold"
-                      disabled={disabled}
-                      size="lg"
-                    >
-                      {isFormLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {translations.button.loading}
-                        </>
-                      ) : countdown > 0 ? (
-                        <div className="flex items-center gap-2">
-                          <Timer className="h-4 w-4" />
-                          <span>{formattedCountdown}</span>
-                        </div>
-                      ) : (
-                        <>{translations.button.default}</>
-                      )}
-                    </Button>
-                </div>
-            </div>
-
-            <div className="w-full order-2 lg:order-1 mt-12 lg:mt-0">
-              <FormField
-                control={form.control}
-                name="zodiacSign"
-                render={({ field, fieldState }) => (
-                  <FormItem className="flex flex-col items-center">
-                    <FormControl>
-                      <ZodiacWheel
-                        signs={zodiacSigns}
-                        onSelect={field.onChange}
-                        selectedValue={field.value}
-                        disabled={disabled}
-                      />
-                    </FormControl>
-                    <FormMessage className="text-center mt-4">
-                      {fieldState.error?.message}
-                    </FormMessage>
-                  </FormItem>
-                )}
-              />
-            </div>
-            
+            {renderFormContent(isMobile)}
           </form>
         </Form>
       ) : (
@@ -464,3 +491,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
