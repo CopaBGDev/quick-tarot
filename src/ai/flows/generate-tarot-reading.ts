@@ -56,16 +56,6 @@ IMPORTANT: For the output, you must list the exact three card names provided abo
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now based on the provided cards.'
 });
 
-// Helper function to shuffle an array using Math.random for compatibility
-function shuffleArray<T>(array: T[]): T[] {
-    const newArr = [...array];
-    for (let i = newArr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-    }
-    return newArr;
-}
-
 const generateTarotReadingFlow = ai.defineFlow(
   {
     name: 'generateTarotReadingFlow',
@@ -73,6 +63,17 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
+    // Helper function to shuffle an array using Math.random for compatibility
+    // This is defined inside the flow to prevent hydration errors.
+    function shuffleArray<T>(array: T[]): T[] {
+        const newArr = [...array];
+        for (let i = newArr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+        }
+        return newArr;
+    }
+
     // 1. Shuffle the deck and draw 3 cards.
     const shuffledDeck = shuffleArray(FULL_DECK);
     const drawnCards = shuffledDeck.slice(0, 3);
