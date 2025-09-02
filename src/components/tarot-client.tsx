@@ -263,7 +263,7 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate hidden sm:block">
+              <p className="flex-1 text-muted-foreground text-left truncate">
                 {submittedValues.question}
               </p>
             </div>
@@ -278,7 +278,6 @@ React.useEffect(() => {
             <div className="flex items-center justify-end gap-4 flex-1">
                 {countdown > 0 && (
                     <div className="flex items-center gap-2 text-sm text-primary font-mono">
-                        <span className="text-xs text-muted-foreground hidden lg:inline">{translations.countdownText}</span>
                         <Timer className="h-4 w-4" />
                         <span>{formattedCountdown}</span>
                     </div>
@@ -317,7 +316,8 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          <div className="w-full max-w-md mx-auto lg:order-1">
+          {/* Mobile Order: 2, Desktop Order: 1 (Left Column) */}
+          <div className="w-full max-w-md mx-auto order-2 lg:order-1">
             <FormField
               control={form.control}
               name="zodiacSign"
@@ -339,8 +339,10 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-center w-full lg:order-2">
-            <header className="flex w-full max-w-md flex-col items-center text-center">
+          {/* This div groups Header and Form for desktop right column */}
+          <div className="flex flex-col items-center justify-between w-full lg:order-2 lg:h-full">
+            {/* Mobile Order: 1 */}
+            <header className="flex w-full max-w-md flex-col items-center text-center order-1 lg:order-none">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -351,7 +353,9 @@ React.useEffect(() => {
                 {translations.header.subtitle}
               </p>
             </header>
-            <div className="mt-8 w-full max-w-md space-y-8">
+            
+            {/* Mobile Order: 3 */}
+            <div className="mt-8 w-full max-w-md space-y-8 order-3 lg:order-none">
                 <FormField
                   control={form.control}
                   name="question"
@@ -392,7 +396,7 @@ React.useEffect(() => {
                     <>{translations.button.default}</>
                   )}
                 </Button>
-              </div>
+            </div>
           </div>
           
         </form>
@@ -466,3 +470,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
