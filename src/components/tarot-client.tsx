@@ -54,8 +54,8 @@ export default function TarotClient() {
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
-  const [language, setLanguage] = React.useState('sr'); // Default to 'sr' to prevent SSR issues
-  const [translations, setTranslations] = React.useState<Translations>(getTranslations(language));
+  const [language, setLanguage] = React.useState('sr'); // Default to 'sr'
+  const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
@@ -74,12 +74,11 @@ export default function TarotClient() {
     // This code runs only on the client, preventing server-side errors.
     const userLang = navigator.language.split('-')[0] || 'sr';
     const newTranslations = getTranslations(userLang);
-    
     setLanguage(userLang);
     setTranslations(newTranslations);
     setZodiacSigns(newTranslations.zodiacSigns);
     
-    // Create a new Zod schema with translated error messages
+    // Update zod resolver with new translations
     const zodSchema = z.object({
       zodiacSign: z.custom<ZodiacSign>((val) => newTranslations.zodiacSigns.includes(val as ZodiacSign), {
         message: newTranslations.form.zodiac.error,
@@ -90,11 +89,9 @@ export default function TarotClient() {
         .max(200, { message: newTranslations.form.question.maxLengthError }),
     });
 
-    // Update the form resolver with the new schema
-    form.reset(undefined, { keepValues: true }); // Keep existing values
     (form as any).resolver = zodResolver(zodSchema);
 
-  }, [form]);
+  }, []);
   
   React.useEffect(() => {
     if (!reading) {
@@ -235,17 +232,10 @@ React.useEffect(() => {
   const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
-
-  const showMinimizedView = isFormLoading || reading;
+  
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
-
-  let formattedCountdown = '00:00';
-  if (countdown) {
-      formattedCountdown = `${Math.floor(countdown / 60)
-        .toString()
-        .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`;
-  }
-
+  const showMinimizedView = isFormLoading || reading;
+  
   const minimizedView = (
     <div className="fixed top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
       <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between gap-4 px-4">
@@ -275,13 +265,6 @@ React.useEffect(() => {
         </div>
 
         <div className="flex items-center justify-end gap-4 flex-1">
-            {countdown > 0 && (
-                <div className="flex items-center gap-2 text-sm text-primary font-mono">
-                    <Timer className="h-4 w-4" />
-                    <span>{formattedCountdown}</span>
-                </div>
-            )}
-          
            <div className="relative">
              {isReadyForNewReading ? (
                <>
@@ -294,10 +277,20 @@ React.useEffect(() => {
                  </Button>
                </>
              ) : (
-               <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                 <Edit3 className="h-5 w-5" />
-                 <span className="sr-only">Edit</span>
-               </Button>
+                <div className="flex items-center gap-2">
+                 {countdown > 0 && (
+                   <div className="text-primary font-mono text-sm hidden sm:flex items-center gap-2">
+                     <Timer className="h-4 w-4" />
+                     <span>
+                        {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+                     </span>
+                   </div>
+                 )}
+                 <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                   <Edit3 className="h-5 w-5" />
+                   <span className="sr-only">Edit</span>
+                 </Button>
+               </div>
              )}
            </div>
         </div>
@@ -592,6 +585,3 @@ React.useEffect(() => {
 }
 
     
-
-    
-
