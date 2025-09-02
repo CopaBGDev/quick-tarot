@@ -263,8 +263,7 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate sm:hidden">{submittedValues.question}</p>
-              <p className="flex-1 text-muted-foreground text-left truncate hidden sm:block">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground text-left truncate">{submittedValues.question}</p>
             </div>
 
             <div className="flex-shrink-0 hidden sm:flex items-center justify-center gap-2 h-full">
@@ -287,7 +286,7 @@ React.useEffect(() => {
                  {isReadyForNewReading ? (
                    <>
                      {/* Mobile: Logo button */}
-                     <Button variant="ghost" size="icon" onClick={resetForm} className="sm:hidden text-primary hover:bg-primary/10">
+                     <Button variant="ghost" size="icon" onClick={resetForm} className="sm:hidden text-primary hover:bg-primary/10 h-10 w-10">
                        <Logo className="h-8 w-8" />
                        <span className="sr-only">Novo čitanje</span>
                      </Button>
@@ -316,7 +315,7 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          <div className="w-full max-w-md mx-auto lg:order-1">
+          <div className="w-full max-w-md mx-auto lg:order-1 order-2">
             <FormField
               control={form.control}
               name="zodiacSign"
