@@ -12,6 +12,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
+import { FULL_DECK } from '@/lib/cards';
 
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
@@ -19,6 +20,12 @@ const GenerateTarotReadingInputSchema = z.object({
   language: z.string().optional().default('sr').describe('The language for the output, e.g., "en" for English.'),
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
+
+// This is an internal schema that includes the randomly drawn cards.
+// It's not exported because the client doesn't need to know about it.
+const InternalPromptInputSchema = GenerateTarotReadingInputSchema.extend({
+    cards: z.array(z.string()).describe("The three randomly selected tarot cards.")
+});
 
 const TarotCardOutputSchema = z.object({
   name: z.string().describe('The name of the tarot card in English. For example: "The Fool", "The Magician", "Ace of Wands".'),
@@ -36,13 +43,27 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
 
 const tarotReadingPrompt = ai.definePrompt({
   name: 'tarotReadingPrompt',
-  input: { schema: GenerateTarotReadingInputSchema },
+  input: { schema: InternalPromptInputSchema }, // Use the internal schema
   output: { schema: GenerateTarotReadingOutputSchema },
-  system: `You are a tarot reader. Your task is to choose three tarot cards from the full 78-card deck that are most relevant to the user's question and zodiac sign. Then, you must provide a tarot reading based on those three cards to answer the user's question. The entire reading must be in the requested language.
+  system: `You are a tarot reader. The user has already drawn three random tarot cards. Your task is to provide a detailed tarot reading based *only* on these three cards, connecting them to the user's question and zodiac sign. The entire reading must be in the requested language.
 
-IMPORTANT: For each card, you must provide its name in English.`,
-  prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now.'
+The user's drawn cards are:
+1. {{{cards.[0]}}}
+2. {{{cards.[1]}}}
+3. {{{cards.[2]}}}
+
+IMPORTANT: For the output, you must list the exact three card names provided above. Do not choose or invent other cards.`,
+  prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now based on the provided cards.'
 });
+
+// Helper function to shuffle an array
+function shuffleArray<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
 
 const generateTarotReadingFlow = ai.defineFlow(
   {
@@ -51,10 +72,29 @@ const generateTarotReadingFlow = ai.defineFlow(
     outputSchema: GenerateTarotReadingOutputSchema,
   },
   async (input) => {
-    const { output } = await tarotReadingPrompt(input);
+    // 1. Shuffle the deck and draw 3 cards.
+    const shuffledDeck = shuffleArray([...FULL_DECK]);
+    const drawnCards = shuffledDeck.slice(0, 3);
+    
+    // 2. Create the input for the prompt, including the drawn cards.
+    const promptInput = {
+        ...input,
+        cards: drawnCards,
+    };
+
+    // 3. Call the prompt with the selected cards.
+    const { output } = await tarotReadingPrompt(promptInput);
     if (!output) {
       throw new Error('Failed to generate tarot reading.');
     }
-    return output;
+    
+    // 4. Ensure the output cards match the drawn cards.
+    // This is a safeguard against the AI hallucinating different cards.
+    const finalOutput: GenerateTarotReadingOutput = {
+      ...output,
+      cards: drawnCards.map(cardName => ({ name: cardName })),
+    };
+
+    return finalOutput;
   }
 );

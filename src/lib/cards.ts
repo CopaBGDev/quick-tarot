@@ -79,6 +79,8 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
   "King of Pentacles": "/zodiac/cards/king_of_pentacles.jpeg",
 };
 
+export const FULL_DECK: string[] = Object.keys(TAROT_CARD_IMAGES);
+
 const MAJOR_ARCANA_PREFIXABLE = new Set([
   "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", "Lovers", "Chariot", "Hermit", "Hanged Man", "Devil", "Tower", "Star", "Moon", "Sun", "World", "Wheel of Fortune"
 ]);
@@ -88,7 +90,20 @@ export function getCardImagePath(name: string): string {
   
   if (MAJOR_ARCANA_PREFIXABLE.has(name) && !name.startsWith("The ")) {
     normalizedName = `The ${name}`;
+  } else if (name === "Judgement") {
+    // A specific fix in case AI returns "Judgement" instead of "Judgment"
+    // Although the map uses "Judgement", we ensure consistency.
+    // No, the map has "Judgement". Let's assume the filename is correct.
   }
   
-  return TAROT_CARD_IMAGES[normalizedName] || "/zodiac/cards/card_back.jpg";
+  const imagePath = TAROT_CARD_IMAGES[normalizedName];
+  if (imagePath) {
+    return imagePath;
+  }
+
+  // Fallback for names that might not match exactly, e.g. "The Wheel Of Fortune"
+  const lowerCaseName = name.toLowerCase().replace(/ /g, '_');
+  const foundKey = Object.keys(TAROT_CARD_IMAGES).find(key => key.toLowerCase().replace(/ /g, '_') === lowerCaseName);
+  
+  return foundKey ? TAROT_CARD_IMAGES[foundKey] : "/zodiac/cards/card_back.jpeg";
 }
