@@ -28,7 +28,7 @@ const InternalPromptInputSchema = GenerateTarotReadingInputSchema.extend({
 });
 
 const TarotCardOutputSchema = z.object({
-  name: z.string().describe('The name of the tarot card in English. For example: "The Fool", "The Magician", "Ace of Wands".'),
+  name: z.string().describe('The name of the tarot card in English. For example: "The Fool", "The Magician", "Ace of Wands", "The Justice", "Strength".'),
 });
 
 const GenerateTarotReadingOutputSchema = z.object({
@@ -52,7 +52,7 @@ The user's drawn cards are:
 2. {{{cards.[1]}}}
 3. {{{cards.[2]}}}
 
-IMPORTANT: For the output, you must list the exact three card names provided above. Do not choose or invent other cards.`,
+IMPORTANT: For the output, you must list the exact three card names provided above. Do not choose or invent other cards. For example, if a card is 'The Justice', you must return 'The Justice'.`,
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now based on the provided cards.'
 });
 

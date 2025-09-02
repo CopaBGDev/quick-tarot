@@ -1,3 +1,4 @@
+
 export const TAROT_CARD_IMAGES: Record<string, string> = {
   "The Fool": "/zodiac/cards/the_fool.jpeg",
   "The Magician": "/zodiac/cards/the_magician.jpeg",
@@ -7,19 +8,19 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
   "The Hierophant": "/zodiac/cards/the_hierophant.jpeg",
   "The Lovers": "/zodiac/cards/the_lovers.jpeg",
   "The Chariot": "/zodiac/cards/the_chariot.jpeg",
-  "Strength": "/zodiac/cards/strength.jpeg",
+  "The Strength": "/zodiac/cards/the_strength.jpeg",
   "The Hermit": "/zodiac/cards/the_hermit.jpeg",
   "The Wheel of Fortune": "/zodiac/cards/the_wheel_of_fortune.jpeg",
-  "Justice": "/zodiac/cards/justice.jpeg",
+  "The Justice": "/zodiac/cards/the_justice.jpeg",
   "The Hanged Man": "/zodiac/cards/the_hanged_man.jpeg",
-  "Death": "/zodiac/cards/death.jpeg",
-  "Temperance": "/zodiac/cards/temperance.jpeg",
+  "The Death": "/zodiac/cards/the_death.jpeg",
+  "The Temperance": "/zodiac/cards/the_temperance.jpeg",
   "The Devil": "/zodiac/cards/the_devil.jpeg",
   "The Tower": "/zodiac/cards/the_tower.jpeg",
   "The Star": "/zodiac/cards/the_star.jpeg",
   "The Moon": "/zodiac/cards/the_moon.jpeg",
   "The Sun": "/zodiac/cards/the_sun.jpeg",
-  "Judgement": "/zodiac/cards/judgement.jpeg",
+  "The Judgement": "/zodiac/cards/the_judgement.jpeg",
   "The World": "/zodiac/cards/the_world.jpeg",
   "Ace of Wands": "/zodiac/cards/ace_of_wands.jpeg",
   "Two of Wands": "/zodiac/cards/two_of_wands.jpeg",
@@ -81,29 +82,35 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
 
 export const FULL_DECK: string[] = Object.keys(TAROT_CARD_IMAGES);
 
-const MAJOR_ARCANA_PREFIXABLE = new Set([
-  "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", "Lovers", "Chariot", "Hermit", "Hanged Man", "Devil", "Tower", "Star", "Moon", "Sun", "World", "Wheel of Fortune"
+// This list contains the base names of all Major Arcana cards that should have "The" as a prefix.
+// Our logic will ensure "The" is added if it's missing from the AI's response.
+const MAJOR_ARCANA_BASE_NAMES = new Set([
+  "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", 
+  "Lovers", "Chariot", "Strength", "Hermit", "Wheel of Fortune", "Justice", 
+  "Hanged Man", "Death", "Temperance", "Devil", "Tower", "Star", "Moon", 
+  "Sun", "Judgement", "World"
 ]);
+
 
 export function getCardImagePath(name: string): string {
   let normalizedName = name;
-  
-  if (MAJOR_ARCANA_PREFIXABLE.has(name) && !name.startsWith("The ")) {
-    normalizedName = `The ${name}`;
-  } else if (name === "Judgement") {
-    // A specific fix in case AI returns "Judgement" instead of "Judgment"
-    // Although the map uses "Judgement", we ensure consistency.
-    // No, the map has "Judgement". Let's assume the filename is correct.
+
+  // Check if the AI returned a name that should have "The" but doesn't.
+  // For example, if AI returns "Lovers", this will convert it to "The Lovers".
+  if (MAJOR_ARCANA_BASE_NAMES.has(name) && !name.startsWith("The ")) {
+    if (name === 'Judgement') {
+        normalizedName = `The Judgement`;
+    } else {
+        normalizedName = `The ${name}`;
+    }
   }
-  
+
   const imagePath = TAROT_CARD_IMAGES[normalizedName];
+  
   if (imagePath) {
     return imagePath;
   }
 
-  // Fallback for names that might not match exactly, e.g. "The Wheel Of Fortune"
-  const lowerCaseName = name.toLowerCase().replace(/ /g, '_');
-  const foundKey = Object.keys(TAROT_CARD_IMAGES).find(key => key.toLowerCase().replace(/ /g, '_') === lowerCaseName);
-  
-  return foundKey ? TAROT_CARD_IMAGES[foundKey] : "/zodiac/cards/card_back.jpeg";
+  // Fallback just in case, but the logic above should handle most cases.
+  return "/zodiac/cards/card_back.jpeg";
 }
