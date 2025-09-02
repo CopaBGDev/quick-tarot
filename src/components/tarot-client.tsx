@@ -59,8 +59,6 @@ export default function TarotClient() {
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
   const resultsRef = React.useRef<HTMLDivElement>(null);
-  const zodiacWheelRef = React.useRef<HTMLDivElement>(null);
-  const questionFormRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -158,25 +156,6 @@ React.useEffect(() => {
         setProgress(100);
     }
 }, [reading]);
-
-  React.useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        zodiacWheelRef.current && 
-        !zodiacWheelRef.current.contains(event.target as Node) &&
-        questionFormRef.current && 
-        !questionFormRef.current.contains(event.target as Node)
-      ) {
-        if (form.getValues('zodiacSign')) {
-            form.setValue('zodiacSign', undefined, { shouldValidate: false });
-        }
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [form]);
 
   const onSubmit = async (data: FormValues) => {
     if (!data.zodiacSign) {
@@ -283,10 +262,10 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground sm:text-left truncate">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground sm:text-left truncate hidden sm:block">{submittedValues.question}</p>
             </div>
 
-            <div className="flex items-center justify-center gap-2">
+            <div className="flex-shrink-0 hidden sm:flex items-center justify-center gap-2">
                 <Logo className="h-16 w-16 sm:h-20 sm:w-20 text-primary" />
                  <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                   Quick Tarot
@@ -303,7 +282,10 @@ React.useEffect(() => {
                           <span>{formattedCountdown}</span>
                         </>
                       ) : !isFormLoading && (
-                        <ArrowRight className="h-5 w-5 animate-pulse text-primary" />
+                        <>
+                          <Logo className="h-8 w-8 text-primary/80 animate-pulse hidden sm:block" />
+                          <ArrowRight className="h-5 w-5 animate-pulse text-primary sm:hidden" />
+                        </>
                       )}
                   </div>
               )}
@@ -321,9 +303,9 @@ React.useEffect(() => {
         <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid w-full grid-cols-1 items-center justify-center gap-12 lg:grid-cols-2 lg:gap-16"
+          className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          <div ref={zodiacWheelRef} className="w-full max-w-md mx-auto">
+          <div className="w-full max-w-md mx-auto lg:order-2">
             <FormField
               control={form.control}
               name="zodiacSign"
@@ -345,8 +327,8 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-center" ref={questionFormRef}>
-            <header className="flex w-full max-w-md flex-col items-center text-center">
+          <div className="flex flex-col items-center lg:order-1 w-full">
+            <header className="flex w-full max-w-md flex-col items-center text-center order-1 lg:order-none">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
                 <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -358,7 +340,7 @@ React.useEffect(() => {
               </p>
             </header>
 
-            <div className="mt-8 w-full max-w-md space-y-8">
+            <div className="mt-8 w-full max-w-md space-y-8 order-3 lg:order-none">
               <FormField
                 control={form.control}
                 name="question"
@@ -472,3 +454,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
