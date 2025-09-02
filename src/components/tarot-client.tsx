@@ -263,7 +263,7 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate block">
+              <p className="flex-1 text-muted-foreground text-left truncate hidden sm:block">
                 {submittedValues.question}
               </p>
             </div>
@@ -317,7 +317,7 @@ React.useEffect(() => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col w-full items-center justify-center gap-12 lg:grid lg:grid-cols-2 lg:gap-16"
         >
-          <div className="w-full max-w-md mx-auto order-2 lg:order-1">
+          <div className="w-full max-w-md mx-auto lg:order-1">
             <FormField
               control={form.control}
               name="zodiacSign"
@@ -339,7 +339,7 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-center w-full order-1 lg:order-2">
+          <div className="flex flex-col items-center w-full lg:order-2">
             <header className="flex w-full max-w-md flex-col items-center text-center">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
@@ -351,50 +351,50 @@ React.useEffect(() => {
                 {translations.header.subtitle}
               </p>
             </header>
+            <div className="mt-8 w-full max-w-md space-y-8">
+                <FormField
+                  control={form.control}
+                  name="question"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="w-full block text-right font-bold text-primary">
+                        {translations.form.question.label}
+                      </FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder={translations.form.question.placeholder}
+                          {...field}
+                          disabled={disabled}
+                          onKeyDown={handleTextareaKeyDown}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button
+                  type="submit"
+                  className="w-full font-bold"
+                  disabled={disabled}
+                  size="lg"
+                >
+                  {isFormLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      {translations.button.loading}
+                    </>
+                  ) : countdown > 0 ? (
+                    <div className="flex items-center gap-2">
+                      <Timer className="h-4 w-4" />
+                      <span>{formattedCountdown}</span>
+                    </div>
+                  ) : (
+                    <>{translations.button.default}</>
+                  )}
+                </Button>
+              </div>
           </div>
           
-          <div className="mt-8 w-full max-w-md space-y-8 order-3 lg:order-3">
-              <FormField
-                control={form.control}
-                name="question"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="w-full block text-right font-bold text-primary">
-                      {translations.form.question.label}
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder={translations.form.question.placeholder}
-                        {...field}
-                        disabled={disabled}
-                        onKeyDown={handleTextareaKeyDown}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="w-full font-bold"
-                disabled={disabled}
-                size="lg"
-              >
-                {isFormLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {translations.button.loading}
-                  </>
-                ) : countdown > 0 ? (
-                  <div className="flex items-center gap-2">
-                    <Timer className="h-4 w-4" />
-                    <span>{formattedCountdown}</span>
-                  </div>
-                ) : (
-                  <>{translations.button.default}</>
-                )}
-              </Button>
-            </div>
         </form>
       </Form>
       ) : (
@@ -466,6 +466,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
-    
