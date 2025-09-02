@@ -2,6 +2,7 @@
 
 import {
   generateTarotReading,
+  GenerateTarotReadingInput,
 } from "@/ai/flows/generate-tarot-reading";
 import { z } from "zod";
 
@@ -16,7 +17,7 @@ const ReadingActionSchema = z.object({
   language: z.string().optional(), // Sada je jezik opcionalan u shemi
 });
 
-export async function getTarotReading(input: { zodiacSign: string, question: string, language?: string }) {
+export async function getTarotReading(input: GenerateTarotReadingInput): Promise<any> {
   // We re-validate on the server as a security measure.
   const validation = ReadingActionSchema.safeParse(input);
   if (!validation.success) {
