@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -6,6 +7,8 @@ import {
 } from "@/ai/flows/generate-tarot-reading";
 import { z } from "zod";
 
+// This schema must be kept in sync with the one in tarot-client.tsx
+// It's used for server-side validation.
 const ReadingActionSchema = z.object({
   zodiacSign: z.string().min(1, "Morate izabrati znak."),
   question: z
@@ -15,17 +18,24 @@ const ReadingActionSchema = z.object({
   language: z.string().optional(),
 });
 
-export async function getTarotReading(input: GenerateTarotReadingInput) {
+export async function getTarotReading(input: { zodiacSign: string, question: string, language: string }) {
+  // We re-validate on the server as a security measure.
   const validation = ReadingActionSchema.safeParse(input);
   if (!validation.success) {
+    // This should ideally not be reached if client-side validation is working.
     throw new Error(validation.error.errors[0].message);
   }
 
   try {
-    const result = await generateTarotReading(validation.data);
+    // Explicitly use the validated data, ensuring 'language' has a fallback.
+    const result = await generateTarotReading({
+      zodiacSign: validation.data.zodiacSign,
+      question: validation.data.question,
+      language: validation.data.language || 'sr', // Fallback for safety
+    });
     return result;
   } catch (error) {
-    console.error(error);
+    console.error("Error in getTarotReading:", error);
     // Return a user-friendly error message
     throw new Error(
       "Došlo je do greške prilikom generisanja čitanja. Molimo pokušajte ponovo."

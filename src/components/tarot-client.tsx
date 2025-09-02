@@ -54,9 +54,9 @@ export default function TarotClient() {
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
-  const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
+  const [language, setLanguage] = React.useState('sr'); // Default to 'sr' to prevent SSR issues
+  const [translations, setTranslations] = React.useState<Translations>(getTranslations(language));
   const [zodiacSigns, setZodiacSigns] = React.useState(ZODIAC_SIGNS_SR);
-  const [language, setLanguage] = React.useState('sr');
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
   const resultsRef = React.useRef<HTMLDivElement>(null);
@@ -182,7 +182,7 @@ React.useEffect(() => {
     }, 100);
 
     try {
-      const result = await getTarotReading({ ...data, language } as { zodiacSign: string; question: string; language: string});
+      const result = await getTarotReading({ ...data, language });
       setReading(result);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
@@ -594,3 +594,4 @@ React.useEffect(() => {
     
 
     
+
