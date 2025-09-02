@@ -251,9 +251,9 @@ React.useEffect(() => {
         <div className="fixed top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
           <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between gap-4 px-4">
             
-            <div className="flex items-center gap-4 flex-1">
+            <div className="flex items-center gap-4 flex-1 min-w-0">
               {selectedImage && selectedSign && (
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
+                <div className="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
                     <Image
                       src={selectedImage}
                       alt={selectedSign}
@@ -281,14 +281,28 @@ React.useEffect(() => {
                         <span>{formattedCountdown}</span>
                     </div>
                 )}
-              <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                {isReadyForNewReading ? (
-                    <Logo className="h-8 w-8 text-primary/80 animate-pulse" />
-                ) : (
-                    <Edit3 className="h-5 w-5" />
-                )}
-                <span className="sr-only">Edit</span>
-              </Button>
+              
+               <div className="relative">
+                 {isReadyForNewReading ? (
+                   <>
+                     {/* Mobile: Logo button */}
+                     <Button variant="ghost" size="icon" onClick={resetForm} className="sm:hidden text-primary hover:bg-primary/10">
+                       <Logo className="h-8 w-8" />
+                       <span className="sr-only">Novo čitanje</span>
+                     </Button>
+                     {/* Desktop: Text button */}
+                     <Button onClick={resetForm} className="hidden sm:flex" variant="default" size="sm">
+                       {translations.countdownFinishedText}
+                       <ArrowRight className="h-4 w-4 ml-2" />
+                     </Button>
+                   </>
+                 ) : (
+                   <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                     <Edit3 className="h-5 w-5" />
+                     <span className="sr-only">Edit</span>
+                   </Button>
+                 )}
+               </div>
             </div>
           </div>
         </div>
