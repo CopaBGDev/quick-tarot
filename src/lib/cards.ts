@@ -78,3 +78,17 @@ export const TAROT_CARD_IMAGES: Record<string, string> = {
   "Queen of Pentacles": "/zodiac/cards/queen_of_pentacles.jpeg",
   "King of Pentacles": "/zodiac/cards/king_of_pentacles.jpeg",
 };
+
+const MAJOR_ARCANA_PREFIXABLE = new Set([
+  "Fool", "Magician", "High Priestess", "Empress", "Emperor", "Hierophant", "Lovers", "Chariot", "Hermit", "Hanged Man", "Devil", "Tower", "Star", "Moon", "Sun", "World"
+]);
+
+export function getCardImagePath(name: string): string {
+  let normalizedName = name;
+  
+  if (MAJOR_ARCANA_PREFIXABLE.has(name) && !name.startsWith("The ")) {
+    normalizedName = `The ${name}`;
+  }
+  
+  return TAROT_CARD_IMAGES[normalizedName] || "/zodiac/cards/card_back.jpg";
+}

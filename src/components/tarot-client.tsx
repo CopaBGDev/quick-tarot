@@ -30,7 +30,7 @@ import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
-import { TAROT_CARD_IMAGES } from "@/lib/cards";
+import { getCardImagePath } from "@/lib/cards";
 
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
@@ -237,7 +237,7 @@ React.useEffect(() => {
     }
     return reading.cards.map((card) => ({
       name: card.name,
-      imagePath: TAROT_CARD_IMAGES[card.name] || CARD_BACK.imagePath,
+      imagePath: getCardImagePath(card.name),
     }));
   }, [reading]);
 
