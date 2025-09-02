@@ -10,7 +10,6 @@ import Image from "next/image";
 
 
 import { generateTarotReading } from "@/ai/flows/generate-tarot-reading";
-import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -30,10 +29,9 @@ import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
-import { getCardImagePath } from "@/lib/cards";
+import { getCardImagePath, FULL_DECK } from "@/lib/cards";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-// This schema is now static and won't be dynamically updated.
 const FormSchema = z.object({
   zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
     message: "You must select a valid zodiac sign.",
@@ -46,13 +44,18 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
+interface ReadingOutput {
+    cards: { name: string }[];
+    tarotReading: string;
+}
+
 const READING_COOLDOWN_SECONDS = 45;
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
-  const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
+  const [reading, setReading] = React.useState<ReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
   const [language, setLanguage] = React.useState('sr'); // Default to 'sr', never null.
@@ -167,9 +170,15 @@ React.useEffect(() => {
     }, 100);
 
     try {
-      // Language is now required and guaranteed to be a string.
-      const result = await generateTarotReading({ ...data, zodiacSign: data.zodiacSign, language });
-      setReading(result);
+      const result = await generateTarotReading({
+        ...data,
+        zodiacSign: data.zodiacSign,
+        language,
+        fullDeck: FULL_DECK
+      });
+      // Safe parsing of the AI's response
+      const parsedResult: ReadingOutput = JSON.parse(result as any);
+      setReading(parsedResult);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : translations.unknownError;
       toast({
@@ -177,7 +186,7 @@ React.useEffect(() => {
         description: errorMessage,
         variant: "destructive",
       });
-      setCountdown(0);
+      setCountdown(0); // Reset countdown on error
     } finally {
         setIsFormLoading(false);
     }
@@ -258,7 +267,7 @@ React.useEffect(() => {
              {isReadyForNewReading ? (
                <>
                  <button onClick={resetForm} className="block sm:hidden text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                   <Logo className="h-16 w-16" />
+                   <Logo className="h-12 w-12" />
                  </button>
                  <Button onClick={resetForm} className="hidden sm:flex" variant="default" size="sm">
                    {translations.countdownFinishedText}
@@ -268,7 +277,7 @@ React.useEffect(() => {
              ) : (
                 <div className="flex items-center gap-2">
                  {countdown > 0 && (
-                   <div className="text-primary font-mono text-sm hidden sm:flex items-center gap-2">
+                   <div className="text-primary font-mono text-sm flex items-center gap-2">
                      <Timer className="h-4 w-4" />
                      <span>
                         {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
@@ -572,3 +581,4 @@ React.useEffect(() => {
     </div>
   );
 }
+
