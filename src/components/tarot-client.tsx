@@ -44,7 +44,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-const READING_COOLDOWN_SECONDS = 45;
+const READING_COOLDOWN_SECONDS = 120;
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
@@ -269,13 +269,9 @@ React.useEffect(() => {
            <div className="relative">
              {isReadyForNewReading ? (
                <>
-                 <button onClick={resetForm} className="block sm:hidden text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                 <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
                    <Logo className="h-12 w-12" />
                  </button>
-                 <Button onClick={resetForm} className="hidden sm:flex" variant="default" size="sm">
-                   {translations.countdownFinishedText}
-                   <ArrowRight className="h-4 w-4 ml-2" />
-                 </Button>
                </>
              ) : (
                 <div className="flex items-center gap-2">
@@ -584,3 +580,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
