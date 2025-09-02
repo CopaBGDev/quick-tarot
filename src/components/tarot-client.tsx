@@ -263,11 +263,11 @@ React.useEffect(() => {
                     />
                 </div>
               )}
-              <p className="flex-1 text-muted-foreground text-left truncate block">{submittedValues.question}</p>
+              <p className="flex-1 text-muted-foreground text-left truncate">{submittedValues.question}</p>
             </div>
 
-            <div className="flex-shrink-0 hidden sm:flex items-center justify-center gap-2">
-                <Logo className="h-16 w-16 sm:h-20 sm:w-20 text-primary" />
+            <div className="flex-shrink-0 hidden sm:flex items-center justify-center gap-2 h-full">
+                <Logo className="h-[90%] w-auto text-primary" />
                  <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                   Quick Tarot
                 </h1>
@@ -294,7 +294,7 @@ React.useEffect(() => {
         </div>
       )}
       
-      <div className={`w-full ${showMinimizedView ? 'pt-24' : 'flex items-center justify-center'}`}>
+      <div className={`w-full ${showMinimizedView ? 'pt-24' : ''}`}>
       {!showMinimizedView ? (
         <Form {...form}>
         <form
@@ -315,7 +315,7 @@ React.useEffect(() => {
                       disabled={disabled}
                     />
                   </FormControl>
-                  <FormMessage className="text-center">
+                  <FormMessage className="text-center mt-4">
                     {fieldState.error?.message}
                   </FormMessage>
                 </FormItem>
@@ -323,7 +323,7 @@ React.useEffect(() => {
             />
           </div>
 
-          <div className="flex flex-col items-center lg:order-1 w-full">
+          <div className="flex flex-col items-center w-full lg:order-1">
             <header className="flex w-full max-w-md flex-col items-center text-center order-1 lg:order-none">
               <div className="flex flex-col items-center">
                 <Logo className="h-28 w-28 text-primary" />
