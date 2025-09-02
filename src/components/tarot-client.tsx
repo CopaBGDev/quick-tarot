@@ -314,21 +314,64 @@ React.useEffect(() => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="w-full max-w-5xl mx-auto flex flex-col lg:grid lg:grid-cols-[472px_1fr] lg:gap-x-12"
           >
-            {/* Header: Mobile order 1, Desktop top-right */}
-            <header className="flex w-full flex-col items-center text-center order-1 lg:order-none">
-              <div className="flex flex-col items-center">
-                <Logo className="h-28 w-28 text-primary" />
-                <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                  {translations.header.title}
-                </h1>
-              </div>
-              <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                {translations.header.subtitle}
-              </p>
-            </header>
+            <div className="order-1 lg:order-2 flex flex-col">
+                <header className="flex w-full flex-col items-center text-center">
+                  <div className="flex flex-col items-center">
+                    <Logo className="h-28 w-28 text-primary" />
+                    <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                      {translations.header.title}
+                    </h1>
+                  </div>
+                  <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                    {translations.header.subtitle}
+                  </p>
+                </header>
+                <div className="flex-grow"></div>
+                <div className="w-full max-w-md space-y-8 mt-12 lg:mt-0 mx-auto">
+                    <FormField
+                      control={form.control}
+                      name="question"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="w-full block text-right font-bold text-primary">
+                            {translations.form.question.label}
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder={translations.form.question.placeholder}
+                              {...field}
+                              disabled={disabled}
+                              onKeyDown={handleTextareaKeyDown}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type="submit"
+                      className="w-full font-bold"
+                      disabled={disabled}
+                      size="lg"
+                    >
+                      {isFormLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          {translations.button.loading}
+                        </>
+                      ) : countdown > 0 ? (
+                        <div className="flex items-center gap-2">
+                          <Timer className="h-4 w-4" />
+                          <span>{formattedCountdown}</span>
+                        </div>
+                      ) : (
+                        <>{translations.button.default}</>
+                      )}
+                    </Button>
+                </div>
+            </div>
 
-            {/* Zodiac Wheel: Mobile order 2, Desktop left column */}
-            <div className="w-full order-2 lg:order-1">
+            <div className="w-full order-2 lg:order-1 mt-12 lg:mt-0">
               <FormField
                 control={form.control}
                 name="zodiacSign"
@@ -350,49 +393,6 @@ React.useEffect(() => {
               />
             </div>
             
-            {/* Question Form: Mobile order 3, Desktop bottom-right */}
-            <div className="w-full max-w-md space-y-8 mt-12 order-3 lg:order-none lg:mt-0 mx-auto">
-                <FormField
-                  control={form.control}
-                  name="question"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="w-full block text-right font-bold text-primary">
-                        {translations.form.question.label}
-                      </FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder={translations.form.question.placeholder}
-                          {...field}
-                          disabled={disabled}
-                          onKeyDown={handleTextareaKeyDown}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button
-                  type="submit"
-                  className="w-full font-bold"
-                  disabled={disabled}
-                  size="lg"
-                >
-                  {isFormLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      {translations.button.loading}
-                    </>
-                  ) : countdown > 0 ? (
-                    <div className="flex items-center gap-2">
-                      <Timer className="h-4 w-4" />
-                      <span>{formattedCountdown}</span>
-                    </div>
-                  ) : (
-                    <>{translations.button.default}</>
-                  )}
-                </Button>
-            </div>
           </form>
         </Form>
       ) : (
@@ -464,5 +464,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
