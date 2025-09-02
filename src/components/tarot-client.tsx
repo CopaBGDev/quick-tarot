@@ -9,7 +9,7 @@ import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer, ArrowRight } from "l
 import Image from "next/image";
 
 
-import { generateTarotReading } from "@/ai/flows/generate-tarot-reading";
+import { generateTarotReading, GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -44,18 +44,13 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-interface ReadingOutput {
-    cards: { name: string }[];
-    tarotReading: string;
-}
-
 const READING_COOLDOWN_SECONDS = 45;
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
-  const [reading, setReading] = React.useState<ReadingOutput | null>(null);
+  const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
   const [language, setLanguage] = React.useState('sr'); // Default to 'sr', never null.
@@ -174,18 +169,26 @@ React.useEffect(() => {
         ...data,
         zodiacSign: data.zodiacSign,
         language,
-        fullDeck: FULL_DECK
       });
-      // Safe parsing of the AI's response
-      const parsedResult: ReadingOutput = JSON.parse(result as any);
-      setReading(parsedResult);
+      // The result from the flow is already a JavaScript object, no parsing needed.
+      setReading(result);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : translations.unknownError;
-      toast({
-        title: translations.errorTitle,
-        description: errorMessage,
-        variant: "destructive",
-      });
+      const errorMessage =
+        error instanceof Error ? error.message : translations.unknownError;
+      if (error instanceof SyntaxError) {
+        // This specifically catches JSON parsing errors if the AI returns malformed data
+        toast({
+          title: translations.errorTitle,
+          description: "Došlo je do greške pri obradi odgovora od AI servisa. Molimo pokušajte ponovo.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: translations.errorTitle,
+          description: errorMessage,
+          variant: "destructive",
+        });
+      }
       setCountdown(0); // Reset countdown on error
     } finally {
         setIsFormLoading(false);
@@ -484,7 +487,7 @@ React.useEffect(() => {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full max-w-5xl mx-auto lg:grid lg:grid-cols-[472px_1fr] lg:gap-x-12 lg:items-start"
+              className="w-full max-w-5xl mx-auto lg:grid lg:grid-cols-[472px_1fr] lg:items-start"
             >
               {/* Left Column: Zodiac Wheel */}
               <div className="w-full lg:sticky lg:top-28">
@@ -581,4 +584,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
