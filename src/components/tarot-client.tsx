@@ -287,12 +287,14 @@ React.useEffect(() => {
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4">
             
             {/* Left side */}
-            <div className="flex w-1/3 items-center justify-start gap-3 text-primary">
+            <div className="flex w-1/3 items-center justify-start gap-3">
                 {showMinimizedView && selectedImage && submittedValues.question && (
-                  <div className="flex items-center gap-3 text-primary animate-in fade-in">
-                      <Image src={selectedImage} alt={selectedSign || ''} width={32} height={32} className="h-8 w-8" unoptimized />
-                      <p className="text-sm font-medium truncate max-w-xs md:block">
-                        {`"${submittedValues.question}"`}
+                  <div className="flex items-center gap-3 animate-in fade-in">
+                      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-primary/50 ring-offset-1 ring-offset-background">
+                         <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
+                      </div>
+                      <p className="text-sm font-medium text-foreground/80 truncate max-w-xs">
+                        {submittedValues.question}
                       </p>
                   </div>
                 )}
