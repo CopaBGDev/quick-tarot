@@ -305,8 +305,8 @@ React.useEffect(() => {
             {/* Center */}
             <div className="flex w-1/3 items-center justify-center">
                  <div className="hidden md:flex items-center gap-4">
-                    <Logo className="h-10 w-10 text-primary" />
-                    <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                    <Logo className="h-20 w-20 text-primary" />
+                    <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent hidden">
                       Quick Tarot
                     </h1>
                  </div>
@@ -315,8 +315,8 @@ React.useEffect(() => {
             {/* Right Side */}
             <div className="flex w-1/3 items-center justify-end gap-4">
                  {isReadyForNewReading ? (
-                     <div className="flex items-center gap-4">
-                       <div className="hidden sm:flex items-center justify-center gap-2 animate-in fade-in">
+                     <div className="flex items-center gap-4 animate-in fade-in">
+                       <div className="hidden sm:flex items-center justify-center gap-2">
                          <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
                          <ArrowRight className="h-5 w-5 text-primary animate-pulse" />
                        </div>
@@ -334,7 +334,7 @@ React.useEffect(() => {
                          </span>
                        </div>
                      )}
-                     <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                     <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
                        <Edit3 className="h-[2rem] w-[2rem]" />
                        <span className="sr-only">Edit</span>
                      </Button>
@@ -401,8 +401,7 @@ React.useEffect(() => {
     </section>
   );
 
-  // This is the key change: render a loader until the component has mounted on the client
-  if (isLoading) {
+  if (isMobile === undefined) {
     return (
       <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
         <Loader2 className="h-16 w-16 animate-spin text-primary" />
@@ -610,3 +609,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
