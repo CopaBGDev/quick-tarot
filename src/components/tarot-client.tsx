@@ -409,16 +409,7 @@ React.useEffect(() => {
       </div>
     );
   }
-
-  // Conditional Rendering based on Mobile or Desktop
-  if (isMobile === undefined) {
-    return (
-      <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
-        <Loader2 className="h-16 w-16 animate-spin text-primary" />
-      </div>
-    )
-  }
-
+  
   const footerContent = (
     <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
       <AdPlaceholder />
