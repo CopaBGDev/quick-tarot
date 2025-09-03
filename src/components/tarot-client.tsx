@@ -288,7 +288,7 @@ React.useEffect(() => {
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4">
             
-            {/* Left side */}
+            {/* Left side: Sign and Question */}
             <div className="flex w-1/3 items-center justify-start gap-3">
                 {showMinimizedView && selectedImage && submittedValues.question && (
                   <div className="flex items-center gap-3 animate-in fade-in">
@@ -302,30 +302,31 @@ React.useEffect(() => {
                 )}
             </div>
 
-            {/* Center */}
-            <div className="flex flex-1 items-center justify-center">
-                {isReadyForNewReading ? (
-                    <div className="flex items-center justify-center gap-4 animate-in fade-in w-full">
-                       <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                         <Logo className="h-[4.7rem] w-[4.7rem]" />
-                       </button>
-                    </div>
-                ) : (
-                    <div className="hidden md:flex items-center justify-center gap-4">
+            {/* Center: Logo and Title (Desktop only) */}
+            <div className="hidden md:flex flex-1 items-center justify-center">
+                 {isReadyForNewReading ? (
+                     <div className="flex items-center justify-center gap-4 animate-in fade-in w-full">
+                       {/* This space is now intentionally left for the right side elements to take over on desktop */}
+                     </div>
+                 ) : (
+                    <div className="flex items-center justify-center gap-4">
                         <Logo className="h-20 w-20 text-primary" />
                          <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                             Quick Tarot
                         </h1>
                     </div>
-                )}
+                 )}
             </div>
 
-            {/* Right Side */}
+            {/* Right Side: Timer / Actions */}
             <div className="flex w-1/3 items-center justify-end gap-4">
                  {isReadyForNewReading ? (
-                    <div className="hidden sm:flex items-center justify-center gap-2">
-                         <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
-                         <ArrowRight className="h-5 w-5 text-primary animate-pulse" />
+                    <div className="flex items-center justify-center md:justify-end gap-2 w-full">
+                         <span className="hidden md:inline text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
+                         <ArrowRight className="hidden md:inline h-5 w-5 text-primary animate-pulse" />
+                        <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                           <Logo className="h-[4.7rem] w-[4.7rem]" />
+                        </button>
                      </div>
                  ) : (
                     <div className="flex items-center gap-2">
@@ -612,5 +613,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
