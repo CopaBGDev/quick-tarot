@@ -303,26 +303,29 @@ React.useEffect(() => {
             </div>
 
             {/* Center */}
-            <div className="flex w-1/3 items-center justify-center">
-                 <div className="hidden md:flex items-center gap-4">
-                    <Logo className="h-20 w-20 text-primary" />
-                    <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent hidden">
-                      Quick Tarot
-                    </h1>
-                 </div>
+            <div className="flex flex-1 items-center justify-center">
+                {isReadyForNewReading ? (
+                    <div className="flex items-center justify-center gap-4 animate-in fade-in w-full">
+                       <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                         <Logo className="h-[4.7rem] w-[4.7rem]" />
+                       </button>
+                    </div>
+                ) : (
+                    <div className="hidden md:flex items-center justify-center gap-4">
+                        <Logo className="h-20 w-20 text-primary" />
+                        <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                            Quick Tarot
+                        </h1>
+                    </div>
+                )}
             </div>
 
             {/* Right Side */}
             <div className="flex w-1/3 items-center justify-end gap-4">
                  {isReadyForNewReading ? (
-                     <div className="flex items-center gap-4 animate-in fade-in">
-                       <div className="hidden sm:flex items-center justify-center gap-2">
+                     <div className="hidden sm:flex items-center justify-center gap-2">
                          <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
                          <ArrowRight className="h-5 w-5 text-primary animate-pulse" />
-                       </div>
-                       <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                         <Logo className="h-[4.7rem] w-[4.7rem]" />
-                       </button>
                      </div>
                  ) : (
                     <div className="flex items-center gap-2">
@@ -401,7 +404,7 @@ React.useEffect(() => {
     </section>
   );
 
-  if (isMobile === undefined) {
+  if (isMobile === undefined || isLoading) {
     return (
       <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
         <Loader2 className="h-16 w-16 animate-spin text-primary" />
@@ -609,5 +612,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
