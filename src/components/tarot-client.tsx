@@ -51,6 +51,7 @@ const QUESTION_STORAGE_KEY = "tarotQuestion";
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 export default function TarotClient() {
+  const [isLoading, setIsLoading] = React.useState(true);
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
@@ -75,6 +76,7 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
+    // This effect runs only once on the client after hydration
     const userLang = navigator.language.split('-')[0] || 'sr';
     if (userLang !== language) {
         setLanguage(userLang);
@@ -83,10 +85,18 @@ export default function TarotClient() {
         setZodiacSigns(newTranslations.zodiacSigns);
     }
 
-    // Restore state from localStorage on initial load
-    const savedReading = localStorage.getItem(READING_STORAGE_KEY);
     const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
+    const savedReading = localStorage.getItem(READING_STORAGE_KEY);
     
+    if (savedCooldown) {
+      const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
+      if (remainingTime > 0) {
+        setCountdown(remainingTime);
+      } else {
+        localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+      }
+    }
+
     if (savedReading) {
       try {
         const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
@@ -99,22 +109,14 @@ export default function TarotClient() {
         if (savedQuestion) form.setValue('question', savedQuestion);
 
       } catch (e) {
-        // Clear corrupted data
         localStorage.removeItem(READING_STORAGE_KEY);
         localStorage.removeItem(ZODIAC_STORAGE_KEY);
         localStorage.removeItem(QUESTION_STORAGE_KEY);
       }
     }
 
-    if (savedCooldown) {
-      const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
-      if (remainingTime > 0) {
-        setCountdown(remainingTime);
-      } else {
-        localStorage.removeItem(COOLDOWN_STORAGE_KEY);
-      }
-    }
-  }, [language, form]);
+    setIsLoading(false); // Finished loading persistent state
+  }, []); // Empty dependency array ensures this runs only once on client
   
   React.useEffect(() => {
     if (!reading) {
@@ -213,7 +215,6 @@ React.useEffect(() => {
       });
       setReading(result);
       
-      // Save state to localStorage on successful reading
       const newCooldownEndTime = Date.now() + READING_COOLDOWN_SECONDS * 1000;
       localStorage.setItem(COOLDOWN_STORAGE_KEY, newCooldownEndTime.toString());
       localStorage.setItem(READING_STORAGE_KEY, JSON.stringify(result));
@@ -239,7 +240,6 @@ React.useEffect(() => {
     setReading(null);
     setIsFormLoading(false);
     setCountdown(0);
-    // Clear all saved state from localStorage
     localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     localStorage.removeItem(READING_STORAGE_KEY);
     localStorage.removeItem(ZODIAC_STORAGE_KEY);
@@ -263,7 +263,6 @@ React.useEffect(() => {
   
   const tarotCards = React.useMemo(() => {
     if (!reading) {
-      // Create a stable array of placeholder cards to prevent re-renders
       return Array(3).fill(CARD_BACK);
     }
     return reading.cards.map((card) => ({
@@ -273,7 +272,7 @@ React.useEffect(() => {
   }, [reading]);
 
 
-  const disabled = isFormLoading || countdown > 0;
+  const disabled = isFormLoading || countdown > 0 || isLoading;
   
   const submittedValues = form.watch();
   const selectedSign = selectedZodiacSign;
@@ -327,7 +326,7 @@ React.useEffect(() => {
                 </div>
              ) : (
                 <div className="flex items-center gap-2">
-                 {countdown > 0 && (
+                 {(countdown > 0 || (isLoading && reading)) && (
                    <div className="text-primary font-mono text-sm flex items-center gap-2">
                      <Timer className="h-4 w-4" />
                      <span>
@@ -402,6 +401,14 @@ React.useEffect(() => {
       )}
     </section>
   );
+
+  if (isLoading) {
+    return (
+      <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
+        <Loader2 className="h-16 w-16 animate-spin text-primary" />
+      </div>
+    );
+  }
 
   // Conditional Rendering based on Mobile or Desktop
   if (isMobile === undefined) {
