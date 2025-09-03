@@ -33,9 +33,6 @@ import { getCardImagePath, FULL_DECK } from "@/lib/cards";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const FormSchema = z.object({
-  zodiacSign: z.custom<ZodiacSign>((val) => [...ZODIAC_SIGNS_SR, ...ZODIAC_SIGNS_EN].includes(val as ZodiacSign), {
-    message: "You must select a valid zodiac sign.",
-  }).optional(), // Optional on the client, error is handled manually.
   question: z
     .string()
     .min(10, { message: "Question must be at least 10 characters long." })
@@ -58,6 +55,9 @@ export default function TarotClient() {
   const [zodiacSigns, setZodiacSigns] = React.useState<ZodiacSign[] | readonly ["Ovan", "Bik", "Blizanci", "Rak", "Lav", "Devica", "Vaga", "Škorpija", "Strelac", "Jarac", "Vodolija", "Ribe"]>(ZODIAC_SIGNS_SR);
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
+  const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<ZodiacSign | undefined>(undefined);
+  const [zodiacError, setZodiacError] = React.useState<string | null>(null);
+
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -147,10 +147,11 @@ React.useEffect(() => {
 }, [reading]);
 
   const onSubmit = async (data: FormValues) => {
-    if (!data.zodiacSign) {
-        form.setError("zodiacSign", { type: "manual", message: translations.form.zodiac.error });
+    if (!selectedZodiacSign) {
+        setZodiacError(translations.form.zodiac.error);
         return;
     }
+    setZodiacError(null);
 
     setIsFormLoading(true);
     setReading(null);
@@ -167,10 +168,9 @@ React.useEffect(() => {
     try {
       const result = await generateTarotReading({
         ...data,
-        zodiacSign: data.zodiacSign,
+        zodiacSign: selectedZodiacSign,
         language,
       });
-      // The result from the flow is already a JavaScript object, no parsing needed.
       setReading(result);
     } catch (error) {
       const errorMessage =
@@ -191,6 +191,8 @@ React.useEffect(() => {
     setIsFormLoading(false);
     setCountdown(0);
     form.setValue('question', '');
+    setSelectedZodiacSign(undefined);
+    setZodiacError(null);
     form.clearErrors();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -219,7 +221,7 @@ React.useEffect(() => {
   const disabled = isFormLoading || countdown > 0;
   
   const submittedValues = form.watch();
-  const selectedSign = submittedValues.zodiacSign;
+  const selectedSign = selectedZodiacSign;
   const isSerbian = zodiacSigns[0] === 'Ovan';
   const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
@@ -260,7 +262,7 @@ React.useEffect(() => {
            <div className="relative">
              {isReadyForNewReading ? (
                 <div className="flex items-center gap-2 animate-in fade-in">
-                  <div className="hidden sm:flex items-center gap-2 text-primary font-bold text-sm">
+                  <div className="flex items-center gap-2 text-primary font-bold text-sm">
                     <span>{translations.countdownFinishedText}</span>
                     <ArrowRight className="h-5 w-5 animate-pulse" />
                   </div>
@@ -390,25 +392,15 @@ React.useEffect(() => {
 
                 {/* 2. Zodiac Wheel */}
                 <div className="w-full mt-4 order-2">
-                  <FormField
-                    control={form.control}
-                    name="zodiacSign"
-                    render={({ field, fieldState }) => (
-                      <FormItem className="flex flex-col items-center">
-                        <FormControl>
-                          <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={field.onChange}
-                            selectedValue={field.value}
-                            disabled={disabled}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-center mt-4 !text-primary">
-                          {fieldState.error?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
+                  <div className="flex flex-col items-center">
+                      <ZodiacWheel
+                        signs={zodiacSigns}
+                        onSelect={setSelectedZodiacSign}
+                        selectedValue={selectedZodiacSign}
+                        disabled={disabled}
+                      />
+                      {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
+                  </div>
                 </div>
                 
                 {/* 3. Question Form */}
@@ -430,7 +422,7 @@ React.useEffect(() => {
                               onKeyDown={handleTextareaKeyDown}
                             />
                           </FormControl>
-                          <FormMessage className="!text-primary" />
+                          <FormMessage className="text-primary" />
                         </FormItem>
                       )}
                     />
@@ -482,25 +474,15 @@ React.useEffect(() => {
             >
               {/* Left Column: Zodiac Wheel */}
               <div className="w-full lg:sticky lg:top-28">
-                 <FormField
-                    control={form.control}
-                    name="zodiacSign"
-                    render={({ field, fieldState }) => (
-                      <FormItem className="flex flex-col items-center">
-                        <FormControl>
-                          <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={field.onChange}
-                            selectedValue={field.value}
-                            disabled={disabled}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-center mt-4 !text-primary">
-                          {fieldState.error?.message}
-                        </FormMessage>
-                      </FormItem>
-                    )}
-                  />
+                 <div className="flex flex-col items-center">
+                    <ZodiacWheel
+                      signs={zodiacSigns}
+                      onSelect={setSelectedZodiacSign}
+                      selectedValue={selectedZodiacSign}
+                      disabled={disabled}
+                    />
+                    {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
+                 </div>
               </div>
 
               {/* Right Column: Header and Form */}
@@ -536,7 +518,7 @@ React.useEffect(() => {
                               onKeyDown={handleTextareaKeyDown}
                             />
                           </FormControl>
-                          <FormMessage className="!text-primary" />
+                          <FormMessage className="text-primary" />
                         </FormItem>
                       )}
                     />
@@ -575,5 +557,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
