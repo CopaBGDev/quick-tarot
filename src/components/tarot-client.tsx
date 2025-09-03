@@ -66,7 +66,7 @@ export default function TarotClient() {
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
-
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -291,7 +291,7 @@ React.useEffect(() => {
                 {showMinimizedView && selectedImage && submittedValues.question && (
                   <div className="flex items-center gap-3 text-primary animate-in fade-in">
                       <Image src={selectedImage} alt={selectedSign || ''} width={32} height={32} className="h-8 w-8" unoptimized />
-                      <p className="text-sm font-medium truncate max-w-xs hidden md:block">
+                      <p className="text-sm font-medium truncate max-w-xs md:block">
                         {`"${submittedValues.question}"`}
                       </p>
                   </div>
@@ -607,3 +607,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
