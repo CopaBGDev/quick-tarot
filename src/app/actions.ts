@@ -40,7 +40,7 @@ export async function getTarotReading(input: GenerateTarotReadingInput): Promise
   } catch (error) {
     console.error("Error in getTarotReading:", error);
     // Return a user-friendly error message, especially for service overload.
-    if (error instanceof Error && error.message.includes("503")) {
+    if (error instanceof Error && (error.message.includes("503") || error.message.toLowerCase().includes("overloaded")) ) {
        throw new Error(
         "Servis je trenutno preopterećen. Molimo pokušajte ponovo za nekoliko trenutaka."
       );
