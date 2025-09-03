@@ -313,7 +313,7 @@ React.useEffect(() => {
                 ) : (
                     <div className="hidden md:flex items-center justify-center gap-4">
                         <Logo className="h-20 w-20 text-primary" />
-                        <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                         <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                             Quick Tarot
                         </h1>
                     </div>
@@ -323,7 +323,7 @@ React.useEffect(() => {
             {/* Right Side */}
             <div className="flex w-1/3 items-center justify-end gap-4">
                  {isReadyForNewReading ? (
-                     <div className="hidden sm:flex items-center justify-center gap-2">
+                    <div className="hidden sm:flex items-center justify-center gap-2">
                          <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
                          <ArrowRight className="h-5 w-5 text-primary animate-pulse" />
                      </div>
@@ -612,3 +612,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
