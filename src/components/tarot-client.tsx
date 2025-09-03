@@ -2,10 +2,10 @@
 "use client";
 
 import * as React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2, Edit3, User, HelpCircle, Timer, ArrowRight } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer, ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 
@@ -23,25 +23,26 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-import { ZODIAC_SIGNS_SR, type ZodiacSign, ZODIAC_SIGNS_EN } from "@/lib/zodiac";
+import { ZodiacSign } from "@/lib/zodiac";
 import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { getTranslations, Translations } from "@/lib/translations";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
-import { getCardImagePath, FULL_DECK } from "@/lib/cards";
+import { getCardImagePath } from "@/lib/cards";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const FormSchema = z.object({
   question: z
     .string()
-    .min(10, { message: "Question must be at least 10 characters long." })
-    .max(200, { message: "Question cannot be longer than 200 characters." }),
+    .min(10, { message: "Pitanje mora imati najmanje 10 karaktera." })
+    .max(200, { message: "Pitanje ne može biti duže od 200 karaktera." }),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 120;
+const COOLDOWN_STORAGE_KEY = "tarotCooldownEndTime";
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
@@ -50,9 +51,9 @@ export default function TarotClient() {
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
-  const [language, setLanguage] = React.useState('sr'); // Default to 'sr', never null.
+  const [language, setLanguage] = React.useState('sr');
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
-  const [zodiacSigns, setZodiacSigns] = React.useState<ZodiacSign[] | readonly ["Ovan", "Bik", "Blizanci", "Rak", "Lav", "Devica", "Vaga", "Škorpija", "Strelac", "Jarac", "Vodolija", "Ribe"]>(ZODIAC_SIGNS_SR);
+  const [zodiacSigns, setZodiacSigns] = React.useState<readonly ZodiacSign[]>(getTranslations('sr').zodiacSigns);
   const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<ZodiacSign | undefined>(undefined);
@@ -70,14 +71,25 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
-    // This code runs only on the client to detect browser language.
     const userLang = navigator.language.split('-')[0] || 'sr';
     if (userLang !== language) {
         setLanguage(userLang);
-        setTranslations(getTranslations(userLang));
-        setZodiacSigns([...getTranslations(userLang).zodiacSigns]);
+        const newTranslations = getTranslations(userLang);
+        setTranslations(newTranslations);
+        setZodiacSigns(newTranslations.zodiacSigns);
     }
-  }, [language]); // Depend on language to avoid re-running if not changed.
+
+    // Check for cooldown on initial load
+    const cooldownEndTime = localStorage.getItem(COOLDOWN_STORAGE_KEY);
+    if (cooldownEndTime) {
+      const remainingTime = Math.ceil((parseInt(cooldownEndTime, 10) - Date.now()) / 1000);
+      if (remainingTime > 0) {
+        setCountdown(remainingTime);
+      } else {
+        localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+      }
+    }
+  }, [language]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -92,12 +104,14 @@ export default function TarotClient() {
     setTypedReading("");
     let index = 0;
     const typingInterval = setInterval(() => {
-      setTypedReading(reading.tarotReading.substring(0, index + 1));
-      index++;
-      if (index >= reading.tarotReading.length) {
-        clearInterval(typingInterval);
+      if(reading) {
+        setTypedReading(reading.tarotReading.substring(0, index + 1));
+        index++;
+        if (index >= reading.tarotReading.length) {
+          clearInterval(typingInterval);
+        }
       }
-    }, 50);
+    }, 20);
 
     return () => {
         clearInterval(typingInterval);
@@ -109,6 +123,9 @@ export default function TarotClient() {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
+    } else {
+      // Clear from storage when countdown finishes
+      localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     }
   }, [countdown]);
 
@@ -157,7 +174,6 @@ React.useEffect(() => {
     setReading(null);
     setTypedReading("");
     setCardsFlipped(false);
-    setCountdown(READING_COOLDOWN_SECONDS);
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
     
@@ -172,6 +188,11 @@ React.useEffect(() => {
         language,
       });
       setReading(result);
+      // Set cooldown in localStorage on successful reading
+      const newCooldownEndTime = Date.now() + READING_COOLDOWN_SECONDS * 1000;
+      localStorage.setItem(COOLDOWN_STORAGE_KEY, newCooldownEndTime.toString());
+      setCountdown(READING_COOLDOWN_SECONDS);
+
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : translations.unknownError;
@@ -180,7 +201,6 @@ React.useEffect(() => {
         description: errorMessage,
         variant: "destructive",
       });
-      setCountdown(0); // Reset countdown on error
     } finally {
         setIsFormLoading(false);
     }
@@ -190,6 +210,7 @@ React.useEffect(() => {
     setReading(null);
     setIsFormLoading(false);
     setCountdown(0);
+    localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     form.setValue('question', '');
     setSelectedZodiacSign(undefined);
     setZodiacError(null);
@@ -209,7 +230,8 @@ React.useEffect(() => {
   
   const tarotCards = React.useMemo(() => {
     if (!reading) {
-      return [CARD_BACK, CARD_BACK, CARD_BACK];
+      // Create a stable array of placeholder cards to prevent re-renders
+      return Array(3).fill(CARD_BACK);
     }
     return reading.cards.map((card) => ({
       name: card.name,
@@ -262,10 +284,10 @@ React.useEffect(() => {
            <div className="relative">
              {isReadyForNewReading ? (
                 <div className="flex items-center gap-2 animate-in fade-in">
-                  <div className="flex items-center gap-2 text-primary font-bold text-sm">
-                    <span>{translations.countdownFinishedText}</span>
-                    <ArrowRight className="h-5 w-5 animate-pulse" />
-                  </div>
+                  <div className="flex-col items-end text-right hidden sm:flex">
+                     <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
+                     <ArrowRight className="h-5 w-5 text-primary animate-pulse" />
+                   </div>
                   <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
                     <Logo className="h-12 w-12" />
                   </button>
@@ -280,7 +302,7 @@ React.useEffect(() => {
                      </span>
                    </div>
                  )}
-                 <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                 <Button variant="ghost" size="icon" onClick={resetForm} disabled={disabled} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
                    <Edit3 className="h-5 w-5" />
                    <span className="sr-only">Edit</span>
                  </Button>
@@ -557,3 +579,4 @@ React.useEffect(() => {
     </div>
   );
 }
+
