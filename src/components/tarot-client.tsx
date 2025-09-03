@@ -175,20 +175,11 @@ React.useEffect(() => {
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : translations.unknownError;
-      if (error instanceof SyntaxError) {
-        // This specifically catches JSON parsing errors if the AI returns malformed data
-        toast({
-          title: translations.errorTitle,
-          description: "Došlo je do greške pri obradi odgovora od AI servisa. Molimo pokušajte ponovo.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: translations.errorTitle,
-          description: errorMessage,
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: translations.errorTitle,
+        description: errorMessage,
+        variant: "destructive",
+      });
       setCountdown(0); // Reset countdown on error
     } finally {
         setIsFormLoading(false);
@@ -268,11 +259,9 @@ React.useEffect(() => {
         <div className="flex items-center justify-end gap-4 flex-1">
            <div className="relative">
              {isReadyForNewReading ? (
-               <>
-                 <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                   <Logo className="h-12 w-12" />
-                 </button>
-               </>
+                <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                  <Logo className="h-12 w-12" />
+                </button>
              ) : (
                 <div className="flex items-center gap-2">
                  {countdown > 0 && (
@@ -283,7 +272,7 @@ React.useEffect(() => {
                      </span>
                    </div>
                  )}
-                 <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                 <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
                    <Edit3 className="h-5 w-5" />
                    <span className="sr-only">Edit</span>
                  </Button>
@@ -408,7 +397,7 @@ React.useEffect(() => {
                             disabled={disabled}
                           />
                         </FormControl>
-                        <FormMessage className="text-center mt-4">
+                        <FormMessage className="text-center mt-4 !text-primary">
                           {fieldState.error?.message}
                         </FormMessage>
                       </FormItem>
@@ -435,7 +424,7 @@ React.useEffect(() => {
                               onKeyDown={handleTextareaKeyDown}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="!text-primary" />
                         </FormItem>
                       )}
                     />
@@ -500,7 +489,7 @@ React.useEffect(() => {
                             disabled={disabled}
                           />
                         </FormControl>
-                        <FormMessage className="text-center mt-4">
+                        <FormMessage className="text-center mt-4 !text-primary">
                           {fieldState.error?.message}
                         </FormMessage>
                       </FormItem>
@@ -541,7 +530,7 @@ React.useEffect(() => {
                               onKeyDown={handleTextareaKeyDown}
                             />
                           </FormControl>
-                          <FormMessage />
+                          <FormMessage className="!text-primary" />
                         </FormItem>
                       )}
                     />
@@ -580,5 +569,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
