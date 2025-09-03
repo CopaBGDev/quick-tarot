@@ -1,3 +1,4 @@
+
 "use server";
 
 import {
@@ -38,7 +39,12 @@ export async function getTarotReading(input: GenerateTarotReadingInput): Promise
     return result;
   } catch (error) {
     console.error("Error in getTarotReading:", error);
-    // Return a user-friendly error message
+    // Return a user-friendly error message, especially for service overload.
+    if (error instanceof Error && error.message.includes("503")) {
+       throw new Error(
+        "Servis je trenutno preopterećen. Molimo pokušajte ponovo za nekoliko trenutaka."
+      );
+    }
     throw new Error(
       "Došlo je do greške prilikom generisanja čitanja. Molimo pokušajte ponovo."
     );
