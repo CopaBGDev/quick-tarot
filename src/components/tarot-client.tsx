@@ -259,9 +259,15 @@ React.useEffect(() => {
         <div className="flex items-center justify-end gap-4 flex-1">
            <div className="relative">
              {isReadyForNewReading ? (
-                <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                  <Logo className="h-12 w-12" />
-                </button>
+                <div className="flex items-center gap-2 animate-in fade-in">
+                  <div className="hidden sm:flex items-center gap-2 text-primary font-bold text-sm">
+                    <span>{translations.countdownFinishedText}</span>
+                    <ArrowRight className="h-5 w-5 animate-pulse" />
+                  </div>
+                  <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                    <Logo className="h-12 w-12" />
+                  </button>
+                </div>
              ) : (
                 <div className="flex items-center gap-2">
                  {countdown > 0 && (
@@ -569,3 +575,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
