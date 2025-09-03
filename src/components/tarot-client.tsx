@@ -316,11 +316,11 @@ React.useEffect(() => {
         <div className="flex items-center justify-end gap-4 flex-1">
            <div className="relative">
              {isReadyForNewReading ? (
-                <div className="flex items-center gap-2 animate-in fade-in">
-                  <div className="flex-col items-end text-right hidden sm:flex">
+                <div className="flex items-center justify-center gap-2 animate-in fade-in">
+                  <div className="flex-col items-center text-center hidden sm:flex">
                      <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
-                     <ArrowRight className="h-5 w-5 text-primary animate-pulse" />
                    </div>
+                   <ArrowRight className="h-5 w-5 text-primary animate-pulse hidden sm:block" />
                   <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
                     <Logo className="h-12 w-12" />
                   </button>
@@ -612,7 +612,5 @@ React.useEffect(() => {
     </div>
   );
 }
-
-
 
     
