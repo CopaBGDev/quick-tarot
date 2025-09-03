@@ -51,7 +51,6 @@ const QUESTION_STORAGE_KEY = "tarotQuestion";
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 export default function TarotClient() {
-  const [isLoading, setIsLoading] = React.useState(true);
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
@@ -114,8 +113,6 @@ export default function TarotClient() {
         localStorage.removeItem(QUESTION_STORAGE_KEY);
       }
     }
-
-    setIsLoading(false); // Finished loading persistent state
   }, []); // Empty dependency array ensures this runs only once on client
   
   React.useEffect(() => {
@@ -150,8 +147,9 @@ export default function TarotClient() {
     if (countdown > 0) {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
-    } else {
-      localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+    } else if (countdown < 0) { // Ensure countdown doesn't stay negative
+        setCountdown(0);
+        localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     }
   }, [countdown]);
 
@@ -272,7 +270,7 @@ React.useEffect(() => {
   }, [reading]);
 
 
-  const disabled = isFormLoading || countdown > 0 || isLoading;
+  const disabled = isFormLoading || countdown > 0;
   
   const submittedValues = form.watch();
   const selectedSign = selectedZodiacSign;
@@ -285,64 +283,48 @@ React.useEffect(() => {
   const showMinimizedView = isFormLoading || reading;
   
   const minimizedView = (
-    <div className="fixed top-0 left-0 right-0 z-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 shadow-lg animate-in fade-in slide-in-from-top-4 duration-500">
-      <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between gap-4 px-4">
-        
-        <div className="flex items-center gap-4 flex-1 min-w-0">
-          {selectedImage && selectedSign && (
-            <div className="flex-shrink-0 h-12 w-12 flex items-center justify-center rounded-full bg-background/50 ring-2 ring-primary">
-                <Image
-                  src={selectedImage}
-                  alt={selectedSign}
-                  width={36}
-                  height={36}
-                  unoptimized
-                />
+    <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
+        <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative z-10">
+            
+            <div className="flex items-center gap-4">
+                 <Logo className="h-10 w-10 text-primary" />
+                 <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                    Quick Tarot
+                 </h1>
             </div>
-          )}
-          <p className="flex-1 text-muted-foreground text-left truncate">
-            {submittedValues.question}
-          </p>
-        </div>
 
-        <div className="hidden sm:flex items-center justify-center gap-2 h-full">
-            <Logo className="h-[90%] w-auto text-primary" />
-             <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-              Quick Tarot
-            </h1>
-        </div>
+             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                 {isReadyForNewReading && (
+                     <div className="flex items-center justify-center gap-2 animate-in fade-in">
+                       <span className="text-primary font-bold text-sm leading-tight hidden sm:inline">{translations.countdownFinishedText}</span>
+                       <ArrowRight className="h-5 w-5 text-primary animate-pulse hidden sm:block" />
+                     </div>
+                 )}
+            </div>
 
-        <div className="flex items-center justify-end gap-4 flex-1">
-           <div className="relative">
-             {isReadyForNewReading ? (
-                <div className="flex items-center justify-center gap-2 animate-in fade-in">
-                  <div className="flex-col items-center text-center hidden sm:flex">
-                     <span className="text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
-                   </div>
-                   <ArrowRight className="h-5 w-5 text-primary animate-pulse hidden sm:block" />
-                  <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                    <Logo className="h-12 w-12" />
-                  </button>
-                </div>
-             ) : (
-                <div className="flex items-center gap-2">
-                 {(countdown > 0 || (isLoading && reading)) && (
-                   <div className="text-primary font-mono text-sm flex items-center gap-2">
-                     <Timer className="h-4 w-4" />
-                     <span>
-                        {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
-                     </span>
+            <div className="flex items-center justify-end gap-4">
+                 {isReadyForNewReading ? (
+                     <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                       <Logo className="h-12 w-12" />
+                     </button>
+                 ) : (
+                    <div className="flex items-center gap-2">
+                     {countdown > 0 && (
+                       <div className="text-primary font-mono text-sm flex items-center gap-2">
+                         <Timer className="h-4 w-4" />
+                         <span>
+                            {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+                         </span>
+                       </div>
+                     )}
+                     <Button variant="ghost" size="icon" onClick={resetForm} disabled={disabled} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                       <Edit3 className="h-5 w-5" />
+                       <span className="sr-only">Edit</span>
+                     </Button>
                    </div>
                  )}
-                 <Button variant="ghost" size="icon" onClick={resetForm} disabled={disabled} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                   <Edit3 className="h-5 w-5" />
-                   <span className="sr-only">Edit</span>
-                 </Button>
-               </div>
-             )}
-           </div>
+            </div>
         </div>
-      </div>
     </div>
   );
   
@@ -402,7 +384,8 @@ React.useEffect(() => {
     </section>
   );
 
-  if (isLoading) {
+  // This is the key change: render a loader until the component has mounted on the client
+  if (isMobile === undefined) {
     return (
       <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
         <Loader2 className="h-16 w-16 animate-spin text-primary" />
@@ -610,5 +593,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
