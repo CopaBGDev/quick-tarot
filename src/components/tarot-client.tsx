@@ -286,29 +286,38 @@ React.useEffect(() => {
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative z-10">
             
-            <div className="flex items-center gap-4">
-                 <Logo className="h-10 w-10 text-primary" />
-                 <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+            {!isMobile && (
+              <div className="flex items-center gap-4">
+                  <Logo className="h-10 w-10 text-primary" />
+                  <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                     Quick Tarot
-                 </h1>
-            </div>
+                  </h1>
+              </div>
+            )}
 
-             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
-                 {isReadyForNewReading && (
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center">
+                {isReadyForNewReading ? (
                      <div className="flex items-center justify-center gap-2 animate-in fade-in">
                        <span className="text-primary font-bold text-sm leading-tight hidden sm:inline">{translations.countdownFinishedText}</span>
                        <ArrowRight className="h-5 w-5 text-primary animate-pulse hidden sm:block" />
                      </div>
-                 )}
+                ) : showMinimizedView && selectedImage && submittedValues.question ? (
+                  <div className="flex items-center gap-3 text-primary animate-in fade-in">
+                      <Image src={selectedImage} alt={selectedSign || ''} width={32} height={32} className="h-8 w-8" unoptimized />
+                      <p className="text-sm font-medium truncate max-w-xs hidden md:block">
+                        {`"${submittedValues.question}"`}
+                      </p>
+                  </div>
+                ) : null}
             </div>
 
-            <div className="flex items-center justify-end gap-4">
+            <div className={`flex items-center justify-end gap-4 ${isMobile ? 'w-full' : ''}`}>
                  {isReadyForNewReading ? (
-                     <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                     <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0 ml-auto" aria-label="Novo čitanje">
                        <Logo className="h-12 w-12" />
                      </button>
                  ) : (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 ml-auto">
                      {countdown > 0 && (
                        <div className="text-primary font-mono text-sm flex items-center gap-2">
                          <Timer className="h-4 w-4" />
@@ -593,3 +602,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
