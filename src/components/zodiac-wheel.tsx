@@ -27,7 +27,7 @@ export const NATURAL_ORDER_EN = [ "Aries", "Taurus", "Gemini", "Cancer", "Leo", 
 
 interface ZodiacWheelProps {
     signs: readonly ZodiacSign[];
-    onSelect: (sign: ZodiacSign) => void;
+    onSelect: (sign?: ZodiacSign) => void;
     selectedValue?: ZodiacSign;
     disabled?: boolean;
 }
@@ -73,6 +73,12 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
         }
     };
     
+    const handleCenterClick = () => {
+        if (!disabled && selectedValue) {
+            onSelect(undefined);
+        }
+    }
+
     const isSerbian = signs[0] === 'Ovan';
     const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
     
@@ -94,7 +100,11 @@ export function ZodiacWheel({ signs, onSelect, selectedValue, disabled }: Zodiac
             <div className="w-full h-full relative">
                 {/* Center circle */}
                 <div 
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] h-[45%] rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300"
+                    onClick={handleCenterClick}
+                    className={cn(
+                        "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[45%] h-[45%] rounded-full border-2 border-dashed border-primary/20 flex items-center justify-center text-center transition-all duration-300",
+                        selectedValue && "cursor-pointer hover:border-primary"
+                    )}
                 >
                     {selectedImage && selectedValue ? (
                          <div className="flex flex-col items-center justify-center w-full h-full p-4">
