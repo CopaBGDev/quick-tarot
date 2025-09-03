@@ -43,6 +43,10 @@ type FormValues = z.infer<typeof FormSchema>;
 
 const READING_COOLDOWN_SECONDS = 120;
 const COOLDOWN_STORAGE_KEY = "tarotCooldownEndTime";
+const READING_STORAGE_KEY = "tarotReading";
+const ZODIAC_STORAGE_KEY = "tarotZodiacSign";
+const QUESTION_STORAGE_KEY = "tarotQuestion";
+
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
@@ -79,17 +83,38 @@ export default function TarotClient() {
         setZodiacSigns(newTranslations.zodiacSigns);
     }
 
-    // Check for cooldown on initial load
-    const cooldownEndTime = localStorage.getItem(COOLDOWN_STORAGE_KEY);
-    if (cooldownEndTime) {
-      const remainingTime = Math.ceil((parseInt(cooldownEndTime, 10) - Date.now()) / 1000);
+    // Restore state from localStorage on initial load
+    const savedReading = localStorage.getItem(READING_STORAGE_KEY);
+    const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
+    
+    if (savedReading) {
+      try {
+        const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
+        setReading(parsedReading);
+        
+        const savedSign = localStorage.getItem(ZODIAC_STORAGE_KEY) as ZodiacSign | null;
+        const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
+
+        if (savedSign) setSelectedZodiacSign(savedSign);
+        if (savedQuestion) form.setValue('question', savedQuestion);
+
+      } catch (e) {
+        // Clear corrupted data
+        localStorage.removeItem(READING_STORAGE_KEY);
+        localStorage.removeItem(ZODIAC_STORAGE_KEY);
+        localStorage.removeItem(QUESTION_STORAGE_KEY);
+      }
+    }
+
+    if (savedCooldown) {
+      const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
       if (remainingTime > 0) {
         setCountdown(remainingTime);
       } else {
         localStorage.removeItem(COOLDOWN_STORAGE_KEY);
       }
     }
-  }, [language]);
+  }, [language, form]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -124,7 +149,6 @@ export default function TarotClient() {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
     } else {
-      // Clear from storage when countdown finishes
       localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     }
   }, [countdown]);
@@ -188,9 +212,14 @@ React.useEffect(() => {
         language,
       });
       setReading(result);
-      // Set cooldown in localStorage on successful reading
+      
+      // Save state to localStorage on successful reading
       const newCooldownEndTime = Date.now() + READING_COOLDOWN_SECONDS * 1000;
       localStorage.setItem(COOLDOWN_STORAGE_KEY, newCooldownEndTime.toString());
+      localStorage.setItem(READING_STORAGE_KEY, JSON.stringify(result));
+      localStorage.setItem(ZODIAC_STORAGE_KEY, selectedZodiacSign);
+      localStorage.setItem(QUESTION_STORAGE_KEY, data.question);
+
       setCountdown(READING_COOLDOWN_SECONDS);
 
     } catch (error) {
@@ -210,7 +239,11 @@ React.useEffect(() => {
     setReading(null);
     setIsFormLoading(false);
     setCountdown(0);
+    // Clear all saved state from localStorage
     localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+    localStorage.removeItem(READING_STORAGE_KEY);
+    localStorage.removeItem(ZODIAC_STORAGE_KEY);
+    localStorage.removeItem(QUESTION_STORAGE_KEY);
     form.setValue('question', '');
     setSelectedZodiacSign(undefined);
     setZodiacError(null);
@@ -580,3 +613,6 @@ React.useEffect(() => {
   );
 }
 
+
+
+    
