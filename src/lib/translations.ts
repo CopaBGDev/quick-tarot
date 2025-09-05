@@ -24,15 +24,25 @@ export interface Translations {
     loading: string;
   };
   results: {
-    title: string;
+    title:string;
     readingTitle: string;
     loadingText: string;
   };
   footer: {
     copyright: string;
     about: string;
+    mission: string;
+    faq: string;
   };
    aboutDialog: {
+    title: string;
+    content: string;
+  };
+  missionDialog: {
+    title: string;
+    content: string;
+  };
+  faqDialog: {
     title: string;
     content: string;
   };
@@ -73,10 +83,20 @@ const sr: Translations = {
   footer: {
     copyright: "Sva prava zadržana.",
     about: "O nama",
+    mission: "Naša misija",
+    faq: "Česta pitanja",
   },
   aboutDialog: {
     title: "O Quick Tarot Aplikaciji",
     content: "Dobrodošli u Quick Tarot, vaš digitalni prozor u svet tarot karata. Naša misija je da pružimo intuitivno i personalizovano iskustvo tarota dostupno svima, bilo gde i bilo kada.\n\nKoristeći moć veštačke inteligencije, naša aplikacija generiše jedinstvena i pronicljiva tarot čitanja. Svako čitanje je zasnovano na kartama koje su nasumično izvučene specijalno za vas i vaše pitanje, obezbeđujući da dobijete poruku koja je namenjena vama.\n\nVerujemo da tarot nije samo predviđanje budućnosti, već alat za samorefleksiju i dublje razumevanje sadašnjosti. Bilo da tražite odgovore, inspiraciju ili jednostavno želite da istražite svoju intuiciju, Quick Tarot je tu da vas vodi.\n\nHvala vam što ste deo našeg putovanja.",
+  },
+  missionDialog: {
+    title: "Naša Misija",
+    content: "Naša misija je da demistifikujemo tarot i učinimo ga dostupnim alatom za lični rast i introspekciju. Kroz spoj drevne mudrosti i moderne tehnologije, želimo da osnažimo pojedince da pronađu jasnoću, donose bolje odluke i razumeju dublje tokove svojih života.\n\nTežimo da stvorimo siguran i podržavajući prostor gde svako može istražiti svoju intuiciju bez predrasuda."
+  },
+  faqDialog: {
+    title: "Često Postavljana Pitanja",
+    content: "P: Da li su čitanja zaista nasumična?\nO: Apsolutno. Za svako novo pitanje, naš sistem nasumično bira tri karte iz punog špila od 78 karata, garantujući jedinstveno i nepristrasno čitanje svaki put.\n\nP: Koliko često mogu da postavim pitanje?\nO: Da bismo osigurali kvalitet i smislenost svakog čitanja, uveli smo vremensko ograničenje. Možete zatražiti novo čitanje svaka dva minuta.\n\nP: Da li je ovo pravo proricanje sudbine?\nO: Mi vidimo tarot kao vodič i alat za samorefleksiju, a ne kao konkretno predviđanje budućnosti. Karte vam mogu pomoći da sagledate situaciju iz nove perspektive i donesete odluke koje su u skladu sa vašim unutrašnjim bićem."
   },
   zodiacSigns: ZODIAC_SIGNS_SR,
   errorTitle: "Greška",
@@ -115,10 +135,20 @@ const en: Translations = {
   footer: {
     copyright: "All rights reserved.",
     about: "About Us",
+    mission: "Our Mission",
+    faq: "FAQ",
   },
   aboutDialog: {
     title: "About The Quick Tarot App",
     content: "Welcome to Quick Tarot, your digital window into the world of tarot cards. Our mission is to provide an intuitive and personalized tarot experience accessible to everyone, anywhere, anytime.\n\nUsing the power of artificial intelligence, our application generates unique and insightful tarot readings. Each reading is based on cards randomly drawn especially for you and your question, ensuring you receive a message that is meant for you.\n\nWe believe that tarot is not just about predicting the future, but a tool for self-reflection and a deeper understanding of the present. Whether you are looking for answers, inspiration, or simply want to explore your intuition, Quick Tarot is here to guide you.\n\nThank you for being part of our journey.",
+  },
+  missionDialog: {
+    title: "Our Mission",
+    content: "Our mission is to demystify tarot and make it an accessible tool for personal growth and introspection. Through the fusion of ancient wisdom and modern technology, we aim to empower individuals to find clarity, make better decisions, and understand the deeper currents of their lives.\n\nWe strive to create a safe and supportive space where everyone can explore their intuition without prejudice."
+  },
+  faqDialog: {
+    title: "Frequently Asked Questions",
+    content: "Q: Are the readings truly random?\nA: Absolutely. For each new question, our system randomly selects three cards from a full 78-card deck, guaranteeing a unique and unbiased reading every time.\n\nQ: How often can I ask a question?\nA: To ensure the quality and meaningfulness of each reading, we have implemented a time limit. You can request a new reading every two minutes.\n\nQ: Is this real fortune-telling?\nA: We see tarot as a guide and a tool for self-reflection, rather than a concrete prediction of the future. The cards can help you see a situation from a new perspective and make decisions that are in line with your inner being."
   },
   zodiacSigns: ZODIAC_SIGNS_EN,
   errorTitle: "Error",

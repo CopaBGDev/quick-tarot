@@ -292,8 +292,8 @@ export default function TarotClient() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                          <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-transparent border-2 border-primary">
-                             <div className="w-full h-full rounded-full flex items-center justify-center p-1">
+                         <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
+                             <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
                                 <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
                             </div>
                           </div>
@@ -429,11 +429,11 @@ export default function TarotClient() {
   const footerContent = (
     <footer className="w-full flex-col items-center gap-6 flex shrink-0">
       <AdPlaceholder />
-       <div className="flex items-center gap-4 text-sm text-muted-foreground">
+       <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap justify-center">
         <span>
            © {new Date().getFullYear()} Quick Tarot. {translations.footer.copyright}
         </span>
-        <span className="text-muted-foreground/50">|</span>
+        <span className="text-muted-foreground/50 hidden sm:inline">|</span>
          <Dialog>
           <DialogTrigger asChild>
             <button className="underline hover:text-primary transition-colors">
@@ -447,6 +447,42 @@ export default function TarotClient() {
             <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
               {translations.aboutDialog.content.split('\n\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+        <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="underline hover:text-primary transition-colors">
+              {translations.footer.mission}
+            </button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>{translations.missionDialog.title}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+              {translations.missionDialog.content.split('\n\n').map((paragraph, index) => (
+                <p key={index}>{paragraph}</p>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
+        <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="underline hover:text-primary transition-colors">
+              {translations.footer.faq}
+            </button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>{translations.faqDialog.title}</DialogTitle>
+            </DialogHeader>
+             <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+              {translations.faqDialog.content.split('\n\n').map((paragraph, index) => (
+                <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
               ))}
             </div>
           </DialogContent>
@@ -646,5 +682,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
