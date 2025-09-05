@@ -533,23 +533,22 @@ export default function TarotClient() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
               >
-                {/* Mobile/Tablet Order: 1. Header */}
-                <header className="flex w-full flex-col items-center text-center xl:hidden">
-                    <div className="flex flex-col items-center">
-                        <Logo className="h-28 w-28 text-primary" />
-                        <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                          Quick Tarot
-                        </h1>
-                    </div>
-                    <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                        {translations.headerSubtitle}
-                    </p>
-                </header>
-
-                {/* Desktop: Right Column (Header and Form), Mobile: Part of the flow */}
+                {/* Desktop: Left Column (Zodiac Wheel) - Hidden on mobile/tablet */}
+                <div className="hidden xl:flex xl:flex-col xl:items-center xl:order-1">
+                   <ZodiacWheel
+                      signs={zodiacSigns}
+                      onSelect={setSelectedZodiacSign}
+                      selectedValue={selectedZodiacSign}
+                      disabled={disabled}
+                    />
+                    {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
+                </div>
+                
+                {/* Mobile, Tablet, and Desktop Right Column Content */}
                 <div className="w-full flex flex-col xl:order-2">
-                    <header className="hidden w-full flex-col items-start text-left xl:flex">
-                         <div className="flex flex-col items-start">
+                    {/* 1. Header (Mobile & Desktop) */}
+                    <header className="flex w-full flex-col items-center xl:items-start text-center xl:text-left">
+                        <div className="flex flex-col items-center xl:items-start">
                             <Logo className="h-28 w-28 text-primary" />
                             <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                               Quick Tarot
@@ -559,8 +558,21 @@ export default function TarotClient() {
                             {translations.headerSubtitle}
                         </p>
                     </header>
-                    
-                    {/* Mobile/Tablet Order: 3. Form */}
+
+                    {/* 2. Zodiac Wheel (Mobile/Tablet only) */}
+                    <div className="w-full mt-12 xl:hidden">
+                       <div className="flex flex-col items-center">
+                          <ZodiacWheel
+                            signs={zodiacSigns}
+                            onSelect={setSelectedZodiacSign}
+                            selectedValue={selectedZodiacSign}
+                            disabled={disabled}
+                          />
+                          {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
+                      </div>
+                    </div>
+
+                    {/* 3. Form (Mobile & Desktop) */}
                      <div className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
                         <FormField
                           control={form.control}
@@ -605,19 +617,6 @@ export default function TarotClient() {
                           )}
                         </Button>
                     </div>
-                </div>
-
-                {/* Mobile/Tablet Order: 2. Zodiac Wheel, Desktop: Left Column */}
-                <div className="w-full mt-12 xl:mt-0 xl:order-1 xl:flex">
-                  <div className="flex flex-col items-center">
-                      <ZodiacWheel
-                        signs={zodiacSigns}
-                        onSelect={setSelectedZodiacSign}
-                        selectedValue={selectedZodiacSign}
-                        disabled={disabled}
-                      />
-                      {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
-                  </div>
                 </div>
               </form>
             </Form>
