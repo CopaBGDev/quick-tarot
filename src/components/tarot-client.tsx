@@ -293,7 +293,7 @@ export default function TarotClient() {
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
                           <div className="h-10 w-10 rounded-full flex items-center justify-center p-0.5 flex-shrink-0">
-                            <div className="bg-transparent rounded-full w-full h-full flex items-center justify-center p-0.5 border-2 border-primary">
+                             <div className="bg-transparent rounded-full w-full h-full flex items-center justify-center p-0.5 border-2 border-primary">
                                 <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
                             </div>
                           </div>
@@ -327,7 +327,7 @@ export default function TarotClient() {
             </div>
 
             {/* Right Side: Timer / Actions */}
-            <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
+            <div className="flex w-full items-center justify-end gap-2 sm:w/1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
@@ -459,88 +459,88 @@ export default function TarotClient() {
       <div className="flex min-h-screen w-full flex-col px-4">
         {showMinimizedView && minimizedView}
         <div className={`flex flex-col w-full flex-grow ${showMinimizedView ? 'pt-24' : ''}`}>
-          {!showMinimizedView ? (
             <div className="flex flex-col flex-grow justify-center">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="flex flex-col items-center gap-6 w-full"
-                >
-                    <header className="flex w-full flex-col items-center text-center">
-                      <div className="flex flex-col items-center">
-                        <Logo className="h-28 w-28 text-primary" />
-                        <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                          {translations.header.title}
-                        </h1>
-                      </div>
-                    </header>
+              {!showMinimizedView ? (
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="flex flex-col items-center gap-6 w-full"
+                  >
+                      <header className="flex w-full flex-col items-center text-center">
+                        <div className="flex flex-col items-center">
+                          <Logo className="h-28 w-28 text-primary" />
+                          <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                            {translations.header.title}
+                          </h1>
+                        </div>
+                      </header>
 
-                    <div className="w-full">
-                      <div className="flex flex-col items-center">
-                          <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={setSelectedZodiacSign}
-                            selectedValue={selectedZodiacSign}
-                            disabled={disabled}
+                      <div className="w-full">
+                        <div className="flex flex-col items-center">
+                            <ZodiacWheel
+                              signs={zodiacSigns}
+                              onSelect={setSelectedZodiacSign}
+                              selectedValue={selectedZodiacSign}
+                              disabled={disabled}
+                            />
+                            {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
+                        </div>
+                      </div>
+                      
+                      <div className="w-full">
+                        <div className="w-full max-w-md space-y-4 lg:mt-0 mx-auto">
+                          <FormField
+                            control={form.control}
+                            name="question"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="w-full block text-right font-bold text-primary">
+                                  {translations.form.question.label}
+                                </FormLabel>
+                                <FormControl>
+                                  <Textarea
+                                    placeholder={translations.form.question.placeholder}
+                                    {...field}
+                                    disabled={disabled}
+                                    onKeyDown={handleTextareaKeyDown}
+                                  />
+                                </FormControl>
+                                <FormMessage className="text-primary" />
+                              </FormItem>
+                            )}
                           />
-                          {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
+                          <Button
+                            type="submit"
+                            className="w-full font-bold"
+                            disabled={disabled}
+                            size="lg"
+                          >
+                            {isFormLoading ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                {translations.button.loading}
+                              </>
+                            ) : countdown > 0 ? (
+                              <div className="flex items-center gap-2">
+                                <Timer className="h-4 w-4" />
+                                <span>{`${Math.floor(countdown / 60)
+                                  .toString()
+                                  .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                              </div>
+                            ) : (
+                              <>{translations.button.default}</>
+                            )}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="w-full">
-                      <div className="w-full max-w-md space-y-4 lg:mt-0 mx-auto">
-                        <FormField
-                          control={form.control}
-                          name="question"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="w-full block text-right font-bold text-primary">
-                                {translations.form.question.label}
-                              </FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder={translations.form.question.placeholder}
-                                  {...field}
-                                  disabled={disabled}
-                                  onKeyDown={handleTextareaKeyDown}
-                                />
-                              </FormControl>
-                              <FormMessage className="text-primary" />
-                            </FormItem>
-                          )}
-                        />
-                        <Button
-                          type="submit"
-                          className="w-full font-bold"
-                          disabled={disabled}
-                          size="lg"
-                        >
-                          {isFormLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              {translations.button.loading}
-                            </>
-                          ) : countdown > 0 ? (
-                            <div className="flex items-center gap-2">
-                              <Timer className="h-4 w-4" />
-                              <span>{`${Math.floor(countdown / 60)
-                                .toString()
-                                .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                            </div>
-                          ) : (
-                            <>{translations.button.default}</>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                </form>
-              </Form>
-             </div>
-          ) : (
-             <div className="py-8 sm:py-12">
-                {resultsContent}
-             </div>
-          )}
+                  </form>
+                </Form>
+              ) : (
+                <div className="py-8 sm:py-12">
+                   {resultsContent}
+                </div>
+              )}
+           </div>
         </div>
         <div className="pb-8 pt-4">
             {footerContent}
