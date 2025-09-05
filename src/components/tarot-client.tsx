@@ -5,7 +5,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2, Edit3, Timer, ArrowRight } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
 
 
@@ -293,8 +293,10 @@ export default function TarotClient() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-primary/50 ring-offset-1 ring-offset-background flex-shrink-0">
-                             <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
+                          <div className="h-9 w-9 rounded-full bg-background flex items-center justify-center p-0.5 flex-shrink-0">
+                            <div className="bg-primary rounded-full w-full h-full flex items-center justify-center p-0.5">
+                                <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
+                            </div>
                           </div>
                           <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
                               {submittedValues.question.length > (isMobile ? 20 : 30)
@@ -306,8 +308,10 @@ export default function TarotClient() {
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>{translations.form.question.label}</AlertDialogTitle>
-                        <AlertDialogDescription className="pt-2">
-                          {submittedValues.question}
+                        <AlertDialogDescription>
+                          <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                            {submittedValues.question}
+                          </div>
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -456,9 +460,9 @@ export default function TarotClient() {
     return (
       <div className="flex min-h-screen w-full flex-col px-4">
         {showMinimizedView && minimizedView}
-        <div className={`flex-grow flex flex-col w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+        <div className={`flex flex-col w-full ${showMinimizedView ? 'pt-24' : 'pt-4'}`}>
           {!showMinimizedView ? (
-            <div className="flex flex-grow flex-col justify-center">
+             <div className="flex flex-col flex-grow justify-center">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -533,7 +537,7 @@ export default function TarotClient() {
                     </div>
                 </form>
               </Form>
-            </div>
+             </div>
           ) : (
              <div className="py-8 sm:py-12">
                 {resultsContent}
@@ -643,5 +647,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
