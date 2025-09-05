@@ -69,7 +69,7 @@ const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
-const BASE_TRANSLATIONS_EN: TranslateUIOutput = {
+const BASE_TRANSLATIONS_EN: Omit<TranslateUIOutput, 'headerTitle'> = {
     headerSubtitle: "Discover what the stars and cards have in store for you. Enter your sign and question to get your personalized tarot reading.",
     formZodiacLabel: "Your Sign",
     formZodiacPlaceholder: "Select a sign...",
@@ -114,6 +114,12 @@ const BASE_TRANSLATIONS_EN: TranslateUIOutput = {
     zodiacSignPisces: "Pisces",
 };
 
+const INITIAL_TRANSLATIONS: TranslateUIOutput = {
+    ...BASE_TRANSLATIONS_EN,
+    headerTitle: "Quick Tarot",
+};
+
+
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFormLoading, setIsFormLoading] = React.useState(false);
@@ -122,7 +128,7 @@ export default function TarotClient() {
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
   const [language, setLanguage] = React.useState('sr');
-  const [translations, setTranslations] = React.useState<TranslateUIOutput>(BASE_TRANSLATIONS_EN);
+  const [translations, setTranslations] = React.useState<TranslateUIOutput>(INITIAL_TRANSLATIONS);
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
@@ -233,7 +239,7 @@ export default function TarotClient() {
             texts: BASE_TRANSLATIONS_EN,
             language: targetLanguage,
         });
-        setTranslations(newTranslations);
+        setTranslations({ ...newTranslations, headerTitle: "Quick Tarot" });
     } catch (error) {
         console.error("Failed to fetch translations:", error);
         toast({
@@ -241,7 +247,7 @@ export default function TarotClient() {
             description: "Could not load translations. Reverting to English.",
             variant: "destructive",
         });
-        setTranslations(BASE_TRANSLATIONS_EN); // Fallback to English
+        setTranslations(INITIAL_TRANSLATIONS); // Fallback to English
     } finally {
         if (isInitialLoad) {
             setIsLoading(false);
@@ -383,7 +389,7 @@ export default function TarotClient() {
             </div>
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-               <Logo className="h-12 w-12 text-primary" />
+               <Logo className="h-20 w-20 text-primary" />
                <span className="font-headline text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">Quick Tarot</span>
             </div>
 
@@ -783,5 +789,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
