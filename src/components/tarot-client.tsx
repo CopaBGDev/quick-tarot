@@ -5,7 +5,7 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Sparkles, Loader2, Edit3, Timer, ArrowRight } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
 
 
@@ -324,8 +324,7 @@ React.useEffect(() => {
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Zatvori</AlertDialogCancel>
-                      </AlertDialogFooter>
+                        <AlertDialogCancel>Zatvori</AlertDialogCancel></AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
                 )}
@@ -360,8 +359,8 @@ React.useEffect(() => {
                             {translations.countdownFinishedText}
                          </button>
                          {/* Mobile: Logo button */}
-                        <button onClick={resetForm} className="block md:hidden text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
-                           <Logo className="h-[4.7rem] w-[4.7rem]" />
+                        <button onClick={resetForm} className="block md:hidden text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
+                           <Logo className="w-16 h-16" />
                         </button>
                      </div>
                  ) : (
@@ -649,3 +648,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
