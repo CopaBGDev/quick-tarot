@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   title: APP_NAME,
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
+  keywords: ["tarot", "tarot čitanje", "dnevni tarot", "besplatni tarot", "astrologija", "horoskop", "zodijak", "proricanje", "tarot karte"],
   appleWebApp: {
     capable: true,
     title: APP_NAME,
@@ -59,6 +60,20 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": APP_NAME,
+  "description": APP_DESCRIPTION,
+  "applicationCategory": "EntertainmentApplication",
+  "operatingSystem": "WEB",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
 
 export default function RootLayout({
   children,
@@ -68,6 +83,11 @@ export default function RootLayout({
   return (
     <html lang="sr" className="dark">
       <head>
+        <Script
+          id="structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2968048666598097"

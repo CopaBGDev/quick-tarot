@@ -3,7 +3,6 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
 
@@ -49,13 +48,9 @@ import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 
 
-const createFormSchema = (translations: TranslationSet) => z.object({
-  question: z
-    .string()
-    .min(1, { message: translations.formQuestionErrorTooShort || "Question is too short." })
-});
-
-type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
+interface FormValues {
+  question: string;
+}
 
 const READING_COOLDOWN_SECONDS = 120;
 const COOLDOWN_STORAGE_KEY = "tarotCooldownEndTime";
@@ -180,13 +175,7 @@ export default function TarotClient() {
     setLanguage(supportedLangCode);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
     setTranslations(newTranslations);
-
-    form.reset(undefined, {
-        keepValues: true,
-        keepDirtyValues: true,
-        keepErrors: false,
-    });
-  }, [form, setLanguage, setTranslations]);
+  }, []);
 
 
   const onSubmit = React.useCallback(async (data: FormValues) => {
@@ -332,12 +321,10 @@ export default function TarotClient() {
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
-                     <div className="flex items-center justify-end w-full">
-                         <button onClick={resetForm} className="text-primary font-bold text-sm leading-tight hover:underline flex items-center gap-2">
-                           <span className="hidden sm:inline">{translations.countdownFinishedText}</span>
-                           <Logo className="w-10 h-10 sm:w-12 sm:h-12 inline sm:hidden" />
-                         </button>
-                     </div>
+                    <button onClick={resetForm} className="text-primary font-bold text-sm leading-tight hover:underline flex items-center gap-2">
+                      <span className="hidden sm:inline">{translations.countdownFinishedText}</span>
+                      <Edit3 className="w-4 h-4 inline sm:hidden" />
+                    </button>
                  ) : (
                     <div className="flex items-center gap-2">
                      {countdown > 0 && (
