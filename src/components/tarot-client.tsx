@@ -292,9 +292,9 @@ export default function TarotClient() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                          <div className="h-9 w-9 rounded-full bg-background flex items-center justify-center p-0.5 flex-shrink-0">
-                            <div className="bg-primary rounded-full w-full h-full flex items-center justify-center p-0.5">
-                                <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
+                          <div className="h-10 w-10 rounded-full flex items-center justify-center p-0.5 flex-shrink-0">
+                            <div className="bg-transparent rounded-full w-full h-full flex items-center justify-center p-0.5 border-2 border-primary">
+                                <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
                             </div>
                           </div>
                           <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
@@ -458,7 +458,7 @@ export default function TarotClient() {
     return (
       <div className="flex min-h-screen w-full flex-col px-4">
         {showMinimizedView && minimizedView}
-        <div className={`flex flex-col w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+        <div className={`flex flex-col w-full flex-grow ${showMinimizedView ? 'pt-24' : ''}`}>
           {!showMinimizedView ? (
             <div className="flex flex-col flex-grow justify-center">
               <Form {...form}>
