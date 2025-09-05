@@ -26,16 +26,52 @@ const translationPrompt = ai.definePrompt({
   input: { schema: TranslateUIInputSchema },
   output: { schema: TranslatableTextsSchema },
 
-  prompt: `Translate the JSON object of UI texts provided in the 'texts' field into the specified 'language'.
-  
-Your response must be a valid JSON object with the exact same structure and keys as the input 'texts' object. Only translate the string values. Do not translate or alter the keys.
+  prompt: `You are a powerful translation engine. Translate the following UI texts into the target language: {{{language}}}.
+Return a valid JSON object with the translated values. Do not translate the JSON keys.
 
-Target Language: {{{language}}}
-
-JSON to translate:
-\`\`\`json
-{{{jsonEncode texts}}}
-\`\`\`
+"headerTitle": "{{{texts.headerTitle}}}"
+"headerSubtitle": "{{{texts.headerSubtitle}}}"
+"formZodiacLabel": "{{{texts.formZodiacLabel}}}"
+"formZodiacPlaceholder": "{{{texts.formZodiacPlaceholder}}}"
+"formZodiacError": "{{{texts.formZodiacError}}}"
+"formQuestionLabel": "{{{texts.formQuestionLabel}}}"
+"formQuestionPlaceholder": "{{{texts.formQuestionPlaceholder}}}"
+"buttonDefault": "{{{texts.buttonDefault}}}"
+"buttonLoading": "{{{texts.buttonLoading}}}"
+"resultsTitle": "{{{texts.resultsTitle}}}"
+"resultsReadingTitle": "{{{texts.resultsReadingTitle}}}"
+"resultsLoadingText": "{{{texts.resultsLoadingText}}}"
+"footerCopyright": "{{{texts.footerCopyright}}}"
+"footerAbout": "{{{texts.footerAbout}}}"
+"footerMission": "{{{texts.footerMission}}}"
+"footerFaq": "{{{texts.footerFaq}}}"
+"footerTerms": "{{{texts.footerTerms}}}"
+"footerPrivacy": "{{{texts.footerPrivacy}}}"
+"aboutDialogTitle": "{{{texts.aboutDialogTitle}}}"
+"aboutDialogContent": "{{{texts.aboutDialogContent}}}"
+"missionDialogTitle": "{{{texts.missionDialogTitle}}}"
+"missionDialogContent": "{{{texts.missionDialogContent}}}"
+"faqDialogTitle": "{{{texts.faqDialogTitle}}}"
+"faqDialogContent": "{{{texts.faqDialogContent}}}"
+"termsDialogTitle": "{{{texts.termsDialogTitle}}}"
+"termsDialogContent": "{{{texts.termsDialogContent}}}"
+"privacyDialogTitle": "{{{texts.privacyDialogTitle}}}"
+"privacyDialogContent": "{{{texts.privacyDialogContent}}}"
+"errorTitle": "{{{texts.errorTitle}}}"
+"unknownError": "{{{texts.unknownError}}}"
+"countdownFinishedText": "{{{texts.countdownFinishedText}}}"
+"zodiacSignAries": "{{{texts.zodiacSignAries}}}"
+"zodiacSignTaurus": "{{{texts.zodiacSignTaurus}}}"
+"zodiacSignGemini": "{{{texts.zodiacSignGemini}}}"
+"zodiacSignCancer": "{{{texts.zodiacSignCancer}}}"
+"zodiacSignLeo": "{{{texts.zodiacSignLeo}}}"
+"zodiacSignVirgo": "{{{texts.zodiacSignVirgo}}}"
+"zodiacSignLibra": "{{{texts.zodiacSignLibra}}}"
+"zodiacSignScorpio": "{{{texts.zodiacSignScorpio}}}"
+"zodiacSignSagittarius": "{{{texts.zodiacSignSagittarius}}}"
+"zodiacSignCapricorn": "{{{texts.zodiacSignCapricorn}}}"
+"zodiacSignAquarius": "{{{texts.zodiacSignAquarius}}}"
+"zodiacSignPisces": "{{{texts.zodiacSignPisces}}}"
 `,
 });
 
