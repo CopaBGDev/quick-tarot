@@ -44,6 +44,10 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     images: [`${APP_URL}/og-image.png`], // Ensure you have this image in your public folder
   },
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export const viewport: Viewport = {
