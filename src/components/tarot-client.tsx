@@ -3,8 +3,6 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
 
@@ -46,19 +44,14 @@ import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
-const createFormSchema = (translations: TranslationSet) => z.object({
-  question: z
-    .string()
-    .min(2, { message: translations.formQuestionErrorTooShort || "Question must be at least 2 characters." })
-    .max(200, { message: translations.formQuestionErrorTooLong || "Question cannot be longer than 200 characters." }),
-});
-
-type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
+interface FormValues {
+  question: string;
+}
 
 const READING_COOLDOWN_SECONDS = 120;
 const COOLDOWN_STORAGE_KEY = "tarotCooldownEndTime";
@@ -82,28 +75,24 @@ export default function TarotClient() {
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
 
+  const isMobile = useIsMobile();
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
-  const isMobile = useIsMobile();
   
   const form = useForm<FormValues>({
-    resolver: zodResolver(createFormSchema(translations)),
     defaultValues: {
       question: "",
     },
   });
-
-  React.useEffect(() => {
-    form.reset(form.getValues(), {
-      keepValues: true,
-      keepDirty: true,
-      keepDefaultValues: false,
-    });
-  }, [translations, form]);
   
   React.useEffect(() => {
     const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
-    handleLanguageChange(savedLang);
+    const baseLang = savedLang.split('-')[0];
+    const newTranslations = getTranslations(baseLang);
+    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
+
+    setLanguage(supportedLangCode);
+    setTranslations(newTranslations);
 
     const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
     const savedReading = localStorage.getItem(READING_STORAGE_KEY);
@@ -134,7 +123,7 @@ export default function TarotClient() {
         localStorage.removeItem(QUESTION_STORAGE_KEY);
       }
     }
-  }, []);
+  }, [form]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -181,7 +170,7 @@ export default function TarotClient() {
       translations.zodiacSignCapricorn, translations.zodiacSignAquarius, translations.zodiacSignPisces,
   ], [translations]);
 
-  const handleLanguageChange = (langCode: string) => {
+  const handleLanguageChange = React.useCallback((langCode: string) => {
     const baseLang = langCode.split('-')[0];
     const newTranslations = getTranslations(baseLang);
     const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
@@ -189,15 +178,30 @@ export default function TarotClient() {
     setLanguage(supportedLangCode);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
     setTranslations(newTranslations);
-  };
+  }, []);
 
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = React.useCallback(async (data: FormValues) => {
+    setZodiacError(null);
     if (!selectedZodiacSign) {
-        setZodiacError(translations.formZodiacError);
+        const error = translations.formZodiacError;
+        setZodiacError(error);
+        toast({
+            title: translations.errorTitle,
+            description: error,
+            variant: "destructive",
+        });
         return;
     }
-    setZodiacError(null);
+    
+    if (data.question.trim().length < 2) {
+       toast({
+            title: translations.errorTitle,
+            description: translations.formQuestionErrorTooShort,
+            variant: "destructive",
+        });
+        return;
+    }
 
     setIsFormLoading(true);
     setReading(null);
@@ -238,30 +242,26 @@ export default function TarotClient() {
     } finally {
         setIsFormLoading(false);
     }
-  };
+  }, [selectedZodiacSign, language, translations, toast]);
   
-  const resetForm = () => {
+  const resetForm = React.useCallback(() => {
     setReading(null);
     setIsFormLoading(false);
     setCountdown(0);
+    setZodiacError(null);
     localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     localStorage.removeItem(READING_STORAGE_KEY);
     localStorage.removeItem(ZODIAC_STORAGE_KEY);
     localStorage.removeItem(QUESTION_STORAGE_KEY);
-    form.setValue('question', '');
+    form.reset({ question: "" });
     setSelectedZodiacSign(undefined);
-    setZodiacError(null);
-    form.clearErrors();
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
+  }, [form]);
 
   const handleTextareaKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
-        const question = form.getValues('question');
-        if (question.trim().endsWith('?')) {
-            event.preventDefault();
-            form.handleSubmit(onSubmit)();
-        }
+        event.preventDefault();
+        form.handleSubmit(onSubmit)();
     }
   };
   
@@ -286,6 +286,8 @@ export default function TarotClient() {
   
   const showMinimizedView = isFormLoading || reading;
   
+  const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
+
   const minimizedView = (
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
@@ -300,10 +302,8 @@ export default function TarotClient() {
                                 <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
                             </div>
                           </div>
-                          <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
-                              {submittedValues.question.length > (isMobile ? 20 : 30)
-                                ? `${submittedValues.question.substring(0, isMobile ? 20 : 30)}...`
-                                : submittedValues.question}
+                          <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
+                              {submittedValues.question}
                           </p>
                       </div>
                     </AlertDialogTrigger>
@@ -328,7 +328,7 @@ export default function TarotClient() {
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
-                 {countdown === 0 && !isFormLoading && reading ? (
+                 {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
                             <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
@@ -350,10 +350,12 @@ export default function TarotClient() {
                          </span>
                        </div>
                      )}
-                     <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                       <Edit3 className="h-[1.2rem] w-[1.2rem]" />
-                       <span className="sr-only">Edit</span>
-                     </Button>
+                     <div className="hidden sm:block">
+                      <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <Edit3 className="h-[1.2rem] w-[1.2rem]" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                     </div>
                    </div>
                  )}
             </div>
@@ -521,108 +523,106 @@ export default function TarotClient() {
       </div>
     </footer>
   );
+  
+    return (
+      <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4 min-h-screen justify-between">
+        <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+          {showMinimizedView && minimizedView}
+          <div className="w-full">
+            {!showMinimizedView ? (
+              <div
+                  className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
+                >
+                  <div className="hidden xl:flex xl:flex-col xl:items-center xl:order-1 xl:sticky xl:top-28">
+                     <ZodiacWheel
+                        signs={zodiacSigns}
+                        onSelect={setSelectedZodiacSign}
+                        selectedValue={selectedZodiacSign}
+                        disabled={disabled}
+                      />
+                      {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
+                  </div>
+                  
+                  <div className="w-full flex flex-col xl:order-2">
+                      <header className="flex w-full flex-col items-center xl:items-center text-center">
+                          <div className="flex flex-col items-center">
+                              <Logo className="h-28 w-28 text-primary" />
+                              <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                                Quick Tarot
+                              </h1>
+                          </div>
+                          <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg hidden xl:block">
+                              {translations.headerSubtitle}
+                          </p>
+                      </header>
 
-  return (
-    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4 min-h-screen justify-between">
-      <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
-        {showMinimizedView && minimizedView}
-        <div className="w-full">
-          {!showMinimizedView ? (
-            <div
-                className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
-              >
-                {/* Zodiac Wheel for Desktop */}
-                <div className="hidden xl:flex xl:flex-col xl:items-center xl:order-1">
-                   <ZodiacWheel
-                      signs={zodiacSigns}
-                      onSelect={setSelectedZodiacSign}
-                      selectedValue={selectedZodiacSign}
-                      disabled={disabled}
-                    />
-                    {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
-                </div>
-                
-                <div className="w-full flex flex-col xl:order-2">
-                    <header className="flex w-full flex-col items-center xl:items-center text-center xl:text-center">
-                        <div className="flex flex-col items-center xl:items-center">
-                            <Logo className="h-28 w-28 text-primary" />
-                            <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                              Quick Tarot
-                            </h1>
+                      <div className="w-full mt-12 xl:hidden">
+                         <div className="flex flex-col items-center">
+                            <ZodiacWheel
+                              signs={zodiacSigns}
+                              onSelect={setSelectedZodiacSign}
+                              selectedValue={selectedZodiacSign}
+                              disabled={disabled}
+                            />
+                            {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                         </div>
-                        <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg hidden xl:block">
-                            {translations.headerSubtitle}
-                        </p>
-                    </header>
-
-                    <div className="w-full mt-12 xl:hidden">
-                       <div className="flex flex-col items-center">
-                          <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={setSelectedZodiacSign}
-                            selectedValue={selectedZodiacSign}
-                            disabled={disabled}
-                          />
-                          {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                       </div>
-                    </div>
-                    <Form {...form}>
-                     <form
-                        onSubmit={form.handleSubmit(onSubmit)}
-                        className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
-                        <FormField
-                          control={form.control}
-                          name="question"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="w-full block text-right font-bold text-primary">
-                                {translations.formQuestionLabel}
-                              </FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder={translations.formQuestionPlaceholder}
-                                  {...field}
-                                  disabled={disabled}
-                                  onKeyDown={handleTextareaKeyDown}
-                                />
-                              </FormControl>
-                              <FormMessage className="text-primary" />
-                            </FormItem>
-                          )}
-                        />
-                        <Button
-                          type="submit"
-                          className="w-full font-bold"
-                          disabled={disabled}
-                          size="lg"
-                        >
-                          {isFormLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              {translations.buttonLoading}
-                            </>
-                          ) : countdown > 0 ? (
-                            <div className="flex items-center gap-2">
-                              <Timer className="h-4 w-4" />
-                              <span>{`${Math.floor(countdown / 60)
-                                .toString()
-                                .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                            </div>
-                          ) : (
-                            <>{translations.buttonDefault}</>
-                          )}
-                        </Button>
-                    </form>
-                    </Form>
+                      <Form {...form}>
+                       <form
+                          onSubmit={form.handleSubmit(onSubmit)}
+                          className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
+                          <FormField
+                            control={form.control}
+                            name="question"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="w-full block text-right font-bold text-primary">
+                                  {translations.formQuestionLabel}
+                                </FormLabel>
+                                <FormControl>
+                                  <Textarea
+                                    placeholder={translations.formQuestionPlaceholder}
+                                    {...field}
+                                    disabled={disabled}
+                                    onKeyDown={handleTextareaKeyDown}
+                                  />
+                                </FormControl>
+                                <FormMessage className="text-primary" />
+                              </FormItem>
+                            )}
+                          />
+                          <Button
+                            type="submit"
+                            className="w-full font-bold"
+                            disabled={disabled}
+                            size="lg"
+                          >
+                            {isFormLoading ? (
+                              <>
+                                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                {translations.buttonLoading}
+                              </>
+                            ) : countdown > 0 ? (
+                              <div className="flex items-center gap-2">
+                                <Timer className="h-4 w-4" />
+                                <span>{`${Math.floor(countdown / 60)
+                                  .toString()
+                                  .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                              </div>
+                            ) : (
+                              <>{translations.buttonDefault}</>
+                            )}
+                          </Button>
+                      </form>
+                      </Form>
+                  </div>
                 </div>
-              </div>
-          ) : (
-            resultsContent
-          )}
-        </div>
-      </main>
-
-      {footerContent}
-    </div>
-  );
+            ) : (
+              resultsContent
+            )}
+          </div>
+        </main>
+        {footerContent}
+      </div>
+    );
 }
