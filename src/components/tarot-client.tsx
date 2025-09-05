@@ -94,7 +94,7 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
-    const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language.split('-')[0] || 'sr';
+    const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     handleLanguageChange(savedLang);
 
     const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
@@ -174,9 +174,13 @@ export default function TarotClient() {
   ], [translations]);
 
   const handleLanguageChange = (langCode: string) => {
-    setLanguage(langCode);
-    localStorage.setItem(LANGUAGE_STORAGE_KEY, langCode);
-    setTranslations(getTranslations(langCode));
+    const baseLang = langCode.split('-')[0];
+    const newTranslations = getTranslations(baseLang);
+    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
+
+    setLanguage(supportedLangCode);
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
+    setTranslations(newTranslations);
   };
 
 
