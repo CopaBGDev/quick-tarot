@@ -286,7 +286,6 @@ export default function TarotClient() {
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
             
-            {/* Left side: Sign and Question */}
              <div className="flex w-full items-center justify-start gap-3 sm:w-1/3">
                 {showMinimizedView && selectedImage && submittedValues.question && (
                   <AlertDialog>
@@ -319,7 +318,6 @@ export default function TarotClient() {
                 )}
             </div>
 
-            {/* Center: Title (Desktop only) */}
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
                 <Logo className="h-14 w-14 text-primary" />
                 <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent whitespace-nowrap">
@@ -327,7 +325,6 @@ export default function TarotClient() {
                 </h1>
             </div>
 
-            {/* Right Side: Timer / Actions */}
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
@@ -494,9 +491,9 @@ export default function TarotClient() {
 
   if (isMobile) {
     return (
-      <div className="flex min-h-screen w-full flex-col px-4">
+      <div className="flex min-h-screen w-full flex-col justify-between px-4">
         {showMinimizedView && minimizedView}
-        <div className={`flex flex-col w-full flex-grow ${showMinimizedView ? 'pt-24' : ''}`}>
+        <main className={`flex-grow flex flex-col w-full ${showMinimizedView ? 'pt-24' : ''}`}>
             <div className="flex flex-col flex-grow justify-center">
               {!showMinimizedView ? (
                 <Form {...form}>
@@ -579,7 +576,7 @@ export default function TarotClient() {
                 </div>
               )}
            </div>
-        </div>
+        </main>
         <div className="pb-8 pt-4">
             {footerContent}
         </div>
@@ -589,95 +586,97 @@ export default function TarotClient() {
 
   // Desktop Layout
   return (
-    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4">
-      {showMinimizedView && minimizedView}
-      <div className={`w-full ${showMinimizedView ? 'pt-24' : ''}`}>
-        {!showMinimizedView ? (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full max-w-5xl mx-auto lg:grid lg:grid-cols-[472px_1fr] lg:items-start"
-            >
-              {/* Left Column: Zodiac Wheel */}
-              <div className="w-full lg:sticky lg:top-28">
-                 <div className="flex flex-col items-center">
-                    <ZodiacWheel
-                      signs={zodiacSigns}
-                      onSelect={setSelectedZodiacSign}
-                      selectedValue={selectedZodiacSign}
-                      disabled={disabled}
-                    />
-                    {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
-                 </div>
-              </div>
-
-              {/* Right Column: Header and Form */}
-              <div className="flex flex-col h-full mt-12 lg:mt-0">
-                <header className="flex w-full flex-col items-center text-center">
-                    <div className="flex flex-col items-center">
-                        <Logo className="h-28 w-28 text-primary" />
-                        <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                           {translations.header.title}
-                        </h1>
-                    </div>
-                     <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                        {translations.header.subtitle}
-                    </p>
-                </header>
-                
-                <div className="flex-grow"></div>
-
-                <div className="w-full max-w-md space-y-8 lg:mt-0 mx-auto">
-                    <FormField
-                      control={form.control}
-                      name="question"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="w-full block text-right font-bold text-primary">
-                            {translations.form.question.label}
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder={translations.form.question.placeholder}
-                              {...field}
-                              disabled={disabled}
-                              onKeyDown={handleTextareaKeyDown}
-                            />
-                          </FormControl>
-                          <FormMessage className="text-primary" />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      type="submit"
-                      className="w-full font-bold"
-                      disabled={disabled}
-                      size="lg"
-                    >
-                      {isFormLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {translations.button.loading}
-                        </>
-                      ) : countdown > 0 ? (
-                        <div className="flex items-center gap-2">
-                          <Timer className="h-4 w-4" />
-                          <span>{`${Math.floor(countdown / 60)
-                            .toString()
-                            .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                        </div>
-                      ) : (
-                        <>{translations.button.default}</>
-                      )}
-                    </Button>
+    <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4 min-h-screen justify-between">
+      <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+        {showMinimizedView && minimizedView}
+        <div className="w-full">
+          {!showMinimizedView ? (
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="w-full max-w-5xl mx-auto lg:grid lg:grid-cols-[472px_1fr] lg:items-start"
+              >
+                {/* Left Column: Zodiac Wheel */}
+                <div className="w-full lg:sticky lg:top-28">
+                  <div className="flex flex-col items-center">
+                      <ZodiacWheel
+                        signs={zodiacSigns}
+                        onSelect={setSelectedZodiacSign}
+                        selectedValue={selectedZodiacSign}
+                        disabled={disabled}
+                      />
+                      {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
                   </div>
-              </div>
-            </form>
-          </Form>
-        ) : (
-          resultsContent
-        )}
-      </div>
+                </div>
+
+                {/* Right Column: Header and Form */}
+                <div className="flex flex-col h-full mt-12 lg:mt-0">
+                  <header className="flex w-full flex-col items-center text-center">
+                      <div className="flex flex-col items-center">
+                          <Logo className="h-28 w-28 text-primary" />
+                          <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                            {translations.header.title}
+                          </h1>
+                      </div>
+                      <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                          {translations.header.subtitle}
+                      </p>
+                  </header>
+                  
+                  <div className="flex-grow"></div>
+
+                  <div className="w-full max-w-md space-y-8 lg:mt-0 mx-auto">
+                      <FormField
+                        control={form.control}
+                        name="question"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="w-full block text-right font-bold text-primary">
+                              {translations.form.question.label}
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder={translations.form.question.placeholder}
+                                {...field}
+                                disabled={disabled}
+                                onKeyDown={handleTextareaKeyDown}
+                              />
+                            </FormControl>
+                            <FormMessage className="text-primary" />
+                          </FormItem>
+                        )}
+                      />
+                      <Button
+                        type="submit"
+                        className="w-full font-bold"
+                        disabled={disabled}
+                        size="lg"
+                      >
+                        {isFormLoading ? (
+                          <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                            {translations.button.loading}
+                          </>
+                        ) : countdown > 0 ? (
+                          <div className="flex items-center gap-2">
+                            <Timer className="h-4 w-4" />
+                            <span>{`${Math.floor(countdown / 60)
+                              .toString()
+                              .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                          </div>
+                        ) : (
+                          <>{translations.button.default}</>
+                        )}
+                      </Button>
+                    </div>
+                </div>
+              </form>
+            </Form>
+          ) : (
+            resultsContent
+          )}
+        </div>
+      </main>
 
       {footerContent}
     </div>
