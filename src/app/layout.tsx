@@ -18,7 +18,7 @@ const lora = Lora({
   variable: '--font-lora',
 });
 
-const APP_NAME = "Quick Tarot";
+const APP_NAME = "Quick Tarot Reading";
 const APP_DESCRIPTION = "Dobijte vaše personalizovano tarot čitanje. Otkrijte šta vam zvezde i karte poručuju.";
 const APP_URL = "https://tarot.studio.operationsmile.org"; // Replace with your actual production URL
 
