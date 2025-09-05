@@ -628,10 +628,10 @@ export default function TarotClient() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start"
+                className="w-full max-w-5xl mx-auto flex flex-col lg:grid lg:grid-cols-[472px_1fr] lg:items-start"
               >
                 {/* Left Column: Zodiac Wheel */}
-                <div className="w-full xl:sticky xl:top-28">
+                <div className="w-full lg:sticky lg:top-28">
                   <div className="flex flex-col items-center">
                       <ZodiacWheel
                         signs={zodiacSigns}
@@ -644,7 +644,7 @@ export default function TarotClient() {
                 </div>
 
                 {/* Right Column: Header and Form */}
-                <div className="flex flex-col h-full mt-12 xl:mt-0">
+                <div className="flex flex-col h-full mt-12 lg:mt-0">
                   <header className="flex w-full flex-col items-center text-center">
                       <div className="flex flex-col items-center">
                           <Logo className="h-28 w-28 text-primary" />
@@ -716,3 +716,5 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
