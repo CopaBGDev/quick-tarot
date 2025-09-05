@@ -6,10 +6,21 @@ import {
 } from "@/ai/flows/generate-tarot-reading";
 import { z } from "zod";
 import type { GenerateTarotReadingInput, GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
+import { ALL_TRANSLATIONS } from "@/lib/translations";
+import { NATURAL_ORDER_EN } from "@/components/zodiac-wheel";
 
+// Generate an array of all possible zodiac sign names across all languages
+const allZodiacSigns = Object.values(ALL_TRANSLATIONS).flatMap(t => [
+  t.zodiacSignAries, t.zodiacSignTaurus, t.zodiacSignGemini, t.zodiacSignCancer,
+  t.zodiacSignLeo, t.zodiacSignVirgo, t.zodiacSignLibra, t.zodiacSignScorpio,
+  t.zodiacSignSagittarius, t.zodiacSignCapricorn, t.zodiacSignAquarius, t.zodiacSignPisces,
+]);
+const uniqueZodiacSigns = [...new Set(allZodiacSigns)];
 
 const ReadingActionSchema = z.object({
-  zodiacSign: z.string().min(1, "Morate izabrati znak."),
+  zodiacSign: z.enum(uniqueZodiacSigns as [string, ...string[]], {
+    errorMap: () => ({ message: "Morate izabrati validan znak." }),
+  }),
   question: z
     .string()
     .min(10, "Pitanje mora imati najmanje 10 karaktera.")

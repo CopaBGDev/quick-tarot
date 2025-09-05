@@ -20,9 +20,10 @@ const lora = Lora({
 
 const APP_NAME = "Quick Tarot Reading";
 const APP_DESCRIPTION = "Dobijte vaše personalizovano tarot čitanje. Otkrijte šta vam zvezde i karte poručuju.";
-const APP_URL = "https://tarot.studio.operationsmile.org"; // Replace with your actual production URL
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(APP_URL),
   title: APP_NAME,
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
@@ -36,13 +37,13 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     url: APP_URL,
     type: 'website',
-    images: [`${APP_URL}/og-image.png`], // Ensure you have this image in your public folder
+    images: [`/og-image.png`], 
   },
   twitter: {
     card: 'summary_large_image',
     title: APP_NAME,
     description: APP_DESCRIPTION,
-    images: [`${APP_URL}/og-image.png`], // Ensure you have this image in your public folder
+    images: [`/og-image.png`],
   },
   icons: {
     icon: "/favicon.svg",
