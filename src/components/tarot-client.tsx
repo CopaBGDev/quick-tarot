@@ -384,7 +384,6 @@ export default function TarotClient() {
             </div>
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-                 {/* Language selector was here on desktop */}
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
@@ -713,9 +712,6 @@ export default function TarotClient() {
                 {/* Right Column: Header and Form */}
                 <div className="flex flex-col h-full mt-12 lg:mt-0">
                   <header className="flex w-full flex-col items-center text-center">
-                      <div className="w-full flex justify-end">
-                         {/* Language selector was here */}
-                      </div>
                       <div className="flex flex-col items-center">
                           <Logo className="h-28 w-28 text-primary" />
                           <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
