@@ -9,7 +9,7 @@ import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
 
 
-import { getTarotReading } from "@/app/actions";
+import { getTarotReading, getUiTranslations } from "@/app/actions";
 import { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +31,6 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import {
   Dialog,
@@ -41,20 +40,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast";
-import { ZodiacSign } from "@/lib/zodiac";
 import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { AdPlaceholder } from "./ad-placeholder";
-import { getTranslations, Translations } from "@/lib/translations";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
+import type { TranslateUIOutput } from "@/ai/flows/translate-ui-flow";
 
 const FormSchema = z.object({
   question: z
     .string()
-    .min(10, { message: "Pitanje mora imati najmanje 10 karaktera." })
-    .max(200, { message: "Pitanje ne može biti duže od 200 karaktera." }),
+    .min(10, { message: "Question must be at least 10 characters." })
+    .max(200, { message: "Question cannot be longer than 200 characters." }),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
@@ -64,21 +63,68 @@ const COOLDOWN_STORAGE_KEY = "tarotCooldownEndTime";
 const READING_STORAGE_KEY = "tarotReading";
 const ZODIAC_STORAGE_KEY = "tarotZodiacSign";
 const QUESTION_STORAGE_KEY = "tarotQuestion";
+const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
+const BASE_TRANSLATIONS_EN: TranslateUIOutput = {
+    headerTitle: "Quick Tarot",
+    headerSubtitle: "Discover what the stars and cards have in store for you. Enter your sign and question to get your personalized tarot reading.",
+    formZodiacLabel: "Your Sign",
+    formZodiacPlaceholder: "Select a sign...",
+    formZodiacError: "You must select a valid zodiac sign.",
+    formQuestionLabel: "Your question for the cards",
+    formQuestionPlaceholder: "What is troubling or interesting you?",
+    buttonDefault: "What do the cards say?",
+    buttonLoading: "Shuffling the cards...",
+    resultsTitle: "Your Cards of Fate",
+    resultsReadingTitle: "Your Tarot Reading",
+    resultsLoadingText: "The cards are being shuffled, your fate is being revealed...",
+    footerCopyright: "All rights reserved.",
+    footerAbout: "About Us",
+    footerMission: "Our Mission",
+    footerFaq: "FAQ",
+    footerTerms: "Terms of Use",
+    footerPrivacy: "Privacy Policy",
+    aboutDialogTitle: "About The Quick Tarot App",
+    aboutDialogContent: "Welcome to Quick Tarot, your digital window into the world of tarot cards. Our mission is to provide an intuitive and personalized tarot experience accessible to everyone, anywhere, anytime.\n\nUsing the power of artificial intelligence, our application generates unique and insightful tarot readings. Each reading is based on cards randomly drawn especially for you and your question, ensuring you receive a message that is meant for you.\n\nWe believe that tarot is not just about predicting the future, but a tool for self-reflection and a deeper understanding of the present. Whether you are looking for answers, inspiration, or simply want to explore your intuition, Quick Tarot is here to guide you.\n\nThank you for being part of our journey.",
+    missionDialogTitle: "Our Mission",
+    missionDialogContent: "Our mission is to demystify tarot and make it an accessible tool for personal growth and introspection. Through the fusion of ancient wisdom and modern technology, we aim to empower individuals to find clarity, make better decisions, and understand the deeper currents of their lives.\n\nWe strive to create a safe and supportive space where everyone can explore their intuition without prejudice.",
+    faqDialogTitle: "Frequently Asked Questions",
+    faqDialogContent: "Q: Are the readings truly random?\nA: Absolutely. For each new question, our system randomly selects three cards from a full 78-card deck, guaranteeing a unique and unbiased reading every time.\n\nQ: How often can I ask a question?\nA: To ensure the quality and meaningfulness of each reading, we have implemented a time limit. You can request a new reading every two minutes.\n\nQ: Is this real fortune-telling?\nA: We see tarot as a guide and a tool for self-reflection, rather than a concrete prediction of the future. The cards can help you see a situation from a new perspective and make decisions that are in line with your inner being.",
+    termsDialogTitle: "Terms of Use",
+    termsDialogContent: "By accessing and using the Quick Tarot application, you agree to the following terms:\n\n1. The service is provided 'as is'. Readings are generated by artificial intelligence and are for entertainment and introspective purposes only. They should not be considered professional, legal, medical, or financial advice.\n\n2. We assume no liability for any decisions you make based on the information obtained through our application.\n\n3. We reserve the right to modify or discontinue the service at any time without prior notice.\n\n4. We collect minimal data necessary for the application's functionality, as described in our privacy policy.",
+    privacyDialogTitle: "Privacy Policy",
+    privacyDialogContent: "This Privacy Policy explains how we collect, use, and protect your data.\n\n1. Data Collection: We only collect the necessary data for the application's functionality, such as your question and selected zodiac sign, which are not stored permanently. We use local storage in your browser to save your last reading and the time when you can request a new one.\n\n2. Google AdSense: We use Google AdSense to display advertisements. Google may use cookies to serve relevant ads based on your previous visits. You can find more information in Google's privacy policy.\n\n3. Security: We do not share your data with third parties, except as necessary to provide the service (e.g., Google AdSense).\n\n4. Your Rights: You have the right to delete data from local storage by clearing your browser's cache.",
+    errorTitle: "Error",
+    unknownError: "An unknown error occurred.",
+    countdownFinishedText: "Ready for new reading",
+    zodiacSignAries: "Aries",
+    zodiacSignTaurus: "Taurus",
+    zodiacSignGemini: "Gemini",
+    zodiacSignCancer: "Cancer",
+    zodiacSignLeo: "Leo",
+    zodiacSignVirgo: "Virgo",
+    zodiacSignLibra: "Libra",
+    zodiacSignScorpio: "Scorpio",
+    zodiacSignSagittarius: "Sagittarius",
+    zodiacSignCapricorn: "Capricorn",
+    zodiacSignAquarius: "Aquarius",
+    zodiacSignPisces: "Pisces",
+};
+
 export default function TarotClient() {
   const [isLoading, setIsLoading] = React.useState(true);
   const [isFormLoading, setIsFormLoading] = React.useState(false);
+  const [isTranslating, setIsTranslating] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
   const [language, setLanguage] = React.useState('sr');
-  const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
-  const [zodiacSigns, setZodiacSigns] = React.useState<readonly ZodiacSign[]>(getTranslations('sr').zodiacSigns);
+  const [translations, setTranslations] = React.useState<TranslateUIOutput>(BASE_TRANSLATIONS_EN);
   const [countdown, setCountdown] = React.useState(0);
-  const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<ZodiacSign | undefined>(undefined);
+  const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
 
   const resultsRef = React.useRef<HTMLDivElement>(null);
@@ -93,11 +139,8 @@ export default function TarotClient() {
   });
   
   React.useEffect(() => {
-    const userLang = navigator.language.split('-')[0] || 'sr';
-    const newTranslations = getTranslations(userLang);
-    setLanguage(userLang);
-    setTranslations(newTranslations);
-    setZodiacSigns(newTranslations.zodiacSigns);
+    const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language.split('-')[0] || 'sr';
+    handleLanguageChange(savedLang, true);
 
     const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
     const savedReading = localStorage.getItem(READING_STORAGE_KEY);
@@ -117,12 +160,9 @@ export default function TarotClient() {
         setReading(parsedReading);
         
         const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
-        // Find the sign object from the current translations
-        const savedSign = newTranslations.zodiacSigns.find(sign => sign === savedSignName);
-
         const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
 
-        if (savedSign) setSelectedZodiacSign(savedSign);
+        if (savedSignName) setSelectedZodiacSign(savedSignName);
         if (savedQuestion) form.setValue('question', savedQuestion);
 
       } catch (e) {
@@ -131,7 +171,8 @@ export default function TarotClient() {
         localStorage.removeItem(QUESTION_STORAGE_KEY);
       }
     }
-    setIsLoading(false);
+    // No longer loading after initial setup
+    // setIsLoading(false) is now called in handleLanguageChange
   }, []);
   
   React.useEffect(() => {
@@ -171,25 +212,48 @@ export default function TarotClient() {
         localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     }
   }, [countdown]);
+  
+  const zodiacSigns = React.useMemo(() => [
+      translations.zodiacSignAries, translations.zodiacSignTaurus, translations.zodiacSignGemini,
+      translations.zodiacSignCancer, translations.zodiacSignLeo, translations.zodiacSignVirgo,
+      translations.zodiacSignLibra, translations.zodiacSignScorpio, translations.zodiacSignSagittarius,
+      translations.zodiacSignCapricorn, translations.zodiacSignAquarius, translations.zodiacSignPisces,
+  ], [translations]);
 
-  React.useEffect(() => {
-        const newTranslations = getTranslations(language);
-        setTranslations(newTranslations);
-        setZodiacSigns(newTranslations.zodiacSigns);
+  const handleLanguageChange = async (langCode: string, isInitialLoad = false) => {
+    if (!isInitialLoad) {
+        setIsTranslating(true);
+    }
+    setLanguage(langCode);
+    localStorage.setItem(LANGUAGE_STORAGE_KEY, langCode);
 
-        const { question: currentQuestion } = form.getValues();
-        form.reset({
-            question: currentQuestion
-        }, {
-            keepErrors: true,
-            keepDirty: true,
-            keepValues: true
+    try {
+        const targetLanguage = SUPPORTED_LANGUAGES.find(l => l.code === langCode)?.name || 'Serbian';
+        const newTranslations = await getUiTranslations({
+            texts: BASE_TRANSLATIONS_EN,
+            language: targetLanguage,
         });
-  }, [language, form]);
+        setTranslations(newTranslations);
+    } catch (error) {
+        console.error("Failed to fetch translations:", error);
+        toast({
+            title: "Translation Error",
+            description: "Could not load translations. Reverting to English.",
+            variant: "destructive",
+        });
+        setTranslations(BASE_TRANSLATIONS_EN); // Fallback to English
+    } finally {
+        if (isInitialLoad) {
+            setIsLoading(false);
+        }
+        setIsTranslating(false);
+    }
+  };
+
 
   const onSubmit = async (data: FormValues) => {
     if (!selectedZodiacSign) {
-        setZodiacError(translations.form.zodiac.error);
+        setZodiacError(translations.formZodiacError);
         return;
     }
     setZodiacError(null);
@@ -206,10 +270,11 @@ export default function TarotClient() {
     }, 100);
 
     try {
+      const targetLanguageName = SUPPORTED_LANGUAGES.find(l => l.code === language)?.name || 'Serbian';
       const result = await getTarotReading({
         ...data,
         zodiacSign: selectedZodiacSign,
-        language,
+        language: targetLanguageName,
       });
       setReading(result);
       
@@ -270,12 +335,11 @@ export default function TarotClient() {
   }, [reading]);
 
 
-  const disabled = isLoading || isFormLoading || countdown > 0;
+  const disabled = isLoading || isFormLoading || countdown > 0 || isTranslating;
   
   const submittedValues = form.watch();
   const selectedSign = selectedZodiacSign;
-  const isSerbian = zodiacSigns[0] === 'Ovan';
-  const naturalOrder = isSerbian ? getTranslations('sr').zodiacSigns : getTranslations('en').zodiacSigns;
+  const naturalOrder = zodiacSigns;
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
   
@@ -305,7 +369,7 @@ export default function TarotClient() {
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>{translations.form.question.label}</AlertDialogTitle>
+                        <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
                       </AlertDialogHeader>
                        <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
                           {submittedValues.question}
@@ -319,10 +383,7 @@ export default function TarotClient() {
             </div>
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-                <Logo className="h-14 w-14 text-primary" />
-                <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent whitespace-nowrap">
-                    Quick Tarot
-                </h1>
+                 <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
@@ -367,7 +428,7 @@ export default function TarotClient() {
       {(isFormLoading || reading) && (
         <>
           <h2 className="font-headline text-3xl font-bold text-primary">
-            {translations.results.title}
+            {translations.resultsTitle}
           </h2>
           <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
             <TarotCard
@@ -391,7 +452,7 @@ export default function TarotClient() {
              <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
               <Sparkles className="h-8 w-8 animate-pulse text-primary" />
               <p className="text-center font-semibold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
-                {translations.results.loadingText}
+                {translations.resultsLoadingText}
               </p>
             </div>
           )}
@@ -400,7 +461,7 @@ export default function TarotClient() {
             <>
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader>
-                    <CardTitle>{translations.results.readingTitle}</CardTitle>
+                    <CardTitle>{translations.resultsReadingTitle}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-6 text-left">
                   <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
@@ -415,7 +476,7 @@ export default function TarotClient() {
     </section>
   );
 
-  if (isMobile === undefined || isLoading) {
+  if (isLoading) {
     return (
       <div className="flex w-full h-screen flex-col items-center justify-center gap-8 py-10">
         <Loader2 className="h-16 w-16 animate-spin text-primary" />
@@ -431,15 +492,15 @@ export default function TarotClient() {
           <Dialog>
             <DialogTrigger asChild>
               <button className="underline hover:text-primary transition-colors">
-                {translations.footer.about}
+                {translations.footerAbout}
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{translations.aboutDialog.title}</DialogTitle>
+                <DialogTitle>{translations.aboutDialogTitle}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.aboutDialog.content.split('\n\n').map((paragraph, index) => (
+                {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
               </div>
@@ -449,15 +510,15 @@ export default function TarotClient() {
           <Dialog>
             <DialogTrigger asChild>
               <button className="underline hover:text-primary transition-colors">
-                {translations.footer.mission}
+                {translations.footerMission}
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{translations.missionDialog.title}</DialogTitle>
+                <DialogTitle>{translations.missionDialogTitle}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.missionDialog.content.split('\n\n').map((paragraph, index) => (
+                {translations.missionDialogContent.split('\n\n').map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
               </div>
@@ -467,15 +528,15 @@ export default function TarotClient() {
           <Dialog>
             <DialogTrigger asChild>
               <button className="underline hover:text-primary transition-colors">
-                {translations.footer.faq}
+                {translations.footerFaq}
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{translations.faqDialog.title}</DialogTitle>
+                <DialogTitle>{translations.faqDialogTitle}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.faqDialog.content.split('\n\n').map((paragraph, index) => (
+                {translations.faqDialogContent.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
                 ))}
               </div>
@@ -485,15 +546,15 @@ export default function TarotClient() {
            <Dialog>
             <DialogTrigger asChild>
               <button className="underline hover:text-primary transition-colors">
-                {translations.footer.terms}
+                {translations.footerTerms}
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{translations.termsDialog.title}</DialogTitle>
+                <DialogTitle>{translations.termsDialogTitle}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.termsDialog.content.split('\n\n').map((paragraph, index) => (
+                {translations.termsDialogContent.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
                 ))}
               </div>
@@ -503,15 +564,15 @@ export default function TarotClient() {
            <Dialog>
             <DialogTrigger asChild>
               <button className="underline hover:text-primary transition-colors">
-                {translations.footer.privacy}
+                {translations.footerPrivacy}
               </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
-                <DialogTitle>{translations.privacyDialog.title}</DialogTitle>
+                <DialogTitle>{translations.privacyDialogTitle}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.privacyDialog.content.split('\n\n').map((paragraph, index) => (
+                {translations.privacyDialogContent.split('\n\n').map((paragraph, index) => (
                   <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
                 ))}
               </div>
@@ -519,7 +580,7 @@ export default function TarotClient() {
           </Dialog>
         </div>
         <span className="text-sm text-muted-foreground">
-           © {new Date().getFullYear()} Quick Tarot. {translations.footer.copyright}
+           © {new Date().getFullYear()} Quick Tarot. {translations.footerCopyright}
         </span>
       </div>
     </footer>
@@ -538,12 +599,13 @@ export default function TarotClient() {
                     className="flex flex-col items-center gap-6 w-full"
                   >
                       <header className="flex w-full flex-col items-center text-center">
-                        <div className="flex flex-col items-center">
-                          <Logo className="h-28 w-28 text-primary" />
-                          <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                            {translations.header.title}
-                          </h1>
+                        <div className="flex justify-between items-center w-full">
+                           <Logo className="h-20 w-20 text-primary" />
+                           <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
                         </div>
+                        <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                          {translations.headerTitle}
+                        </h1>
                       </header>
 
                       <div className="w-full">
@@ -566,11 +628,11 @@ export default function TarotClient() {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel className="w-full block text-right font-bold text-primary">
-                                  {translations.form.question.label}
+                                  {translations.formQuestionLabel}
                                 </FormLabel>
                                 <FormControl>
                                   <Textarea
-                                    placeholder={translations.form.question.placeholder}
+                                    placeholder={translations.formQuestionPlaceholder}
                                     {...field}
                                     disabled={disabled}
                                     onKeyDown={handleTextareaKeyDown}
@@ -586,10 +648,10 @@ export default function TarotClient() {
                             disabled={disabled}
                             size="lg"
                           >
-                            {isFormLoading ? (
+                            {isFormLoading || isTranslating ? (
                               <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                {translations.button.loading}
+                                {translations.buttonLoading}
                               </>
                             ) : countdown > 0 ? (
                               <div className="flex items-center gap-2">
@@ -599,7 +661,7 @@ export default function TarotClient() {
                                   .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
                               </div>
                             ) : (
-                              <>{translations.button.default}</>
+                              <>{translations.buttonDefault}</>
                             )}
                           </Button>
                         </div>
@@ -648,14 +710,17 @@ export default function TarotClient() {
                 {/* Right Column: Header and Form */}
                 <div className="flex flex-col h-full mt-12 lg:mt-0">
                   <header className="flex w-full flex-col items-center text-center">
+                      <div className="w-full flex justify-end">
+                         <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
+                      </div>
                       <div className="flex flex-col items-center">
                           <Logo className="h-28 w-28 text-primary" />
                           <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                            {translations.header.title}
+                            {translations.headerTitle}
                           </h1>
                       </div>
                       <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                          {translations.header.subtitle}
+                          {translations.headerSubtitle}
                       </p>
                   </header>
                   
@@ -668,11 +733,11 @@ export default function TarotClient() {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="w-full block text-right font-bold text-primary">
-                              {translations.form.question.label}
+                              {translations.formQuestionLabel}
                             </FormLabel>
                             <FormControl>
                               <Textarea
-                                placeholder={translations.form.question.placeholder}
+                                placeholder={translations.formQuestionPlaceholder}
                                 {...field}
                                 disabled={disabled}
                                 onKeyDown={handleTextareaKeyDown}
@@ -688,10 +753,10 @@ export default function TarotClient() {
                         disabled={disabled}
                         size="lg"
                       >
-                        {isFormLoading ? (
+                        {isFormLoading || isTranslating ? (
                           <>
                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                            {translations.button.loading}
+                            {translations.buttonLoading}
                           </>
                         ) : countdown > 0 ? (
                           <div className="flex items-center gap-2">
@@ -701,7 +766,7 @@ export default function TarotClient() {
                               .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
                           </div>
                         ) : (
-                          <>{translations.button.default}</>
+                          <>{translations.buttonDefault}</>
                         )}
                       </Button>
                     </div>

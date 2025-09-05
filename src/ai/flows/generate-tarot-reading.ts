@@ -16,7 +16,7 @@ import { FULL_DECK } from '@/lib/cards';
 const GenerateTarotReadingInputSchema = z.object({
   zodiacSign: z.string().describe('The zodiac sign of the user.'),
   question: z.string().describe('The question asked by the user.'),
-  language: z.string().describe('The language for the output, e.g., "sr" for Serbian.'),
+  language: z.string().describe('The language for the output, e.g., "Serbian", "English", "Norwegian".'),
 });
 export type GenerateTarotReadingInput = z.infer<typeof GenerateTarotReadingInputSchema>;
 

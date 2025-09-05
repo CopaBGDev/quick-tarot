@@ -6,6 +6,9 @@ import {
 } from "@/ai/flows/generate-tarot-reading";
 import { z } from "zod";
 import type { GenerateTarotReadingInput, GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
+import { translateUI } from "@/ai/flows/translate-ui-flow";
+import { TranslateUIInputSchema } from "@/ai/schemas";
+import type { TranslateUIOutput } from "@/ai/flows/translate-ui-flow";
 
 
 const ReadingActionSchema = z.object({
@@ -20,13 +23,14 @@ const ReadingActionSchema = z.object({
 export async function getTarotReading(input: GenerateTarotReadingInput): Promise<GenerateTarotReadingOutput> {
   const validation = ReadingActionSchema.safeParse(input);
   if (!validation.success) {
+    // This error message will be in Serbian, but the UI should show its own translated error.
     throw new Error(validation.error.errors[0].message);
   }
 
   try {
     const validatedData = {
       ...validation.data,
-      language: validation.data.language || 'sr',
+      language: validation.data.language || 'Serbian',
     };
     
     const result = await generateTarotReading(validatedData);
@@ -35,13 +39,25 @@ export async function getTarotReading(input: GenerateTarotReadingInput): Promise
     console.error("Error in getTarotReading:", error);
     if (error instanceof Error && (error.message.includes("503") || error.message.toLowerCase().includes("overloaded")) ) {
        throw new Error(
-        "Servis je trenutno preopterećen. Molimo pokušajte ponovo za nekoliko trenutaka."
+        "The service is currently overloaded. Please try again in a few moments."
       );
     }
     throw new Error(
-      "Došlo je do greške prilikom generisanja čitanja. Molimo pokušajte ponovo."
+      "An error occurred while generating the reading. Please try again."
     );
   }
 }
 
+export async function getUiTranslations(input: z.infer<typeof TranslateUIInputSchema>): Promise<TranslateUIOutput> {
+    const validation = TranslateUIInputSchema.safeParse(input);
+    if (!validation.success) {
+        throw new Error('Invalid input for translation.');
+    }
+    try {
+        return await translateUI(validation.data);
+    } catch(error) {
+        console.error("Error in getUiTranslations:", error);
+        throw new Error("Failed to translate UI.");
+    }
+}
     
