@@ -6,9 +6,6 @@ import {
 } from "@/ai/flows/generate-tarot-reading";
 import { z } from "zod";
 import type { GenerateTarotReadingInput, GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
-import { translateUI } from "@/ai/flows/translate-ui-flow";
-import { TranslateUIInputSchema } from "@/ai/schemas";
-import type { TranslateUIOutput } from "@/ai/flows/translate-ui-flow";
 
 
 const ReadingActionSchema = z.object({
@@ -47,17 +44,3 @@ export async function getTarotReading(input: GenerateTarotReadingInput): Promise
     );
   }
 }
-
-export async function getUiTranslations(input: z.infer<typeof TranslateUIInputSchema>): Promise<TranslateUIOutput> {
-    const validation = TranslateUIInputSchema.safeParse(input);
-    if (!validation.success) {
-        throw new Error('Invalid input for translation.');
-    }
-    try {
-        return await translateUI(validation.data);
-    } catch(error) {
-        console.error("Error in getUiTranslations:", error);
-        throw new Error("Failed to translate UI.");
-    }
-}
-    
