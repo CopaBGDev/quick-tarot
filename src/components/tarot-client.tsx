@@ -528,9 +528,7 @@ export default function TarotClient() {
         {showMinimizedView && minimizedView}
         <div className="w-full">
           {!showMinimizedView ? (
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
+            <div
                 className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
               >
                 {/* Zodiac Wheel for Desktop */}
@@ -568,14 +566,16 @@ export default function TarotClient() {
                           {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                       </div>
                     </div>
-
-                     <div className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
+                    <Form {...form}>
+                     <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
                         <FormField
                           control={form.control}
                           name="question"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel className="w-full block text-center xl:text-left font-bold text-primary">
+                              <FormLabel className="w-full block text-right font-bold text-primary">
                                 {translations.formQuestionLabel}
                               </FormLabel>
                               <FormControl>
@@ -612,10 +612,10 @@ export default function TarotClient() {
                             <>{translations.buttonDefault}</>
                           )}
                         </Button>
-                    </div>
+                    </form>
+                    </Form>
                 </div>
-              </form>
-            </Form>
+              </div>
           ) : (
             resultsContent
           )}
@@ -626,5 +626,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
