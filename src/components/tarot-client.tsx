@@ -284,7 +284,7 @@ export default function TarotClient() {
   
   const minimizedView = (
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
-        <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4">
+        <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
             
             {/* Left side: Sign and Question */}
              <div className="flex w-full items-center justify-start gap-3 sm:w-1/3">
@@ -292,8 +292,8 @@ export default function TarotClient() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                          <div className="h-12 w-12 rounded-full flex items-center justify-center p-0.5 flex-shrink-0 bg-transparent border-2 border-primary">
-                             <div className="w-full h-full flex items-center justify-center p-0.5">
+                          <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-transparent border-2 border-primary">
+                             <div className="w-full h-full rounded-full flex items-center justify-center p-1">
                                 <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
                             </div>
                           </div>
@@ -319,8 +319,8 @@ export default function TarotClient() {
                 )}
             </div>
 
-             {/* Center: Title (Desktop only) */}
-            <div className="hidden flex-1 items-center justify-center md:flex gap-4">
+            {/* Center: Title (Desktop only) */}
+            <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
                 <Logo className="h-14 w-14 text-primary" />
                 <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent whitespace-nowrap">
                     Quick Tarot
@@ -328,7 +328,7 @@ export default function TarotClient() {
             </div>
 
             {/* Right Side: Timer / Actions */}
-            <div className="flex w-full items-center justify-end gap-2 sm:w/1/3">
+            <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
@@ -646,3 +646,5 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
