@@ -116,7 +116,7 @@ const BASE_TRANSLATIONS_EN: Omit<z.infer<typeof TranslatableTextsSchema>, 'heade
     zodiacSignPisces: "Pisces",
 };
 
-const INITIAL_TRANSLATIONS: TranslateUIOutput = {
+const INITIAL_TRANSLATIONS: Omit<TranslateUIOutput, 'headerTitle'> & { headerTitle: string } = {
     ...BASE_TRANSLATIONS_EN,
     headerTitle: "Quick Tarot",
 };
@@ -130,7 +130,7 @@ export default function TarotClient() {
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
   const [language, setLanguage] = React.useState('sr');
-  const [translations, setTranslations] = React.useState<TranslateUIOutput>(INITIAL_TRANSLATIONS);
+  const [translations, setTranslations] = React.useState<Omit<TranslateUIOutput, 'headerTitle'>>(INITIAL_TRANSLATIONS);
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
@@ -241,7 +241,7 @@ export default function TarotClient() {
             texts: BASE_TRANSLATIONS_EN,
             language: targetLanguage,
         });
-        setTranslations({ ...newTranslations, headerTitle: "Quick Tarot" });
+        setTranslations(newTranslations);
     } catch (error) {
         console.error("Failed to fetch translations:", error);
         toast({
@@ -392,7 +392,7 @@ export default function TarotClient() {
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
                <Logo className="h-20 w-20 text-primary" />
-               <span className="font-headline text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">Quick Tarot</span>
+               <span className="font-headline text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">Quick Tarot</span>
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
