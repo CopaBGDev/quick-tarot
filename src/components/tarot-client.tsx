@@ -434,7 +434,7 @@ export default function TarotClient() {
                 {translations.footer.about}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>{translations.aboutDialog.title}</DialogTitle>
               </DialogHeader>
@@ -452,7 +452,7 @@ export default function TarotClient() {
                 {translations.footer.mission}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>{translations.missionDialog.title}</DialogTitle>
               </DialogHeader>
@@ -470,7 +470,7 @@ export default function TarotClient() {
                 {translations.footer.faq}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>{translations.faqDialog.title}</DialogTitle>
               </DialogHeader>
@@ -488,7 +488,7 @@ export default function TarotClient() {
                 {translations.footer.terms}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>{translations.termsDialog.title}</DialogTitle>
               </DialogHeader>
@@ -506,7 +506,7 @@ export default function TarotClient() {
                 {translations.footer.privacy}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
+            <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>{translations.privacyDialog.title}</DialogTitle>
               </DialogHeader>
