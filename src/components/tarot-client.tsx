@@ -499,6 +499,24 @@ export default function TarotClient() {
               </div>
             </DialogContent>
           </Dialog>
+          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+           <Dialog>
+            <DialogTrigger asChild>
+              <button className="underline hover:text-primary transition-colors">
+                {translations.footer.privacy}
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{translations.privacyDialog.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                {translations.privacyDialog.content.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
         <span className="text-sm text-muted-foreground">
            © {new Date().getFullYear()} Quick Tarot. {translations.footer.copyright}
