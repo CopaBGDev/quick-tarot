@@ -423,92 +423,95 @@ export default function TarotClient() {
 
   if (isMobile) {
     return (
-      <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4">
+      <div className="flex min-h-screen w-full flex-col px-4">
         {showMinimizedView && minimizedView}
-        <div className={`w-full ${showMinimizedView ? 'pt-24' : ''}`}>
-        {!showMinimizedView ? (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col items-center gap-8 w-full"
-            >
-                {/* 1. Header */}
-                <header className="flex w-full flex-col items-center text-center order-1">
-                  <div className="flex flex-col items-center">
-                    <Logo className="h-28 w-28 text-primary" />
-                    <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                      {translations.header.title}
-                    </h1>
-                  </div>
-                </header>
+        <div className={`flex-grow flex flex-col w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+          {!showMinimizedView ? (
+            <div className="flex flex-grow flex-col justify-center">
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="flex flex-col items-center gap-6 w-full"
+                >
+                    <header className="flex w-full flex-col items-center text-center">
+                      <div className="flex flex-col items-center">
+                        <Logo className="h-28 w-28 text-primary" />
+                        <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                          {translations.header.title}
+                        </h1>
+                      </div>
+                    </header>
 
-                {/* 2. Zodiac Wheel */}
-                <div className="w-full mt-4 order-2">
-                  <div className="flex flex-col items-center">
-                      <ZodiacWheel
-                        signs={zodiacSigns}
-                        onSelect={setSelectedZodiacSign}
-                        selectedValue={selectedZodiacSign}
-                        disabled={disabled}
-                      />
-                      {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
-                  </div>
-                </div>
-                
-                {/* 3. Question Form */}
-                <div className="w-full order-3">
-                  <div className="w-full max-w-md space-y-8 lg:mt-0 mx-auto">
-                    <FormField
-                      control={form.control}
-                      name="question"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="w-full block text-right font-bold text-primary">
-                            {translations.form.question.label}
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder={translations.form.question.placeholder}
-                              {...field}
-                              disabled={disabled}
-                              onKeyDown={handleTextareaKeyDown}
-                            />
-                          </FormControl>
-                          <FormMessage className="text-primary" />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      type="submit"
-                      className="w-full font-bold"
-                      disabled={disabled}
-                      size="lg"
-                    >
-                      {isFormLoading ? (
-                        <>
-                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          {translations.button.loading}
-                        </>
-                      ) : countdown > 0 ? (
-                        <div className="flex items-center gap-2">
-                          <Timer className="h-4 w-4" />
-                          <span>{`${Math.floor(countdown / 60)
-                            .toString()
-                            .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                        </div>
-                      ) : (
-                        <>{translations.button.default}</>
-                      )}
-                    </Button>
-                  </div>
-                </div>
-            </form>
-          </Form>
-        ) : (
-          resultsContent
-        )}
+                    <div className="w-full">
+                      <div className="flex flex-col items-center">
+                          <ZodiacWheel
+                            signs={zodiacSigns}
+                            onSelect={setSelectedZodiacSign}
+                            selectedValue={selectedZodiacSign}
+                            disabled={disabled}
+                          />
+                          {zodiacError && <p className="text-center mt-4 text-primary font-medium">{zodiacError}</p>}
+                      </div>
+                    </div>
+                    
+                    <div className="w-full">
+                      <div className="w-full max-w-md space-y-4 lg:mt-0 mx-auto">
+                        <FormField
+                          control={form.control}
+                          name="question"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="w-full block text-right font-bold text-primary">
+                                {translations.form.question.label}
+                              </FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder={translations.form.question.placeholder}
+                                  {...field}
+                                  disabled={disabled}
+                                  onKeyDown={handleTextareaKeyDown}
+                                />
+                              </FormControl>
+                              <FormMessage className="text-primary" />
+                            </FormItem>
+                          )}
+                        />
+                        <Button
+                          type="submit"
+                          className="w-full font-bold"
+                          disabled={disabled}
+                          size="lg"
+                        >
+                          {isFormLoading ? (
+                            <>
+                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                              {translations.button.loading}
+                            </>
+                          ) : countdown > 0 ? (
+                            <div className="flex items-center gap-2">
+                              <Timer className="h-4 w-4" />
+                              <span>{`${Math.floor(countdown / 60)
+                                .toString()
+                                .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                            </div>
+                          ) : (
+                            <>{translations.button.default}</>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                </form>
+              </Form>
+            </div>
+          ) : (
+             <div className="py-8 sm:py-12">
+                {resultsContent}
+             </div>
+          )}
         </div>
-        {footerContent}
+        <div className="pb-8">
+            {footerContent}
+        </div>
       </div>
     );
   }
