@@ -296,23 +296,23 @@ React.useEffect(() => {
                       <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-primary/50 ring-offset-1 ring-offset-background flex-shrink-0">
                          <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
                       </div>
-                      <p className="hidden sm:block text-sm font-medium text-foreground/80 truncate">
+                      <p className="text-sm font-medium text-foreground/80 truncate">
                         {submittedValues.question.length > 30 ? `${submittedValues.question.substring(0, 30)}...` : submittedValues.question}
                       </p>
                   </div>
                 )}
             </div>
 
-            {/* Center: Logo and Title (Desktop only) or Actions (Mobile) */}
-            <div className="flex flex-1 items-center justify-center">
+            {/* Center: Logo and Title (Desktop only) */}
+            <div className="hidden flex-1 items-center justify-center md:flex">
                  {isReadyForNewReading ? (
-                     <div className="hidden md:flex items-center justify-center gap-4 animate-in fade-in w-full">
-                       {/* Desktop: This is now empty, right side will handle the button */}
+                     <div className="flex items-center justify-center gap-4 animate-in fade-in w-full">
+                       {/* This space is used for alignment on desktop, content is on the right */}
                      </div>
                  ) : (
                     <div className="flex items-center justify-center gap-4">
                         <Logo className="h-20 w-20 text-primary" />
-                         <h1 className="hidden md:block font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                         <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                             Quick Tarot
                         </h1>
                     </div>
@@ -614,3 +614,5 @@ React.useEffect(() => {
     </div>
   );
 }
+
+    
