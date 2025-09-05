@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -70,7 +69,6 @@ export default function TarotClient() {
   const [language, setLanguage] = React.useState('sr');
   const [translations, setTranslations] = React.useState<Translations>(getTranslations('sr'));
   const [zodiacSigns, setZodiacSigns] = React.useState<readonly ZodiacSign[]>(getTranslations('sr').zodiacSigns);
-  const [progress, setProgress] = React.useState(0);
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<ZodiacSign | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
@@ -166,40 +164,6 @@ export default function TarotClient() {
     }
   }, [countdown]);
 
-
-  React.useEffect(() => {
-    let timer: NodeJS.Timeout | undefined;
-    if (isFormLoading && !reading) {
-      setProgress(0);
-      const duration = 20000; // 20 seconds
-      const interval = 200; 
-      const totalSteps = duration / interval;
-      
-      timer = setInterval(() => {
-        setProgress(prev => {
-          const next = prev + (100 / totalSteps);
-          if (next >= 95) {
-            clearInterval(timer);
-            return 95;
-          }
-          return next;
-        });
-      }, interval);
-    } else {
-        setProgress(0);
-    }
-
-    return () => {
-        if (timer) clearInterval(timer);
-    };
-}, [isFormLoading, reading]);
-
-React.useEffect(() => {
-    if (reading) {
-        setProgress(100);
-    }
-}, [reading]);
-
   const onSubmit = async (data: FormValues) => {
     if (!selectedZodiacSign) {
         setZodiacError(translations.form.zodiac.error);
@@ -235,7 +199,6 @@ React.useEffect(() => {
       setCountdown(READING_COOLDOWN_SECONDS);
 
     } catch (error) {
-      console.error(error);
       const errorMessage =
         error instanceof Error ? error.message : translations.unknownError;
       toast({
@@ -309,7 +272,7 @@ React.useEffect(() => {
                           <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-primary/50 ring-offset-1 ring-offset-background flex-shrink-0">
                              <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
                           </div>
-                          <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
+                          <p className="sm:block text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
                               {submittedValues.question.length > (isMobile ? 20 : 30)
                                 ? `${submittedValues.question.substring(0, isMobile ? 20 : 30)}...`
                                 : submittedValues.question}
@@ -416,8 +379,6 @@ React.useEffect(() => {
              <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
               <Sparkles className="h-8 w-8 animate-pulse text-primary" />
               <p className="text-center">{translations.results.loadingText}</p>
-              <Progress value={progress} className="w-full h-2" />
-              <p className="text-sm text-muted-foreground">{translations.results.loadingSubtext}</p>
             </div>
           )}
 
@@ -648,5 +609,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    

@@ -65,7 +65,7 @@ const sr: Translations = {
     title: "Vaše Karte Sudbine",
     readingTitle: "Vaše Tarot Čitanje",
     loadingText: "Karte se mešaju, vaša sudbina se otkriva...",
-    loadingSubtext: "Karte se prosečno mešaju 20 sekundi",
+    loadingSubtext: "",
   },
   footer: {
     copyright: "© {year} Quick Tarot. Sva prava zadržana.",
@@ -103,7 +103,7 @@ const en: Translations = {
     title: "Your Cards of Fate",
     readingTitle: "Your Tarot Reading",
     loadingText: "The cards are being shuffled, your fate is being revealed...",
-    loadingSubtext: "The average generation time is about 20 seconds.",
+    loadingSubtext: "",
   },
   footer: {
     copyright: "© {year} Quick Tarot. All rights reserved.",
@@ -123,5 +123,3 @@ const translations: Record<string, Translations> = {
 export function getTranslations(lang: string): Translations {
   return translations[lang] || translations.sr;
 }
-
-    
