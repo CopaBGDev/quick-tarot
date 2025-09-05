@@ -49,6 +49,8 @@ import { getCardImagePath } from "@/lib/cards";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
 import type { TranslateUIOutput } from "@/ai/flows/translate-ui-flow";
+import { TranslatableTextsSchema } from "@/ai/schemas";
+
 
 const FormSchema = z.object({
   question: z
@@ -69,7 +71,7 @@ const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
-const BASE_TRANSLATIONS_EN: Omit<TranslateUIOutput, 'headerTitle'> = {
+const BASE_TRANSLATIONS_EN: Omit<z.infer<typeof TranslatableTextsSchema>, 'headerTitle'> = {
     headerSubtitle: "Discover what the stars and cards have in store for you. Enter your sign and question to get your personalized tarot reading.",
     formZodiacLabel: "Your Sign",
     formZodiacPlaceholder: "Select a sign...",
