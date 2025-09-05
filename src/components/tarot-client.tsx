@@ -194,7 +194,6 @@ export default function TarotClient() {
 
   const onSubmit = React.useCallback(async (data: FormValues) => {
     if (!selectedZodiacSign) {
-        form.setError("root", { message: translations.formZodiacError });
         toast({
             title: translations.errorTitle,
             description: translations.formZodiacError,
@@ -242,7 +241,7 @@ export default function TarotClient() {
     } finally {
         setIsFormLoading(false);
     }
-  }, [selectedZodiacSign, language, translations, toast, form]);
+  }, [selectedZodiacSign, language, translations, toast]);
   
   const resetForm = React.useCallback(() => {
     setReading(null);
@@ -345,10 +344,12 @@ export default function TarotClient() {
                          </span>
                        </div>
                      )}
-                     <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                       <Edit3 className="h-[1.2rem] w-[1.2rem]" />
-                       <span className="sr-only">Edit</span>
-                     </Button>
+                     <div className="hidden sm:block">
+                      <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <Edit3 className="h-[1.2rem] w-[1.2rem]" />
+                        <span className="sr-only">Edit</span>
+                      </Button>
+                     </div>
                    </div>
                  )}
             </div>
