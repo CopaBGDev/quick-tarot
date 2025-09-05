@@ -384,8 +384,8 @@ export default function TarotClient() {
             </div>
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-               <Logo className="h-10 w-10 text-primary" />
-               <span className="font-headline text-2xl font-bold text-primary">{translations.headerTitle}</span>
+               <Logo className="h-12 w-12 text-primary" />
+               <span className="font-headline text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">{translations.headerTitle}</span>
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
