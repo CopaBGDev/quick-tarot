@@ -533,7 +533,6 @@ export default function TarotClient() {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
               >
-                {/* Desktop: Left Column (Zodiac Wheel) - Hidden on mobile/tablet */}
                 <div className="hidden xl:flex xl:flex-col xl:items-center xl:order-1">
                    <ZodiacWheel
                       signs={zodiacSigns}
@@ -544,9 +543,7 @@ export default function TarotClient() {
                     {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                 </div>
                 
-                {/* Mobile, Tablet, and Desktop Right Column Content */}
                 <div className="w-full flex flex-col xl:order-2">
-                    {/* 1. Header (Mobile & Desktop) */}
                     <header className="flex w-full flex-col items-center xl:items-start text-center xl:text-left">
                         <div className="flex flex-col items-center xl:items-start">
                             <Logo className="h-28 w-28 text-primary" />
@@ -554,12 +551,11 @@ export default function TarotClient() {
                               Quick Tarot
                             </h1>
                         </div>
-                        <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                        <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg hidden xl:block">
                             {translations.headerSubtitle}
                         </p>
                     </header>
 
-                    {/* 2. Zodiac Wheel (Mobile/Tablet only) */}
                     <div className="w-full mt-12 xl:hidden">
                        <div className="flex flex-col items-center">
                           <ZodiacWheel
@@ -572,7 +568,6 @@ export default function TarotClient() {
                       </div>
                     </div>
 
-                    {/* 3. Form (Mobile & Desktop) */}
                      <div className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
                         <FormField
                           control={form.control}
