@@ -3,7 +3,6 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
@@ -83,7 +82,6 @@ export default function TarotClient() {
   const { toast } = useToast();
   
   const form = useForm<FormValues>({
-    resolver: zodResolver(createFormSchema(translations)),
     defaultValues: {
       question: "",
     },
@@ -183,13 +181,12 @@ export default function TarotClient() {
     localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
     setTranslations(newTranslations);
 
-    // Reset the form to re-evaluate with the new validation schema
     form.reset(undefined, {
         keepValues: true,
         keepDirtyValues: true,
         keepErrors: false,
     });
-  }, [form]);
+  }, [form, setLanguage, setTranslations]);
 
 
   const onSubmit = React.useCallback(async (data: FormValues) => {
@@ -197,6 +194,15 @@ export default function TarotClient() {
         toast({
             title: translations.errorTitle,
             description: translations.formZodiacError,
+            variant: "destructive",
+        });
+        return;
+    }
+    
+    if (data.question.trim().length < 2) {
+       toast({
+            title: translations.errorTitle,
+            description: translations.formQuestionErrorTooShort,
             variant: "destructive",
         });
         return;
@@ -327,12 +333,10 @@ export default function TarotClient() {
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
-                         
-                            <button onClick={resetForm} className="text-primary font-bold text-sm leading-tight hover:underline flex items-center gap-2">
-                                <span className="hidden sm:inline">{translations.countdownFinishedText}</span>
-                                <Logo className="w-10 h-10 sm:w-12 sm:h-12" />
-                            </button>
-                         
+                         <button onClick={resetForm} className="text-primary font-bold text-sm leading-tight hover:underline flex items-center gap-2">
+                           <span className="hidden sm:inline">{translations.countdownFinishedText}</span>
+                           <Logo className="w-10 h-10 sm:w-12 sm:h-12 inline sm:hidden" />
+                         </button>
                      </div>
                  ) : (
                     <div className="flex items-center gap-2">
