@@ -32,6 +32,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast";
 import { ZodiacSign } from "@/lib/zodiac";
 import { Logo } from "./logo";
@@ -298,9 +306,9 @@ export default function TarotClient() {
             <div className="hidden flex-1 items-center justify-center md:flex">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-center gap-4 animate-in fade-in w-full">
-                        <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                           Quick Tarot
-                        </h1>
+                         <button onClick={resetForm} className="text-primary font-bold text-sm leading-tight hover:underline">
+                            {translations.countdownFinishedText}
+                         </button>
                      </div>
                  ) : (
                     <div className="flex items-center justify-center gap-4">
@@ -316,12 +324,8 @@ export default function TarotClient() {
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end gap-2 w-full">
-                         <button onClick={resetForm} className="hidden md:inline-flex items-center gap-2 text-primary font-bold text-sm leading-tight hover:underline">
-                            {translations.countdownFinishedText}
-                            <ArrowRight className="h-4 w-4" />
-                         </button>
                          <button onClick={resetForm} className="block md:hidden text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
-                           <Logo className="w-16 h-16" />
+                           <Logo className="w-12 h-12" />
                         </button>
                      </div>
                  ) : (
@@ -410,14 +414,33 @@ export default function TarotClient() {
   }
   
   const footerContent = (
-    <footer className="mt-8 flex w-full max-w-md flex-col items-center gap-8 lg:max-w-4xl">
+    <footer className="w-full max-w-md flex-col items-center gap-6 lg:max-w-4xl flex">
       <AdPlaceholder />
-      <p className="text-sm text-muted-foreground">
-        {translations.footer.copyright.replace(
-          "{year}",
-          new Date().getFullYear().toString()
-        )}
-      </p>
+       <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <span>
+           © {new Date().getFullYear()} Quick Tarot. {translations.footer.copyright}
+        </span>
+        <span className="text-muted-foreground/50">|</span>
+         <Dialog>
+          <DialogTrigger asChild>
+            <button className="underline hover:text-primary transition-colors">
+              {translations.footer.about}
+            </button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>{translations.aboutDialog.title}</DialogTitle>
+              <DialogDescription>
+                 <div className="space-y-4 pt-4 text-left text-foreground/90">
+                    {translations.aboutDialog.content.split('\n\n').map((paragraph, index) => (
+                      <p key={index}>{paragraph}</p>
+                    ))}
+                  </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
+      </div>
     </footer>
   );
 
@@ -509,7 +532,7 @@ export default function TarotClient() {
              </div>
           )}
         </div>
-        <div className="pb-8">
+        <div className="pb-8 pt-4">
             {footerContent}
         </div>
       </div>

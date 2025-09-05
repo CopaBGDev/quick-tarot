@@ -27,10 +27,14 @@ export interface Translations {
     title: string;
     readingTitle: string;
     loadingText: string;
-    loadingSubtext: string;
   };
   footer: {
     copyright: string;
+    about: string;
+  };
+   aboutDialog: {
+    title: string;
+    content: string;
   };
   zodiacSigns: readonly ZodiacSign[];
   errorTitle: string;
@@ -65,16 +69,20 @@ const sr: Translations = {
     title: "Vaše Karte Sudbine",
     readingTitle: "Vaše Tarot Čitanje",
     loadingText: "Karte se mešaju, vaša sudbina se otkriva...",
-    loadingSubtext: "",
   },
   footer: {
-    copyright: "© {year} Quick Tarot. Sva prava zadržana.",
+    copyright: "Sva prava zadržana.",
+    about: "O nama",
+  },
+  aboutDialog: {
+    title: "O Quick Tarot Aplikaciji",
+    content: "Dobrodošli u Quick Tarot, vaš digitalni prozor u svet tarot karata. Naša misija je da pružimo intuitivno i personalizovano iskustvo tarota dostupno svima, bilo gde i bilo kada.\n\nKoristeći moć veštačke inteligencije, naša aplikacija generiše jedinstvena i pronicljiva tarot čitanja. Svako čitanje je zasnovano na kartama koje su nasumično izvučene specijalno za vas i vaše pitanje, obezbeđujući da dobijete poruku koja je namenjena vama.\n\nVerujemo da tarot nije samo predviđanje budućnosti, već alat za samorefleksiju i dublje razumevanje sadašnjosti. Bilo da tražite odgovore, inspiraciju ili jednostavno želite da istražite svoju intuiciju, Quick Tarot je tu da vas vodi.\n\nHvala vam što ste deo našeg putovanja.",
   },
   zodiacSigns: ZODIAC_SIGNS_SR,
   errorTitle: "Greška",
   unknownError: "Došlo je do nepoznate greške.",
   countdownText: "Novo čitanje:",
-  countdownFinishedText: "Spremno za novo čitanje:",
+  countdownFinishedText: "Spremno za novo čitanje",
 };
 
 const en: Translations = {
@@ -103,16 +111,20 @@ const en: Translations = {
     title: "Your Cards of Fate",
     readingTitle: "Your Tarot Reading",
     loadingText: "The cards are being shuffled, your fate is being revealed...",
-    loadingSubtext: "",
   },
   footer: {
-    copyright: "© {year} Quick Tarot. All rights reserved.",
+    copyright: "All rights reserved.",
+    about: "About Us",
+  },
+  aboutDialog: {
+    title: "About The Quick Tarot App",
+    content: "Welcome to Quick Tarot, your digital window into the world of tarot cards. Our mission is to provide an intuitive and personalized tarot experience accessible to everyone, anywhere, anytime.\n\nUsing the power of artificial intelligence, our application generates unique and insightful tarot readings. Each reading is based on cards randomly drawn especially for you and your question, ensuring you receive a message that is meant for you.\n\nWe believe that tarot is not just about predicting the future, but a tool for self-reflection and a deeper understanding of the present. Whether you are looking for answers, inspiration, or simply want to explore your intuition, Quick Tarot is here to guide you.\n\nThank you for being part of our journey.",
   },
   zodiacSigns: ZODIAC_SIGNS_EN,
   errorTitle: "Error",
   unknownError: "An unknown error occurred.",
   countdownText: "Next reading:",
-  countdownFinishedText: "Ready for a new reading:",
+  countdownFinishedText: "Ready for a new reading",
 };
 
 const translations: Record<string, Translations> = {
