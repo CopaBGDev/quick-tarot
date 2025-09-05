@@ -36,7 +36,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -308,14 +307,13 @@ export default function TarotClient() {
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle>{translations.form.question.label}</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                            {submittedValues.question}
-                          </div>
-                        </AlertDialogDescription>
                       </AlertDialogHeader>
+                       <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                          {submittedValues.question}
+                        </div>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Zatvori</AlertDialogCancel></AlertDialogFooter>
+                        <AlertDialogCancel>Zatvori</AlertDialogCancel>
+                        </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
                 )}
@@ -460,9 +458,9 @@ export default function TarotClient() {
     return (
       <div className="flex min-h-screen w-full flex-col px-4">
         {showMinimizedView && minimizedView}
-        <div className={`flex flex-col w-full ${showMinimizedView ? 'pt-24' : 'pt-4'}`}>
+        <div className={`flex flex-col w-full ${showMinimizedView ? 'pt-24' : ''}`}>
           {!showMinimizedView ? (
-             <div className="flex flex-col flex-grow justify-center">
+            <div className="flex flex-col flex-grow justify-center">
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
@@ -647,3 +645,5 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
