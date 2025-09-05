@@ -499,7 +499,7 @@ export default function TarotClient() {
                 {translations.footerAbout}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>{translations.aboutDialogTitle}</DialogTitle>
               </DialogHeader>
@@ -517,7 +517,7 @@ export default function TarotClient() {
                 {translations.footerMission}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>{translations.missionDialogTitle}</DialogTitle>
               </DialogHeader>
@@ -535,7 +535,7 @@ export default function TarotClient() {
                 {translations.footerFaq}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>{translations.faqDialogTitle}</DialogTitle>
               </DialogHeader>
@@ -553,7 +553,7 @@ export default function TarotClient() {
                 {translations.footerTerms}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>{translations.termsDialogTitle}</DialogTitle>
               </DialogHeader>
@@ -571,7 +571,7 @@ export default function TarotClient() {
                 {translations.footerPrivacy}
               </button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <DialogHeader>
                 <DialogTitle>{translations.privacyDialogTitle}</DialogTitle>
               </DialogHeader>
@@ -786,8 +786,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
-    
-
-    
