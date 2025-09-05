@@ -31,6 +31,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import {
   Dialog,
@@ -362,7 +363,7 @@ export default function TarotClient() {
                           </div>
                           <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
                               {submittedValues.question.length > (isMobile ? 20 : 30)
-                                ? `${submittedValues.question.substring(0, isMobile ? 20 : 30)}...`
+                                ? `${'\'\'\''}${submittedValues.question.substring(0, isMobile ? 20 : 30)}${'\'\'\''}...`
                                 : submittedValues.question}
                           </p>
                       </div>
@@ -405,7 +406,7 @@ export default function TarotClient() {
                        <div className="text-primary font-mono text-sm flex items-center gap-2">
                          <Timer className="h-4 w-4" />
                          <span>
-                            {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+                            {`${'\'\'\''}${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'\'\'\''}`}
                          </span>
                        </div>
                      )}
@@ -590,7 +591,7 @@ export default function TarotClient() {
     return (
       <div className="flex min-h-screen w-full flex-col justify-between px-4">
         {showMinimizedView && minimizedView}
-        <main className={`flex-grow flex flex-col w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+        <main className={`flex-grow flex flex-col w-full ${'\'\'\''}${showMinimizedView ? 'pt-24' : ''}${'\'\'\''}`}>
             <div className="flex flex-col flex-grow justify-center">
               {!showMinimizedView ? (
                 <Form {...form}>
@@ -656,9 +657,9 @@ export default function TarotClient() {
                             ) : countdown > 0 ? (
                               <div className="flex items-center gap-2">
                                 <Timer className="h-4 w-4" />
-                                <span>{`${Math.floor(countdown / 60)
+                                <span>{`${'\'\'\''}${Math.floor(countdown / 60)
                                   .toString()
-                                  .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                                  .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'\'\'\''}`}</span>
                               </div>
                             ) : (
                               <>{translations.buttonDefault}</>
@@ -685,7 +686,7 @@ export default function TarotClient() {
   // Desktop Layout
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4 min-h-screen justify-between">
-      <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+      <main className={`flex-grow w-full ${'\'\'\''}${showMinimizedView ? 'pt-24' : ''}${'\'\'\''}`}>
         {showMinimizedView && minimizedView}
         <div className="w-full">
           {!showMinimizedView ? (
@@ -761,9 +762,9 @@ export default function TarotClient() {
                         ) : countdown > 0 ? (
                           <div className="flex items-center gap-2">
                             <Timer className="h-4 w-4" />
-                            <span>{`${Math.floor(countdown / 60)
+                            <span>{`${'\'\'\''}${Math.floor(countdown / 60)
                               .toString()
-                              .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                              .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'\'\'\''}`}</span>
                           </div>
                         ) : (
                           <>{translations.buttonDefault}</>
@@ -783,3 +784,5 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
