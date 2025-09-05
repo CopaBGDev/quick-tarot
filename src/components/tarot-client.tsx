@@ -363,7 +363,7 @@ export default function TarotClient() {
                           </div>
                           <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
                               {submittedValues.question.length > (isMobile ? 20 : 30)
-                                ? `${'\'\'\''}${submittedValues.question.substring(0, isMobile ? 20 : 30)}${'\'\'\''}...`
+                                ? `${'''}${submittedValues.question.substring(0, isMobile ? 20 : 30)}${'''}...`
                                 : submittedValues.question}
                           </p>
                       </div>
@@ -384,7 +384,7 @@ export default function TarotClient() {
             </div>
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-                 <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
+                 {/* Language selector was here on desktop */}
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
@@ -406,7 +406,7 @@ export default function TarotClient() {
                        <div className="text-primary font-mono text-sm flex items-center gap-2">
                          <Timer className="h-4 w-4" />
                          <span>
-                            {`${'\'\'\''}${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'\'\'\''}`}
+                            {`${'''}${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'''}`}
                          </span>
                        </div>
                      )}
@@ -489,6 +489,9 @@ export default function TarotClient() {
     <footer className="w-full flex-col items-center gap-6 flex shrink-0">
       <AdPlaceholder />
        <div className="flex flex-col items-center gap-4 text-center">
+        <div className="mb-4">
+            <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
+        </div>
         <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap justify-center">
           <Dialog>
             <DialogTrigger asChild>
@@ -591,7 +594,7 @@ export default function TarotClient() {
     return (
       <div className="flex min-h-screen w-full flex-col justify-between px-4">
         {showMinimizedView && minimizedView}
-        <main className={`flex-grow flex flex-col w-full ${'\'\'\''}${showMinimizedView ? 'pt-24' : ''}${'\'\'\''}`}>
+        <main className={`flex-grow flex flex-col w-full ${'''}${showMinimizedView ? 'pt-24' : ''}${'''}`}>
             <div className="flex flex-col flex-grow justify-center">
               {!showMinimizedView ? (
                 <Form {...form}>
@@ -600,9 +603,8 @@ export default function TarotClient() {
                     className="flex flex-col items-center gap-6 w-full"
                   >
                       <header className="flex w-full flex-col items-center text-center">
-                        <div className="flex justify-between items-center w-full">
+                        <div className="flex justify-center items-center w-full">
                            <Logo className="h-20 w-20 text-primary" />
-                           <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
                         </div>
                         <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                           {translations.headerTitle}
@@ -657,9 +659,9 @@ export default function TarotClient() {
                             ) : countdown > 0 ? (
                               <div className="flex items-center gap-2">
                                 <Timer className="h-4 w-4" />
-                                <span>{`${'\'\'\''}${Math.floor(countdown / 60)
+                                <span>{`${'''}${Math.floor(countdown / 60)
                                   .toString()
-                                  .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'\'\'\''}`}</span>
+                                  .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'''}`}</span>
                               </div>
                             ) : (
                               <>{translations.buttonDefault}</>
@@ -686,7 +688,7 @@ export default function TarotClient() {
   // Desktop Layout
   return (
     <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4 min-h-screen justify-between">
-      <main className={`flex-grow w-full ${'\'\'\''}${showMinimizedView ? 'pt-24' : ''}${'\'\'\''}`}>
+      <main className={`flex-grow w-full ${'''}${showMinimizedView ? 'pt-24' : ''}${'''}`}>
         {showMinimizedView && minimizedView}
         <div className="w-full">
           {!showMinimizedView ? (
@@ -712,7 +714,7 @@ export default function TarotClient() {
                 <div className="flex flex-col h-full mt-12 lg:mt-0">
                   <header className="flex w-full flex-col items-center text-center">
                       <div className="w-full flex justify-end">
-                         <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
+                         {/* Language selector was here */}
                       </div>
                       <div className="flex flex-col items-center">
                           <Logo className="h-28 w-28 text-primary" />
@@ -762,9 +764,9 @@ export default function TarotClient() {
                         ) : countdown > 0 ? (
                           <div className="flex items-center gap-2">
                             <Timer className="h-4 w-4" />
-                            <span>{`${'\'\'\''}${Math.floor(countdown / 60)
+                            <span>{`${'''}${Math.floor(countdown / 60)
                               .toString()
-                              .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'\'\'\''}`}</span>
+                              .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}${'''}`}</span>
                           </div>
                         ) : (
                           <>{translations.buttonDefault}</>
@@ -784,5 +786,8 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
+    
 
     
