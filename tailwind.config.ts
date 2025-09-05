@@ -93,11 +93,16 @@ export default {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-6px)' },
         },
+        shimmer: {
+          'from': { 'background-position': '200% 0' },
+          'to': { 'background-position': '-200% 0' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
+        'shimmer': 'shimmer 2s linear infinite',
       },
     },
   },
