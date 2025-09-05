@@ -284,7 +284,6 @@ export default function TarotClient() {
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
   
-  const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
   const showMinimizedView = isFormLoading || reading;
   
   const minimizedView = (
@@ -329,7 +328,7 @@ export default function TarotClient() {
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
-                 {isReadyForNewReading ? (
+                 {countdown === 0 && !isFormLoading && reading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
                             <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
@@ -532,76 +531,25 @@ export default function TarotClient() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start"
+                className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
               >
-                {/* Desktop column order is now controlled by `xl:order-*` classes, mobile/tablet use natural document flow. */}
-                <div className="w-full xl:sticky xl:top-28 xl:order-2">
-                  <div className="flex flex-col items-center">
-                    {/* Header is first for mobile/tablet */}
-                    <header className="flex w-full flex-col items-center text-center">
-                        <div className="flex flex-col items-center">
-                            <Logo className="h-28 w-28 text-primary" />
-                            <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                              Quick Tarot
-                            </h1>
-                        </div>
-                        <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                            {translations.headerSubtitle}
-                        </p>
-                    </header>
-                    
-                    {/* This div helps with vertical spacing on desktop */}
-                    <div className="flex-grow"></div>
-  
-                    {/* The form fields are last for mobile/tablet */}
-                    <div className="w-full max-w-md space-y-8 mt-12 xl:mt-8 mx-auto">
-                        <FormField
-                          control={form.control}
-                          name="question"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="w-full block text-right font-bold text-primary">
-                                {translations.formQuestionLabel}
-                              </FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  placeholder={translations.formQuestionPlaceholder}
-                                  {...field}
-                                  disabled={disabled}
-                                  onKeyDown={handleTextareaKeyDown}
-                                />
-                              </FormControl>
-                              <FormMessage className="text-primary" />
-                            </FormItem>
-                          )}
-                        />
-                        <Button
-                          type="submit"
-                          className="w-full font-bold"
-                          disabled={disabled}
-                          size="lg"
-                        >
-                          {isFormLoading ? (
-                            <>
-                              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                              {translations.buttonLoading}
-                            </>
-                          ) : countdown > 0 ? (
-                            <div className="flex items-center gap-2">
-                              <Timer className="h-4 w-4" />
-                              <span>{`${Math.floor(countdown / 60)
-                                .toString()
-                                .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                            </div>
-                          ) : (
-                            <>{translations.buttonDefault}</>
-                          )}
-                        </Button>
-                      </div>
-                  </div>
-                </div>
-                
-                {/* Zodiac wheel is second for mobile/tablet */}
+                {/* Mobile/Tablet Order: Header -> Wheel -> Form */}
+                {/* Desktop Order: Wheel | Header & Form */}
+
+                {/* 1. Header (all screens, but re-ordered on desktop) */}
+                <header className="flex w-full flex-col items-center text-center xl:order-2 xl:text-left xl:items-start">
+                    <div className="flex flex-col items-center xl:items-start">
+                        <Logo className="h-28 w-28 text-primary" />
+                        <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                          Quick Tarot
+                        </h1>
+                    </div>
+                    <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                        {translations.headerSubtitle}
+                    </p>
+                </header>
+
+                {/* 2. Zodiac Wheel (all screens, but re-ordered on desktop) */}
                 <div className="w-full mt-12 xl:mt-0 xl:order-1">
                   <div className="flex flex-col items-center">
                       <ZodiacWheel
@@ -612,6 +560,52 @@ export default function TarotClient() {
                       />
                       {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                   </div>
+                </div>
+                
+                {/* 3. Form Inputs (all screens, but re-ordered on desktop) */}
+                <div className="w-full max-w-md space-y-8 mt-12 xl:mt-8 mx-auto xl:order-3 xl:col-start-2">
+                    <FormField
+                      control={form.control}
+                      name="question"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="w-full block text-center xl:text-right font-bold text-primary">
+                            {translations.formQuestionLabel}
+                          </FormLabel>
+                          <FormControl>
+                            <Textarea
+                              placeholder={translations.formQuestionPlaceholder}
+                              {...field}
+                              disabled={disabled}
+                              onKeyDown={handleTextareaKeyDown}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-primary" />
+                        </FormItem>
+                      )}
+                    />
+                    <Button
+                      type="submit"
+                      className="w-full font-bold"
+                      disabled={disabled}
+                      size="lg"
+                    >
+                      {isFormLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          {translations.buttonLoading}
+                        </>
+                      ) : countdown > 0 ? (
+                        <div className="flex items-center gap-2">
+                          <Timer className="h-4 w-4" />
+                          <span>{`${Math.floor(countdown / 60)
+                            .toString()
+                            .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                        </div>
+                      ) : (
+                        <>{translations.buttonDefault}</>
+                      )}
+                    </Button>
                 </div>
               </form>
             </Form>
@@ -625,3 +619,5 @@ export default function TarotClient() {
     </div>
   );
 }
+
+    
