@@ -22,6 +22,17 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { useToast } from "@/hooks/use-toast";
 import { ZodiacSign } from "@/lib/zodiac";
 import { Logo } from "./logo";
@@ -224,7 +235,7 @@ React.useEffect(() => {
       setCountdown(READING_COOLDOWN_SECONDS);
 
     } catch (error) {
-      console.error("Greška uhvaćena u onSubmit:", error);
+      console.error(error);
       const errorMessage =
         error instanceof Error ? error.message : translations.unknownError;
       toast({
@@ -290,24 +301,45 @@ React.useEffect(() => {
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4">
             
             {/* Left side: Sign and Question */}
-            <div className="flex w-1/3 items-center justify-start gap-3">
+             <div className="flex w-full items-center justify-start gap-3 sm:w-1/3">
                 {showMinimizedView && selectedImage && submittedValues.question && (
-                  <div className="flex items-center gap-3 animate-in fade-in">
-                      <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-primary/50 ring-offset-1 ring-offset-background flex-shrink-0">
-                         <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
+                          <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center ring-1 ring-primary/50 ring-offset-1 ring-offset-background flex-shrink-0">
+                             <Image src={selectedImage} alt={selectedSign || ''} width={20} height={20} className="h-5 w-5" unoptimized />
+                          </div>
+                          <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors">
+                              {submittedValues.question.length > (isMobile ? 20 : 30)
+                                ? `${submittedValues.question.substring(0, isMobile ? 20 : 30)}...`
+                                : submittedValues.question}
+                          </p>
                       </div>
-                      <p className="text-sm font-medium text-foreground/80 truncate">
-                        {submittedValues.question.length > 30 ? `${submittedValues.question.substring(0, 30)}...` : submittedValues.question}
-                      </p>
-                  </div>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>{translations.form.question.label}</AlertDialogTitle>
+                        <AlertDialogDescription className="pt-2">
+                          {submittedValues.question}
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Zatvori</AlertDialogCancel>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 )}
             </div>
+
 
             {/* Center: Logo and Title (Desktop only) */}
             <div className="hidden flex-1 items-center justify-center md:flex">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-center gap-4 animate-in fade-in w-full">
-                       {/* This space is used for alignment on desktop, content is on the right */}
+                       <Logo className="h-20 w-20 text-primary" />
+                        <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                           Quick Tarot
+                        </h1>
                      </div>
                  ) : (
                     <div className="flex items-center justify-center gap-4">
@@ -320,7 +352,7 @@ React.useEffect(() => {
             </div>
 
             {/* Right Side: Timer / Actions */}
-            <div className="flex w-1/3 items-center justify-end gap-2">
+            <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end gap-2 w-full">
                          <span className="hidden md:inline text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
@@ -614,5 +646,3 @@ React.useEffect(() => {
     </div>
   );
 }
-
-    
