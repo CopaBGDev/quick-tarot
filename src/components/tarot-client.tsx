@@ -292,7 +292,7 @@ export default function TarotClient() {
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                          <div className="h-10 w-10 rounded-full flex items-center justify-center p-0.5 flex-shrink-0 bg-transparent border-2 border-primary">
+                          <div className="h-12 w-12 rounded-full flex items-center justify-center p-0.5 flex-shrink-0 bg-transparent border-2 border-primary">
                              <div className="w-full h-full flex items-center justify-center p-0.5">
                                 <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
                             </div>
@@ -321,8 +321,8 @@ export default function TarotClient() {
 
              {/* Center: Title (Desktop only) */}
             <div className="hidden flex-1 items-center justify-center md:flex gap-4">
-                <Logo className="h-12 w-12 text-primary" />
-                <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                <Logo className="h-14 w-14 text-primary" />
+                <h1 className="font-headline text-xl sm:text-2xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-accent via-primary to-accent whitespace-nowrap">
                     Quick Tarot
                 </h1>
             </div>
