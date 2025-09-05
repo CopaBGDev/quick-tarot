@@ -429,64 +429,65 @@ export default function TarotClient() {
   const footerContent = (
     <footer className="w-full flex-col items-center gap-6 flex shrink-0">
       <AdPlaceholder />
-       <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap justify-center">
-        <span>
+       <div className="flex flex-col items-center gap-4 text-center">
+        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap justify-center">
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="underline hover:text-primary transition-colors">
+                {translations.footer.about}
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{translations.aboutDialog.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                {translations.aboutDialog.content.split('\n\n').map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="underline hover:text-primary transition-colors">
+                {translations.footer.mission}
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{translations.missionDialog.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                {translations.missionDialog.content.split('\n\n').map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="underline hover:text-primary transition-colors">
+                {translations.footer.faq}
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{translations.faqDialog.title}</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                {translations.faqDialog.content.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <span className="text-sm text-muted-foreground">
            © {new Date().getFullYear()} Quick Tarot. {translations.footer.copyright}
         </span>
-        <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-         <Dialog>
-          <DialogTrigger asChild>
-            <button className="underline hover:text-primary transition-colors">
-              {translations.footer.about}
-            </button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{translations.aboutDialog.title}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-              {translations.aboutDialog.content.split('\n\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
-        <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-        <Dialog>
-          <DialogTrigger asChild>
-            <button className="underline hover:text-primary transition-colors">
-              {translations.footer.mission}
-            </button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{translations.missionDialog.title}</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-              {translations.missionDialog.content.split('\n\n').map((paragraph, index) => (
-                <p key={index}>{paragraph}</p>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
-        <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-        <Dialog>
-          <DialogTrigger asChild>
-            <button className="underline hover:text-primary transition-colors">
-              {translations.footer.faq}
-            </button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{translations.faqDialog.title}</DialogTitle>
-            </DialogHeader>
-             <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-              {translations.faqDialog.content.split('\n\n').map((paragraph, index) => (
-                <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
-              ))}
-            </div>
-          </DialogContent>
-        </Dialog>
       </div>
     </footer>
   );
