@@ -8,7 +8,6 @@ import { z } from 'zod';
 // This is the structure of the UI texts we want to translate.
 // It must be flat for the AI to handle it reliably.
 export const TranslatableTextsSchema = z.object({
-  headerTitle: z.string(),
   headerSubtitle: z.string(),
   formZodiacLabel: z.string(),
   formZodiacPlaceholder: z.string(),

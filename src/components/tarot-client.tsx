@@ -70,7 +70,6 @@ const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 const BASE_TRANSLATIONS_EN: TranslateUIOutput = {
-    headerTitle: "Quick Tarot",
     headerSubtitle: "Discover what the stars and cards have in store for you. Enter your sign and question to get your personalized tarot reading.",
     formZodiacLabel: "Your Sign",
     formZodiacPlaceholder: "Select a sign...",
@@ -385,7 +384,7 @@ export default function TarotClient() {
 
             <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
                <Logo className="h-12 w-12 text-primary" />
-               <span className="font-headline text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">{translations.headerTitle}</span>
+               <span className="font-headline text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">Quick Tarot</span>
             </div>
 
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
@@ -608,7 +607,7 @@ export default function TarotClient() {
                            <Logo className="h-20 w-20 text-primary" />
                         </div>
                         <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                          {translations.headerTitle}
+                          Quick Tarot
                         </h1>
                       </header>
 
@@ -717,7 +716,7 @@ export default function TarotClient() {
                       <div className="flex flex-col items-center">
                           <Logo className="h-28 w-28 text-primary" />
                           <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                            {translations.headerTitle}
+                            Quick Tarot
                           </h1>
                       </div>
                       <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">

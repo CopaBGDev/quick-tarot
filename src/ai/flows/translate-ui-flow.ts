@@ -29,7 +29,6 @@ const translationPrompt = ai.definePrompt({
   prompt: `You are a powerful translation engine. Translate the following UI texts into the target language: {{{language}}}.
 Return a valid JSON object with the translated values. Do not translate the JSON keys.
 
-"headerTitle": "{{{texts.headerTitle}}}"
 "headerSubtitle": "{{{texts.headerSubtitle}}}"
 "formZodiacLabel": "{{{texts.formZodiacLabel}}}"
 "formZodiacPlaceholder": "{{{texts.formZodiacPlaceholder}}}"
