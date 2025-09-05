@@ -544,7 +544,7 @@ export default function TarotClient() {
                   </div>
                   
                   <div className="w-full flex flex-col xl:order-2">
-                      <header className="flex w-full flex-col items-center xl:items-center text-center">
+                      <header className="flex w-full flex-col items-center text-center">
                           <div className="flex flex-col items-center">
                               <Logo className="h-28 w-28 text-primary" />
                               <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
