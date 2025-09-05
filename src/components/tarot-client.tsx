@@ -355,9 +355,12 @@ React.useEffect(() => {
             <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end gap-2 w-full">
-                         <span className="hidden md:inline text-primary font-bold text-sm leading-tight">{translations.countdownFinishedText}</span>
-                         <ArrowRight className="hidden md:inline h-5 w-5 text-primary animate-pulse" />
-                        <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
+                         {/* Desktop: Text button */}
+                         <button onClick={resetForm} className="hidden md:inline text-primary font-bold text-sm leading-tight hover:underline">
+                            {translations.countdownFinishedText}
+                         </button>
+                         {/* Mobile: Logo button */}
+                        <button onClick={resetForm} className="block md:hidden text-primary hover:text-primary/80 transition-colors h-16 w-16 p-0" aria-label="Novo čitanje">
                            <Logo className="h-[4.7rem] w-[4.7rem]" />
                         </button>
                      </div>
