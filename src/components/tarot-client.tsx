@@ -51,14 +51,14 @@ import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 
 
-const FormSchema = z.object({
+const createFormSchema = (translations: TranslationSet) => z.object({
   question: z
     .string()
-    .min(10, { message: "Question must be at least 10 characters." })
-    .max(200, { message: "Question cannot be longer than 200 characters." }),
+    .min(2, { message: translations.formQuestionErrorTooShort || "Question must be at least 2 characters." })
+    .max(200, { message: translations.formQuestionErrorTooLong || "Question cannot be longer than 200 characters." }),
 });
 
-type FormValues = z.infer<typeof FormSchema>;
+type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 const READING_COOLDOWN_SECONDS = 120;
 const COOLDOWN_STORAGE_KEY = "tarotCooldownEndTime";
@@ -87,11 +87,19 @@ export default function TarotClient() {
   const isMobile = useIsMobile();
   
   const form = useForm<FormValues>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(createFormSchema(translations)),
     defaultValues: {
       question: "",
     },
   });
+
+  React.useEffect(() => {
+    form.reset(form.getValues(), {
+      keepValues: true,
+      keepDirty: true,
+      keepDefaultValues: false,
+    });
+  }, [translations, form]);
   
   React.useEffect(() => {
     const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';

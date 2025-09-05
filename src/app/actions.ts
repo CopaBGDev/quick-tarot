@@ -23,7 +23,7 @@ const ReadingActionSchema = z.object({
   }),
   question: z
     .string()
-    .min(10, "Pitanje mora imati najmanje 10 karaktera.")
+    .min(2, "Pitanje mora imati najmanje 2 karaktera.")
     .max(200, "Pitanje ne može biti duže od 200 karaktera."),
   language: z.string().optional(),
 });
