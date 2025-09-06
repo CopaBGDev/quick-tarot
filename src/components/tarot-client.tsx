@@ -36,7 +36,7 @@ import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
-import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
+import { SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
@@ -413,7 +413,7 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-8 md:py-8 sm:py-12">
+      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-0 md:py-8 sm:py-12">
         <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
           {showMinimizedView && minimizedView}
           <div className="w-full">
