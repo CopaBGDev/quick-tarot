@@ -4,7 +4,6 @@
 import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import type { ZodiacSign } from "@/lib/zodiac";
 import { Logo } from "./logo";
 
 export const ZODIAC_IMAGES: { [key: string]: string } = {
