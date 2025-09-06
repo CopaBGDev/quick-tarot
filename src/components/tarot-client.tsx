@@ -525,7 +525,7 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-8 sm:py-12">
+      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen">
         <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
           {showMinimizedView && minimizedView}
           <div className="w-full">
@@ -545,7 +545,7 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col min-h-screen bg-[#654321]">
+                      <div className="md:hidden flex flex-col min-h-screen">
                          <header className="flex w-full flex-col items-center text-center">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
@@ -555,7 +555,7 @@ export default function TarotClient() {
                               </div>
                           </header>
 
-                          <div className="w-full my-8 flex items-center flex-grow">
+                          <div className="w-full my-8 flex-grow flex items-center">
                              <div className="flex flex-col items-center w-full">
                                 <ZodiacWheel
                                   signs={zodiacSigns}
