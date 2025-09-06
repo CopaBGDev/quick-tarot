@@ -531,9 +531,9 @@ export default function TarotClient() {
           <div className="w-full">
             {!showMinimizedView ? (
               <div
-                  className="w-full max-w-5xl mx-auto flex flex-col xl:grid xl:grid-cols-[472px_1fr] xl:items-start xl:gap-8"
+                  className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8"
                 >
-                  <div className="hidden xl:flex xl:flex-col xl:items-center xl:order-1 xl:sticky xl:top-28">
+                  <div className="hidden md:flex md:flex-col md:items-center md:order-1 md:sticky md:top-28">
                      <ZodiacWheel
                         signs={zodiacSigns}
                         onSelect={setSelectedZodiacSign}
@@ -543,20 +543,20 @@ export default function TarotClient() {
                       {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                   </div>
                   
-                  <div className="w-full flex flex-col xl:order-2">
-                      <header className="flex w-full flex-col items-center xl:items-center text-center">
+                  <div className="w-full flex flex-col md:order-2">
+                      <header className="flex w-full flex-col items-center md:items-center text-center">
                           <div className="flex flex-col items-center">
                               <Logo className="h-28 w-28 text-primary" />
                               <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                                 Quick Tarot
                               </h1>
                           </div>
-                          <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg hidden xl:block">
+                          <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg hidden md:block">
                               {translations.headerSubtitle}
                           </p>
                       </header>
 
-                      <div className="w-full mt-12 xl:hidden">
+                      <div className="w-full mt-12 md:hidden">
                          <div className="flex flex-col items-center">
                             <ZodiacWheel
                               signs={zodiacSigns}
@@ -570,7 +570,7 @@ export default function TarotClient() {
                       <Form {...form}>
                        <form
                           onSubmit={form.handleSubmit(onSubmit)}
-                          className="w-full max-w-md space-y-8 mt-12 mx-auto xl:mx-0 xl:max-w-none">
+                          className="w-full max-w-md space-y-8 mt-12 mx-auto md:mx-0 md:max-w-none">
                           <FormField
                             control={form.control}
                             name="question"
