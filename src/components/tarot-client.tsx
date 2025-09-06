@@ -31,22 +31,15 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { useToast } from "@/hooks/use-toast";
 import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
-import { AdPlaceholder } from "./ad-placeholder";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
 import { LanguageSelector, SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Footer } from "./footer";
 
 
 interface FormValues {
@@ -419,113 +412,8 @@ export default function TarotClient() {
     </section>
   );
   
-  const footerContent = (
-    <footer className="w-full flex-col items-center gap-6 flex">
-      <AdPlaceholder />
-       <div className="flex flex-col items-center gap-4 text-center">
-        <div className="mb-4">
-            <LanguageSelector selectedLanguage={language} onLanguageChange={handleLanguageChange} disabled={disabled} />
-        </div>
-        <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap justify-center">
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="underline hover:text-primary transition-colors">
-                {translations.footerAbout}
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{translations.aboutDialogTitle}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
-          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="underline hover:text-primary transition-colors">
-                {translations.footerMission}
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{translations.missionDialogTitle}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.missionDialogContent.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
-          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-          <Dialog>
-            <DialogTrigger asChild>
-              <button className="underline hover:text-primary transition-colors">
-                {translations.footerFaq}
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{translations.faqDialogTitle}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.faqDialogContent.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
-          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-           <Dialog>
-            <DialogTrigger asChild>
-              <button className="underline hover:text-primary transition-colors">
-                {translations.footerTerms}
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{translations.termsDialogTitle}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.termsDialogContent.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
-          <span className="text-muted-foreground/50 hidden sm:inline">|</span>
-           <Dialog>
-            <DialogTrigger asChild>
-              <button className="underline hover:text-primary transition-colors">
-                {translations.footerPrivacy}
-              </button>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>{translations.privacyDialogTitle}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                {translations.privacyDialogContent.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="whitespace-pre-wrap">{paragraph}</p>
-                ))}
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-        <span className="text-sm text-muted-foreground">
-           © {new Date().getFullYear()} Quick Tarot. {translations.footerCopyright}
-        </span>
-      </div>
-    </footer>
-  );
-  
     return (
-      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-0 md:py-8 sm:py-12">
+      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-8 md:py-8 sm:py-12">
         <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
           {showMinimizedView && minimizedView}
           <div className="w-full">
@@ -686,13 +574,14 @@ export default function TarotClient() {
             )}
           </div>
         </main>
-        {footerContent}
+        <Footer 
+            translations={translations} 
+            language={language} 
+            onLanguageChange={handleLanguageChange}
+            disabled={disabled}
+        />
       </div>
     );
 }
-
-    
-
-    
 
     
