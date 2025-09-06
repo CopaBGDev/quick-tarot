@@ -545,7 +545,7 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col justify-around min-h-[calc(100svh-150px)]">
+                      <div className="md:hidden grid grid-rows-[auto_1fr_auto] min-h-[calc(100svh-220px)]">
                           <header className="flex w-full flex-col items-center text-center">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
@@ -558,8 +558,8 @@ export default function TarotClient() {
                               </p>
                           </header>
 
-                          <div className="w-full mt-12 md:hidden">
-                             <div className="flex flex-col items-center">
+                          <div className="w-full mt-12 md:hidden flex items-center">
+                             <div className="flex flex-col items-center w-full">
                                 <ZodiacWheel
                                   signs={zodiacSigns}
                                   onSelect={setSelectedZodiacSign}
@@ -692,5 +692,7 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
 
     
