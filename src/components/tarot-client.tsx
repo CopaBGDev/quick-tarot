@@ -545,7 +545,7 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col justify-between min-h-[calc(100svh-200px)]">
+                      <div className="md:hidden flex flex-col justify-around min-h-[calc(100svh-150px)]">
                           <header className="flex w-full flex-col items-center text-center">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
@@ -572,7 +572,7 @@ export default function TarotClient() {
                           <Form {...form}>
                            <form
                               onSubmit={form.handleSubmit(onSubmit)}
-                              className="w-full max-w-md space-y-8 mt-12 mx-auto md:mx-0 md:max-w-none pb-8">
+                              className="w-full max-w-md space-y-8 mx-auto md:mx-0 md:max-w-none">
                               <FormField
                                 control={form.control}
                                 name="question"
