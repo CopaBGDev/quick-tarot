@@ -420,7 +420,7 @@ export default function TarotClient() {
   );
   
   const footerContent = (
-    <footer className="w-full flex-col items-center gap-6 flex shrink-0">
+    <footer className="w-full flex-col items-center gap-6 flex">
       <AdPlaceholder />
        <div className="flex flex-col items-center gap-4 text-center">
         <div className="mb-4">
@@ -525,7 +525,7 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center gap-10 py-8 sm:py-12 px-4 min-h-screen justify-between">
+      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen">
         <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
           {showMinimizedView && minimizedView}
           <div className="w-full">
@@ -545,7 +545,7 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden grid grid-rows-[auto_1fr_auto] min-h-[calc(100svh-220px)]">
+                      <div className="md:hidden grid grid-rows-[auto_1fr_auto]">
                           <header className="flex w-full flex-col items-center text-center">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
@@ -692,6 +692,8 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
 
     
 
