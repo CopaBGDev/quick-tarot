@@ -525,8 +525,8 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen">
-        <main className={`flex-grow w-full py-8 sm:py-12 ${showMinimizedView ? 'pt-24' : ''}`}>
+      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-8 sm:py-12">
+        <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
           {showMinimizedView && minimizedView}
           <div className="w-full">
             {!showMinimizedView ? (
@@ -545,78 +545,77 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden grid grid-rows-[auto_1fr_auto]">
-                          <header className="flex w-full flex-col items-center text-center">
-                              <div className="flex flex-col items-center">
-                                  <Logo className="h-28 w-28 text-primary" />
-                                  <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                                    Quick Tarot
-                                  </h1>
-                              </div>
-                              <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg hidden md:block">
-                                  {translations.headerSubtitle}
-                              </p>
-                          </header>
+                      <div className="md:hidden flex flex-col min-h-screen">
+                         <div className="flex flex-col items-center justify-between flex-grow">
+                            <header className="flex w-full flex-col items-center text-center">
+                                <div className="flex flex-col items-center">
+                                    <Logo className="h-28 w-28 text-primary" />
+                                    <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                                      Quick Tarot
+                                    </h1>
+                                </div>
+                            </header>
 
-                          <div className="w-full mt-12 md:hidden flex items-center">
-                             <div className="flex flex-col items-center w-full">
-                                <ZodiacWheel
-                                  signs={zodiacSigns}
-                                  onSelect={setSelectedZodiacSign}
-                                  selectedValue={selectedZodiacSign}
-                                  disabled={disabled}
-                                />
-                                {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
+                            <div className="w-full my-8 flex items-center">
+                               <div className="flex flex-col items-center w-full">
+                                  <ZodiacWheel
+                                    signs={zodiacSigns}
+                                    onSelect={setSelectedZodiacSign}
+                                    selectedValue={selectedZodiacSign}
+                                    disabled={disabled}
+                                  />
+                                  {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
+                              </div>
                             </div>
-                          </div>
-                          <Form {...form}>
-                           <form
-                              onSubmit={form.handleSubmit(onSubmit)}
-                              className="w-full max-w-md space-y-8 mx-auto md:mx-0 md:max-w-none">
-                              <FormField
-                                control={form.control}
-                                name="question"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel className="w-full block text-right font-bold text-primary">
-                                      {translations.formQuestionLabel}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Textarea
-                                        placeholder={translations.formQuestionPlaceholder}
-                                        {...field}
-                                        disabled={disabled}
-                                        onKeyDown={handleTextareaKeyDown}
-                                      />
-                                    </FormControl>
-                                    <FormMessage className="text-primary" />
-                                  </FormItem>
-                                )}
-                              />
-                              <Button
-                                type="submit"
-                                className="w-full font-bold"
-                                disabled={disabled}
-                                size="lg"
-                              >
-                                {isFormLoading ? (
-                                  <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    {translations.buttonLoading}
-                                  </>
-                                ) : countdown > 0 ? (
-                                  <div className="flex items-center gap-2">
-                                    <Timer className="h-4 w-4" />
-                                    <span>{`${Math.floor(countdown / 60)
-                                      .toString()
-                                      .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                                  </div>
-                                ) : (
-                                  <>{translations.buttonDefault}</>
-                                )}
-                              </Button>
-                          </form>
-                          </Form>
+                            <Form {...form}>
+                             <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="w-full max-w-md space-y-8 mx-auto md:mx-0 md:max-w-none">
+                                <FormField
+                                  control={form.control}
+                                  name="question"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel className="w-full block text-right font-bold text-primary">
+                                        {translations.formQuestionLabel}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Textarea
+                                          placeholder={translations.formQuestionPlaceholder}
+                                          {...field}
+                                          disabled={disabled}
+                                          onKeyDown={handleTextareaKeyDown}
+                                        />
+                                      </FormControl>
+                                      <FormMessage className="text-primary" />
+                                    </FormItem>
+                                  )}
+                                />
+                                <Button
+                                  type="submit"
+                                  className="w-full font-bold"
+                                  disabled={disabled}
+                                  size="lg"
+                                >
+                                  {isFormLoading ? (
+                                    <>
+                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                      {translations.buttonLoading}
+                                    </>
+                                  ) : countdown > 0 ? (
+                                    <div className="flex items-center gap-2">
+                                      <Timer className="h-4 w-4" />
+                                      <span>{`${Math.floor(countdown / 60)
+                                        .toString()
+                                        .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                                    </div>
+                                  ) : (
+                                    <>{translations.buttonDefault}</>
+                                  )}
+                                </Button>
+                            </form>
+                            </Form>
+                         </div>
                       </div>
 
                       {/* Desktop Layout */}
@@ -692,3 +691,5 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
