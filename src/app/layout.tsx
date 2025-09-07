@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     images: [`/og-image.png`],
   },
   icons: {
-    icon: "/favicon.svg",
+    icon: "/LogoByLokee.png",
   },
   manifest: "/manifest.json",
 };
