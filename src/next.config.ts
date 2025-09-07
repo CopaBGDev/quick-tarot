@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
-      // Ovi moduli su opcione zavisnosti Genkita i nisu potrebni u produkciji,
-      // ali Next.js pokušava da ih uključi. Ovim ih eksplicitno isključujemo.
+      // These are optional Genkit dependencies and are not needed for production,
+      // but Next.js tries to bundle them. This explicitly excludes them.
       config.externals.push('@opentelemetry/exporter-jaeger');
       config.externals.push('@genkit-ai/firebase');
     }
