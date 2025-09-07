@@ -415,7 +415,7 @@ export default function TarotClient() {
   
     return (
       <div className="flex w-full flex-col items-center min-h-screen">
-        <main className={cn("flex-grow w-full flex flex-col items-center", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-0')}>
+        <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-0')}>
           {showMinimizedView && minimizedView}
           <div className="w-full h-full flex-grow flex flex-col">
             {!showMinimizedView ? (
