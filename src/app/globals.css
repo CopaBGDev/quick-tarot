@@ -82,3 +82,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  #root-content {
+    display: none;
+  }
+  #orientation-blocker {
+    display: flex;
+  }
+}

@@ -5,6 +5,7 @@ import { Playfair_Display, Lora } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
+import { Smartphone } from 'lucide-react';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -96,7 +97,16 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("font-body antialiased", lora.variable, playfairDisplay.variable)}>
-        {children}
+        <div id="root-content">
+          {children}
+        </div>
+        <div id="orientation-blocker" className="hidden fixed inset-0 z-[200] bg-background items-center justify-center text-center p-4">
+          <div className="flex flex-col items-center gap-4">
+            <Smartphone className="w-16 h-16 text-primary animate-pulse-slow" />
+            <h2 className="font-headline text-2xl font-bold">Molimo rotirajte uređaj</h2>
+            <p className="text-muted-foreground">Ova aplikacija je optimizovana za portretni (uspravni) prikaz.</p>
+          </div>
+        </div>
         <Toaster />
       </body>
     </html>
