@@ -279,7 +279,7 @@ export default function TarotClient() {
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
   
   const showMinimizedView = isFormLoading || reading;
-  
+
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
 
   const minimizedView = (
@@ -414,8 +414,8 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center">
-        <main className={cn("w-full flex flex-col items-center", showMinimizedView ? 'pt-24 pb-8 px-4 flex-grow' : 'h-screen')}>
+      <div className="flex w-full flex-col min-h-screen">
+        <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pt-24 pb-8 px-4' : 'h-screen')}>
           {showMinimizedView && minimizedView}
           <div className={cn("w-full flex flex-col", showMinimizedView ? "flex-grow" : "h-full")}>
             {!showMinimizedView ? (
@@ -434,7 +434,7 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2 h-full">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col bg-container-background h-full py-4">
+                      <div className="md:hidden flex flex-col h-full py-4">
                           <header>
                               <div className="flex flex-col items-center text-center">
                                   <Logo className="h-28 w-28 text-primary" />
