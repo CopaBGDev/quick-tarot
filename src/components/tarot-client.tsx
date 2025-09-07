@@ -414,13 +414,13 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center justify-between min-h-screen">
-        <main className={cn("flex-grow w-full flex items-center", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-0')}>
+      <div className="flex w-full flex-col items-center min-h-screen">
+        <main className={cn("flex-grow w-full flex flex-col items-center", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-0')}>
           {showMinimizedView && minimizedView}
-          <div className="w-full">
+          <div className="w-full h-full flex-grow flex flex-col">
             {!showMinimizedView ? (
               <div
-                  className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8 px-4"
+                  className="w-full max-w-5xl mx-auto flex flex-col flex-grow md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8 px-4"
                 >
                   <div className="hidden md:flex md:flex-col md:items-center md:order-1 md:sticky md:top-28">
                      <ZodiacWheel
@@ -432,9 +432,9 @@ export default function TarotClient() {
                       {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                   </div>
                   
-                  <div className="w-full flex flex-col md:order-2">
+                  <div className="w-full flex flex-col md:order-2 h-full flex-grow">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col h-full">
+                      <div className="md:hidden flex flex-col h-full flex-grow">
                           <header className="flex w-full flex-col items-center text-center pt-8">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
