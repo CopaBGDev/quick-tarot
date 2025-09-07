@@ -40,6 +40,7 @@ import { SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
+import { cn } from "@/lib/utils";
 
 
 interface FormValues {
@@ -413,13 +414,13 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center gap-10 px-4 min-h-screen py-0 md:py-8 sm:py-12">
-        <main className={`flex-grow w-full ${showMinimizedView ? 'pt-24' : ''}`}>
+      <div className="flex w-full flex-col items-center justify-between min-h-screen">
+        <main className={cn("flex-grow w-full flex items-center", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-0')}>
           {showMinimizedView && minimizedView}
           <div className="w-full">
             {!showMinimizedView ? (
               <div
-                  className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8"
+                  className="w-full max-w-5xl mx-auto flex flex-col md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8 px-4"
                 >
                   <div className="hidden md:flex md:flex-col md:items-center md:order-1 md:sticky md:top-28">
                      <ZodiacWheel
@@ -433,8 +434,8 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col min-h-screen pt-8 pb-4">
-                          <header className="flex w-full flex-col items-center text-center">
+                      <div className="md:hidden flex flex-col h-full">
+                          <header className="flex w-full flex-col items-center text-center pt-8">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
                                   <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -458,7 +459,7 @@ export default function TarotClient() {
                           <Form {...form}>
                            <form
                               onSubmit={form.handleSubmit(onSubmit)}
-                              className="w-full max-w-md space-y-8 mx-auto md:mx-0 md:max-w-none">
+                              className="w-full max-w-md space-y-8 mx-auto md:mx-0 md:max-w-none pb-4">
                               <FormField
                                 control={form.control}
                                 name="question"
@@ -506,7 +507,7 @@ export default function TarotClient() {
                       </div>
 
                       {/* Desktop Layout */}
-                      <div className="hidden md:block">
+                      <div className="hidden md:block py-8">
                           <header className="flex w-full flex-col items-center md:items-center text-center">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
@@ -583,5 +584,3 @@ export default function TarotClient() {
       </div>
     );
 }
-
-    
