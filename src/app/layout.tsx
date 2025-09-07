@@ -101,7 +101,7 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("font-body antialiased", lora.variable, playfairDisplay.variable)}>
-        <div id="root-content">
+        <div id="root-content" className='min-h-screen'>
           {children}
         </div>
         <div id="orientation-blocker" className="hidden fixed inset-0 z-[200] bg-background items-center justify-center text-center p-4">
