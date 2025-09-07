@@ -414,13 +414,13 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col items-center min-h-screen">
-        <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-0')}>
+      <div className="flex w-full flex-col items-center">
+        <main className={cn("w-full flex flex-col items-center", showMinimizedView ? 'pt-24 pb-8 px-4 flex-grow' : 'h-screen')}>
           {showMinimizedView && minimizedView}
-          <div className="w-full h-full flex-grow flex flex-col">
+          <div className={cn("w-full flex flex-col", showMinimizedView ? "flex-grow" : "h-full")}>
             {!showMinimizedView ? (
               <div
-                  className="w-full max-w-5xl mx-auto flex flex-col flex-grow md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8 px-4"
+                  className="w-full max-w-5xl mx-auto flex flex-col flex-grow md:grid md:grid-cols-[472px_1fr] md:items-start md:gap-8 px-4 h-full"
                 >
                   <div className="hidden md:flex md:flex-col md:items-center md:order-1 md:sticky md:top-28">
                      <ZodiacWheel
@@ -432,9 +432,9 @@ export default function TarotClient() {
                       {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                   </div>
                   
-                  <div className="w-full flex flex-col md:order-2">
+                  <div className="w-full flex flex-col md:order-2 h-full">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col h-full flex-grow bg-container-background py-4">
+                      <div className="md:hidden flex flex-col bg-container-background h-full py-4">
                           <header>
                               <div className="flex flex-col items-center text-center">
                                   <Logo className="h-28 w-28 text-primary" />
@@ -584,3 +584,5 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
