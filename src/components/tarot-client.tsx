@@ -432,11 +432,11 @@ export default function TarotClient() {
                       {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                   </div>
                   
-                  <div className="w-full flex flex-col md:order-2 h-full flex-grow">
+                  <div className="w-full flex flex-col md:order-2">
                      {/* Mobile Layout Wrapper */}
                       <div className="md:hidden flex flex-col h-full flex-grow bg-container-background py-4">
-                          <header className="flex w-full flex-col items-center text-center">
-                              <div className="flex flex-col items-center">
+                          <header>
+                              <div className="flex flex-col items-center text-center">
                                   <Logo className="h-28 w-28 text-primary" />
                                   <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                                     Quick Tarot
