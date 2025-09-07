@@ -434,7 +434,7 @@ export default function TarotClient() {
                   
                   <div className="w-full flex flex-col md:order-2 h-full flex-grow">
                      {/* Mobile Layout Wrapper */}
-                      <div className="md:hidden flex flex-col h-full flex-grow">
+                      <div className="md:hidden flex flex-col h-full flex-grow bg-container-background">
                           <header className="flex w-full flex-col items-center text-center pt-8">
                               <div className="flex flex-col items-center">
                                   <Logo className="h-28 w-28 text-primary" />
