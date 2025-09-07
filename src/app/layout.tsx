@@ -25,14 +25,17 @@ const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
-  title: APP_NAME,
+  title: {
+    default: APP_NAME,
+    template: `%s | ${APP_NAME}`,
+  },
   description: APP_DESCRIPTION,
   applicationName: APP_NAME,
   keywords: ["tarot", "tarot čitanje", "dnevni tarot", "besplatni tarot", "astrologija", "horoskop", "zodijak", "proricanje", "tarot karte"],
   appleWebApp: {
     capable: true,
     title: APP_NAME,
-    statusBarStyle: 'default',
+    statusBarStyle: 'black-translucent',
   },
   openGraph: {
     title: APP_NAME,
@@ -49,8 +52,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/favicon.svg",
-    apple: "/favicon.svg",
+    apple: "/apple-touch-icon.png",
   },
+  manifest: "/manifest.json",
 };
 
 export const viewport: Viewport = {
