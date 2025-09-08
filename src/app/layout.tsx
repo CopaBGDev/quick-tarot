@@ -6,6 +6,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
 import { Smartphone } from 'lucide-react';
+import { GoogleAnalytics } from '@/components/google-analytics';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -89,6 +90,7 @@ export default function RootLayout({
   return (
     <html lang="sr" className="dark">
       <head>
+        <GoogleAnalytics />
         <Script
           id="structured-data"
           type="application/ld+json"
