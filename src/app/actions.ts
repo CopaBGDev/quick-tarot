@@ -17,7 +17,7 @@ export type ReadingError = {
 // Definišemo Zod šemu za validaciju ulaznih podataka.
 const ReadingActionSchema = z.object({
   zodiacSign: z.string(), // Validacija se već dešava na klijentu
-  question: z.string().trim().min(2).max(200), // Osnovna serverska validacija
+  question: z.string(), // Uklanjamo min/max validaciju sa servera
   language: z.string(),
 });
 
@@ -32,11 +32,7 @@ export async function getTarotReading(
   });
 
   if (!validation.success) {
-    // Ako validacija ne uspe, vraćamo grešku koristeći prevode.
-    // Ovde koristimo opštije poruke jer Zod greške mogu biti na engleskom.
-    if (validation.error.issues.some(issue => issue.path.includes('question'))) {
-        throw new Error(translations.formQuestionErrorTooShort);
-    }
+    // Greška bi se desila samo ako podaci fundamentalno ne odgovaraju tipu, što ne bi trebalo da se desi.
     throw new Error(translations.unknownError);
   }
 

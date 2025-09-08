@@ -59,7 +59,6 @@ const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 const clearLocalStorage = () => {
-    console.log("Clearing local storage due to an error or reset...");
     localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     localStorage.removeItem(READING_STORAGE_KEY);
     localStorage.removeItem(ZODIAC_STORAGE_KEY);
@@ -614,5 +613,3 @@ export default function TarotClient() {
       </div>
     );
 }
-
-    
