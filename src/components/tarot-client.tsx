@@ -423,7 +423,7 @@ export default function TarotClient() {
               <>
                  {/* Mobile Layout - Unchanged */}
                 <div className="md:hidden w-full flex flex-col h-full">
-                  <div className="bg-[#4a3701] min-h-screen flex flex-col justify-between py-4">
+                  <div className="min-h-screen flex flex-col justify-between py-4">
                     <header>
                         <div className="flex flex-col items-center text-center">
                             <Logo className="h-28 w-28 text-primary" />
