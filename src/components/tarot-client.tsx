@@ -505,7 +505,7 @@ export default function TarotClient() {
                 {/* Desktop Layout */}
                 <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
                     <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow">
-                        <div>
+                        <div className="sticky top-8 flex items-center justify-center">
                            <ZodiacWheel
                               signs={zodiacSigns}
                               onSelect={setSelectedZodiacSign}
@@ -603,5 +603,7 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
 
     
