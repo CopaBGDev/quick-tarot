@@ -442,11 +442,10 @@ export default function TarotClient() {
                        <div className="flex flex-col items-center w-full">
                           <ZodiacWheel
                             signs={zodiacSigns}
-                            onSelect={handleMobileZodiacSelect}
+                            onSelect={setSelectedZodiacSign}
                             selectedValue={selectedZodiacSign}
                             disabled={disabled}
                           />
-                          {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                       </div>
                     </div>
                     
