@@ -30,10 +30,12 @@ const InternalPromptInputSchema = GenerateTarotReadingInputSchema.extend({
 
 
 const GenerateTarotReadingOutputSchema = z.object({
-  cards: z.array(z.object({ name: z.string() })).length(3).describe("An array containing exactly the three chosen tarot cards, each with a name."),
   tarotReading: z.string().describe("The detailed tarot reading based on the chosen cards, user's question, and zodiac sign, in the requested language."),
 });
-export type GenerateTarotReadingOutput = z.infer<typeof GenerateTarotReadingOutputSchema>;
+export type GenerateTarotReadingOutput = {
+    cards: { name: string }[];
+    tarotReading: string;
+};
 
 
 export async function generateTarotReading(input: GenerateTarotReadingInput): Promise<GenerateTarotReadingOutput> {
@@ -43,10 +45,10 @@ export async function generateTarotReading(input: GenerateTarotReadingInput): Pr
 const tarotReadingPrompt = ai.definePrompt({
   name: 'tarotReadingPrompt',
   input: { schema: InternalPromptInputSchema }, 
-  output: { schema: GenerateTarotReadingOutputSchema },
+  output: { schema: z.object({ tarotReading: GenerateTarotReadingOutputSchema.shape.tarotReading }) },
   system: `You are a tarot reader. Your task is to provide a detailed tarot reading based *only* on the three cards provided to you: {{{card1}}}, {{{card2}}}, and {{{card3}}}. 
 You must connect them to the user's question and zodiac sign. The entire reading must be in the requested language. Do not choose any other cards.
-Your output must include the names of the three cards provided to you and the reading.`,
+Your output must be only the tarot reading itself.`,
   prompt: 'User Zodiac Sign: {{{zodiacSign}}}. User Question: "{{{question}}}". Language for response: {{{language}}}. Please provide the tarot reading now based on the three provided cards.'
 });
 
@@ -67,7 +69,10 @@ const generateTarotReadingFlow = ai.defineFlow(
   {
     name: 'generateTarotReadingFlow',
     inputSchema: GenerateTarotReadingInputSchema,
-    outputSchema: GenerateTarotReadingOutputSchema,
+    outputSchema: z.object({
+        cards: z.array(z.object({ name: z.string() })).length(3),
+        tarotReading: z.string(),
+    }),
   },
   async (input) => {
     // 1. Programmatically and randomly select 3 cards. This guarantees randomness.
@@ -88,7 +93,6 @@ const generateTarotReadingFlow = ai.defineFlow(
     }
     
     // 4. Return the original cards and the AI-generated reading.
-    // The output from the AI is trusted to be in the correct format thanks to zod.
     return {
       cards: chosenCards.map(name => ({ name })),
       tarotReading: output.tarotReading
