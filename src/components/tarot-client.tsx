@@ -423,6 +423,7 @@ export default function TarotClient() {
               <>
                  {/* Mobile Layout - Unchanged */}
                 <div className="md:hidden w-full flex flex-col h-full py-4">
+                  <div className="bg-[#4a3701]">
                     <header>
                         <div className="flex flex-col items-center text-center">
                             <Logo className="h-28 w-28 text-primary" />
@@ -492,6 +493,7 @@ export default function TarotClient() {
                         </Button>
                     </form>
                     </Form>
+                  </div>
                      <div className="mt-8">
                        <Footer 
                             translations={translations} 
