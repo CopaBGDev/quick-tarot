@@ -87,7 +87,7 @@ const generateTarotReadingFlow = ai.defineFlow(
       throw new Error('Failed to generate tarot reading. The AI model did not return a valid output.');
     }
     
-    // 4. Ensure the output from the AI contains the cards we originally selected, to prevent hallucination.
+    // 4. Return the original cards and the AI-generated reading.
     // The output from the AI is trusted to be in the correct format thanks to zod.
     return {
       cards: chosenCards.map(name => ({ name })),
