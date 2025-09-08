@@ -59,7 +59,7 @@ const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
 const clearLocalStorage = () => {
-    console.log("Clearing local storage...");
+    console.log("Clearing local storage due to an error or reset...");
     localStorage.removeItem(COOLDOWN_STORAGE_KEY);
     localStorage.removeItem(READING_STORAGE_KEY);
     localStorage.removeItem(ZODIAC_STORAGE_KEY);
@@ -88,7 +88,7 @@ export default function TarotClient() {
     },
   });
 
-  const resetApp = React.useCallback(() => {
+  const handleResetApp = React.useCallback(() => {
     clearLocalStorage();
     window.location.reload();
   }, []);
@@ -321,11 +321,11 @@ export default function TarotClient() {
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
-                            <button onClick={resetApp} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
+                            <button onClick={handleResetApp} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
                                <Logo className="w-12 h-12" />
                             </button>
                          ) : (
-                            <button onClick={resetApp} className="text-primary font-bold text-sm leading-tight hover:underline">
+                            <button onClick={handleResetApp} className="text-primary font-bold text-sm leading-tight hover:underline">
                                {translations.countdownFinishedText}
                             </button>
                          )}
@@ -357,7 +357,7 @@ export default function TarotClient() {
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                   <AlertDialogCancel>Otkaži</AlertDialogCancel>
-                                  <AlertDialogAction onClick={resetApp}>Započni novo</AlertDialogAction>
+                                  <AlertDialogAction onClick={handleResetApp}>Započni novo</AlertDialogAction>
                               </AlertDialogFooter>
                           </AlertDialogContent>
                       </AlertDialog>
@@ -616,7 +616,3 @@ export default function TarotClient() {
 }
 
     
-
-    
-
-
