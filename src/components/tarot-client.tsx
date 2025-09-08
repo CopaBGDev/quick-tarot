@@ -3,11 +3,11 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer, RotateCw } from "lucide-react";
 import Image from "next/image";
 
 
-import { getTarotReading } from "@/app/actions";
+import { getTarotReading, ReadingError } from "@/app/actions";
 import { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
 import { Button } from "@/components/ui/button";
 import {
@@ -58,6 +58,14 @@ const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
 
+const clearLocalStorage = () => {
+    console.log("Clearing local storage...");
+    localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+    localStorage.removeItem(READING_STORAGE_KEY);
+    localStorage.removeItem(ZODIAC_STORAGE_KEY);
+    localStorage.removeItem(QUESTION_STORAGE_KEY);
+};
+
 
 export default function TarotClient() {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
@@ -79,6 +87,11 @@ export default function TarotClient() {
       question: "",
     },
   });
+
+  const resetApp = React.useCallback(() => {
+    clearLocalStorage();
+    window.location.reload();
+  }, []);
   
   React.useEffect(() => {
     const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
@@ -88,35 +101,33 @@ export default function TarotClient() {
 
     setLanguage(supportedLangCode);
     setTranslations(newTranslations);
-
-    const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
-    const savedReading = localStorage.getItem(READING_STORAGE_KEY);
     
-    if (savedCooldown) {
-      const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
-      if (remainingTime > 0) {
-        setCountdown(remainingTime);
-      } else {
-        localStorage.removeItem(COOLDOWN_STORAGE_KEY);
-      }
-    }
-
-    if (savedReading) {
-      try {
-        const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
-        setReading(parsedReading);
+    try {
+        const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
+        const savedReading = localStorage.getItem(READING_STORAGE_KEY);
         
-        const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
-        const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
+        if (savedCooldown) {
+          const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
+          if (remainingTime > 0) {
+            setCountdown(remainingTime);
+          } else {
+            localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+          }
+        }
 
-        if (savedSignName) setSelectedZodiacSign(savedSignName);
-        if (savedQuestion) form.setValue('question', savedQuestion);
+        if (savedReading) {
+            const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
+            setReading(parsedReading);
+            
+            const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
+            const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
 
-      } catch (e) {
-        localStorage.removeItem(READING_STORAGE_KEY);
-        localStorage.removeItem(ZODIAC_STORAGE_KEY);
-        localStorage.removeItem(QUESTION_STORAGE_KEY);
-      }
+            if (savedSignName) setSelectedZodiacSign(savedSignName);
+            if (savedQuestion) form.setValue('question', savedQuestion);
+        }
+    } catch (error) {
+        console.error("Failed to parse from localStorage, clearing...", error);
+        clearLocalStorage();
     }
   }, [form]);
   
@@ -215,7 +226,7 @@ export default function TarotClient() {
         ...data,
         zodiacSign: selectedZodiacSign,
         language: targetLanguageName,
-      });
+      }, translations);
       setReading(result);
       
       const newCooldownEndTime = Date.now() + READING_COOLDOWN_SECONDS * 1000;
@@ -227,9 +238,8 @@ export default function TarotClient() {
       setCountdown(READING_COOLDOWN_SECONDS);
 
     } catch (error) {
-      const errorMessage =
-        error instanceof Error ? error.message : translations.unknownError;
-      toast({
+       const errorMessage = (error as ReadingError).message || translations.unknownError;
+       toast({
         title: translations.errorTitle,
         description: errorMessage,
         variant: "destructive",
@@ -238,20 +248,6 @@ export default function TarotClient() {
         setIsFormLoading(false);
     }
   }, [selectedZodiacSign, language, translations, toast]);
-  
-  const resetForm = React.useCallback(() => {
-    setReading(null);
-    setIsFormLoading(false);
-    setCountdown(0);
-    setZodiacError(null);
-    localStorage.removeItem(COOLDOWN_STORAGE_KEY);
-    localStorage.removeItem(READING_STORAGE_KEY);
-    localStorage.removeItem(ZODIAC_STORAGE_KEY);
-    localStorage.removeItem(QUESTION_STORAGE_KEY);
-    form.reset({ question: "" });
-    setSelectedZodiacSign(undefined);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [form]);
 
   const handleTextareaKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
@@ -269,12 +265,6 @@ export default function TarotClient() {
       imagePath: getCardImagePath(card.name),
     }));
   }, [reading]);
-
-  const handleMobileZodiacSelect = (sign?: string) => {
-    setSelectedZodiacSign(sign);
-    setZodiacError(null);
-  };
-
 
   const disabled = isFormLoading || countdown > 0;
   
@@ -331,11 +321,11 @@ export default function TarotClient() {
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
-                            <button onClick={resetForm} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
+                            <button onClick={resetApp} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
                                <Logo className="w-12 h-12" />
                             </button>
                          ) : (
-                            <button onClick={resetForm} className="text-primary font-bold text-sm leading-tight hover:underline">
+                            <button onClick={resetApp} className="text-primary font-bold text-sm leading-tight hover:underline">
                                {translations.countdownFinishedText}
                             </button>
                          )}
@@ -351,10 +341,26 @@ export default function TarotClient() {
                        </div>
                      )}
                      <div className="hidden sm:block">
-                      <Button variant="ghost" size="icon" onClick={resetForm} disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <Edit3 className="h-[1.2rem] w-[1.2rem]" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
+                      <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <Edit3 className="h-[1.2rem] w-[1.2rem]" />
+                                <span className="sr-only">Edit</span>
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                              <AlertDialogHeader>
+                                  <AlertDialogTitle>Započnite novo čitanje?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                      Ovo će obrisati vaše trenutno čitanje i omogućiće vam da postavite novo pitanje.
+                                  </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                  <AlertDialogCancel>Otkaži</AlertDialogCancel>
+                                  <AlertDialogAction onClick={resetApp}>Započni novo</AlertDialogAction>
+                              </AlertDialogFooter>
+                          </AlertDialogContent>
+                      </AlertDialog>
                      </div>
                    </div>
                  )}
@@ -612,4 +618,5 @@ export default function TarotClient() {
     
 
     
+
 
