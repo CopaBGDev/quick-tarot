@@ -90,7 +90,6 @@ export default function RootLayout({
   return (
     <html lang="sr" className="dark">
       <head>
-        <GoogleAnalytics />
         <Script
           id="structured-data"
           type="application/ld+json"
@@ -102,6 +101,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        <GoogleAnalytics />
       </head>
       <body className={cn("font-body antialiased", lora.variable, playfairDisplay.variable)}>
         <div id="root-content" className='min-h-screen'>
