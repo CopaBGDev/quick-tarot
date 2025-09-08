@@ -421,7 +421,7 @@ export default function TarotClient() {
           <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
             {!showMinimizedView ? (
               <>
-                 {/* Mobile Layout */}
+                 {/* Mobile Layout - Unchanged */}
                 <div className="md:hidden w-full flex flex-col h-full py-4">
                     <header>
                         <div className="flex flex-col items-center text-center">
@@ -503,9 +503,9 @@ export default function TarotClient() {
                 </div>
 
                 {/* Desktop Layout */}
-                 <div className="hidden md:block w-full max-w-5xl mx-auto flex-grow">
-                    <div className="grid grid-cols-[472px_1fr] gap-8">
-                        <div className="sticky top-8 self-start">
+                <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
+                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow">
+                        <div>
                            <ZodiacWheel
                               signs={zodiacSigns}
                               onSelect={setSelectedZodiacSign}
@@ -575,15 +575,15 @@ export default function TarotClient() {
                                 </Button>
                             </form>
                             </Form>
-                             <div className="mt-auto pt-8">
-                                <Footer 
-                                    translations={translations} 
-                                    language={language} 
-                                    onLanguageChange={handleLanguageChange}
-                                    disabled={disabled}
-                                />
-                            </div>
                         </div>
+                    </div>
+                    <div className="mt-8">
+                      <Footer 
+                          translations={translations} 
+                          language={language} 
+                          onLanguageChange={handleLanguageChange}
+                          disabled={disabled}
+                      />
                     </div>
                 </div>
               </>
@@ -603,3 +603,5 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
