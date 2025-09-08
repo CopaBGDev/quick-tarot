@@ -270,6 +270,11 @@ export default function TarotClient() {
     }));
   }, [reading]);
 
+  const handleMobileZodiacSelect = (sign?: string) => {
+    setSelectedZodiacSign(sign);
+    setZodiacError(null);
+  };
+
 
   const disabled = isFormLoading || countdown > 0;
   
@@ -437,7 +442,7 @@ export default function TarotClient() {
                        <div className="flex flex-col items-center w-full">
                           <ZodiacWheel
                             signs={zodiacSigns}
-                            onSelect={setSelectedZodiacSign}
+                            onSelect={handleMobileZodiacSelect}
                             selectedValue={selectedZodiacSign}
                             disabled={disabled}
                           />
