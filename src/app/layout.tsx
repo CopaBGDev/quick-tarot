@@ -1,6 +1,5 @@
 
 import type {Metadata, Viewport} from 'next';
-import Script from 'next/script';
 import { Playfair_Display, Lora } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -90,17 +89,16 @@ export default function RootLayout({
   return (
     <html lang="sr" className="dark">
       <head>
-        <Script
+        <script
           id="structured-data"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Script
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2968048666598097"
           crossOrigin="anonymous"
-          strategy="beforeInteractive"
-        />
+        ></script>
         <GoogleAnalytics />
       </head>
       <body className={cn("font-body antialiased", lora.variable, playfairDisplay.variable)}>
