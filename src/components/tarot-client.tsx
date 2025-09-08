@@ -366,7 +366,7 @@ export default function TarotClient() {
   const resultsContent = (
     <section
       ref={resultsRef}
-      className="w-full max-w-4xl text-center scroll-mt-8"
+      className="w-full max-w-4xl text-center scroll-mt-8 mt-28"
     >
       {(isFormLoading || reading) && (
         <>
@@ -612,3 +612,4 @@ export default function TarotClient() {
     
 
     
+
