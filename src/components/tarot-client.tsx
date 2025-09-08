@@ -514,7 +514,6 @@ export default function TarotClient() {
                               selectedValue={selectedZodiacSign}
                               disabled={disabled}
                             />
-                            {zodiacError && <p className="text-center mt-4 text-sm font-medium text-destructive">{zodiacError}</p>}
                         </div>
                         
                         <div className="flex flex-col py-8">
@@ -605,5 +604,7 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
 
     
