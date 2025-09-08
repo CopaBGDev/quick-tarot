@@ -41,6 +41,7 @@ import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/transla
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
 import { cn } from "@/lib/utils";
+import { AdPlaceholder } from "./ad-placeholder";
 
 
 interface FormValues {
@@ -491,11 +492,19 @@ export default function TarotClient() {
                         </Button>
                     </form>
                     </Form>
+                     <div className="mt-8">
+                       <Footer 
+                            translations={translations} 
+                            language={language} 
+                            onLanguageChange={handleLanguageChange}
+                            disabled={disabled}
+                        />
+                     </div>
                 </div>
 
                 {/* Desktop Layout */}
-                <div className="hidden md:flex w-full max-w-5xl mx-auto flex-col flex-grow">
-                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow">
+                 <div className="hidden md:block w-full max-w-5xl mx-auto flex-grow">
+                    <div className="grid grid-cols-[472px_1fr] gap-8">
                         <div className="sticky top-8 self-start">
                            <ZodiacWheel
                               signs={zodiacSigns}
@@ -507,7 +516,7 @@ export default function TarotClient() {
                         </div>
                         
                         <div className="flex flex-col py-8">
-                            <header className="flex w-full flex-col items-center text-center">
+                             <header className="flex w-full flex-col items-center text-center">
                                 <div className="flex flex-col items-center">
                                     <Logo className="h-28 w-28 text-primary" />
                                     <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
@@ -566,6 +575,14 @@ export default function TarotClient() {
                                 </Button>
                             </form>
                             </Form>
+                             <div className="mt-auto pt-8">
+                                <Footer 
+                                    translations={translations} 
+                                    language={language} 
+                                    onLanguageChange={handleLanguageChange}
+                                    disabled={disabled}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -575,7 +592,7 @@ export default function TarotClient() {
             )}
           </div>
         </main>
-        {(!showMinimizedView || !isMobile) && (
+        {showMinimizedView && !isMobile && (
             <Footer 
                 translations={translations} 
                 language={language} 
