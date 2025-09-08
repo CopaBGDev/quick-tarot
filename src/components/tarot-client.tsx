@@ -423,7 +423,7 @@ export default function TarotClient() {
               <>
                  {/* Mobile Layout - Unchanged */}
                 <div className="md:hidden w-full flex flex-col h-full">
-                  <div className="bg-[#4a3701] min-h-full flex flex-col py-4 px-2">
+                  <div className="bg-[#4a3701] min-h-screen flex flex-col py-4 px-2">
                     <header>
                         <div className="flex flex-col items-center text-center">
                             <Logo className="h-28 w-28 text-primary" />
@@ -433,7 +433,7 @@ export default function TarotClient() {
                         </div>
                     </header>
 
-                    <div className="w-full flex-grow flex items-center">
+                    <div className="w-full flex items-center">
                        <div className="flex flex-col items-center w-full">
                           <ZodiacWheel
                             signs={zodiacSigns}
