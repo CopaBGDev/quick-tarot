@@ -422,8 +422,8 @@ export default function TarotClient() {
             {!showMinimizedView ? (
               <>
                  {/* Mobile Layout - Unchanged */}
-                <div className="md:hidden w-full flex flex-col h-full py-4">
-                  <div className="bg-[#4a3701] h-full">
+                <div className="md:hidden w-full flex flex-col h-full">
+                  <div className="bg-[#4a3701] min-h-full flex flex-col py-4 px-2">
                     <header>
                         <div className="flex flex-col items-center text-center">
                             <Logo className="h-28 w-28 text-primary" />
@@ -605,6 +605,8 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
 
     
 
