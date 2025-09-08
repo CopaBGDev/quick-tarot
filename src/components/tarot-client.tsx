@@ -416,14 +416,14 @@ export default function TarotClient() {
   
     return (
       <div className="flex w-full flex-col min-h-screen">
-        <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pt-24 pb-8 px-4' : 'p-4')}>
+        <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'p-4')}>
           {showMinimizedView && minimizedView}
           <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
             {!showMinimizedView ? (
               <>
                  {/* Mobile Layout - Unchanged */}
                 <div className="md:hidden w-full flex flex-col h-full">
-                  <div className="bg-[#4a3701] min-h-screen flex flex-col justify-between py-4 px-2">
+                  <div className="bg-[#4a3701] min-h-screen flex flex-col justify-between py-4">
                     <header>
                         <div className="flex flex-col items-center text-center">
                             <Logo className="h-28 w-28 text-primary" />
@@ -448,7 +448,7 @@ export default function TarotClient() {
                     <Form {...form}>
                      <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className="w-full max-w-md space-y-8 mx-auto">
+                        className="w-full max-w-md space-y-8 mx-auto px-2">
                         <FormField
                           control={form.control}
                           name="question"
@@ -605,13 +605,3 @@ export default function TarotClient() {
       </div>
     );
 }
-
-    
-
-    
-
-    
-
-    
-
-    
