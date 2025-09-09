@@ -67,7 +67,7 @@ export function LanguageSelector({ selectedLanguage, onLanguageChange, disabled 
         <SelectValue asChild>
             <div className="flex items-center gap-2">
                 <Languages className="h-5 w-5 text-primary" />
-                <span className="text-sm font-medium hidden sm:inline">
+                <span className="text-sm font-medium">
                     {SUPPORTED_LANGUAGES.find(l => l.code === selectedLanguage)?.nativeName}
                 </span>
             </div>
