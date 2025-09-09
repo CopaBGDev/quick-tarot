@@ -555,7 +555,7 @@ export default function TarotClient() {
                                 </div>
                                 <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
                                     {translations.headerSubtitle}
-                                </p>
+                                 </p>
                             </header>
                              <Form {...form}>
                              <form
@@ -647,4 +647,5 @@ export default function TarotClient() {
     );
 }
 
+    
     
