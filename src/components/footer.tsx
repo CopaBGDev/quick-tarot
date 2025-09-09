@@ -2,7 +2,6 @@
 "use client";
 
 import * as React from "react";
-import { AdPlaceholder } from "./ad-placeholder";
 import { LanguageSelector } from "./language-selector";
 import { InfoDialog } from "./info-dialog";
 import type { TranslationSet } from "@/lib/translations";
@@ -46,7 +45,6 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
 
   return (
     <footer className={cn("w-full flex-col items-center gap-6 flex p-4 sm:p-6")}>
-      <AdPlaceholder />
       <div className="flex flex-col items-center gap-4 text-center">
         <div className="mb-4">
           <LanguageSelector
