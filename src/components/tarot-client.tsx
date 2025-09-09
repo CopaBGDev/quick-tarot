@@ -438,7 +438,7 @@ export default function TarotClient() {
           <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
             {!showMinimizedView ? (
               <>
-                 {/* Mobile Layout - Unchanged */}
+                 {/* Mobile Layout */}
                 <div className="md:hidden w-full flex flex-col h-full">
                   <div className="min-h-screen flex flex-col justify-between py-4">
                     <header>
@@ -447,6 +447,9 @@ export default function TarotClient() {
                             <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                               Quick Tarot
                             </h1>
+                            <p className="mt-3 max-w-md text-base text-muted-foreground sm:text-lg px-4">
+                                {translations.headerSubtitle}
+                            </p>
                         </div>
                     </header>
 
@@ -510,6 +513,16 @@ export default function TarotClient() {
                     </form>
                     </Form>
                   </div>
+                     <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                        <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
+                            <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
+                            <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
+                               {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
+                            </div>
+                        </section>
+                     </div>
                      <div className="mt-8">
                        <Footer 
                             translations={translations} 
@@ -523,7 +536,7 @@ export default function TarotClient() {
                 {/* Desktop Layout */}
                 <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
                     <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow">
-                        <div className="sticky top-8 flex items-center justify-center">
+                        <div className="sticky top-8 flex items-center justify-center h-full">
                            <ZodiacWheel
                               signs={zodiacSigns}
                               onSelect={setSelectedZodiacSign}
@@ -594,6 +607,16 @@ export default function TarotClient() {
                             </Form>
                         </div>
                     </div>
+                     <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                        <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
+                            <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
+                            <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
+                               {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
+                            </div>
+                        </section>
+                     </div>
                     <div className="mt-8">
                       <Footer 
                           translations={translations} 
@@ -620,7 +643,3 @@ export default function TarotClient() {
       </div>
     );
 }
-
-    
-
-    
