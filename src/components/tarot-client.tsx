@@ -93,6 +93,7 @@ export default function TarotClient() {
   }, []);
   
   React.useEffect(() => {
+    localStorage.removeItem(COOLDOWN_STORAGE_KEY); // Reset saved cooldown
     const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     const baseLang = savedLang.split('-')[0];
     const newTranslations = getTranslations(baseLang);
@@ -613,5 +614,7 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
 
     
