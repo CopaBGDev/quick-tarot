@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { Sparkles, Loader2, Edit3, Timer, RotateCw } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
 import Image from "next/image";
 
 
@@ -86,14 +86,20 @@ export default function TarotClient() {
       question: "",
     },
   });
-
-  const handleResetApp = React.useCallback(() => {
-    clearLocalStorage();
-    window.location.reload();
-  }, []);
   
+  const resetState = React.useCallback(() => {
+    setIsFormLoading(false);
+    setReading(null);
+    setCardsFlipped(false);
+    setTypedReading("");
+    setSelectedZodiacSign(undefined);
+    form.reset({ question: "" });
+    setCountdown(0);
+    clearLocalStorage();
+  }, [form]);
+
+
   React.useEffect(() => {
-    localStorage.removeItem(COOLDOWN_STORAGE_KEY); // Reset saved cooldown
     const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     const baseLang = savedLang.split('-')[0];
     const newTranslations = getTranslations(baseLang);
@@ -321,11 +327,11 @@ export default function TarotClient() {
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
-                            <button onClick={handleResetApp} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
+                            <button onClick={resetState} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
                                <Logo className="w-12 h-12" />
                             </button>
                          ) : (
-                            <button onClick={handleResetApp} className="text-primary font-bold text-sm leading-tight hover:underline">
+                            <button onClick={resetState} className="text-primary font-bold text-sm leading-tight hover:underline">
                                {translations.countdownFinishedText}
                             </button>
                          )}
@@ -357,7 +363,7 @@ export default function TarotClient() {
                               </AlertDialogHeader>
                               <AlertDialogFooter>
                                   <AlertDialogCancel>Otkaži</AlertDialogCancel>
-                                  <AlertDialogAction onClick={handleResetApp}>Započni novo</AlertDialogAction>
+                                  <AlertDialogAction onClick={resetState}>Započni novo</AlertDialogAction>
                               </AlertDialogFooter>
                           </AlertDialogContent>
                       </AlertDialog>
