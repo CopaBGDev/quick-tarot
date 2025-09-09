@@ -36,7 +36,7 @@ import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
-import { SUPPORTED_LANGUAGES } from "./language-selector";
+import { SUPPORTED_LANGUAGES, LanguageSelector } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
@@ -447,9 +447,6 @@ export default function TarotClient() {
                             <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
                               Quick Tarot
                             </h1>
-                            <p className="mt-3 max-w-md text-base text-muted-foreground sm:text-lg px-4">
-                                {translations.headerSubtitle}
-                            </p>
                         </div>
                     </header>
 
@@ -514,9 +511,6 @@ export default function TarotClient() {
                     </Form>
                   </div>
                      <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <div className="mb-8">
-                            <AdPlaceholder />
-                        </div>
                         <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
                             <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
                             <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
@@ -525,6 +519,9 @@ export default function TarotClient() {
                                 ))}
                             </div>
                         </section>
+                        <div className="my-8">
+                            <AdPlaceholder />
+                        </div>
                      </div>
                      <div className="mt-8">
                        <Footer 
@@ -558,7 +555,7 @@ export default function TarotClient() {
                                 </div>
                                 <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
                                     {translations.headerSubtitle}
-                                </p>
+                                 </p>
                             </header>
                              <Form {...form}>
                              <form
@@ -611,9 +608,6 @@ export default function TarotClient() {
                         </div>
                     </div>
                      <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <div className="mb-8">
-                            <AdPlaceholder />
-                        </div>
                         <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
                             <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
                             <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
@@ -622,6 +616,9 @@ export default function TarotClient() {
                                 ))}
                             </div>
                         </section>
+                        <div className="my-8">
+                            <AdPlaceholder />
+                        </div>
                      </div>
                     <div className="mt-8">
                       <Footer 
@@ -649,3 +646,5 @@ export default function TarotClient() {
       </div>
     );
 }
+
+    
