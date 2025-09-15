@@ -414,11 +414,9 @@ export default function TarotClient() {
 
           {reading && (
             <>
-              {reading && (
-                <div className="my-8">
-                    <AdPlaceholder />
-                </div>
-              )}
+              <div className="my-8">
+                <AdPlaceholder />
+              </div>
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
                 <CardHeader>
                     <CardTitle>{translations.resultsReadingTitle}</CardTitle>
@@ -516,9 +514,6 @@ export default function TarotClient() {
                     </Form>
                   </div>
                      <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <div className="my-8">
-                            <AdPlaceholder />
-                        </div>
                         <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
                             <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
                             <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
@@ -613,9 +608,6 @@ export default function TarotClient() {
                         </div>
                     </div>
                      <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <div className="my-8">
-                            <AdPlaceholder />
-                        </div>
                         <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
                             <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
                             <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
@@ -651,8 +643,3 @@ export default function TarotClient() {
       </div>
     );
 }
-
-    
-    
-
-    
