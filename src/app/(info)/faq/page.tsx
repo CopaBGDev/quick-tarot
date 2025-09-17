@@ -1,7 +1,7 @@
 import { getTranslations } from '@/lib/translations';
 
-export default function FaqPage({ searchParams }: { searchParams: { lang: string } }) {
-  const lang = searchParams.lang || 'sr';
+export default function FaqPage({ searchParams }: { searchParams: { lang?: string | string[] | undefined } }) {
+  const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (

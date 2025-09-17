@@ -2,8 +2,8 @@ import { FULL_DECK, getCardImagePath } from '@/lib/cards';
 import { getTranslations } from '@/lib/translations';
 import Image from 'next/image';
 
-export default function CardMeaningsPage({ searchParams }: { searchParams: { lang: string } }) {
-  const lang = searchParams.lang || 'sr';
+export default function CardMeaningsPage({ searchParams }: { searchParams: { lang?: string | string[] | undefined } }) {
+  const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (

@@ -7,8 +7,8 @@ export const runtime = 'nodejs';
 // Revalidate the page every day to get a new card
 export const revalidate = 86400; // 24 hours in seconds
 
-export default async function Home({ searchParams }: { searchParams: { lang: string } }) {
-  const lang = searchParams?.lang || 'sr';
+export default async function Home({ searchParams }: { searchParams: { lang?: string | string[] | undefined } }) {
+  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const languageName = lang === 'en' ? 'English' : 'Serbian';
 
   let dailyCard: DailyCard | null = null;
