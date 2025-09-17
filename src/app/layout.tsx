@@ -52,8 +52,6 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: '/LogoByLokee.png',
-    shortcut: '/LogoByLokee.png',
-    apple: '/LogoByLokee.png',
   },
   manifest: "/manifest.json",
 };
