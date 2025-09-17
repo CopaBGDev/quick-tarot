@@ -678,8 +678,3 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
       </div>
     );
 }
-
-    
-    
-
-    
