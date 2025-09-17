@@ -18,10 +18,10 @@ export default function InfoLayout({
   return (
     <div className="container mx-auto max-w-4xl py-8 px-4 sm:px-6 lg:px-8">
       <header className="mb-8 flex justify-end">
-        <Button asChild variant="ghost">
+        <Button asChild variant="ghost" size="icon">
           <Link href={`/?lang=${lang}`}>
-            <Home className="mr-2 h-4 w-4" />
-            {t.homeButtonText}
+            <Home className="h-5 w-5" />
+            <span className="sr-only">{t.homeButtonText}</span>
           </Link>
         </Button>
       </header>
