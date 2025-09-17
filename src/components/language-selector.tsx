@@ -20,30 +20,6 @@ interface Language {
 export const SUPPORTED_LANGUAGES: Language[] = [
     { code: 'sr', name: 'Serbian', nativeName: 'Srpski' },
     { code: 'en', name: 'English', nativeName: 'English' },
-    { code: 'de', name: 'German', nativeName: 'Deutsch' },
-    { code: 'fr', name: 'French', nativeName: 'Français' },
-    { code: 'es', name: 'Spanish', nativeName: 'Español' },
-    { code: 'it', name: 'Italian', nativeName: 'Italiano' },
-    { code: 'pt', name: 'Portuguese', nativeName: 'Português' },
-    { code: 'ru', name: 'Russian', nativeName: 'Русский' },
-    { code: 'zh', name: 'Chinese', nativeName: '中文' },
-    { code: 'ja', name: 'Japanese', nativeName: '日本語' },
-    { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
-    { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-    { code: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
-    { code: 'ko', name: 'Korean', nativeName: '한국어' },
-    { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
-    { code: 'pl', name: 'Polish', nativeName: 'Polski' },
-    { code: 'sv', name: 'Swedish', nativeName: 'Svenska' },
-    { code: 'hr', name: 'Croatian', nativeName: 'Hrvatski' },
-    { code: 'bs', name: 'Bosnian', nativeName: 'Bosanski' },
-    { code: 'sl', name: 'Slovenian', nativeName: 'Slovenščina' },
-    { code: 'mk', name: 'Macedonian', nativeName: 'Македонски' },
-    { code: 'sq', name: 'Albanian', nativeName: 'Shqip' },
-    { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
-    { code: 'ro', name: 'Romanian', nativeName: 'Română' },
-    { code: 'el', name: 'Greek', nativeName: 'Ελληνικά' },
-    { code: 'hu', name: 'Hungarian', nativeName: 'Magyar' },
 ];
 
 
@@ -80,5 +56,3 @@ export function LanguageSelector({ selectedLanguage, onLanguageChange, disabled 
     </Select>
   );
 }
-
-    
