@@ -1,17 +1,12 @@
-import { getTranslations } from '@/lib/translations';
-
-export default async function AboutPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
-  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
-  const t = getTranslations(lang);
-
+export default function AboutPage() {
   return (
-    <>
-      <h1 className="font-headline text-3xl font-bold text-primary">{t.aboutDialogTitle}</h1>
-      <div className="space-y-4 text-muted-foreground">
-        {t.aboutDialogContent.split('\n\n').map((paragraph, index) => (
-          <p key={index}>{paragraph}</p>
-        ))}
-      </div>
-    </>
+    <div className="p-8">
+      <h1 className="text-3xl font-bold mb-4">About Quick Tarot</h1>
+      <p>
+        Quick Tarot je online alat za introspektivna čitanja i tarot otvaranja.
+        Cilj nam je da omogućimo korisnicima jednostavan i moderan način da se
+        povežu sa simbolikom tarota i istraže značenja karata.
+      </p>
+    </div>
   );
 }
