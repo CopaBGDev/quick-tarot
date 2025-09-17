@@ -8,7 +8,8 @@ import Image from "next/image";
 
 
 import { getTarotReading, ReadingError } from "@/app/actions";
-import { GenerateTarotReadingOutput, DailyCard, getDailyCard } from "@/ai/flows/get-daily-card";
+import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
+import { DailyCard, getDailyCard } from "@/ai/flows/get-daily-card";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -468,28 +469,28 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
           {dailyCard && (
              <AlertDialog open={isDailyCardModalOpen} onOpenChange={setIsDailyCardModalOpen}>
                 <AlertDialogContent>
-                <AlertDialogHeader>
-                    <AlertDialogTitle className="flex items-center gap-2">
-                        <Star className="w-5 h-5 text-primary" />
-                        {translations.dailyCardTitle}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription className="text-center pt-4">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="flex items-center gap-2">
+                            <Star className="w-5 h-5 text-primary" />
+                            {translations.dailyCardTitle}
+                        </AlertDialogTitle>
+                    </AlertDialogHeader>
+                    <div className="text-center pt-4">
                         <div className="w-32 h-48 mx-auto mb-4">
-                             <Image 
+                                <Image 
                                 src={getCardImagePath(dailyCard.cardName)} 
                                 alt={dailyCard.cardName}
                                 width={128}
                                 height={192}
                                 className="w-full h-full object-cover rounded-lg shadow-lg"
-                             />
+                                />
                         </div>
                         <h3 className="font-bold text-lg text-foreground mb-2 font-headline">{dailyCard.cardName}</h3>
                         <p className="text-sm text-muted-foreground">{dailyCard.interpretation}</p>
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                    <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
-                </AlertDialogFooter>
+                    </div>
+                    <AlertDialogFooter>
+                        <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
+                    </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
           )}
@@ -649,19 +650,18 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
                         </div>
                     </div>
                 </div>
-                 <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                    <AdPlaceholder />
-                </div>
-                <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                    <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
-                        <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
-                        <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
-                            {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
-                                <p key={index}>{paragraph}</p>
-                            ))}
-                        </div>
-                    </section>
-                </div>
+                 {!showMinimizedView && (
+                    <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                        <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
+                            <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
+                            <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
+                                {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
+                            </div>
+                        </section>
+                    </div>
+                )}
                 <div className="mt-8">
                     <Footer 
                         translations={translations} 
@@ -687,3 +687,4 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
       </div>
     );
 }
+
