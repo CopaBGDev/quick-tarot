@@ -3,12 +3,12 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { Sparkles, Loader2, Edit3, Timer } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer, Star } from "lucide-react";
 import Image from "next/image";
 
 
 import { getTarotReading, ReadingError } from "@/app/actions";
-import { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
+import { GenerateTarotReadingOutput, DailyCard, getDailyCard } from "@/ai/flows/get-daily-card";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -42,10 +42,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
 import { cn } from "@/lib/utils";
 import { AdPlaceholder } from "./ad-placeholder";
+import { format } from 'date-fns';
 
 
 interface FormValues {
   question: string;
+}
+
+interface TarotClientProps {
+    initialDailyCard: DailyCard | null;
 }
 
 const READING_COOLDOWN_SECONDS = 120;
@@ -54,6 +59,7 @@ const READING_STORAGE_KEY = "tarotReading";
 const ZODIAC_STORAGE_KEY = "tarotZodiacSign";
 const QUESTION_STORAGE_KEY = "tarotQuestion";
 const LANGUAGE_STORAGE_KEY = "tarotLanguage";
+const DAILY_CARD_VIEWED_KEY = "dailyCardViewedDate";
 
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
@@ -66,7 +72,7 @@ const clearLocalStorage = () => {
 };
 
 
-export default function TarotClient() {
+export default function TarotClient({ initialDailyCard }: TarotClientProps) {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
@@ -76,6 +82,8 @@ export default function TarotClient() {
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
+  const [dailyCard, setDailyCard] = React.useState<DailyCard | null>(initialDailyCard);
+  const [isDailyCardModalOpen, setIsDailyCardModalOpen] = React.useState(false);
 
   const isMobile = useIsMobile();
   const resultsRef = React.useRef<HTMLDivElement>(null);
@@ -100,6 +108,12 @@ export default function TarotClient() {
 
 
   React.useEffect(() => {
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+    const lastViewedDate = localStorage.getItem(DAILY_CARD_VIEWED_KEY);
+    if (lastViewedDate !== todayStr) {
+        setIsDailyCardModalOpen(true);
+    }
+    
     const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     const baseLang = savedLang.split('-')[0];
     const newTranslations = getTranslations(baseLang);
@@ -182,7 +196,7 @@ export default function TarotClient() {
       translations.zodiacSignCapricorn, translations.zodiacSignAquarius, translations.zodiacSignPisces,
   ], [translations]);
 
-  const handleLanguageChange = React.useCallback((langCode: string) => {
+  const handleLanguageChange = React.useCallback(async (langCode: string) => {
     const baseLang = langCode.split('-')[0];
     const newTranslations = getTranslations(baseLang);
     const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
@@ -190,6 +204,15 @@ export default function TarotClient() {
     setLanguage(supportedLangCode);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
     setTranslations(newTranslations);
+
+    try {
+        const targetLanguageName = SUPPORTED_LANGUAGES.find(l => l.code === supportedLangCode)?.name || 'Serbian';
+        const newDailyCard = await getDailyCard(targetLanguageName);
+        setDailyCard(newDailyCard);
+    } catch (error) {
+        console.error("Failed to refetch daily card for new language:", error);
+    }
+
   }, []);
 
 
@@ -271,6 +294,12 @@ export default function TarotClient() {
       imagePath: getCardImagePath(card.name),
     }));
   }, [reading]);
+
+  const handleDailyCardModalClose = () => {
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+    localStorage.setItem(DAILY_CARD_VIEWED_KEY, todayStr);
+    setIsDailyCardModalOpen(false);
+  }
 
   const disabled = isFormLoading || countdown > 0;
   
@@ -414,7 +443,7 @@ export default function TarotClient() {
 
           {reading && (
             <>
-              <div className="my-8">
+               <div className="my-8">
                 <AdPlaceholder />
               </div>
               <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
@@ -436,6 +465,36 @@ export default function TarotClient() {
   
     return (
       <div className="flex w-full flex-col min-h-screen">
+          {dailyCard && (
+             <AlertDialog open={isDailyCardModalOpen} onOpenChange={setIsDailyCardModalOpen}>
+                <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle className="flex items-center gap-2">
+                        <Star className="w-5 h-5 text-primary" />
+                        {translations.dailyCardTitle}
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-center pt-4">
+                        <div className="w-32 h-48 mx-auto mb-4">
+                             <Image 
+                                src={getCardImagePath(dailyCard.cardName)} 
+                                alt={dailyCard.cardName}
+                                width={128}
+                                height={192}
+                                className="w-full h-full object-cover rounded-lg shadow-lg"
+                             />
+                        </div>
+                        <h3 className="font-bold text-lg text-foreground mb-2 font-headline">{dailyCard.cardName}</h3>
+                        <p className="text-sm text-muted-foreground">{dailyCard.interpretation}</p>
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
+                </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+          )}
+
+
         <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
           {showMinimizedView && minimizedView}
           <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
@@ -513,30 +572,12 @@ export default function TarotClient() {
                     </form>
                     </Form>
                   </div>
-                     <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
-                            <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
-                            <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
-                               {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
-                                    <p key={index}>{paragraph}</p>
-                                ))}
-                            </div>
-                        </section>
-                     </div>
-                     <div className="mt-8">
-                       <Footer 
-                            translations={translations} 
-                            language={language} 
-                            onLanguageChange={handleLanguageChange}
-                            disabled={disabled}
-                        />
-                     </div>
                 </div>
 
                 {/* Desktop Layout */}
                 <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
-                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow">
-                        <div className="sticky top-8 flex items-center justify-center h-full">
+                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow items-center">
+                        <div className="flex items-center justify-center h-full">
                            <ZodiacWheel
                               signs={zodiacSigns}
                               onSelect={setSelectedZodiacSign}
@@ -607,24 +648,27 @@ export default function TarotClient() {
                             </Form>
                         </div>
                     </div>
-                     <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
-                            <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
-                            <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
-                               {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
-                                    <p key={index}>{paragraph}</p>
-                                ))}
-                            </div>
-                        </section>
-                     </div>
-                    <div className="mt-8">
-                      <Footer 
-                          translations={translations} 
-                          language={language} 
-                          onLanguageChange={handleLanguageChange}
-                          disabled={disabled}
-                      />
-                    </div>
+                </div>
+                 <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                    <AdPlaceholder />
+                </div>
+                <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                    <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
+                        <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
+                        <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
+                            {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
+                                <p key={index}>{paragraph}</p>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+                <div className="mt-8">
+                    <Footer 
+                        translations={translations} 
+                        language={language} 
+                        onLanguageChange={handleLanguageChange}
+                        disabled={disabled}
+                    />
                 </div>
               </>
             ) : (
