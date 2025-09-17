@@ -50,10 +50,8 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     images: [`/og-image.png`],
   },
-  icons: {
-    icon: '/LogoByLokee.png',
-  },
-  manifest: "/manifest.json",
+  // icons object removed to prevent HMR errors
+  manifest: undefined, // manifest link handled manually
 };
 
 export const viewport: Viewport = {
@@ -87,6 +85,8 @@ export default function RootLayout({
   return (
     <html lang="sr" className="dark">
       <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/LogoByLokee.png" type="image/png" sizes="any" />
         <script
           id="structured-data"
           type="application/ld+json"
