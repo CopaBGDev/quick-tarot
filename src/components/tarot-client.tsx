@@ -1,3 +1,4 @@
+
 "use client";
 
 import * as React from "react";
@@ -321,12 +322,11 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
 
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
 
-  const minimizedView = (
+  const MinimizedView = () => (
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
-            
              <div className="flex w-full items-center justify-start gap-3 sm:w-1/3">
-                {showMinimizedView && selectedImage && submittedValues.question && (
+                {selectedImage && submittedValues.question && (
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
@@ -504,7 +504,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
 
 
         <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
-          {showMinimizedView && minimizedView}
+          {showMinimizedView && <MinimizedView />}
           <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
             {!showMinimizedView ? (
               <>
@@ -686,3 +686,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
       </div>
     );
 }
+
+
+    
