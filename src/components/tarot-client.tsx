@@ -76,116 +76,6 @@ const clearLocalStorage = () => {
 };
 
 // Helper components are defined outside the main component
-const MinimizedView: React.FC<{
-  translations: TranslationSet;
-  selectedImage?: string;
-  selectedSign?: string;
-  submittedQuestion: string;
-  isReadyForNewReading: boolean;
-  isFormLoading: boolean;
-  countdown: number;
-  resetState: () => void;
-}> = ({
-  translations,
-  selectedImage,
-  selectedSign,
-  submittedQuestion,
-  isReadyForNewReading,
-  isFormLoading,
-  countdown,
-  resetState,
-}) => {
-  const isMobile = useIsMobile();
-  return (
-    <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
-        <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
-             <div className="flex w-full items-center justify-start gap-3 sm:w-1/3">
-                {selectedImage && submittedQuestion && (
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                         <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
-                             <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
-                                <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
-                            </div>
-                          </div>
-                          <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
-                              {submittedQuestion}
-                          </p>
-                      </div>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
-                      </AlertDialogHeader>
-                       <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                          {submittedQuestion}
-                        </div>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                )}
-            </div>
-
-            <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-               <Logo className="h-20 w-20 text-primary" />
-               <span className="font-headline text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">Quick Tarot</span>
-            </div>
-
-            <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
-                 {isReadyForNewReading ? (
-                     <div className="flex items-center justify-end w-full">
-                         {isMobile ? (
-                            <button onClick={resetState} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label={translations.countdownFinishedText}>
-                               <Logo className="w-12 h-12" />
-                            </button>
-                         ) : (
-                            <button onClick={resetState} className="text-primary font-bold text-sm leading-tight hover:underline">
-                               {translations.countdownFinishedText}
-                            </button>
-                         )}
-                     </div>
-                 ) : (
-                    <div className="flex items-center gap-2">
-                     {countdown > 0 && (
-                       <div className="text-primary font-mono text-sm flex items-center gap-2">
-                         <Timer className="h-4 w-4" />
-                         <span>
-                            {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
-                         </span>
-                       </div>
-                     )}
-                     <div className="hidden sm:block">
-                      <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <Edit3 className="h-[1.2rem] w-[1.2rem]" />
-                                <span className="sr-only">Edit</span>
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                              <AlertDialogHeader>
-                                  <AlertDialogTitle>{translations.resetDialogTitle}</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                      {translations.resetDialogDescription}
-                                  </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                  <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
-                                  <AlertDialogAction onClick={resetState}>{translations.resetDialogConfirm}</AlertDialogAction>
-                              </AlertDialogFooter>
-                          </AlertDialogContent>
-                     </div>
-                   </div>
-                 )}
-            </div>
-        </div>
-    </div>
-  );
-};
-
 const ContentGrid: React.FC<{ translations: TranslationSet; language: string; }> = ({ translations, language }) => (
     <div className="mt-12 w-full max-w-5xl mx-auto">
       <h2 className="text-2xl font-bold font-headline text-center text-primary mb-6">{translations.exploreContentTitle}</h2>
@@ -464,20 +354,89 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
   
-  const showMinimizedView = isFormLoading || reading;
+  const showResultsView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
 
   
   const resultsContent = (
     <section
       ref={resultsRef}
-      className="w-full max-w-4xl text-center scroll-mt-8 mt-28"
+      className="w-full max-w-4xl text-center scroll-mt-8 mt-8"
     >
       {(isFormLoading || reading) && (
         <>
-          <h2 className="font-headline text-3xl font-bold text-primary">
-            {translations.resultsTitle}
-          </h2>
+          <div className="flex w-full items-center justify-between mb-6">
+              <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group w-1/3">
+                 {selectedImage && submittedValues.question && (
+                   <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <div className="flex items-center gap-3">
+                           <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
+                               <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
+                                  <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
+                              </div>
+                            </div>
+                            <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
+                                {submittedValues.question}
+                            </p>
+                        </div>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
+                        </AlertDialogHeader>
+                         <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                            {submittedValues.question}
+                          </div>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                          </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  )}
+              </div>
+              <h2 className="font-headline text-3xl font-bold text-primary w-1/3 text-center">
+                {translations.resultsTitle}
+              </h2>
+              <div className="flex items-center justify-end gap-2 w-1/3">
+                {isReadyForNewReading ? (
+                  <Button onClick={resetState} variant="link" className="text-primary font-bold">
+                    {translations.countdownFinishedText}
+                  </Button>
+                ) : (
+                  <>
+                    {countdown > 0 && (
+                      <div className="text-primary font-mono text-sm flex items-center gap-2">
+                        <Timer className="h-4 w-4" />
+                        <span>
+                          {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+                        </span>
+                      </div>
+                    )}
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                          <Edit3 className="h-[1.2rem] w-[1.2rem]" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>{translations.resetDialogTitle}</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            {translations.resetDialogDescription}
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                          <AlertDialogAction onClick={resetState}>{translations.resetDialogConfirm}</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </>
+                )}
+              </div>
+          </div>
           <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
             <TarotCard
               isFlipped={cardsFlipped}
@@ -559,21 +518,9 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
         )}
 
 
-        <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
-          {showMinimizedView && 
-            <MinimizedView 
-              translations={translations}
-              selectedImage={selectedImage}
-              selectedSign={selectedSign}
-              submittedQuestion={submittedValues.question}
-              isReadyForNewReading={isReadyForNewReading}
-              isFormLoading={isFormLoading}
-              countdown={countdown}
-              resetState={resetState}
-            />
-          }
-          <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
-            {!showMinimizedView ? (
+        <main className={cn("w-full flex flex-col items-center flex-grow p-4")}>
+          <div className={cn("w-full flex flex-col items-center flex-grow")}>
+            {!showResultsView ? (
               <>
                  {/* Mobile Layout */}
                 <div className="md:hidden w-full flex flex-col h-full">
@@ -730,17 +677,8 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                 
                 <ContentGrid translations={translations} language={language} />
                 
-                <div className="mt-8">
-                    <Footer 
-                        translations={translations} 
-                        language={language} 
-                        onLanguageChange={handleLanguageChange}
-                        disabled={disabled}
-                    />
-                </div>
               </>
-            )}
-             {showMinimizedView && (
+            ) : (
                 <>
                     {resultsContent}
                     <ContentGrid translations={translations} language={language} />
@@ -748,17 +686,17 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
             )}
           </div>
         </main>
-        {showMinimizedView && (
-            <Footer 
-                translations={translations} 
-                language={language} 
-                onLanguageChange={handleLanguageChange}
-                disabled={disabled}
-            />
-        )}
+        <Footer 
+            translations={translations} 
+            language={language} 
+            onLanguageChange={handleLanguageChange}
+            disabled={disabled}
+        />
       </div>
     );
 }
+
+    
 
     
 
