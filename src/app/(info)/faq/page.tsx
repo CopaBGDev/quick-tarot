@@ -1,9 +1,7 @@
-
 import { getTranslations } from '@/lib/translations';
-import { headers } from 'next/headers';
 
-export default function FaqPage() {
-  const lang = headers().get('accept-language')?.split(',')[0].split('-')[0] || 'sr';
+export default function FaqPage({ searchParams }: { searchParams: { lang: string } }) {
+  const lang = searchParams.lang || 'sr';
   const t = getTranslations(lang);
 
   return (

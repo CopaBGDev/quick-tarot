@@ -1,9 +1,7 @@
-
 import { getTranslations } from '@/lib/translations';
-import { headers } from 'next/headers';
 
-export default function MissionPage() {
-  const lang = headers().get('accept-language')?.split(',')[0].split('-')[0] || 'sr';
+export default function MissionPage({ searchParams }: { searchParams: { lang: string } }) {
+  const lang = searchParams.lang || 'sr';
   const t = getTranslations(lang);
 
   return (

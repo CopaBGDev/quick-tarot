@@ -43,6 +43,7 @@ import { Footer } from "./footer";
 import { cn } from "@/lib/utils";
 import { AdPlaceholder } from "./ad-placeholder";
 import { format } from 'date-fns';
+import { useRouter } from "next/navigation";
 
 
 interface FormValues {
@@ -51,6 +52,7 @@ interface FormValues {
 
 interface TarotClientProps {
     initialDailyCard: DailyCard | null;
+    initialLang?: string;
 }
 
 const READING_COOLDOWN_SECONDS = 120;
@@ -72,13 +74,13 @@ const clearLocalStorage = () => {
 };
 
 
-export default function TarotClient({ initialDailyCard }: TarotClientProps) {
+export default function TarotClient({ initialDailyCard, initialLang }: TarotClientProps) {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
-  const [language, setLanguage] = React.useState('sr');
-  const [translations, setTranslations] = React.useState<TranslationSet>(ALL_TRANSLATIONS.sr);
+  const [language, setLanguage] = React.useState(initialLang || 'sr');
+  const [translations, setTranslations] = React.useState<TranslationSet>(getTranslations(initialLang || 'sr'));
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
@@ -88,6 +90,7 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
   const isMobile = useIsMobile();
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const router = useRouter();
   
   const form = useForm<FormValues>({
     defaultValues: {
@@ -114,13 +117,16 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
         setIsDailyCardModalOpen(true);
     }
     
-    const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
+    const savedLang = initialLang || localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     const baseLang = savedLang.split('-')[0];
     const newTranslations = getTranslations(baseLang);
-    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
+    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'sr';
 
     setLanguage(supportedLangCode);
     setTranslations(newTranslations);
+    if(initialLang !== supportedLangCode) {
+        router.replace(`/?lang=${supportedLangCode}`, { scroll: false });
+    }
     
     try {
         const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
@@ -149,7 +155,7 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
         console.error("Failed to parse from localStorage, clearing...", error);
         clearLocalStorage();
     }
-  }, [form, initialDailyCard]);
+  }, [form, initialDailyCard, initialLang, router]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -199,11 +205,13 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
   const handleLanguageChange = React.useCallback(async (langCode: string) => {
     const baseLang = langCode.split('-')[0];
     const newTranslations = getTranslations(baseLang);
-    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
+    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'sr';
 
     setLanguage(supportedLangCode);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
     setTranslations(newTranslations);
+
+    router.replace(`/?lang=${supportedLangCode}`, { scroll: false });
 
     try {
         const targetLanguageName = SUPPORTED_LANGUAGES.find(l => l.code === supportedLangCode)?.name || 'Serbian';
@@ -213,7 +221,7 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
         console.error("Failed to refetch daily card for new language:", error);
     }
 
-  }, []);
+  }, [router]);
 
 
   const onSubmit = React.useCallback(async (data: FormValues) => {

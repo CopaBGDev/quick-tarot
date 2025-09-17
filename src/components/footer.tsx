@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -16,11 +15,11 @@ interface FooterProps {
 
 export function Footer({ translations, language, onLanguageChange, disabled }: FooterProps) {
   const footerLinks = [
-    { text: translations.footerAbout, href: '/about' },
-    { text: translations.footerMission, href: '/mission' },
-    { text: translations.footerFaq, href: '/faq' },
-    { text: translations.footerTerms, href: '/terms' },
-    { text: translations.footerPrivacy, href: '/privacy' },
+    { text: translations.footerAbout, href: `/about?lang=${language}` },
+    { text: translations.footerMission, href: `/mission?lang=${language}` },
+    { text: translations.footerFaq, href: `/faq?lang=${language}` },
+    { text: translations.footerTerms, href: `/terms?lang=${language}` },
+    { text: translations.footerPrivacy, href: `/privacy?lang=${language}` },
   ];
 
   return (
