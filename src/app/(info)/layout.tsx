@@ -10,9 +10,9 @@ export default function InfoLayout({
 }: {
   children: React.ReactNode;
   params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
+  const lang = (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
 
   return (
