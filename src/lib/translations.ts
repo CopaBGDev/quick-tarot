@@ -172,3 +172,5 @@ export function getTranslations(lang: string): TranslationSet {
     const baseLang = lang.split('-')[0];
     return ALL_TRANSLATIONS[baseLang] || ALL_TRANSLATIONS.sr;
 }
+
+    
