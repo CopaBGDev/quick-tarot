@@ -18,7 +18,7 @@ export default function CardMeaningsPage({ searchParams }: { searchParams: { lan
                   src={getCardImagePath(cardName)}
                   alt={cardName}
                   width={200}
-                  height={300}
+                  height={270}
                   className="w-full h-auto"
               />
             </div>

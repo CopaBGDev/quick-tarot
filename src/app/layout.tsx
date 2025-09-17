@@ -51,6 +51,11 @@ export const metadata: Metadata = {
     images: [`/og-image.png`],
   },
   manifest: "/manifest.json",
+  icons: {
+    icon: '/og-image.png',
+    shortcut: '/og-image.png',
+    apple: '/og-image.png',
+  },
 };
 
 export const viewport: Viewport = {
