@@ -366,7 +366,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
       {(isFormLoading || reading) && (
         <>
           <div className="flex w-full items-center justify-between mb-6">
-              <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group w-1/3">
+              <div className="flex items-center justify-start gap-3 animate-in fade-in cursor-pointer group w-1/3">
                  {selectedImage && submittedValues.question && (
                    <AlertDialog>
                       <AlertDialogTrigger asChild>
@@ -395,7 +395,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                     </AlertDialog>
                   )}
               </div>
-              <h2 className="font-headline text-3xl font-bold text-primary w-1/3 text-center">
+              <h2 className="font-headline text-3xl font-bold text-primary w-1/3 text-center shrink-0">
                 {translations.resultsTitle}
               </h2>
               <div className="flex items-center justify-end gap-2 w-1/3">
@@ -681,7 +681,9 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
             ) : (
                 <>
                     {resultsContent}
-                    <ContentGrid translations={translations} language={language} />
+                    <div className="px-4">
+                      <ContentGrid translations={translations} language={language} />
+                    </div>
                 </>
             )}
           </div>
