@@ -1,0 +1,34 @@
+
+import { Button } from '@/components/ui/button';
+import { getTranslations } from '@/lib/translations';
+import { Home } from 'lucide-react';
+import Link from 'next/link';
+
+// Since we don't know the language here, we'll default to 'sr' or 'en'.
+// The actual content pages will handle their own translations.
+const translations = getTranslations('sr');
+
+export default function InfoLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="container mx-auto max-w-4xl py-8 px-4 sm:px-6 lg:px-8">
+      <header className="mb-8 flex justify-end">
+        <Button asChild variant="ghost">
+          <Link href="/">
+            <Home className="mr-2 h-4 w-4" />
+            Početna
+          </Link>
+        </Button>
+      </header>
+      <main className="prose prose-invert mx-auto bg-card p-6 sm:p-8 rounded-lg border border-primary/20 shadow-lg">
+        {children}
+      </main>
+       <footer className="mt-8 text-center text-sm text-muted-foreground">
+        © {new Date().getFullYear()} Quick Tarot. {translations.footerCopyright}
+      </footer>
+    </div>
+  );
+}
