@@ -365,12 +365,12 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
     >
       {(isFormLoading || reading) && (
         <>
-          <div className="flex w-full items-center justify-between mb-6">
-              <div className="flex items-center justify-start gap-3 animate-in fade-in cursor-pointer group w-1/3">
+          <header className="flex w-full items-center justify-between mb-6 px-4 sm:px-0">
+              <div className="flex items-center justify-start gap-3 w-1/3">
                  {selectedImage && submittedValues.question && (
                    <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 cursor-pointer group">
                            <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
                                <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
                                   <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
@@ -436,7 +436,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                   </>
                 )}
               </div>
-          </div>
+          </header>
           <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
             <TarotCard
               isFlipped={cardsFlipped}
