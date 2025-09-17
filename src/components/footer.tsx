@@ -17,6 +17,9 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
   const footerLinks = [
     { text: translations.footerAbout, href: `/about?lang=${language}` },
     { text: translations.footerMission, href: `/mission?lang=${language}` },
+    { text: translations.footerTarotGuide, href: `/tarot-guide?lang=${language}` },
+    { text: translations.footerCardMeanings, href: `/card-meanings?lang=${language}` },
+    { text: translations.footerBlog, href: `/blog?lang=${language}` },
     { text: translations.footerFaq, href: `/faq?lang=${language}` },
     { text: translations.footerTerms, href: `/terms?lang=${language}` },
     { text: translations.footerPrivacy, href: `/privacy?lang=${language}` },

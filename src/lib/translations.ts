@@ -20,6 +20,9 @@ export type TranslationSet = {
     footerTerms: string;
     footerPrivacy: string;
     footerReset: string;
+    footerTarotGuide: string;
+    footerCardMeanings: string;
+    footerBlog: string;
     aboutDialogTitle: string;
     aboutDialogContent: string;
     missionDialogTitle: string;
@@ -53,6 +56,31 @@ export type TranslationSet = {
     zodiacSignCapricorn: string;
     zodiacSignAquarius: string;
     zodiacSignPisces: string;
+    exploreContentTitle: string;
+    tarotGuideDescription: string;
+    cardMeaningsSectionDescription: string;
+    blogSectionDescription: string;
+    tarotGuideTitle: string;
+    tarotGuideContent_p1: string;
+    tarotGuideContent_p2: string;
+    tarotGuideContent_h2_1: string;
+    tarotGuideContent_p3: string;
+    tarotGuideContent_p4: string;
+    tarotGuideContent_h2_2: string;
+    tarotGuideContent_p5: string;
+    cardMeaningsTitle: string;
+    cardMeaningsDescription: string;
+    cardMeaningsComingSoon: string;
+    blogTitle: string;
+    blogDescription: string;
+    blogReadMore: string;
+    blogPostTitle_TarotAndLove: string;
+    blogPostDescription_TarotAndLove: string;
+    blogPostContent_TarotAndLove_p1: string;
+    blogPostContent_TarotAndLove_p2: string;
+    blogPostContent_TarotAndLove_h2_1: string;
+    blogPostContent_TarotAndLove_p3: string;
+    blogPostContent_TarotAndLove_p4: string;
 };
 
 export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
@@ -77,6 +105,9 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         footerTerms: "Terms of Use",
         footerPrivacy: "Privacy Policy",
         footerReset: "Reset Application",
+        footerTarotGuide: "Tarot Guide",
+        footerCardMeanings: "Card Meanings",
+        footerBlog: "Blog",
         aboutDialogTitle: "About The Quick Tarot App",
         aboutDialogContent: "Welcome to Quick Tarot, your digital window into the world of tarot cards. Our mission is to provide an intuitive and personalized tarot experience accessible to everyone, anywhere, anytime.\n\nUsing the power of artificial intelligence, our application generates unique and insightful tarot readings. Each reading is based on cards randomly drawn especially for you and your question, ensuring you receive a message that is meant for you.\n\nWe believe that tarot is not just about predicting the future, but a tool for self-reflection and a deeper understanding of the present. Whether you are looking for answers, inspiration, or simply want to explore your intuition, Quick Tarot is here to guide you.\n\nThank you for being part of our journey.",
         missionDialogTitle: "Our Mission",
@@ -110,6 +141,31 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         zodiacSignCapricorn: "Capricorn",
         zodiacSignAquarius: "Aquarius",
         zodiacSignPisces: "Pisces",
+        exploreContentTitle: "Explore Our Content",
+        tarotGuideDescription: "Learn the basics of tarot, how it works, and how to start your journey.",
+        cardMeaningsSectionDescription: "Discover the meanings of all 78 tarot cards in our complete library.",
+        blogSectionDescription: "Read our articles on tarot, spirituality, and personal growth.",
+        tarotGuideTitle: "What is Tarot and How Does It Work?",
+        tarotGuideContent_p1: "Tarot is a system of 78 cards used for divination, self-exploration, and spiritual growth. It's a mirror to the soul, reflecting the energies, challenges, and opportunities present in our lives.",
+        tarotGuideContent_p2: "The deck is divided into two main parts: the Major Arcana and the Minor Arcana. The 22 Major Arcana cards represent significant life events and spiritual lessons, while the 56 Minor Arcana cards depict the day-to-day situations and emotions we experience.",
+        tarotGuideContent_h2_1: "How a Reading Works",
+        tarotGuideContent_p3: "A tarot reading is not about predicting a fixed future. Instead, it offers a snapshot of the current energies surrounding a situation. The cards you draw reflect your own subconscious knowledge and the influences at play.",
+        tarotGuideContent_p4: "When you ask a question, you are focusing your energy. The cards that appear are a response to that energy, providing guidance and new perspectives. The interpretation of the cards is a blend of their traditional meanings and the reader's intuition.",
+        tarotGuideContent_h2_2: "Our Approach",
+        tarotGuideContent_p5: "Here at Quick Tarot, we use artificial intelligence to interpret the randomly drawn cards in the context of your question and zodiac sign. This creates a personalized and insightful reading, designed to offer clarity and empower you to make conscious decisions.",
+        cardMeaningsTitle: "Tarot Card Meanings",
+        cardMeaningsDescription: "Explore the rich symbolism of all 78 tarot cards. Click on a card to learn more about its meaning in love, career, and spirituality. (Full descriptions coming soon)",
+        cardMeaningsComingSoon: "Full, detailed pages for each card are coming soon!",
+        blogTitle: "Our Tarot Blog",
+        blogDescription: "Dive deeper into the world of tarot with our articles on various topics.",
+        blogReadMore: "Read More",
+        blogPostTitle_TarotAndLove: "Tarot and Love: Finding Clarity in Matters of the Heart",
+        blogPostDescription_TarotAndLove: "How can tarot help you navigate the complex world of relationships? Discover the key cards and questions to ask.",
+        blogPostContent_TarotAndLove_p1: "Love is one of the most common topics brought to a tarot reading. Whether you're single, in a new relationship, or navigating a long-term partnership, the cards can offer profound insights.",
+        blogPostContent_TarotAndLove_p2: "Tarot doesn't give a simple 'yes' or 'no' answer. Instead, it illuminates the dynamics at play, the emotional undercurrents, and the potential pathways forward.",
+        blogPostContent_TarotAndLove_h2_1: "Key Cards in Love Readings",
+        blogPostContent_TarotAndLove_p3: "The Lovers, Two of Cups, and Ten of Cups are classic indicators of partnership and emotional fulfillment. However, cards like The Tower can signify necessary shake-ups, while The Hermit might point to a need for introspection before entering a relationship.",
+        blogPostContent_TarotAndLove_p4: "The key is to look at the cards together, as a story. They can reveal your own blockages, your partner's feelings, and the overall potential of the connection. Use them not to predict, but to understand and grow.",
     },
     sr: {
         headerSubtitle: "Otkrijte šta vam zvezde i karte poručuju. Unesite vaš znak i pitanje kako biste dobili vaše personalizovano tarot čitanje.",
@@ -132,6 +188,9 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         footerTerms: "Uslovi Korišćenja",
         footerPrivacy: "Politika Privatnosti",
         footerReset: "Resetuj Aplikaciju",
+        footerTarotGuide: "Vodič za Tarot",
+        footerCardMeanings: "Značenja Karata",
+        footerBlog: "Blog",
         aboutDialogTitle: "O Quick Tarot Aplikaciji",
         aboutDialogContent: "Dobrodošli u Quick Tarot, vaš digitalni prozor u svet tarot karata. Naša misija je da pružimo intuitivno i personalizovano tarot iskustvo dostupno svima, bilo gde i bilo kada.\n\nKoristeći snagu veštačke inteligencije, naša aplikacija generiše jedinstvena i pronicljiva tarot čitanja. Svako čitanje je zasnovano na kartama nasumično izvučenim specijalno za vas i vaše pitanje, osiguravajući da dobijete poruku koja je vama namenjena.\n\nVerujemo da tarot nije samo predviđanje budućnosti, već alat za samorefleksiju i dublje razumevanje sadašnjosti. Bilo da tražite odgovore, inspiraciju ili jednostavno želite da istražite svoju intuiciju, Quick Tarot je tu da vas vodi.\n\nHvala vam što ste deo našeg putovanja.",
         missionDialogTitle: "Naša Misija",
@@ -165,6 +224,31 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         zodiacSignCapricorn: "Jarac",
         zodiacSignAquarius: "Vodolija",
         zodiacSignPisces: "Ribe",
+        exploreContentTitle: "Istražite Naš Sadržaj",
+        tarotGuideDescription: "Naučite osnove tarota, kako funkcioniše i kako da započnete svoje putovanje.",
+        cardMeaningsSectionDescription: "Otkrijte značenja svih 78 tarot karata u našoj kompletnoj biblioteci.",
+        blogSectionDescription: "Pročitajte naše članke o tarotu, duhovnosti i ličnom rastu.",
+        tarotGuideTitle: "Šta je Tarot i Kako Funkcioniše?",
+        tarotGuideContent_p1: "Tarot je sistem od 78 karata koji se koristi za divinaciju, samoispitivanje i duhovni rast. On je ogledalo duše, koje odražava energije, izazove i prilike prisutne u našim životima.",
+        tarotGuideContent_p2: "Špil je podeljen na dva glavna dela: Veliku Arkanu i Malu Arkanu. 22 karte Velike Arkane predstavljaju značajne životne događaje i duhovne lekcije, dok 56 karata Male Arkane prikazuju svakodnevne situacije i emocije koje doživljavamo.",
+        tarotGuideContent_h2_1: "Kako Funkcioniše Čitanje?",
+        tarotGuideContent_p3: "Tarot čitanje nije predviđanje fiksne budućnosti. Umesto toga, ono nudi sliku trenutnih energija koje okružuju neku situaciju. Karte koje izvučete odražavaju vaše sopstveno podsvesno znanje i uticaje koji su u igri.",
+        tarotGuideContent_p4: "Kada postavite pitanje, vi fokusirate svoju energiju. Karte koje se pojave su odgovor na tu energiju, pružajući smernice i nove perspektive. Tumačenje karata je spoj njihovih tradicionalnih značenja i intuicije čitača.",
+        tarotGuideContent_h2_2: "Naš Pristup",
+        tarotGuideContent_p5: "Ovde u Quick Tarot-u, koristimo veštačku inteligenciju da bismo tumačili nasumično izvučene karte u kontekstu vašeg pitanja i horoskopskog znaka. To stvara personalizovano i pronicljivo čitanje, dizajnirano da ponudi jasnoću i osnaži vas da donosite svesne odluke.",
+        cardMeaningsTitle: "Značenja Tarot Karata",
+        cardMeaningsDescription: "Istražite bogatu simboliku svih 78 tarot karata. Kliknite na kartu da saznate više o njenom značenju u ljubavi, karijeri i duhovnosti. (Potpuni opisi uskoro)",
+        cardMeaningsComingSoon: "Potpune, detaljne stranice za svaku kartu stižu uskoro!",
+        blogTitle: "Naš Tarot Blog",
+        blogDescription: "Zaronite dublje u svet tarota uz naše članke o različitim temama.",
+        blogReadMore: "Pročitaj Više",
+        blogPostTitle_TarotAndLove: "Tarot i Ljubav: Pronalaženje Jasnoće u Stvarima Srca",
+        blogPostDescription_TarotAndLove: "Kako vam tarot može pomoći da se snađete u složenom svetu veza? Otkrijte ključne karte i pitanja koja treba postaviti.",
+        blogPostContent_TarotAndLove_p1: "Ljubav je jedna od najčešćih tema koje se donose na tarot čitanje. Bilo da ste slobodni, u novoj vezi ili se krećete kroz dugogodišnje partnerstvo, karte mogu ponuditi duboke uvide.",
+        blogPostContent_TarotAndLove_p2: "Tarot ne daje jednostavan 'da' ili 'ne' odgovor. Umesto toga, on osvetljava dinamiku koja je u igri, emocionalne tokove i potencijalne puteve napred.",
+        blogPostContent_TarotAndLove_h2_1: "Ključne Karte u Ljubavnim Čitanjima",
+        blogPostContent_TarotAndLove_p3: "Ljubavnici, Dvojka pehara i Desetka pehara su klasični pokazatelji partnerstva i emocionalnog ispunjenja. Međutim, karte poput Kule mogu označavati neophodne potrese, dok Pustinjak može ukazivati na potrebu za introspekcijom pre ulaska u vezu.",
+        blogPostContent_TarotAndLove_p4: "Ključ je posmatrati karte zajedno, kao priču. One mogu otkriti vaše sopstvene blokade, osećanja vašeg partnera i ukupan potencijal veze. Koristite ih ne da predvidite, već da razumete i rastete.",
     },
 };
 

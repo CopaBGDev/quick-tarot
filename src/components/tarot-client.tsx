@@ -3,7 +3,7 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { Sparkles, Loader2, Edit3, Timer, Star } from "lucide-react";
+import { Sparkles, Loader2, Edit3, Timer, Star, BookOpen, Layers, Newspaper } from "lucide-react";
 import Image from "next/image";
 
 
@@ -20,7 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,6 +45,7 @@ import { cn } from "@/lib/utils";
 import { AdPlaceholder } from "./ad-placeholder";
 import { format } from 'date-fns';
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 interface FormValues {
@@ -348,7 +349,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                           {submittedValues.question}
                         </div>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Zatvori</AlertDialogCancel>
+                        <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
@@ -364,7 +365,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                  {isReadyForNewReading ? (
                      <div className="flex items-center justify-end w-full">
                          {isMobile ? (
-                            <button onClick={resetState} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
+                            <button onClick={resetState} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label={translations.countdownFinishedText}>
                                <Logo className="w-12 h-12" />
                             </button>
                          ) : (
@@ -393,17 +394,16 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                               <AlertDialogHeader>
-                                  <AlertDialogTitle>Započnite novo čitanje?</AlertDialogTitle>
+                                  <AlertDialogTitle>{translations.resetDialogTitle}</AlertDialogTitle>
                                   <AlertDialogDescription>
-                                      Ovo će obrisati vaše trenutno čitanje i omogućiće vam da postavite novo pitanje.
+                                      {translations.resetDialogDescription}
                                   </AlertDialogDescription>
                               </AlertDialogHeader>
                               <AlertDialogFooter>
-                                  <AlertDialogCancel>Otkaži</AlertDialogCancel>
-                                  <AlertDialogAction onClick={resetState}>Započni novo</AlertDialogAction>
+                                  <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                                  <AlertDialogAction onClick={resetState}>{translations.resetDialogConfirm}</AlertDialogAction>
                               </AlertDialogFooter>
                           </AlertDialogContent>
-                      </AlertDialog>
                      </div>
                    </div>
                  )}
@@ -471,6 +471,41 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
     </section>
   );
   
+  const ContentGrid = () => (
+    <div className="mt-12 w-full max-w-5xl mx-auto">
+      <h2 className="text-2xl font-bold font-headline text-center text-primary mb-6">{translations.exploreContentTitle}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Link href={`/tarot-guide?lang=${language}`} passHref>
+          <Card className="h-full bg-transparent border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/40 transition-all group">
+            <CardHeader className="items-center text-center">
+              <BookOpen className="w-10 h-10 mb-2 text-primary"/>
+              <CardTitle className="text-lg">{translations.footerTarotGuide}</CardTitle>
+              <CardDescription>{translations.tarotGuideDescription}</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link href={`/card-meanings?lang=${language}`} passHref>
+          <Card className="h-full bg-transparent border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/40 transition-all group">
+            <CardHeader className="items-center text-center">
+              <Layers className="w-10 h-10 mb-2 text-primary"/>
+              <CardTitle className="text-lg">{translations.footerCardMeanings}</CardTitle>
+              <CardDescription>{translations.cardMeaningsSectionDescription}</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link href={`/blog?lang=${language}`} passHref>
+          <Card className="h-full bg-transparent border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/40 transition-all group">
+            <CardHeader className="items-center text-center">
+              <Newspaper className="w-10 h-10 mb-2 text-primary"/>
+              <CardTitle className="text-lg">{translations.footerBlog}</CardTitle>
+              <CardDescription>{translations.blogSectionDescription}</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+      </div>
+    </div>
+  );
+
     return (
       <div className="flex w-full flex-col min-h-screen">
         {dailyCard && (
@@ -661,6 +696,8 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                    <AdPlaceholder />
                 </div>
                 
+                <ContentGrid />
+                
                 <div className="mt-8">
                     <Footer 
                         translations={translations} 
@@ -671,11 +708,14 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                 </div>
               </>
             ) : (
-              resultsContent
+                <>
+                    {resultsContent}
+                    <ContentGrid />
+                </>
             )}
           </div>
         </main>
-        {showMinimizedView && !isMobile && (
+        {showMinimizedView && (
             <Footer 
                 translations={translations} 
                 language={language} 
@@ -686,6 +726,5 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
       </div>
     );
 }
-
 
     
