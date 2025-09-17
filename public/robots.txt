@@ -1,0 +1,7 @@
+# Allow all user agents access to all content
+User-agent: *
+Disallow:
+
+# Allow AdSense bot
+User-agent: Mediapartners-Google
+Allow: /
