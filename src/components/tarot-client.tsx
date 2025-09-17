@@ -96,7 +96,6 @@ const MinimizedView: React.FC<{
   resetState,
 }) => {
   const isMobile = useIsMobile();
-
   return (
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
         <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
