@@ -37,7 +37,7 @@ import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
-import { SUPPORTED_LANGUAGES, LanguageSelector } from "./language-selector";
+import { SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
@@ -111,7 +111,7 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
   React.useEffect(() => {
     const todayStr = format(new Date(), 'yyyy-MM-dd');
     const lastViewedDate = localStorage.getItem(DAILY_CARD_VIEWED_KEY);
-    if (lastViewedDate !== todayStr) {
+    if (lastViewedDate !== todayStr && initialDailyCard) {
         setIsDailyCardModalOpen(true);
     }
     
@@ -150,7 +150,7 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
         console.error("Failed to parse from localStorage, clearing...", error);
         clearLocalStorage();
     }
-  }, [form]);
+  }, [form, initialDailyCard]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -466,34 +466,34 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
   
     return (
       <div className="flex w-full flex-col min-h-screen">
-          {dailyCard && (
-             <AlertDialog open={isDailyCardModalOpen} onOpenChange={setIsDailyCardModalOpen}>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle className="flex items-center gap-2">
-                            <Star className="w-5 h-5 text-primary" />
-                            {translations.dailyCardTitle}
-                        </AlertDialogTitle>
-                    </AlertDialogHeader>
-                    <div className="text-center pt-4">
-                        <div className="w-32 h-48 mx-auto mb-4">
-                                <Image 
-                                src={getCardImagePath(dailyCard.cardName)} 
-                                alt={dailyCard.cardName}
-                                width={128}
-                                height={192}
-                                className="w-full h-full object-cover rounded-lg shadow-lg"
-                                />
-                        </div>
-                        <h3 className="font-bold text-lg text-foreground mb-2 font-headline">{dailyCard.cardName}</h3>
-                        <p className="text-sm text-muted-foreground">{dailyCard.interpretation}</p>
-                    </div>
-                    <AlertDialogFooter>
-                        <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-          )}
+        {dailyCard && (
+          <AlertDialog open={isDailyCardModalOpen} onOpenChange={setIsDailyCardModalOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-primary" />
+                  {translations.dailyCardTitle}
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <div className="text-center pt-4">
+                <div className="w-32 h-48 mx-auto mb-4">
+                  <Image
+                    src={getCardImagePath(dailyCard.cardName)}
+                    alt={dailyCard.cardName}
+                    width={128}
+                    height={192}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                  />
+                </div>
+                <h3 className="font-bold text-lg text-foreground mb-2 font-headline">{dailyCard.cardName}</h3>
+                <p className="text-sm text-muted-foreground">{dailyCard.interpretation}</p>
+              </div>
+              <AlertDialogFooter>
+                <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
 
 
         <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
@@ -653,18 +653,7 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
                 <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
                    <AdPlaceholder />
                 </div>
-                {!showMinimizedView && (
-                    <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
-                        <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
-                            <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
-                            <div className="space-y-4 text-sm text-muted-foreground whitespace-pre-wrap">
-                                {translations.aboutDialogContent.split('\n\n').map((paragraph, index) => (
-                                    <p key={index}>{paragraph}</p>
-                                ))}
-                            </div>
-                        </section>
-                    </div>
-                )}
+                
                 <div className="mt-8">
                     <Footer 
                         translations={translations} 
@@ -690,3 +679,6 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
       </div>
     );
 }
+
+    
+    

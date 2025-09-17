@@ -18,7 +18,6 @@ interface Language {
 }
 
 export const SUPPORTED_LANGUAGES: Language[] = [
-    // Existing
     { code: 'sr', name: 'Serbian', nativeName: 'Srpski' },
     { code: 'en', name: 'English', nativeName: 'English' },
     { code: 'de', name: 'German', nativeName: 'Deutsch' },
@@ -31,13 +30,11 @@ export const SUPPORTED_LANGUAGES: Language[] = [
     { code: 'ja', name: 'Japanese', nativeName: '日本語' },
     { code: 'ar', name: 'Arabic', nativeName: 'العربية' },
     { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी' },
-    // Global
     { code: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
     { code: 'ko', name: 'Korean', nativeName: '한국어' },
     { code: 'tr', name: 'Turkish', nativeName: 'Türkçe' },
     { code: 'pl', name: 'Polish', nativeName: 'Polski' },
     { code: 'sv', name: 'Swedish', nativeName: 'Svenska' },
-    // Regional
     { code: 'hr', name: 'Croatian', nativeName: 'Hrvatski' },
     { code: 'bs', name: 'Bosnian', nativeName: 'Bosanski' },
     { code: 'sl', name: 'Slovenian', nativeName: 'Slovenščina' },
