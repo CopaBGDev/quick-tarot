@@ -11,7 +11,11 @@ interface BlogPost {
   date: string;
 }
 
-export default async function BlogPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+type Props = {
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export default async function BlogPage({ searchParams }: Props) {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 
