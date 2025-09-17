@@ -650,7 +650,10 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
                         </div>
                     </div>
                 </div>
-                 {!showMinimizedView && (
+                <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                   <AdPlaceholder />
+                </div>
+                {!showMinimizedView && (
                     <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
                         <section className="p-6 rounded-lg bg-card/50 border border-primary/10">
                             <h2 className="text-2xl font-bold font-headline text-primary mb-4 text-center">{translations.aboutDialogTitle}</h2>
@@ -687,4 +690,3 @@ export default function TarotClient({ initialDailyCard }: TarotClientProps) {
       </div>
     );
 }
-
