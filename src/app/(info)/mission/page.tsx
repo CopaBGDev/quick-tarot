@@ -1,7 +1,7 @@
 import { getTranslations } from '@/lib/translations';
 
-export default function MissionPage({ searchParams }: { params: {}, searchParams: { [key: string]: string | string[] | undefined } }) {
-  const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
+export default function MissionPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (

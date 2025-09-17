@@ -1,7 +1,7 @@
 import { getTranslations } from '@/lib/translations';
 
-export default function PrivacyPage({ searchParams }: { params: {}, searchParams: { [key: string]: string | string[] | undefined } }) {
-  const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
+export default function PrivacyPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (
