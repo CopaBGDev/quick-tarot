@@ -10,7 +10,7 @@ export default function CardMeaningsPage({ searchParams }: { searchParams: { lan
     <>
       <h1 className="font-headline text-3xl font-bold text-primary">{t.cardMeaningsTitle}</h1>
       <p className="text-muted-foreground mt-2">{t.cardMeaningsDescription}</p>
-      <div className="mt-8 grid grid-cols-8 gap-4">
+      <div className="mt-8 grid grid-cols-4 gap-4">
         {FULL_DECK.map((cardName) => (
           <div key={cardName} className="flex flex-col items-center text-center">
             <div className="relative rounded-lg border border-primary/20 shadow-md overflow-hidden" style={{ width: 200, height: 300 }}>
