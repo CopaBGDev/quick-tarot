@@ -166,31 +166,34 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
     }
     
     try {
-        const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
-        const savedReading = localStorage.getItem(READING_STORAGE_KEY);
-        
-        if (savedCooldown) {
-          const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
-          if (remainingTime > 0) {
-            setCountdown(remainingTime);
-          } else {
-            localStorage.removeItem(COOLDOWN_STORAGE_KEY);
-          }
-        }
+      const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
+      const savedReading = localStorage.getItem(READING_STORAGE_KEY);
 
-        if (savedReading) {
-            const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
-            setReading(parsedReading);
-            
-            const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
-            const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
-
-            if (savedSignName) setSelectedZodiacSign(savedSignName);
-            if (savedQuestion) form.setValue('question', savedQuestion);
+      if (savedCooldown) {
+        const remainingTime = Math.ceil(
+          (parseInt(savedCooldown, 10) - Date.now()) / 1000
+        );
+        if (remainingTime > 0) {
+          setCountdown(remainingTime);
+        } else {
+          localStorage.removeItem(COOLDOWN_STORAGE_KEY);
         }
+      }
+      
+      // Check for non-empty string before parsing
+      if (savedReading && savedReading.trim() !== '') {
+        const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
+        setReading(parsedReading);
+
+        const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
+        const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
+
+        if (savedSignName) setSelectedZodiacSign(savedSignName);
+        if (savedQuestion) form.setValue('question', savedQuestion);
+      }
     } catch (error) {
-        console.error("Failed to parse from localStorage, clearing...", error);
-        clearLocalStorage();
+      console.error('Failed to parse from localStorage, clearing...', error);
+      clearLocalStorage();
     }
   }, [form, initialDailyCard, initialLang, router]);
   
@@ -699,3 +702,5 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
       </div>
     );
 }
+
+    
