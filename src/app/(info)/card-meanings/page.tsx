@@ -18,8 +18,8 @@ export default function CardMeaningsPage({ searchParams }: { searchParams: { lan
                   src={getCardImagePath(cardName)}
                   alt={cardName}
                   width={200}
-                  height={270}
-                  className="w-full h-auto"
+                  height={300}
+                  className="w-full h-auto block"
               />
             </div>
             <p className="mt-2 text-xs sm:text-sm font-headline text-primary">{cardName}</p>
