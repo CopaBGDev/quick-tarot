@@ -13,13 +13,13 @@ export default function CardMeaningsPage({ searchParams }: { searchParams: { lan
       <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {FULL_DECK.map((cardName) => (
           <div key={cardName} className="flex flex-col items-center text-center">
-            <div className="relative w-full aspect-[2/3] rounded-lg overflow-hidden border border-primary/20 shadow-md">
+            <div className="w-full rounded-lg overflow-hidden border border-primary/20 shadow-md">
               <Image
                   src={getCardImagePath(cardName)}
                   alt={cardName}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                  width={200}
+                  height={300}
+                  className="w-full h-auto"
               />
             </div>
             <p className="mt-2 text-xs sm:text-sm font-headline text-primary">{cardName}</p>
