@@ -16,7 +16,7 @@ export default function InfoLayout({
   const t = getTranslations(lang);
 
   return (
-    <div className="container mx-auto max-w-4xl py-8 px-4 sm:px-6 lg:px-8">
+    <div className="container mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
       <header className="mb-8 flex justify-end">
         <Button asChild variant="ghost" size="icon">
           <Link href={`/?lang=${lang}`}>
@@ -25,7 +25,7 @@ export default function InfoLayout({
           </Link>
         </Button>
       </header>
-      <main className="prose prose-invert mx-auto bg-card p-6 sm:p-8 rounded-lg border border-primary/20 shadow-lg">
+      <main className="mx-auto bg-card p-6 sm:p-8 rounded-lg border border-primary/20 shadow-lg">
         {children}
       </main>
        <footer className="mt-8 text-center text-sm text-muted-foreground">
