@@ -348,7 +348,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
 
   const disabled = isFormLoading || countdown > 0;
   
-  const submittedValues = form.watch();
+  const submittedQuestion = form.watch("question");
   const selectedSign = selectedZodiacSign;
   const naturalOrder = zodiacSigns;
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
@@ -356,140 +356,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
   
   const showResultsView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
-
   
-  const resultsContent = (
-    <section
-      ref={resultsRef}
-      className="w-full max-w-4xl text-center scroll-mt-8 mt-8"
-    >
-      {(isFormLoading || reading) && (
-        <>
-          <header className="flex w-full items-center justify-between mb-6 px-4 sm:px-0">
-            <div className="flex items-center justify-start gap-3 w-1/3">
-              {selectedImage && submittedValues.question && (
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <div className="flex items-center gap-3 cursor-pointer group">
-                      <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
-                        <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
-                          <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
-                        </div>
-                      </div>
-                      <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
-                        {submittedValues.question}
-                      </p>
-                    </div>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
-                    </AlertDialogHeader>
-                    <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                      {submittedValues.question}
-                    </div>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              )}
-            </div>
-
-            <div className="w-1/3 text-center">
-              <h2 className="font-headline text-3xl font-bold text-primary shrink-0">
-                {translations.resultsTitle}
-              </h2>
-            </div>
-            
-            <div className="flex items-center justify-end gap-2 w-1/3">
-              {isReadyForNewReading ? (
-                <Button onClick={resetState} variant="link" className="text-primary font-bold">
-                  {translations.countdownFinishedText}
-                </Button>
-              ) : (
-                <>
-                  {countdown > 0 && (
-                    <div className="text-primary font-mono text-sm flex items-center gap-2">
-                      <Timer className="h-4 w-4" />
-                      <span>
-                        {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
-                      </span>
-                    </div>
-                  )}
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                        <Edit3 className="h-[1.2rem] w-[1.2rem]" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>{translations.resetDialogTitle}</AlertDialogTitle>
-                        <AlertDialogDescription>
-                          {translations.resetDialogDescription}
-                        </AlertDialogDescription>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
-                        <AlertDialogAction onClick={resetState}>{translations.resetDialogConfirm}</AlertDialogAction>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                </>
-              )}
-            </div>
-          </header>
-          <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
-            <TarotCard
-              isFlipped={cardsFlipped}
-              delay={0}
-              card={tarotCards[0]}
-            />
-            <TarotCard
-              isFlipped={cardsFlipped}
-              delay={150}
-              card={tarotCards[1]}
-            />
-            <TarotCard
-              isFlipped={cardsFlipped}
-              delay={300}
-              card={tarotCards[2]}
-            />
-          </div>
-
-          {isFormLoading && !reading && (
-             <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
-              <Sparkles className="h-8 w-8 animate-pulse text-primary" />
-              <p className="text-center font-semibold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
-                {translations.resultsLoadingText}
-              </p>
-            </div>
-          )}
-
-          {reading && (
-            <>
-               <div className="my-8">
-                <AdPlaceholder />
-              </div>
-              <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
-                <CardHeader>
-                    <CardTitle>{translations.resultsReadingTitle}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 text-left">
-                  <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                    {typedReading}
-                  </p>
-                </CardContent>
-              </Card>
-            </>
-          )}
-        </>
-      )}
-    </section>
-  );
-
     return (
       <div className="flex w-full flex-col min-h-screen">
         {dailyCard && (
@@ -521,8 +388,89 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
           </AlertDialog>
         )}
 
+        {showResultsView && (
+             <header className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
+                     <div className="flex w-1/3 items-center justify-start gap-3">
+                        {selectedImage && submittedQuestion && (
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <div className="flex items-center gap-3 cursor-pointer group">
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
+                                        <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
+                                        <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
+                                        </div>
+                                    </div>
+                                    <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
+                                        {submittedQuestion}
+                                    </p>
+                                    </div>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
+                                    </AlertDialogHeader>
+                                    <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                                    {submittedQuestion}
+                                    </div>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                    </div>
 
-        <main className={cn("w-full flex flex-col items-center flex-grow p-4")}>
+                    <div className="flex w-1/3 items-center justify-center">
+                        <h2 className="font-headline text-3xl font-bold text-primary shrink-0">
+                            {translations.resultsTitle}
+                        </h2>
+                    </div>
+
+                    <div className="flex w-1/3 items-center justify-end gap-2">
+                        {isReadyForNewReading ? (
+                            <Button onClick={resetState} variant="link" className="text-primary font-bold">
+                                {translations.countdownFinishedText}
+                            </Button>
+                        ) : (
+                            <>
+                                {countdown > 0 && (
+                                    <div className="text-primary font-mono text-sm flex items-center gap-2">
+                                    <Timer className="h-4 w-4" />
+                                    <span>
+                                        {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+                                    </span>
+                                    </div>
+                                )}
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <Edit3 className="h-[1.2rem] w-[1.2rem]" />
+                                        <span className="sr-only">Edit</span>
+                                    </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>{translations.resetDialogTitle}</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                        {translations.resetDialogDescription}
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                                        <AlertDialogAction onClick={resetState}>{translations.resetDialogConfirm}</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </header>
+        )}
+
+
+        <main className={cn("w-full flex flex-col items-center flex-grow p-4", showResultsView && "pt-24")}>
           <div className={cn("w-full flex flex-col items-center flex-grow")}>
             {!showResultsView ? (
               <>
@@ -683,12 +631,62 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                 
               </>
             ) : (
-                <>
-                    {resultsContent}
-                    <div className="px-4">
+                <section
+                    ref={resultsRef}
+                    className="w-full max-w-4xl text-center"
+                    >
+                    {(isFormLoading || reading) && (
+                        <>
+                        <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
+                            <TarotCard
+                            isFlipped={cardsFlipped}
+                            delay={0}
+                            card={tarotCards[0]}
+                            />
+                            <TarotCard
+                            isFlipped={cardsFlipped}
+                            delay={150}
+                            card={tarotCards[1]}
+                            />
+                            <TarotCard
+                            isFlipped={cardsFlipped}
+                            delay={300}
+                            card={tarotCards[2]}
+                            />
+                        </div>
+
+                        {isFormLoading && !reading && (
+                            <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
+                            <Sparkles className="h-8 w-8 animate-pulse text-primary" />
+                            <p className="text-center font-semibold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
+                                {translations.resultsLoadingText}
+                            </p>
+                            </div>
+                        )}
+
+                        {reading && (
+                            <>
+                            <div className="my-8">
+                                <AdPlaceholder />
+                            </div>
+                            <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
+                                <CardHeader>
+                                    <CardTitle>{translations.resultsReadingTitle}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-6 text-left">
+                                <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
+                                    {typedReading}
+                                </p>
+                                </CardContent>
+                            </Card>
+                            </>
+                        )}
+                        </>
+                    )}
+                     <div className="px-4 mt-8">
                       <ContentGrid translations={translations} language={language} />
                     </div>
-                </>
+                </section>
             )}
           </div>
         </main>
@@ -701,11 +699,3 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
       </div>
     );
 }
-
-    
-
-    
-
-    
-
-    
