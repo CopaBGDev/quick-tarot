@@ -1,6 +1,6 @@
 import { getTranslations } from '@/lib/translations';
 
-export default function PrivacyPage({ searchParams }: { searchParams: { lang?: string | string[] | undefined } }) {
+export default function PrivacyPage({ searchParams }: { params: {}, searchParams: { [key: string]: string | string[] | undefined } }) {
   const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 

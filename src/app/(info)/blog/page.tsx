@@ -11,7 +11,7 @@ interface BlogPost {
   date: string;
 }
 
-export default function BlogPage({ searchParams }: { searchParams: { lang?: string | string[] | undefined } }) {
+export default function BlogPage({ searchParams }: { params: {}, searchParams: { [key: string]: string | string[] | undefined } }) {
   const lang = typeof searchParams.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 

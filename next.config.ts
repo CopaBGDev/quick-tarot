@@ -6,8 +6,8 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '4.5mb',
     },
-    serverComponentsExternalPackages: ['@genkit-ai/googleai'],
   },
+  serverExternalPackages: ['@genkit-ai/googleai'],
 };
 
 export default nextConfig;
