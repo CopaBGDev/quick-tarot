@@ -42,6 +42,10 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                 </Link>
             </header>
             <main>
+                <div className="mb-12">
+                    <AdPlaceholder />
+                </div>
+
                 <article>
                     <h1 className="font-headline text-4xl font-bold mb-6 text-primary">{post.title}</h1>
                     <div
@@ -49,10 +53,6 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                         dangerouslySetInnerHTML={{ __html: post.content }}
                     />
                 </article>
-
-                <div className="my-12">
-                    <AdPlaceholder />
-                </div>
 
                 {otherPosts.length > 0 && (
                     <aside className="mt-16">
