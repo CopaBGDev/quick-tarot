@@ -435,10 +435,10 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex flex-col flex-grow w-full">
+      <div className="flex flex-col w-full min-h-full">
         {showMinimizedView && minimizedView}
         <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
-          <div className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? "" : "h-full")}>
+          <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "" : "h-full")}>
             {!showMinimizedView ? (
               <>
                  {/* Mobile Layout */}
@@ -517,8 +517,8 @@ export default function TarotClient() {
 
                 {/* Desktop Layout */}
                 <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
-                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow">
-                        <div className="sticky top-8 flex items-center justify-center h-full">
+                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow items-center">
+                        <div className="flex items-center justify-center h-full">
                            <ZodiacWheel
                               signs={zodiacSigns}
                               onSelect={setSelectedZodiacSign}
