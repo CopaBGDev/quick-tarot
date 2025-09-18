@@ -2,8 +2,8 @@
 "use client";
 
 import * as React from "react";
+import Link from 'next/link';
 import { LanguageSelector } from "./language-selector";
-import { InfoDialog } from "./info-dialog";
 import type { TranslationSet } from "@/lib/translations";
 import { cn } from "@/lib/utils";
 
@@ -16,31 +16,11 @@ interface FooterProps {
 
 export function Footer({ translations, language, onLanguageChange, disabled }: FooterProps) {
   const footerLinks = [
-    {
-      triggerText: translations.footerAbout,
-      title: translations.aboutDialogTitle,
-      content: translations.aboutDialogContent,
-    },
-    {
-      triggerText: translations.footerMission,
-      title: translations.missionDialogTitle,
-      content: translations.missionDialogContent,
-    },
-    {
-      triggerText: translations.footerFaq,
-      title: translations.faqDialogTitle,
-      content: translations.faqDialogContent,
-    },
-    {
-      triggerText: translations.footerTerms,
-      title: translations.termsDialogTitle,
-      content: translations.termsDialogContent,
-    },
-    {
-      triggerText: translations.footerPrivacy,
-      title: translations.privacyDialogTitle,
-      content: translations.privacyDialogContent,
-    },
+    { href: "/about", text: translations.footerAbout },
+    { href: "/mission", text: translations.footerMission },
+    { href: "/faq", text: translations.footerFaq },
+    { href: "/terms", text: translations.footerTerms },
+    { href: "/privacy", text: translations.footerPrivacy },
   ];
 
   return (
@@ -55,12 +35,10 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
         </div>
         <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap justify-center">
           {footerLinks.map((link, index) => (
-            <React.Fragment key={link.title}>
-              <InfoDialog
-                triggerText={link.triggerText}
-                title={link.title}
-                content={link.content}
-              />
+            <React.Fragment key={link.href}>
+              <Link href={link.href} className="underline hover:text-primary transition-colors">
+                {link.text}
+              </Link>
               {index < footerLinks.length - 1 && (
                 <span className="text-muted-foreground/50 hidden sm:inline">|</span>
               )}
@@ -74,5 +52,3 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
     </footer>
   );
 }
-
-    
