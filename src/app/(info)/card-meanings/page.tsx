@@ -3,7 +3,7 @@ import { getTranslations } from '@/lib/translations';
 import Image from 'next/image';
 
 type CardMeaningsPageProps = {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export default async function CardMeaningsPage({ searchParams }: CardMeaningsPageProps) {

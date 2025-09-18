@@ -8,7 +8,7 @@ import {
 import {getTranslations} from '@/lib/translations';
 
 type AboutPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
+  searchParams: {[key: string]: string | string[] | undefined};
 };
 
 export default async function AboutPage({searchParams}: AboutPageProps) {

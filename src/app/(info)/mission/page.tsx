@@ -1,7 +1,7 @@
 import {getTranslations} from '@/lib/translations';
 
 type MissionPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
+  searchParams: {[key: string]: string | string[] | undefined};
 };
 
 export default async function MissionPage({searchParams}: MissionPageProps) {

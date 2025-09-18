@@ -1,7 +1,7 @@
 import {getTranslations} from '@/lib/translations';
 
 type TermsPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
+  searchParams: {[key: string]: string | string[] | undefined};
 };
 
 export default async function TermsPage({searchParams}: TermsPageProps) {
