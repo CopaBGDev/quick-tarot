@@ -24,13 +24,11 @@ export default function MissionPage() {
   return (
     <div className="container mx-auto max-w-3xl px-4 py-8">
       <header className="mb-8">
-        <Link href="/" legacyBehavior>
-          <a className="inline-flex items-center text-primary hover:text-primary/80 transition-colors">
-            <Button variant="ghost" size="icon">
-              <ChevronLeft className="h-6 w-6" />
-              <span className="sr-only">Back</span>
-            </Button>
-          </a>
+        <Link href="/" className="inline-flex items-center text-primary hover:text-primary/80 transition-colors">
+          <Button variant="ghost" size="icon">
+            <ChevronLeft className="h-6 w-6" />
+            <span className="sr-only">Back</span>
+          </Button>
         </Link>
       </header>
       <main>
