@@ -143,114 +143,131 @@ export const blogPosts: BlogPost[] = [
   {
     "title": "Top 10 najpoznatijih tarot otvaranja",
     "slug": "top-10-tarot-otvaranja",
-    "metaTitle": "Top 10 najpoznatijih tarot otvaranja",
-    "metaDescription": "Vodič kroz najpoznatija tarot otvaranja, uključujući Celtic Cross, Tri karte i Horseshoe.",
-    "keywords": ["tarot otvaranja", "Celtic Cross", "Tri karte", "Horseshoe", "vodič otvaranja"],
-    "content": "<p>Najpoznatija otvaranja uključuju Celtic Cross, Tri karte, Horseshoe i dr...</p>",
-    "internalLinks": []
+    "metaTitle": "Top 10 tarot otvaranja – vodič za čitanje karata",
+    "metaDescription": "Saznajte top 10 najpoznatijih tarot otvaranja uključujući Celtic Cross, Tri karte i Horseshoe, sa uputstvima i značenjima za svako otvaranje.",
+    "keywords": ["tarot otvaranja", "Celtic Cross", "Tri karte", "Horseshoe tarot", "vodič za čitanje karata"],
+    "content": "<h1>Top 10 najpoznatijih tarot otvaranja</h1>\n<p>Tarot otvaranja su rasporedi karata koji pomažu u interpretaciji pitanja i situacija. Od jednostavnih dnevnih otvaranja do kompleksnih rasporeda, svako otvaranje pruža drugačiji uvid. U ovom vodiču predstavljamo 10 najpoznatijih tarot otvaranja i kako ih koristiti.</p>\n\n<h2>1. Celtic Cross (Keliški krst)</h2>\n<p>Jedno od najpoznatijih otvaranja, sastoji se od 10 karata koje pokrivaju sadašnjost, prošlost, budućnost, prepreke i unutrašnje uticaje. Idealno za dubinska pitanja i detaljna tumačenja.</p>\n\n<h2>2. Tri karte</h2>\n<p>Jednostavno otvaranje koje koristi tri karte: prošlost, sadašnjost i budućnost. Pogodno za dnevne uvide ili kratke sesije.</p>\n\n<h2>3. Horseshoe (Potkovica)</h2>\n<p>Otvaranje sa 7 karata koje daje pregled situacije, prepreka, okruženja i budućih događaja. Dobro za složene, ali pregledne interpretacije.</p>\n\n<h2>4. Otvaranje za ljubav</h2>\n<p>Specijalizovano otvaranje za ljubavne i partnerske situacije. Karte prikazuju dinamiku između partnera, izazove i potencijalne ishode.</p>\n\n<h2>5. Otvaranje za posao i finansije</h2>\n<p>Fokusira se na karijeru i novac. Karte mogu otkriti prilike, prepreke i strategije za uspeh u poslovnim pitanjima.</p>\n\n<h2>6. Dnevno otvaranje</h2>\n<p>Jednostavno otvaranje sa 1–3 karte za introspektivni pregled dana. Pomaže u planiranju i osvešćivanju dnevnih energija.</p>\n\n<h2>7. Otvaranje za samopomoć</h2>\n<p>Otvaranje koje koristi 5–7 karata da pruži smernice za lični razvoj, donošenje odluka i introspektivu.</p>\n\n<h2>8. Otvaranje „Krizni trenutak“</h2>\n<p>Kratko otvaranje sa 5 karata koje daje jasan uvid u problem, prepreke i potencijalna rešenja.</p>\n\n<h2>9. Otvaranje za donošenje odluka</h2>\n<p>Koristi 3–5 karata kako bi pomoglo klijentu da sagleda opcije i moguće ishode pre nego što donese odluku.</p>\n\n<h2>10. Otvaranje po izboru pitanja</h2>\n<p>Fleksibilno otvaranje koje se prilagođava konkretnom pitanju klijenta. Broj karata i raspored zavise od složenosti teme.</p>\n\n<h2>Kako koristiti otvaranja</h2>\n<p>Izbor otvaranja zavisi od pitanja, dubine analize i vremena dostupnog za čitanje. Jednostavna otvaranja poput Tri karte daju brze uvide, dok kompleksna otvaranja poput Celtic Cross pružaju detaljnu analizu. Ključno je pratiti intuiciju i jasno komunicirati sa klijentom šta otvaranje znači i kako tumačiti karte.</p>\n\n<h2>Zaključak</h2>\n<p>Poznavanje različitih tarot otvaranja omogućava čitaču da odgovori na raznovrsna pitanja i prilagodi sesiju potrebama klijenta. Sledeći korak je naučiti kako izabrati pravo otvaranje za specifično pitanje.</p>\n",
+    "internalLinks": [
+      {"title": "Kako izabrati pravo otvaranje za vaše pitanje?", "slug": "kako-izabrati-pravo-otvaranje"},
+      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"},
+      {"title": "Najčešće greške početnika u tarotu", "slug": "najcesce-greske-pocetnika"}
+    ]
   },
   {
     "title": "Kako izabrati pravo otvaranje za vaše pitanje",
     "slug": "kako-izabrati-pravo-otvaranje",
-    "metaTitle": "Kako izabrati pravo otvaranje za tarot pitanje",
-    "metaDescription": "Saznajte kako odabrati odgovarajuće tarot otvaranje prema pitanju i vrsti situacije.",
-    "keywords": ["tarot otvaranje", "izbor otvaranja", "vodič za otvaranja", "tumačenje karata", "introspektiva"],
-    "content": "<p>Izbor otvaranja zavisi od složenosti pitanja, tipa situacije, broja karata i intuicije...</p>",
+    "metaTitle": "Kako izabrati tarot otvaranje za konkretno pitanje",
+    "metaDescription": "Saznajte kako izabrati pravo tarot otvaranje za vaše pitanje. Vodič kroz različite tipove otvaranja i kada ih koristiti.",
+    "keywords": ["tarot otvaranja", "izbor tarot otvaranja", "kako odabrati otvaranje", "vodič za tarot čitanje"],
+    "content": "<h1>Kako izabrati pravo otvaranje za vaše pitanje</h1>\n<p>Izbor pravog tarot otvaranja je ključan za precizno i korisno čitanje karata. Svako otvaranje ima svoj format i dubinu analize, pa je važno odabrati ono koje najbolje odgovara pitanju i situaciji klijenta.</p>\n\n<h2>1. Razumite prirodu pitanja</h2>\n<p>Pre nego što odaberete otvaranje, razmislite o tipu pitanja: da li je to svakodnevni savet, dubinska analiza ili donošenje odluke? Dnevna pitanja obično zahtevaju jednostavna otvaranja, dok kompleksna pitanja traže detaljnije rasporede poput Celtic Cross-a.</p>\n\n<h2>2. Procena složenosti situacije</h2>\n<p>Kada je problem višeslojan ili zahteva pregled prošlosti, sadašnjosti i budućnosti, koristite kompleksna otvaranja. Za jednostavne situacije i kratke uvide, dovoljno je otvaranje sa tri karte.</p>\n\n<h2>3. Prilagodite broj karata vremenu i resursima</h2>\n<p>Ako imate ograničeno vreme, birajte otvaranja koja koriste manji broj karata. Ako je sesija duža i detaljna, možete koristiti veći broj karata i složenije rasporede.</p>\n\n<h2>4. Fokus na tip pitanja</h2>\n<ul>\n  <li>Ljubav i odnosi: koristite otvaranja koja pokrivaju dinamiku između partnera i emotivne aspekte.</li>\n  <li>Posao i finansije: fokusirajte se na karte koje pokazuju prilike, prepreke i strategije.</li>\n  <li>Lični razvoj: otvaranja koja pomažu introspektivi i samopomoći su idealna.</li>\n</ul>\n\n<h2>5. Kombinujte intuiciju i metodologiju</h2>\n<p>Pored pravila i preporuka, tarot je i umetnost. Slušajte intuiciju – ponekad jednostavno osećanje može odabrati idealno otvaranje za konkretnu situaciju.</p>\n\n<h2>6. Proverite dostupnost špila i karata</h2>\n<p>Neke karte mogu biti oštećene ili nedostaju, pa se otvaranje može prilagoditi dostupnim resursima. Fleksibilnost u odabiru otvaranja je važna.</p>\n\n<h2>7. Pripremite klijenta</h2>\n<p>Objasnite klijentu zašto ste izabrali određeno otvaranje, koliko karata koristi i šta može očekivati od čitanja. Transparentnost povećava poverenje i kvalitet sesije.</p>\n\n<h2>Zaključak</h2>\n<p>Pravi izbor tarot otvaranja zavisi od tipa pitanja, složenosti situacije, vremena i intuicije. Razumevanje različitih otvaranja omogućava precizno i korisno čitanje, a klijentu pruža jasne uvide i smernice. Sledeći korak je istražiti specifična otvaranja za ljubav i odnose, koja se često koriste u praktičnim tarot sesijama.</p>\n",
     "internalLinks": [
-      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"}
+      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"},
+      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"},
+      {"title": "Tarot i ljubav: kako tumačiti karte u emotivnom kontekstu", "slug": "tarot-i-ljubav"}
     ]
   },
   {
     "title": "Tarot otvaranja za ljubav i odnose",
     "slug": "tarot-otvaranja-ljubav-odnosi",
-    "metaTitle": "Tarot otvaranja za ljubav i odnose",
-    "metaDescription": "Saznajte kako koristiti tarot otvaranja za ljubavne i emotivne situacije.",
-    "keywords": ["tarot ljubav", "otvaranja za ljubav", "emocije tarot", "vodič tarot", "veze"],
-    "content": "<p>Ova otvaranja pomažu u sagledavanju emotivnih veza i dinamike u partnerstvu...</p>",
+    "metaTitle": "Tarot otvaranja za ljubav i odnose – vodič za tumačenje",
+    "metaDescription": "Saznajte kako koristiti tarot otvaranja za ljubav i odnose. Vodič kroz najbolja otvaranja, tumačenja karata i savete za emotivne situacije.",
+    "keywords": ["tarot otvaranja", "ljubav tarot", "odnosi tarot", "tumačenje karata", "vodič ljubav"],
+    "content": "<h1>Tarot otvaranja za ljubav i odnose</h1>\n<p>Tarot otvaranja za ljubav i odnose pomažu u razumevanju dinamike između partnera, emocija i budućih potencijala u vezi. Ova otvaranja omogućavaju dublji uvid u emotivne situacije i pomažu klijentima da sagledaju svoje emocije i odluke.</p>\n\n<h2>Najčešća otvaranja za ljubav</h2>\n<p>Postoji nekoliko otvaranja posebno pogodnih za tumačenje ljubavi:</p>\n<ul>\n  <li><strong>Tri karte ljubavi</strong> – prošlost, sadašnjost i budućnost veze.</li>\n  <li><strong>Pet karata za odnose</strong> – fokus na partnerstvo, izazove i savete.</li>\n  <li><strong>Celtic Cross za ljubav</strong> – detaljna analiza emotivnog konteksta i budućih događaja.</li>\n</ul>\n\n<h2>Kako tumačiti karte u ljubavnom kontekstu</h2>\n<p>Kada čitate karte za ljubav, važno je pratiti simboliku Pehara, Velike Arkane i kombinacije sa Mačevima ili Štapovima:</p>\n<ul>\n  <li>Pehari: emocije, partnerstvo, ljubav i povezanost.</li>\n  <li>Velika Arkana: ključni događaji, sudbinske situacije i životne lekcije u vezi.</li>\n  <li>Štapovi i Mačevi: izazovi, komunikacija, strast i dinamika odnosa.</li>\n</ul>\n\n<h2>Primer interpretacije</h2>\n<p>Ako u otvaranju ljubavi dobijete As Pehara, Dvojku Mačeva i Četvorku Štapova, tumačenje bi moglo biti:</p>\n<ul>\n  <li>As Pehara – nova emotivna prilika ili obnova ljubavi.</li>\n  <li>Dvojka Mačeva – dilema ili potreba za donošenjem odluke u vezi.</li>\n  <li>Četvorka Štapova – stabilnost i harmonija u odnosu, mogućnost zajedničkog napretka.</li>\n</ul>\n<p>Ovako kombinovane karte daju jasnu sliku emotivne situacije i pravac delovanja.</p>\n\n<h2>Savet za praktikante</h2>\n<p>Kada radite ljubavna otvaranja, budite pažljivi i empatični. Ljubavne situacije su često emotivno intenzivne, pa je važno tumačiti karte sa razumevanjem i poštovanjem.</p>\n\n<h2>Zaključak</h2>\n<p>Tarot otvaranja za ljubav i odnose pomažu u sagledavanju emocija, partnerstva i budućih događaja. Kombinacija intuicije i znanja o kartama omogućava jasnije tumačenje i daje korisne smernice za donošenje odluka u emotivnom životu.</p>\n",
     "internalLinks": [
-      {"title": "Mala Arkana – Pehari", "slug": "mala-arkana-pehari"}
+      {"title": "Mala Arkana – Pehari", "slug": "mala-arkana-pehari"},
+      {"title": "Kako izabrati pravo otvaranje za vaše pitanje?", "slug": "kako-izabrati-pravo-otvaranje"},
+      {"title": "Tarot i ljubav: kako tumačiti karte u emotivnom kontekstu", "slug": "tarot-i-ljubav"}
     ]
   },
   {
     "title": "Tarot otvaranja za posao i finansije",
     "slug": "tarot-otvaranja-posao-finansije",
-    "metaTitle": "Tarot otvaranja za posao i finansije",
-    "metaDescription": "Otvaranja koja pomažu u sagledavanju profesionalnih i finansijskih situacija.",
-    "keywords": ["tarot karijera", "finansije tarot", "otvaranja posao", "Mala Arkana Pentakli", "vodič tarot"],
-    "content": "<p>Ova otvaranja omogućavaju sagledavanje profesionalnih i finansijskih aspekata života...</p>",
+    "metaTitle": "Tarot otvaranja za posao i finansije – vodič za tumačenje",
+    "metaDescription": "Saznajte kako koristiti tarot otvaranja za pitanja vezana za posao i finansije. Vodič kroz najbolje otvaranja i tumačenja karata za karijeru i novac.",
+    "keywords": ["tarot otvaranja", "posao tarot", "finansije tarot", "tumačenje karata", "karijera tarot"],
+    "content": "<h1>Tarot otvaranja za posao i finansije</h1>\n<p>Tarot otvaranja za posao i finansije pomažu u analizi karijere, poslovnih prilika i materijalne stabilnosti. Ova otvaranja omogućavaju dublji uvid u profesionalne izazove, resurse i potencijalne ishode.</p>\n\n<h2>Najčešća otvaranja za posao i finansije</h2>\n<p>Postoji nekoliko otvaranja posebno pogodnih za tumačenje poslovnih i finansijskih situacija:</p>\n<ul>\n  <li><strong>Tri karte za karijeru</strong> – prošlost, sadašnjost i budućnost u poslovnom kontekstu.</li>\n  <li><strong>Pet karata za finansije</strong> – pregled finansijskih izazova, resursa i mogućnosti.</li>\n  <li><strong>Celtic Cross za karijeru</strong> – detaljna analiza profesionalnog puta, prepreka i potencijalnog uspeha.</li>\n</ul>\n\n<h2>Kako tumačiti karte u poslovnom kontekstu</h2>\n<p>Kada čitate karte za posao i finansije, važno je pratiti simboliku Pentakli, Velike Arkane i kombinacije sa Štapovima ili Mačevima:</p>\n<ul>\n  <li>Pentakli: materijalni aspekti, novac, stabilnost, karijera.</li>\n  <li>Velika Arkana: ključni događaji, sudbinske prilike i životne lekcije u profesionalnom kontekstu.</li>\n  <li>Štapovi i Mačevi: inicijativa, akcija, strategija, mentalni izazovi.</li>\n</ul>\n\n<h2>Primer interpretacije</h2>\n<p>Ako u otvaranju dobijete As Pentakla, Šesticu Štapova i Sedmicu Mačeva, tumačenje bi moglo biti:</p>\n<ul>\n  <li>As Pentakla – nova poslovna prilika ili investicija.</li>\n  <li>Šestica Štapova – uspeh i priznanje u karijeri.</li>\n  <li>Sedmica Mačeva – potreba za taktikom i promišljenim pristupom izazovima.</li>\n</ul>\n<p>Ovako kombinovane karte daju jasan uvid u profesionalnu situaciju i smernice za akciju.</p>\n\n<h2>Savet za praktikante</h2>\n<p>Kada radite otvaranja za posao i finansije, važno je biti precizan u postavljanju pitanja. Fokusirajte se na resurse, prilike i prepreke, i pružite klijentu konkretne smernice za delovanje.</p>\n\n<h2>Zaključak</h2>\n<p>Tarot otvaranja za posao i finansije omogućavaju sagledavanje profesionalnih i materijalnih aspekata života. Kombinacija intuicije i znanja o kartama omogućava čitaču da pruži korisne savete i jasne uvide, pomažući klijentu da donese bolje odluke u karijeri i finansijama.</p>\n",
     "internalLinks": [
       {"title": "Mala Arkana – Pentakli", "slug": "mala-arkana-pentakli"},
-      {"title": "Kako izabrati pravo otvaranje za vaše pitanje", "slug": "kako-izabrati-pravo-otvaranje"}
+      {"title": "Kako izabrati pravo otvaranje za vaše pitanje?", "slug": "kako-izabrati-pravo-otvaranje"},
+      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"}
     ]
   },
   {
     "title": "Jednostavna dnevna otvaranja za introspektivu",
     "slug": "jednostavna-dnevna-otvaranja",
-    "metaTitle": "Jednostavna dnevna tarot otvaranja",
-    "metaDescription": "Dnevna otvaranja sa jednom ili tri karte za introspektivu i praćenje emocionalnih obrazaca.",
-    "keywords": ["dnevna otvaranja", "introspektiva tarot", "samopomoć tarot", "karte", "vodič"],
-    "content": "<p>Dnevna otvaranja sa jednom ili tri karte pomažu introspektivi i praćenju emocionalnih i mentalnih obrazaca...</p>",
+    "metaTitle": "Jednostavna dnevna tarot otvaranja za introspektivu",
+    "metaDescription": "Naučite jednostavna dnevna tarot otvaranja koja pomažu introspektivi i samopomoći. Brzi vodič za analizu energija i donošenje odluka.",
+    "keywords": ["dnevna otvaranja", "introspektiva tarot", "samopomoć tarot", "jednostavna otvaranja", "tarot vodič"],
+    "content": "<h1>Jednostavna dnevna otvaranja za introspektivu</h1>\n<p>Dnevna tarot otvaranja su jednostavni rasporedi karata koji pomažu u introspektivi, samopomoći i donošenju odluka. Idealna su za početnike i za one koji žele brzo i jasno sagledavanje dnevnih energija.</p>\n\n<h2>Zašto koristiti dnevna otvaranja</h2>\n<p>Dnevna otvaranja omogućavaju fokus na trenutne događaje, osećanja i misli. Pomažu da se uoče obrasci ponašanja, izazovi i prilike, te da se donesu bolje odluke u svakodnevnom životu.</p>\n\n<h2>Najjednostavnija dnevna otvaranja</h2>\n<ul>\n  <li><strong>Jedna karta dnevno</strong> – izvucite jednu kartu koja simbolizuje energiju dana. Brzo i jednostavno, idealno za introspektivu i vođenje dnevnika.</li>\n  <li><strong>Tri karte dnevno</strong> – prošlost, sadašnjost i budućnost dana. Pruža pregled izazova i prilika koji vas očekuju.</li>\n  <li><strong>Karta saveta</strong> – izvučite jednu kartu koja daje smernice ili savet za dan.</li>\n</ul>\n\n<h2>Kako interpretirati dnevna otvaranja</h2>\n<p>Kada radite dnevna otvaranja, obratite pažnju na:</p>\n<ul>\n  <li>Simboliku karata – boja, element i numerologija karata.</li>\n  <li>Intuitivne poruke – šta osećate kada vidite kartu, prve asocijacije su često važne.</li>\n  <li>Kontekst dana – kako se simbolika karte uklapa u vaš trenutni životni period i planove.</li>\n</ul>\n\n<h2>Vođenje dnevnika</h2>\n<p>Preporučuje se zapisivanje dnevnog otvaranja u dnevnik. Zabeležite kartu, datum i svoje tumačenje. Posle vremena, možete pratiti obrasce i napredak u ličnom razvoju.</p>\n\n<h2>Savet za praktikante</h2>\n<p>Dnevna otvaranja ne zahtevaju dugotrajne sesije ni veliki broj karata. Fokus je na introspektivi i ličnom rastu. Koristite ih kao alat za osvešćivanje misli, osećanja i akcija tokom dana.</p>\n\n<h2>Zaključak</h2>\n<p>Jednostavna dnevna tarot otvaranja su odličan način da se uvede rutina introspektive i samopomoći. Pomažu u praćenju emocionalnih i mentalnih stanja, donose jasne uvide i omogućavaju bolje planiranje i donošenje odluka. Sledeći korak je proučiti kako tarot može pomoći u ljubavi, karijeri i ličnom razvoju kroz specifična tumačenja i otvaranja.</p>\n",
     "internalLinks": [
-      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"}
+      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"},
+      {"title": "Kako izabrati pravo otvaranje za vaše pitanje?", "slug": "kako-izabrati-pravo-otvaranje"},
+      {"title": "Tarot i lični razvoj: kako koristiti karte za samopomoć", "slug": "tarot-i-licni-razvoj"}
     ]
   },
   {
     "title": "Tarot i ljubav: kako tumačiti karte u emotivnom kontekstu",
     "slug": "tarot-i-ljubav",
-    "metaTitle": "Tarot i ljubav",
-    "metaDescription": "Kako koristiti tarot karte za ljubav i emotivne odnose.",
-    "keywords": ["tarot ljubav", "Pehari", "emocije", "odnosi", "tumačenje karata"],
-    "content": "<p>Karte Pehara i Velika Arkana pomažu u sagledavanju ljubavnih odnosa i emocija...</p>",
+    "metaTitle": "Tarot i ljubav – tumačenje karata u emotivnom kontekstu",
+    "metaDescription": "Saznajte kako koristiti tarot za tumačenje ljubavnih i emotivnih situacija. Vodič kroz karte, simboliku i interpretaciju u ljubavnom kontekstu.",
+    "keywords": ["tarot ljubav", "ljubavni tarot", "tumačenje karata", "emocije tarot", "vodič ljubav"],
+    "content": "<h1>Tarot i ljubav: kako tumačiti karte u emotivnom kontekstu</h1>\n<p>Tarot je moćan alat za razumevanje ljubavi i emotivnih odnosa. Karte pružaju uvide u dinamiku veza, unutrašnja osećanja i potencijalne ishode. Poznavanje simbolike i tumačenja karata ključno je za precizno čitanje u ljubavnom kontekstu.</p>\n\n<h2>Karte Pehara i ljubav</h2>\n<p>Pehari su najvažnija boja karata kada je reč o emocijama i ljubavi. Oni simbolizuju osećanja, povezivanje, empatiju i romantiku. Karte Pehara ukazuju na stanje srca, harmoniju ili disbalans u vezama.</p>\n\n<h2>Velika Arkana u ljubavnom kontekstu</h2>\n<p>Velika Arkana pokazuje ključne događaje i sudbinske lekcije u ljubavi. Na primer:</p>\n<ul>\n  <li>Ljubavnici – odluke u vezi, partnerstvo i harmonija.</li>\n  <li>Snaga – strpljenje, razumevanje i emocionalna kontrola.</li>\n  <li>Smrt – kraj jednog ciklusa, transformacija odnosa.</li>\n</ul>\n\n<h2>Mačevi i Štapovi</h2>\n<p>Mačevi se odnose na komunikaciju, konflikte i mentalne dileme u vezi, dok Štapovi ukazuju na strast, inicijativu i kreativnu energiju u emotivnim situacijama. Kombinacija ovih karata sa Peharima daje detaljniji uvid u vezu.</p>\n\n<h2>Kako interpretirati karte</h2>\n<p>Prilikom tumačenja ljubavnih otvaranja, obratite pažnju na:</p>\n<ul>\n  <li>Simboliku karata i njihove međusobne odnose.</li>\n  <li>Redosled pojavljivanja karata – prošlost, sadašnjost i budućnost.</li>\n  <li>Intuitivni osećaj – šta vam karta sugeriše u kontekstu pitanja.</li>\n</ul>\n\n<h2>Primer tumačenja</h2>\n<p>Ako dobijete Dvojku Pehara, Peticu Pehara i Desetku Pehara:</p>\n<ul>\n  <li>Dvojka Pehara – partnerstvo, ljubavna harmonija.</li>\n  <li>Petica Pehara – emotivni gubitak ili razočarenje.</li>\n  <li>Desetka Pehara – emotivno ispunjenje i stabilna veza.</li>\n</ul>\n<p>Ova kombinacija ukazuje na prelaz kroz emotivne izazove ka stabilnoj i srećnoj vezi.</p>\n\n<h2>Savet za praktikante</h2>\n<p>Kada radite čitanja za ljubav, važno je biti empatičan, objektivan i fokusiran na pozitivne smernice. Ljubavne situacije su često emocionalno intenzivne, pa je važno klijentu pružiti jasne i konstruktivne uvide.</p>\n\n<h2>Zaključak</h2>\n<p>Tarot i ljubav idu ruku pod ruku kada je u pitanju introspektivno sagledavanje emocija, veza i budućih događaja. Poznavanje karata i njihove simbolike omogućava precizno tumačenje, dok intuicija pomaže u davanju korisnih saveta i smernica za ljubavne situacije.</p>\n",
     "internalLinks": [
-      {"title": "Mala Arkana – Pehari", "slug": "mala-arkana-pehari"}
+      {"title": "Mala Arkana – Pehari", "slug": "mala-arkana-pehari"},
+      {"title": "Tarot otvaranja za ljubav i odnose", "slug": "tarot-otvaranja-ljubav-odnosi"},
+      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"}
     ]
   },
   {
     "title": "Tarot i karijera: karte koje govore o poslu i novcu",
     "slug": "tarot-i-karijera",
-    "metaTitle": "Tarot i karijera",
-    "metaDescription": "Kako koristiti tarot karte za profesionalne i finansijske odluke.",
-    "keywords": ["tarot karijera", "Pentakli", "posao", "finansije", "vodič tarot"],
-    "content": "<p>Karte Pentakli i Velika Arkana daju uvid u profesionalne i finansijske aspekte života...</p>",
+    "metaTitle": "Tarot i karijera – tumačenje karata za posao i novac",
+    "metaDescription": "Saznajte kako koristiti tarot za analizu karijere, finansija i profesionalnog razvoja. Vodič kroz karte koje pokrivaju posao i novac.",
+    "keywords": ["tarot karijera", "tarot posao", "finansije tarot", "tumačenje karata", "vodič karijera"],
+    "content": "<h1>Tarot i karijera: karte koje govore o poslu i novcu</h1>\n<p>Tarot je koristan alat za sagledavanje profesionalnih prilika, finansijskih izazova i ličnog razvoja u karijeri. Karte pomažu da se razjasne opcije, identifikuju prepreke i daju smernice za uspeh.</p>\n\n<h2>Karte Pentakli u karijeri i novcu</h2>\n<p>Pentakli su primarna boja za tumačenje materijalnih aspekata života. Karte Pentakli ukazuju na:</p>\n<ul>\n  <li>Finansijsku stabilnost i prosperitet.</li>\n  <li>Profesionalni napredak i veštine.</li>\n  <li>Prilike i investicije.</li>\n</ul>\n<p>Pentakli mogu ukazivati i na potrebu za strpljenjem, marljiv rad i strateško planiranje.</p>\n\n<h2>Štapovi i Mačevi u profesionalnom kontekstu</h2>\n<p>Štapovi simbolizuju inicijativu, ambiciju i kreativnu energiju, dok Mačevi pokazuju strategiju, analizu i mentalne izazove u karijeri. Kombinacija ovih karata sa Pentaklima daje kompletan uvid u profesionalni i finansijski aspekt.</p>\n\n<h2>Velika Arkana u karijeri</h2>\n<p>Velika Arkana reflektuje ključne događaje i životne lekcije koje utiču na karijeru i finansije:</p>\n<ul>\n  <li>Kula – iznenadni preokreti ili izazovi.</li>\n  <li>Car – autoritet, liderstvo i struktura.</li>\n  <li>Sunce – uspeh, priznanje i pozitivni rezultati.</li>\n</ul>\n\n<h2>Primer interpretacije</h2>\n<p>Ako dobijete As Pentakla, Vitez Štapova i Kralja Mačeva u otvaranju za karijeru:</p>\n<ul>\n  <li>As Pentakla – nova poslovna prilika ili investicija.</li>\n  <li>Vitez Štapova – inicijativa, energija i akcija.</li>\n  <li>Kralj Mačeva – strategija, jasno razmišljanje i vođenje.</li>\n</ul>\n<p>Ova kombinacija ukazuje na mogućnost profesionalnog uspeha kroz fokusiran rad, inicijativu i strateško planiranje.</p>\n\n<h2>Savet za praktikante</h2>\n<p>Kada radite karijerna otvaranja, fokusirajte se na konkretne opcije, potencijalne prepreke i resurse klijenta. Pružite jasne uvide i smernice, i pratite intuiciju u interpretaciji karata.</p>\n\n<h2>Zaključak</h2>\n<p>Tarot i karijera pružaju uvid u profesionalni i finansijski život. Karte Pentakli, Štapovi, Mačevi i Velika Arkana omogućavaju sagledavanje prilika i izazova, dok pravilno tumačenje pomaže klijentu da donese bolje odluke i ostvari profesionalni i finansijski uspeh.</p>\n",
     "internalLinks": [
-      {"title": "Mala Arkana – Pentakli", "slug": "mala-arkana-pentakli"}
+      {"title": "Mala Arkana – Pentakli", "slug": "mala-arkana-pentakli"},
+      {"title": "Tarot otvaranja za posao i finansije", "slug": "tarot-otvaranja-posao-finansije"},
+      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"}
     ]
   },
   {
     "title": "Tarot i lični razvoj: kako koristiti karte za samopomoć",
     "slug": "tarot-i-licni-razvoj",
-    "metaTitle": "Tarot i lični razvoj",
-    "metaDescription": "Kako koristiti tarot karte za introspektivu, samopomoć i lični rast.",
-    "keywords": ["tarot lični razvoj", "samopomoć tarot", "introspektiva", "tumačenje karata", "vodič"],
-    "content": "<p>Tarot je moćan alat za introspektivu i lični razvoj...</p>",
+    "metaTitle": "Tarot za lični razvoj – vodič za samopomoć i introspektivu",
+    "metaDescription": "Saznajte kako koristiti tarot karte za lični razvoj i samopomoć. Vodič kroz introspektivna otvaranja i tumačenje karata za lični rast.",
+    "keywords": ["tarot lični razvoj", "samopomoć tarot", "introspektiva tarot", "vodič lični rast", "tumačenje karata"],
+    "content": "<h1>Tarot i lični razvoj: kako koristiti karte za samopomoć</h1>\n<p>Tarot nije samo alat za predviđanje budućnosti; on je i moćno sredstvo za introspektivu, lični razvoj i samopomoć. Karte pomažu u sagledavanju unutrašnjih obrazaca, donošenju odluka i postavljanju ciljeva.</p>\n\n<h2>Dnevna introspektiva</h2>\n<p>Dnevna otvaranja sa jednom ili tri karte pomažu u praćenju mentalnog i emotivnog stanja. Pomažu da identifikujete obrasce ponašanja i da sagledate sopstvene reakcije i emocije.</p>\n\n<h2>Karte i samopomoć</h2>\n<p>Karte Pehara, Pentakli, Štapovi i Mačevi mogu se koristiti za introspektivu:</p>\n<ul>\n  <li>Pehari – emocionalna introspektiva, razumevanje osećanja i odnosa.</li>\n  <li>Pentakli – praktični aspekti života, materijalna stabilnost, lični napredak.</li>\n  <li>Štapovi – inicijativa, strast, motivacija za lični rast.</li>\n  <li>Mačevi – mentalna jasnoća, donošenje odluka, prevazilaženje prepreka.</li>\n</ul>\n\n<h2>Otvaranja za lični razvoj</h2>\n<p>Specifična otvaranja za samopomoć mogu obuhvatiti:</p>\n<ul>\n  <li>Pet karata introspektive – analiza prošlih iskustava, sadašnjeg stanja i budućih mogućnosti.</li>\n  <li>Otvaranja za donošenje odluka – sagledavanje opcija i njihovih posledica.</li>\n  <li>Dnevna introspektivna karta – kratke smernice i refleksija.</li>\n</ul>\n\n<h2>Primer interpretacije</h2>\n<p>Izvučene karte: Četvorka Pentakla, Šestica Pehara, Vitez Štapova:</p>\n<ul>\n  <li>Četvorka Pentakla – fokus na stabilnosti i očuvanju resursa.</li>\n  <li>Šestica Pehara – introspektivni pogled na prošlost i lekcije.</li>\n  <li>Vitez Štapova – inicijativa i energija za budući razvoj.</li>\n</ul>\n<p>Ova kombinacija sugeriše balans između introspektive, očuvanja resursa i akcije ka ličnom rastu.</p>\n\n<h2>Savet za praktikante</h2>\n<p>Kada koristite tarot za lični razvoj, fokusirajte se na introspektivu i razumevanje sopstvenih obrazaca. Vodite dnevnik i pratite svoje napredovanje, analizirajte obrasce i koristite karte za postavljanje ciljeva i donošenje odluka.</p>\n\n<h2>Zaključak</h2>\n<p>Tarot je moćan alat za lični razvoj i samopomoć. Kombinacija karata i introspektivnog pristupa omogućava bolju samosvest, donošenje odluka i planiranje koraka ka ličnom rastu i ostvarenju potencijala.</p>\n",
     "internalLinks": [
-      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"}
+      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"},
+      {"title": "Mala Arkana – Pehari", "slug": "mala-arkana-pehari"},
+      {"title": "Tarot i karijera: karte koje govore o poslu i novcu", "slug": "tarot-i-karijera"}
     ]
   },
   {
     "title": "Kako očistiti i energizovati tarot špil – rituali i metode",
     "slug": "ocistiti-energetizovati-tarot",
-    "metaTitle": "Kako očistiti i energizovati tarot špil",
-    "metaDescription": "Saznajte kako očistiti i energizovati tarot špil pomoću rituala, kristala i vizualizacije.",
-    "keywords": ["očistiti tarot špil", "energizovati tarot", "rituali tarot", "čišćenje špila", "samopomoć"],
-    "content": "<p>Čišćenje i energizovanje špila pomaže uklanjanju negativne energije i jačanju intuicije...</p>",
+    "metaTitle": "Kako očistiti i energizovati tarot špil – vodič za praktikante",
+    "metaDescription": "Saznajte kako očistiti i energizovati tarot špil pomoću različitih rituala i metoda. Vodič za pripremu špila za precizno čitanje karata.",
+    "keywords": ["očistiti tarot špil", "energizovati tarot", "rituali tarot", "metode čišćenja špila", "priprema tarot špila"],
+    "content": "<h1>Kako očistiti i energizovati tarot špil – rituali i metode</h1>\n<p>Čišćenje i energizovanje tarot špila je važan deo pripreme za precizno čitanje karata. Špil skuplja energiju iz okoline i od prethodnih sesija, pa je važno redovno ga čistiti i obnavljati njegovu energiju.</p>\n\n<h2>Zašto čistiti špil</h2>\n<p>Čišćenje špila pomaže u uklanjanju negativne ili blokirane energije. Energizovan špil daje jasnije uvide i jača intuiciju praktikanta.</p>\n\n<h2>Metode čišćenja tarot špila</h2>\n<ul>\n  <li><strong>Dimljenje</strong> – korišćenje kadulje, lavande ili sandalovine. Prođite dimom kroz špil i vizualizujte uklanjanje negativne energije.</li>\n  <li><strong>Kristali</strong> – postavite špil na ametist ili kvarc kristal preko noći kako bi se energija obnovila.</li>\n  <li><strong>Mesec i Sunce</strong> – izlaganje špila mesečevoj svetlosti ili sunčevoj energiji pomaže obnavljanju energije.</li>\n  <li><strong>Zvuk</strong> – korišćenje zvona, tibetanskih činela ili pevanja mantri za čišćenje energije špila.</li>\n  <li><strong>Vizualizacija</strong> – držite špil u rukama, zatvorite oči i vizualizujte svetlost koja čisti i puni špil pozitivnom energijom.</li>\n</ul>\n\n<h2>Rituali za energizovanje</h2>\n<p>Redovno energizovanje špila osnažuje intuiciju i preciznost u tumačenju karata. Neki praktični rituali uključuju:</p>\n<ul>\n  <li>Izgovaranje afirmacija pri čišćenju špila.</li>\n  <li>Obavljanje rituala pred početak čitanja za klijenta.</li>\n  <li>Kombinovanje kristala, dima i vizualizacije za maksimalni efekat.</li>\n</ul>\n\n<h2>Savet za praktikante</h2>\n<p>Čistite špil nakon svake sesije ili kada osetite promenu energije u prostoru. Pripremite špil za svaku novu sesiju kako biste osigurali jasne i precizne uvide. Redovna praksa čišćenja i energizovanja povećava vašu povezanost sa kartama i intuiciju.</p>\n\n<h2>Zaključak</h2>\n<p>Održavanje tarot špila čistim i energizovanim je ključno za uspešno čitanje karata. Upotrebom rituala, kristala, vizualizacije i prirodnih elemenata, špil ostaje snažan, precizan i intuitivan alat za introspektivu, tumačenje i samopomoć.</p>\n",
     "internalLinks": [
-      {"title": "Etika u tarot čitanju", "slug": "etika-u-tarotu"}
+      {"title": "Etika u tarot čitanju", "slug": "etika-u-tarot-citanju"},
+      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"},
+      {"title": "Najčešće greške početnika u tarotu i kako ih izbeći", "slug": "najcesce-greske-pocetnika"}
     ]
   },
   {
     "title": "Najčešće greške početnika u tarotu i kako ih izbeći",
     "slug": "najcesce-greske-pocetnika",
-    "metaTitle": "Najčešće greške početnika u tarotu",
-    "metaDescription": "Saznajte koje su najčešće greške početnika u tarotu i kako ih izbeći za precizno čitanje.",
-    "keywords": ["greške početnika tarot", "saveti tarot", "tumačenje karata", "vodič tarot", "samopomoć"],
-    "content": "<p>Početnici često prave greške koje utiču na preciznost čitanja. Najčešće greške uključuju: nedostatak pripreme, nejasna pitanja, ignorisanje intuicije...</p>",
+    "metaTitle": "Najčešće greške početnika u tarotu i saveti za izbegavanje",
+    "metaDescription": "Saznajte koje su najčešće greške početnika u tarotu i kako ih izbeći. Vodič sa savetima za uspešno i precizno čitanje karata.",
+    "keywords": ["greške početnika tarot", "saveti za tarot", "tumačenje karata", "tarot vodič", "izbegavanje grešaka"],
+    "content": "<h1>Najčešće greške početnika u tarotu i kako ih izbeći</h1>\n<p>Početnici u tarotu često prave greške koje mogu uticati na preciznost i kvalitet čitanja. Razumevanje i izbegavanje ovih grešaka ključno je za uspešan rad sa kartama.</p>\n\n<h2>1. Nedostatak pripreme</h2>\n<p>Nepripremljen špil ili prostor može smanjiti kvalitet čitanja. Čišćenje i energizovanje špila pre sesije je važno, kao i izbor mirnog i posvećenog prostora za rad.</p>\n\n<h2>2. Postavljanje nejasnih pitanja</h2>\n<p>Previše opšta ili neprecizna pitanja dovode do konfuznih odgovora. Početnici treba da uče kako formulisati jasna i fokusirana pitanja za bolje uvide.</p>\n\n<h2>3. Ignorisanje intuicije</h2>\n<p>Fokusiranje isključivo na značenja knjiga može ograničiti interpretaciju. Intuicija je ključna komponenta tumačenja karata i treba je razvijati i koristiti uz standardna značenja.</p>\n\n<h2>4. Preskakanje etike</h2>\n<p>Početnici često zaborave na etiku – poštovanje privatnosti klijenata, odgovornost za reči i granice u savetovanju. Etičko ponašanje je osnov profesionalnog tarot čitanja.</p>\n\n<h2>5. Nevodjenje dnevnika</h2>\n<p>Vođenje dnevnika čitanja pomaže praćenju obrazaca, razvoja veština i introspektive. Nepraćenje napretka može usporiti učenje i razumevanje karata.</p>\n\n<h2>6. Preterana zavisnost od karata</h2>\n<p>Tarot je alat za introspektivu i smernice, ali odluke treba donositi svestan i odgovoran. Početnici ponekad oslanjaju se previše na špil umesto da kombinuju intuiciju i životno iskustvo.</p>\n\n<h2>7. Prebrzo tumačenje</h2>\n<p>Brzo ili površno tumačenje karata može dovesti do netačnih ili nepotpunih uvoda. Važno je posvetiti dovoljno vremena analizi i povezivanju karata.</p>\n\n<h2>8. Zanemarivanje kombinacija karata</h2>\n<p>Svaka karta je važna, ali njeno značenje se menja u kombinaciji sa drugim kartama. Početnici često tumače karte izolovano, što može dovesti do pogrešnih zaključaka.</p>\n\n<h2>9. Nepoštovanje perioda učenja</h2>\n<p>Tarot je veština koja se razvija praksom i strpljenjem. Početnici žele brze rezultate, ali kontinuirana praksa, proučavanje i introspektiva su ključni za pravi napredak.</p>\n\n<h2>10. Nedostatak samopouzdanja</h2>\n<p>Neproučeni ili nesigurni praktikanti često sumnjaju u svoja tumačenja. Važno je razvijati samopouzdanje kroz vežbu i iskustvo, kao i prihvatanje da greške deo procesa učenja.</p>\n\n<h2>Zaključak</h2>\n<p>Izbegavanje ovih najčešćih grešaka pomaže početnicima da razviju precizno, etično i korisno tarot čitanje. Kroz pripremu, pravilna pitanja, intuiciju i praksu, tarot može postati moćan alat za introspektivu, samopomoć i vođenje drugih.</p>\n",
     "internalLinks": [
-      {"title": "Etika u tarot čitanju", "slug": "etika-u-tarotu"},
-      {"title": "Kako očistiti i energizovati tarot špil", "slug": "ocistiti-energetizovati-tarot"}
+      {"title": "Etika u tarot čitanju", "slug": "etika-u-tarot-citanju"},
+      {"title": "Kako očistiti i energizovati tarot špil", "slug": "ocistiti-energetizovati-tarot"},
+      {"title": "Jednostavna dnevna otvaranja za introspektivu", "slug": "jednostavna-dnevna-otvaranja"}
     ]
   }
-];
-    
-    
-    
+]
