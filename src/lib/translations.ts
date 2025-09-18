@@ -54,8 +54,6 @@ export type TranslationSet = {
     unknownError: string;
     serviceOverloadedError: string;
     countdownFinishedText: string;
-    dailyCardTitle: string;
-    dailyCardButton: string;
     homeButtonText: string;
     zodiacSignAries: string;
     zodiacSignTaurus: string;
@@ -149,8 +147,6 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "An unknown error occurred. Please try again.",
         serviceOverloadedError: "The service is currently overloaded. Please try again in a few moments.",
         countdownFinishedText: "Ready for new reading",
-        dailyCardTitle: "Card of the Day",
-        dailyCardButton: "Continue to the App",
         homeButtonText: "Home",
         zodiacSignAries: "Aries",
         zodiacSignTaurus: "Taurus",
@@ -241,8 +237,6 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "Došlo je do nepoznate greške. Molimo pokušajte ponovo.",
         serviceOverloadedError: "Servis je trenutno preopterećen. Molimo pokušajte ponovo za nekoliko trenutaka.",
         countdownFinishedText: "Spremno za novo čitanje",
-        dailyCardTitle: "Karta Dana",
-        dailyCardButton: "Nastavi na Aplikaciju",
         homeButtonText: "Početna",
         zodiacSignAries: "Ovan",
         zodiacSignTaurus: "Bik",
@@ -334,8 +328,6 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
         serviceOverloadedError: "Der Dienst ist derzeit überlastet. Bitte versuchen Sie es in einigen Augenblicken erneut.",
         countdownFinishedText: "Bereit für neue Lesung",
-        dailyCardTitle: "Karte des Tages",
-        dailyCardButton: "Weiter zur App",
         homeButtonText: "Startseite",
         zodiacSignAries: "Widder",
         zodiacSignTaurus: "Stier",
@@ -427,8 +419,6 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "Une erreur inconnue s'est produite. Veuillez réessayer.",
         serviceOverloadedError: "Le service est actuellement surchargé. Veuillez réessayer dans quelques instants.",
         countdownFinishedText: "Prêt pour une nouvelle lecture",
-        dailyCardTitle: "Carte du jour",
-        dailyCardButton: "Continuer vers l'application",
         homeButtonText: "Accueil",
         zodiacSignAries: "Bélier",
         zodiacSignTaurus: "Taureau",
@@ -520,8 +510,6 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "Se ha producido un error desconocido. Por favor, inténtelo de nuevo.",
         serviceOverloadedError: "El servicio está actualmente sobrecargado. Por favor, inténtelo de nuevo en unos momentos.",
         countdownFinishedText: "Listo para nueva lectura",
-        dailyCardTitle: "Carta del día",
-        dailyCardButton: "Continuar a la aplicación",
         homeButtonText: "Inicio",
         zodiacSignAries: "Aries",
         zodiacSignTaurus: "Tauro",

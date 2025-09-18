@@ -10,7 +10,6 @@ import Link from "next/link";
 
 import { getTarotReading, ReadingError } from "@/app/actions";
 import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
-import { DailyCard, getDailyCard } from "@/ai/flows/get-daily-card";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -53,7 +52,6 @@ interface FormValues {
 }
 
 interface TarotClientProps {
-    initialDailyCard: DailyCard | null;
     initialLang?: string;
 }
 
@@ -63,7 +61,6 @@ const READING_STORAGE_KEY = "tarotReading";
 const ZODIAC_STORAGE_KEY = "tarotZodiacSign";
 const QUESTION_STORAGE_KEY = "tarotQuestion";
 const LANGUAGE_STORAGE_KEY = "tarotLanguage";
-const DAILY_CARD_VIEWED_KEY = "dailyCardViewedDate";
 
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
@@ -111,7 +108,7 @@ const ContentGrid: React.FC<{ translations: TranslationSet; language: string; }>
     </div>
 );
 
-export default function TarotClient({ initialDailyCard, initialLang }: TarotClientProps) {
+export default function TarotClient({ initialLang }: TarotClientProps) {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
@@ -121,8 +118,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
-  const [dailyCard, setDailyCard] = React.useState<DailyCard | null>(initialDailyCard);
-  const [isDailyCardModalOpen, setIsDailyCardModalOpen] = React.useState(false);
 
   const isMobile = useIsMobile();
   const resultsRef = React.useRef<HTMLDivElement>(null);
@@ -148,12 +143,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
 
 
   React.useEffect(() => {
-    const todayStr = format(new Date(), 'yyyy-MM-dd');
-    const lastViewedDate = localStorage.getItem(DAILY_CARD_VIEWED_KEY);
-    if (lastViewedDate !== todayStr && initialDailyCard) {
-        setIsDailyCardModalOpen(true);
-    }
-    
     const savedLang = initialLang || localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     const baseLang = savedLang.split('-')[0];
     const newTranslations = getTranslations(baseLang);
@@ -195,7 +184,7 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
       console.error('Failed to parse from localStorage, clearing...', error);
       clearLocalStorage();
     }
-  }, [form, initialDailyCard, initialLang, router]);
+  }, [form, initialLang, router]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -252,14 +241,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
     setTranslations(newTranslations);
 
     router.replace(`/?lang=${supportedLangCode}`, { scroll: false });
-
-    try {
-        const targetLanguageName = SUPPORTED_LANGUAGES.find(l => l.code === supportedLangCode)?.name || 'Serbian';
-        const newDailyCard = await getDailyCard(targetLanguageName);
-        setDailyCard(newDailyCard);
-    } catch (error) {
-        console.error("Failed to refetch daily card for new language:", error);
-    }
 
   }, [router]);
 
@@ -343,12 +324,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
     }));
   }, [reading]);
 
-  const handleDailyCardModalClose = () => {
-    const todayStr = format(new Date(), 'yyyy-MM-dd');
-    localStorage.setItem(DAILY_CARD_VIEWED_KEY, todayStr);
-    setIsDailyCardModalOpen(false);
-  }
-
   const disabled = isFormLoading || countdown > 0;
   
   const submittedQuestion = form.watch("question");
@@ -362,35 +337,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
   
     return (
       <div className="flex w-full flex-col min-h-screen">
-        {dailyCard && (
-          <AlertDialog open={isDailyCardModalOpen} onOpenChange={setIsDailyCardModalOpen}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle className="flex items-center gap-2">
-                  <Star className="w-5 h-5 text-primary" />
-                  {translations.dailyCardTitle}
-                </AlertDialogTitle>
-              </AlertDialogHeader>
-              <div className="text-center pt-4">
-                <div className="w-32 h-48 mx-auto mb-4">
-                  <Image
-                    src={getCardImagePath(dailyCard.cardName)}
-                    alt={dailyCard.cardName}
-                    width={128}
-                    height={192}
-                    className="w-full h-full object-cover rounded-lg shadow-lg"
-                  />
-                </div>
-                <h3 className="font-bold text-lg text-foreground mb-2 font-headline">{dailyCard.cardName}</h3>
-                <p className="text-sm text-muted-foreground">{dailyCard.interpretation}</p>
-              </div>
-              <AlertDialogFooter>
-                <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
-
         {showResultsView && (
              <header className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
                 <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
