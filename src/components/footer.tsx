@@ -21,10 +21,13 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
     { href: "/faq", text: translations.footerFaq },
     { href: "/terms", text: translations.footerTerms },
     { href: "/privacy", text: translations.footerPrivacy },
+    { href: "/what-is-tarot", text: translations.footerWhatIsTarot },
+    { href: "/meanings", text: translations.footerCardMeanings },
+    { href: "/blog", text: translations.footerBlog },
   ];
 
   return (
-    <footer className={cn("w-full flex-col items-center gap-6 flex p-4 sm:p-6")}>
+    <footer className={cn("w-full flex-col items-center gap-6 flex p-4 sm:p-6 mt-auto")}>
       <div className="flex flex-col items-center gap-4 text-center">
         <div className="mb-4">
           <LanguageSelector
@@ -52,3 +55,5 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
     </footer>
   );
 }
+
+    
