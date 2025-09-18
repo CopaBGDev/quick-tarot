@@ -26,12 +26,14 @@ export const blogPosts: BlogPost[] = [
   {
     "title": "Kako postaviti pravo pitanje kartama",
     "slug": "kako-postaviti-pravo-pitanje",
-    "metaTitle": "Kako postaviti pravo pitanje kartama – vodič",
-    "metaDescription": "Naučite kako postaviti jasna i fokusirana pitanja tarot kartama za precizno tumačenje.",
-    "keywords": ["tarot pitanja", "postavljanje pitanja", "tumačenje karata", "vodič tarot"],
-    "content": "<p>Postavljanje pravog pitanja ključ je preciznog tarot čitanja. Dobra pitanja su jasna, fokusirana i otvorena za introspektivu...</p>",
+    "metaTitle": "Kako postaviti pravo pitanje kartama - Tarot vodič",
+    "metaDescription": "Naučite kako da postavite pravo pitanje tarot kartama. Primeri dobrih i loših pitanja za tačnija tumačenja.",
+    "keywords": ["tarot pitanja", "kako pitati tarot", "najbolja pitanja za tarot", "tarot vodič"],
+    "content": "<h1>Kako postaviti pravo pitanje kartama</h1>\n<p>Jedan od najvažnijih koraka u tarot čitanju nije samo mešanje ili tumačenje karata, već <strong>postavljanje pravog pitanja</strong>. Kvalitet odgovora koji dobijamo iz tarota u velikoj meri zavisi od toga koliko je pitanje jasno, fokusirano i otvoreno. U ovom članku otkrićemo kako se formulišu pitanja koja omogućavaju da dobijete najviše iz svake sesije.</p>\n\n<h2>Zašto je važno dobro pitanje?</h2>\n<p>Tarot ne daje gotove recepte za budućnost, već osvetljava put, mogućnosti i unutrašnje uvide. Ako postavite pitanje na način koji je zatvoren ili suviše ograničen (npr. „Da li ću položiti ispit?“), dobićete odgovore koji su manje korisni i često zbunjujući. Sa druge strane, otvoreno pitanje (npr. „Šta mogu da uradim da povećam šanse da položim ispit?“) pruža smernice i praktične uvide.</p>\n\n<h2>Osnovna pravila dobrog pitanja</h2>\n<ul>\n  <li><strong>Budi jasan i konkretan</strong> – pitanje ne sme biti dvosmisleno.</li>\n  <li><strong>Budi otvoren</strong> – umesto da tražiš da/ne odgovore, pitaj kako, šta, zašto.</li>\n  <li><strong>Fokusiraj se na sebe</strong> – tarot najbolje funkcioniše kada se pita za sopstveni razvoj i odluke.</li>\n  <li><strong>Izbegavaj fatalizam</strong> – tarot pokazuje potencijale, ne neizbežnu sudbinu.</li>\n</ul>\n\n<h2>Primeri dobrih pitanja</h2>\n<ul>\n  <li>Šta treba da naučim iz trenutne situacije?</li>\n  <li>Koji su izazovi i prilike koje me čekaju u vezi sa poslom?</li>\n  <li>Na koji način mogu da unapredim svoj odnos sa partnerom?</li>\n  <li>Koji unutrašnji blokovi me sputavaju u napretku?</li>\n  <li>Kako da najbolje iskoristim naredni mesec?</li>\n</ul>\n\n<h2>Primeri loših pitanja</h2>\n<ul>\n  <li>Da li ću se udati/oženiti sledeće godine?</li>\n  <li>Kada ću dobiti povišicu?</li>\n  <li>Da li će mi partner ostati veran?</li>\n  <li>Hoću li biti srećan?</li>\n</ul>\n<p>Ova pitanja su problematična jer zahtevaju konkretne i determinisane odgovore, dok tarot nudi uvide i smernice. Umesto toga, pitanja je bolje oblikovati tako da vam pokažu putokaz, a ne konačan ishod.</p>\n\n<h2>Kako usmeriti pitanja ka ličnom razvoju</h2>\n<p>Najbolja pitanja nisu vezana samo za spoljne događaje, već za unutrašnji rast. Kada pitate tarot <em>šta mogu da naučim</em>, <em>kako da prevaziđem</em> ili <em>na koji način da pristupim</em>, otvarate prostor za introspektivu i duhovni napredak.</p>\n\n<h2>Praktični saveti</h2>\n<ul>\n  <li>Zapišite pitanje pre nego što otvorite karte – ovo pomaže da ostanete fokusirani.</li>\n  <li>Postavljajte pitanja u sadašnjem vremenu (\"Šta sada mogu da uradim?\" umesto \"Šta će se desiti?\").</li>\n  <li>Ako niste sigurni kako da formulišete pitanje, počnite sa <strong>\"Šta treba da znam o…\"</strong>.</li>\n</ul>\n\n<h2>Zaključak</h2>\n<p>Postavljanje pravog pitanja je veština koja se uči, ali donosi ogromne rezultate. Dobro oblikovano pitanje pretvara tarot čitanje u moćan alat samospoznaje i odlučivanja. Sledeći put kada budete koristili tarot, zapamtite: <em>pitanje otvara vrata – karte ih samo osvetljavaju</em>.</p>\n",
     "internalLinks": [
-      {"title": "Šta je tarot i kako funkcioniše?", "slug": "sta-je-tarot"}
+      {"title": "Šta je tarot i kako funkcioniše?", "slug": "sta-je-tarot-i-kako-funkcionise"},
+      {"title": "Etika u tarot čitanju", "slug": "etika-u-tarot-citanju"},
+      {"title": "Top 10 najpoznatijih tarot otvaranja", "slug": "top-10-tarot-otvaranja"}
     ]
   },
   {
@@ -230,6 +232,5 @@ export const blogPosts: BlogPost[] = [
     ]
   }
 ];
-
     
     
