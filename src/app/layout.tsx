@@ -21,7 +21,7 @@ const lora = Lora({
 
 const APP_NAME = "Quick Tarot Reading";
 const APP_DESCRIPTION = "Dobijte vaše personalizovano tarot čitanje. Otkrijte šta vam zvezde i karte poručuju.";
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "https://quick-tarot.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),
