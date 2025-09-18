@@ -50,12 +50,12 @@ export const metadata: Metadata = {
     description: APP_DESCRIPTION,
     images: [`/og-image.png`],
   },
-  icons: {
-    icon: '/LogoByLokee.png',
-    shortcut: '/LogoByLokee.png',
-    apple: '/LogoByLokee.png',
-  },
   manifest: "/manifest.json",
+  icons: {
+    icon: '/og-image.png',
+    shortcut: '/og-image.png',
+    apple: '/og-image.png',
+  },
 };
 
 export const viewport: Viewport = {

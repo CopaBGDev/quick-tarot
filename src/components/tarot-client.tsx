@@ -3,13 +3,18 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
+<<<<<<< HEAD
 import { Sparkles, Loader2, Edit3, Timer, BookOpen, Newspaper, HelpCircle } from "lucide-react";
+=======
+import { Sparkles, Loader2, Edit3, Timer, Star, BookOpen, Layers, Newspaper } from "lucide-react";
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
 import Image from "next/image";
 import Link from "next/link";
 
 
 import { getTarotReading, ReadingError } from "@/app/actions";
-import { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
+import type { GenerateTarotReadingOutput } from "@/ai/flows/generate-tarot-reading";
+import { DailyCard, getDailyCard } from "@/ai/flows/get-daily-card";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +25,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -37,16 +42,24 @@ import { Logo } from "./logo";
 import { TarotCard } from "./tarot-card";
 import { ZodiacWheel, ZODIAC_IMAGES, NATURAL_ORDER_EN } from "./zodiac-wheel";
 import { getCardImagePath } from "@/lib/cards";
-import { SUPPORTED_LANGUAGES, LanguageSelector } from "./language-selector";
+import { SUPPORTED_LANGUAGES } from "./language-selector";
 import { getTranslations, ALL_TRANSLATIONS, TranslationSet } from "@/lib/translations";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Footer } from "./footer";
 import { cn } from "@/lib/utils";
 import { AdPlaceholder } from "./ad-placeholder";
+import { format } from 'date-fns';
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
 interface FormValues {
   question: string;
+}
+
+interface TarotClientProps {
+    initialDailyCard: DailyCard | null;
+    initialLang?: string;
 }
 
 const READING_COOLDOWN_SECONDS = 120;
@@ -55,6 +68,7 @@ const READING_STORAGE_KEY = "tarotReading";
 const ZODIAC_STORAGE_KEY = "tarotZodiacSign";
 const QUESTION_STORAGE_KEY = "tarotQuestion";
 const LANGUAGE_STORAGE_KEY = "tarotLanguage";
+const DAILY_CARD_VIEWED_KEY = "dailyCardViewedDate";
 
 
 const CARD_BACK = { name: "Card Back", imagePath: "/zodiac/cards/card_back.jpg" };
@@ -66,21 +80,59 @@ const clearLocalStorage = () => {
     localStorage.removeItem(QUESTION_STORAGE_KEY);
 };
 
+// Helper components are defined outside the main component
+const ContentGrid: React.FC<{ translations: TranslationSet; language: string; }> = ({ translations, language }) => (
+    <div className="mt-12 w-full max-w-5xl mx-auto">
+      <h2 className="text-2xl font-bold font-headline text-center text-primary mb-6">{translations.exploreContentTitle}</h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Link href={`/tarot-guide?lang=${language}`} passHref>
+          <Card className="h-full bg-transparent border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/40 transition-all group">
+            <CardHeader className="items-center text-center">
+              <BookOpen className="w-10 h-10 mb-2 text-primary"/>
+              <CardTitle className="text-lg">{translations.footerTarotGuide}</CardTitle>
+              <CardDescription>{translations.tarotGuideDescription}</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link href={`/card-meanings?lang=${language}`} passHref>
+          <Card className="h-full bg-transparent border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/40 transition-all group">
+            <CardHeader className="items-center text-center">
+              <Layers className="w-10 h-10 mb-2 text-primary"/>
+              <CardTitle className="text-lg">{translations.footerCardMeanings}</CardTitle>
+              <CardDescription>{translations.cardMeaningsSectionDescription}</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        <Link href={`/blog?lang=${language}`} passHref>
+          <Card className="h-full bg-transparent border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/40 transition-all group">
+            <CardHeader className="items-center text-center">
+              <Newspaper className="w-10 h-10 mb-2 text-primary"/>
+              <CardTitle className="text-lg">{translations.footerBlog}</CardTitle>
+              <CardDescription>{translations.blogSectionDescription}</CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+      </div>
+    </div>
+);
 
-export default function TarotClient() {
+export default function TarotClient({ initialDailyCard, initialLang }: TarotClientProps) {
   const [isFormLoading, setIsFormLoading] = React.useState(false);
   const [reading, setReading] = React.useState<GenerateTarotReadingOutput | null>(null);
   const [cardsFlipped, setCardsFlipped] = React.useState(false);
   const [typedReading, setTypedReading] = React.useState("");
-  const [language, setLanguage] = React.useState('sr');
-  const [translations, setTranslations] = React.useState<TranslationSet>(ALL_TRANSLATIONS.sr);
+  const [language, setLanguage] = React.useState(initialLang || 'sr');
+  const [translations, setTranslations] = React.useState<TranslationSet>(getTranslations(initialLang || 'sr'));
   const [countdown, setCountdown] = React.useState(0);
   const [selectedZodiacSign, setSelectedZodiacSign] = React.useState<string | undefined>(undefined);
   const [zodiacError, setZodiacError] = React.useState<string | null>(null);
+  const [dailyCard, setDailyCard] = React.useState<DailyCard | null>(initialDailyCard);
+  const [isDailyCardModalOpen, setIsDailyCardModalOpen] = React.useState(false);
 
   const isMobile = useIsMobile();
   const resultsRef = React.useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const router = useRouter();
   
   const form = useForm<FormValues>({
     defaultValues: {
@@ -101,15 +153,25 @@ export default function TarotClient() {
 
 
   React.useEffect(() => {
-    const savedLang = localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+    const lastViewedDate = localStorage.getItem(DAILY_CARD_VIEWED_KEY);
+    if (lastViewedDate !== todayStr && initialDailyCard) {
+        setIsDailyCardModalOpen(true);
+    }
+    
+    const savedLang = initialLang || localStorage.getItem(LANGUAGE_STORAGE_KEY) || navigator.language || 'sr';
     const baseLang = savedLang.split('-')[0];
     const newTranslations = getTranslations(baseLang);
-    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
+    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'sr';
 
     setLanguage(supportedLangCode);
     setTranslations(newTranslations);
+    if(initialLang !== supportedLangCode) {
+        router.replace(`/?lang=${supportedLangCode}`, { scroll: false });
+    }
     
     try {
+<<<<<<< HEAD
         const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
         const savedReadingJSON = localStorage.getItem(READING_STORAGE_KEY);
         
@@ -131,12 +193,38 @@ export default function TarotClient() {
 
             if (savedSignName) setSelectedZodiacSign(savedSignName);
             if (savedQuestion) form.setValue('question', savedQuestion);
+=======
+      const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
+      const savedReading = localStorage.getItem(READING_STORAGE_KEY);
+
+      if (savedCooldown) {
+        const remainingTime = Math.ceil(
+          (parseInt(savedCooldown, 10) - Date.now()) / 1000
+        );
+        if (remainingTime > 0) {
+          setCountdown(remainingTime);
+        } else {
+          localStorage.removeItem(COOLDOWN_STORAGE_KEY);
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
         }
+      }
+      
+      // Check for non-empty string before parsing
+      if (savedReading && savedReading.trim() !== '') {
+        const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
+        setReading(parsedReading);
+
+        const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
+        const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
+
+        if (savedSignName) setSelectedZodiacSign(savedSignName);
+        if (savedQuestion) form.setValue('question', savedQuestion);
+      }
     } catch (error) {
-        console.error("Failed to parse from localStorage, clearing...", error);
-        clearLocalStorage();
+      console.error('Failed to parse from localStorage, clearing...', error);
+      clearLocalStorage();
     }
-  }, [form]);
+  }, [form, initialDailyCard, initialLang, router]);
   
   React.useEffect(() => {
     if (!reading) {
@@ -183,15 +271,26 @@ export default function TarotClient() {
       translations.zodiacSignCapricorn, translations.zodiacSignAquarius, translations.zodiacSignPisces,
   ], [translations]);
 
-  const handleLanguageChange = React.useCallback((langCode: string) => {
+  const handleLanguageChange = React.useCallback(async (langCode: string) => {
     const baseLang = langCode.split('-')[0];
     const newTranslations = getTranslations(baseLang);
-    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'en';
+    const supportedLangCode = SUPPORTED_LANGUAGES.find(l => l.code === baseLang)?.code || 'sr';
 
     setLanguage(supportedLangCode);
     localStorage.setItem(LANGUAGE_STORAGE_KEY, supportedLangCode);
     setTranslations(newTranslations);
-  }, []);
+
+    router.replace(`/?lang=${supportedLangCode}`, { scroll: false });
+
+    try {
+        const targetLanguageName = SUPPORTED_LANGUAGES.find(l => l.code === supportedLangCode)?.name || 'Serbian';
+        const newDailyCard = await getDailyCard(targetLanguageName);
+        setDailyCard(newDailyCard);
+    } catch (error) {
+        console.error("Failed to refetch daily card for new language:", error);
+    }
+
+  }, [router]);
 
 
   const onSubmit = React.useCallback(async (data: FormValues) => {
@@ -273,17 +372,23 @@ export default function TarotClient() {
     }));
   }, [reading]);
 
+  const handleDailyCardModalClose = () => {
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+    localStorage.setItem(DAILY_CARD_VIEWED_KEY, todayStr);
+    setIsDailyCardModalOpen(false);
+  }
+
   const disabled = isFormLoading || countdown > 0;
   
-  const submittedValues = form.watch();
+  const submittedQuestion = form.watch("question");
   const selectedSign = selectedZodiacSign;
   const naturalOrder = zodiacSigns;
   const selectedEnglishSign = selectedSign ? NATURAL_ORDER_EN[naturalOrder.indexOf(selectedSign as any)] : undefined;
   const selectedImage = selectedEnglishSign ? ZODIAC_IMAGES[selectedEnglishSign] : undefined;
   
-  const showMinimizedView = isFormLoading || reading;
-
+  const showResultsView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
+<<<<<<< HEAD
 
   const minimizedView = (
     <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -434,6 +539,137 @@ export default function TarotClient() {
       )}
     </section>
   );
+=======
+  
+    return (
+      <div className="flex w-full flex-col min-h-screen">
+        {dailyCard && (
+          <AlertDialog open={isDailyCardModalOpen} onOpenChange={setIsDailyCardModalOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="flex items-center gap-2">
+                  <Star className="w-5 h-5 text-primary" />
+                  {translations.dailyCardTitle}
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <div className="text-center pt-4">
+                <div className="w-32 h-48 mx-auto mb-4">
+                  <Image
+                    src={getCardImagePath(dailyCard.cardName)}
+                    alt={dailyCard.cardName}
+                    width={128}
+                    height={192}
+                    className="w-full h-full object-cover rounded-lg shadow-lg"
+                  />
+                </div>
+                <h3 className="font-bold text-lg text-foreground mb-2 font-headline">{dailyCard.cardName}</h3>
+                <p className="text-sm text-muted-foreground">{dailyCard.interpretation}</p>
+              </div>
+              <AlertDialogFooter>
+                <AlertDialogAction onClick={handleDailyCardModalClose}>{translations.dailyCardButton}</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        )}
+
+        {showResultsView && (
+             <header className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
+                     <div className="flex w-1/3 items-center justify-start gap-3">
+                        {selectedImage && submittedQuestion && (
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <div className="flex items-center gap-3 cursor-pointer group">
+                                    <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
+                                        <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
+                                        <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
+                                        </div>
+                                    </div>
+                                    <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
+                                        {submittedQuestion}
+                                    </p>
+                                    </div>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                    <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
+                                    </AlertDialogHeader>
+                                    <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
+                                    {submittedQuestion}
+                                    </div>
+                                    <AlertDialogFooter>
+                                    <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                    </div>
+
+                    <div className="flex w-1/3 items-center justify-center">
+                        <h2 className="font-headline text-3xl font-bold text-primary shrink-0">
+                            {translations.resultsTitle}
+                        </h2>
+                    </div>
+
+                    <div className="flex w-1/3 items-center justify-end gap-2">
+                        {isReadyForNewReading ? (
+                            <Button onClick={resetState} variant="link" className="text-primary font-bold">
+                                {translations.countdownFinishedText}
+                            </Button>
+                        ) : (
+                            <>
+                                {countdown > 0 && (
+                                    <div className="text-primary font-mono text-sm flex items-center gap-2">
+                                    <Timer className="h-4 w-4" />
+                                    <span>
+                                        {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
+                                    </span>
+                                    </div>
+                                )}
+                                <AlertDialog>
+                                    <AlertDialogTrigger asChild>
+                                    <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <Edit3 className="h-[1.2rem] w-[1.2rem]" />
+                                        <span className="sr-only">Edit</span>
+                                    </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>{translations.resetDialogTitle}</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                        {translations.resetDialogDescription}
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>{translations.resetDialogCancel}</AlertDialogCancel>
+                                        <AlertDialogAction onClick={resetState}>{translations.resetDialogConfirm}</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </header>
+        )}
+
+
+        <main className={cn("w-full flex flex-col items-center flex-grow p-4", showResultsView && "pt-24")}>
+          <div className={cn("w-full flex flex-col items-center flex-grow")}>
+            {!showResultsView ? (
+              <>
+                 {/* Mobile Layout */}
+                <div className="md:hidden w-full flex flex-col h-full">
+                  <div className="min-h-screen flex flex-col justify-between py-4">
+                    <header>
+                        <div className="flex flex-col items-center text-center">
+                            <Logo className="h-28 w-28 text-primary" />
+                            <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                              Quick Tarot
+                            </h1>
+                        </div>
+                    </header>
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
 
   const additionalContent = (
     <section className="w-full max-w-4xl text-center my-16">
@@ -614,6 +850,7 @@ export default function TarotClient() {
                           </Form>
                       </div>
                   </div>
+<<<<<<< HEAD
               </div>
             </>
           ) : (
@@ -637,4 +874,160 @@ export default function TarotClient() {
       />
     </div>
   );
+=======
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
+                    <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow items-center">
+                        <div className="flex items-center justify-center h-full">
+                           <ZodiacWheel
+                              signs={zodiacSigns}
+                              onSelect={setSelectedZodiacSign}
+                              selectedValue={selectedZodiacSign}
+                              disabled={disabled}
+                            />
+                        </div>
+                        
+                        <div className="flex flex-col py-8">
+                             <header className="flex w-full flex-col items-center text-center">
+                                <div className="flex flex-col items-center">
+                                    <Logo className="h-28 w-28 text-primary" />
+                                    <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
+                                      Quick Tarot
+                                    </h1>
+                                </div>
+                                <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
+                                    {translations.headerSubtitle}
+                                 </p>
+                            </header>
+                             <Form {...form}>
+                             <form
+                                onSubmit={form.handleSubmit(onSubmit)}
+                                className="w-full max-w-md space-y-8 mt-12 mx-auto md:mx-0 md:max-w-none">
+                                <FormField
+                                  control={form.control}
+                                  name="question"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel className="w-full block text-right font-bold text-primary">
+                                        {translations.formQuestionLabel}
+                                      </FormLabel>
+                                      <FormControl>
+                                        <Textarea
+                                          placeholder={translations.formQuestionPlaceholder}
+                                          {...field}
+                                          disabled={disabled}
+                                          onKeyDown={handleTextareaKeyDown}
+                                        />
+                                      </FormControl>
+                                      <FormMessage className="text-primary" />
+                                    </FormItem>
+                                  )}
+                                />
+                                <Button
+                                  type="submit"
+                                  className="w-full font-bold"
+                                  disabled={disabled}
+                                  size="lg"
+                                >
+                                  {isFormLoading ? (
+                                    <>
+                                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                      {translations.buttonLoading}
+                                    </>
+                                  ) : countdown > 0 ? (
+                                    <div className="flex items-center gap-2">
+                                      <Timer className="h-4 w-4" />
+                                      <span>{`${Math.floor(countdown / 60)
+                                        .toString()
+                                        .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
+                                    </div>
+                                  ) : (
+                                    <>{translations.buttonDefault}</>
+                                  )}
+                                </Button>
+                            </form>
+                            </Form>
+                        </div>
+                    </div>
+                </div>
+                <div className="mt-8 px-4 w-full max-w-5xl mx-auto">
+                   <AdPlaceholder />
+                </div>
+                
+                <ContentGrid translations={translations} language={language} />
+                
+              </>
+            ) : (
+                <section
+                    ref={resultsRef}
+                    className="w-full max-w-4xl text-center"
+                    >
+                    {(isFormLoading || reading) && (
+                        <>
+                        <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
+                            <TarotCard
+                            isFlipped={cardsFlipped}
+                            delay={0}
+                            card={tarotCards[0]}
+                            />
+                            <TarotCard
+                            isFlipped={cardsFlipped}
+                            delay={150}
+                            card={tarotCards[1]}
+                            />
+                            <TarotCard
+                            isFlipped={cardsFlipped}
+                            delay={300}
+                            card={tarotCards[2]}
+                            />
+                        </div>
+
+                        {isFormLoading && !reading && (
+                            <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
+                            <Sparkles className="h-8 w-8 animate-pulse text-primary" />
+                            <p className="text-center font-semibold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
+                                {translations.resultsLoadingText}
+                            </p>
+                            </div>
+                        )}
+
+                        {reading && (
+                            <>
+                            <div className="my-8">
+                                <AdPlaceholder />
+                            </div>
+                            <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
+                                <CardHeader>
+                                    <CardTitle>{translations.resultsReadingTitle}</CardTitle>
+                                </CardHeader>
+                                <CardContent className="p-6 text-left">
+                                <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
+                                    {typedReading}
+                                </p>
+                                </CardContent>
+                            </Card>
+                            </>
+                        )}
+                        </>
+                    )}
+                     <div className="px-4 mt-8">
+                      <ContentGrid translations={translations} language={language} />
+                    </div>
+                </section>
+            )}
+          </div>
+        </main>
+        <Footer 
+            translations={translations} 
+            language={language} 
+            onLanguageChange={handleLanguageChange}
+            disabled={disabled}
+        />
+      </div>
+    );
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
 }
+
+    

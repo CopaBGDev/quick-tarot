@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -6,6 +5,7 @@ import Link from 'next/link';
 import { LanguageSelector } from "./language-selector";
 import type { TranslationSet } from "@/lib/translations";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface FooterProps {
   translations: TranslationSet;
@@ -16,6 +16,7 @@ interface FooterProps {
 
 export function Footer({ translations, language, onLanguageChange, disabled }: FooterProps) {
   const footerLinks = [
+<<<<<<< HEAD
     { href: "/about", text: translations.footerAbout },
     { href: "/mission", text: translations.footerMission },
     { href: "/faq", text: translations.footerFaq },
@@ -24,6 +25,16 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
     { href: "/what-is-tarot", text: translations.footerWhatIsTarot },
     { href: "/meanings", text: translations.footerCardMeanings },
     { href: "/blog", text: translations.footerBlog },
+=======
+    { text: translations.footerAbout, href: `/about?lang=${language}` },
+    { text: translations.footerMission, href: `/mission?lang=${language}` },
+    { text: translations.footerTarotGuide, href: `/tarot-guide?lang=${language}` },
+    { text: translations.footerCardMeanings, href: `/card-meanings?lang=${language}` },
+    { text: translations.footerBlog, href: `/blog?lang=${language}` },
+    { text: translations.footerFaq, href: `/faq?lang=${language}` },
+    { text: translations.footerTerms, href: `/terms?lang=${language}` },
+    { text: translations.footerPrivacy, href: `/privacy?lang=${language}` },
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
   ];
 
   return (
@@ -55,5 +66,8 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
     </footer>
   );
 }
+<<<<<<< HEAD
 
     
+=======
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b

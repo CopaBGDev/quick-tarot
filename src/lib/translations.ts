@@ -23,6 +23,9 @@ export type TranslationSet = {
     footerCardMeanings: string;
     footerBlog: string;
     footerReset: string;
+    footerTarotGuide: string;
+    footerCardMeanings: string;
+    footerBlog: string;
     aboutDialogTitle: string;
     aboutDialogContent: string;
     missionDialogTitle: string;
@@ -50,6 +53,9 @@ export type TranslationSet = {
     unknownError: string;
     serviceOverloadedError: string;
     countdownFinishedText: string;
+    dailyCardTitle: string;
+    dailyCardButton: string;
+    homeButtonText: string;
     zodiacSignAries: string;
     zodiacSignTaurus: string;
     zodiacSignGemini: string;
@@ -62,6 +68,31 @@ export type TranslationSet = {
     zodiacSignCapricorn: string;
     zodiacSignAquarius: string;
     zodiacSignPisces: string;
+    exploreContentTitle: string;
+    tarotGuideDescription: string;
+    cardMeaningsSectionDescription: string;
+    blogSectionDescription: string;
+    tarotGuideTitle: string;
+    tarotGuideContent_p1: string;
+    tarotGuideContent_p2: string;
+    tarotGuideContent_h2_1: string;
+    tarotGuideContent_p3: string;
+    tarotGuideContent_p4: string;
+    tarotGuideContent_h2_2: string;
+    tarotGuideContent_p5: string;
+    cardMeaningsTitle: string;
+    cardMeaningsDescription: string;
+    cardMeaningsComingSoon: string;
+    blogTitle: string;
+    blogDescription: string;
+    blogReadMore: string;
+    blogPostTitle_TarotAndLove: string;
+    blogPostDescription_TarotAndLove: string;
+    blogPostContent_TarotAndLove_p1: string;
+    blogPostContent_TarotAndLove_p2: string;
+    blogPostContent_TarotAndLove_h2_1: string;
+    blogPostContent_TarotAndLove_p3: string;
+    blogPostContent_TarotAndLove_p4: string;
 };
 
 export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
@@ -89,12 +120,19 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         footerCardMeanings: "Card Meanings",
         footerBlog: "Blog",
         footerReset: "Reset Application",
+        footerTarotGuide: "Tarot Guide",
+        footerCardMeanings: "Card Meanings",
+        footerBlog: "Blog",
         aboutDialogTitle: "About The Quick Tarot App",
         aboutDialogContent: `Welcome to Quick Tarot, your digital portal to the mystical world of tarot. Our application is designed to provide an intuitive, insightful, and personalized tarot experience that is accessible to everyone, anywhere, and at any time. We believe that tarot is a powerful tool for self-reflection, guidance, and a deeper understanding of one's life path.\n\nAt the core of Quick Tarot is a sophisticated AI engine that generates unique and meaningful readings. We don't use pre-written interpretations. Instead, for each question, our system programmatically draws three cards from a full 78-card deck, ensuring that every reading is genuinely random and tailored to the user's specific query and astrological sign. This dynamic process allows the AI to weave a narrative that connects the card's symbolism to the user's personal context, providing guidance that is both relevant and profound.\n\nOur philosophy is that tarot is not about fortune-telling in the deterministic sense, but about empowerment. The cards are a mirror to a a's inner world, reflecting hidden thoughts, potential challenges, and untapped opportunities. They offer a new perspective, helping users to navigate their circumstances with greater clarity and confidence. Whether you are seeking answers to a specific problem, looking for creative inspiration, or simply wish to explore your intuition, Quick Tarot is here to be your trusted guide.\n\nWe are committed to creating a transparent and high-quality service. Our site includes detailed explanations of our methodology, the meanings of all 78 tarot cards, and guides on how to formulate effective questions. We believe that an informed user is an empowered user. Thank you for being part of our journey as we merge ancient wisdom with modern technology to bring the art of tarot into the digital age.`,
         missionDialogTitle: "Our Mission",
         missionDialogContent: "Our mission at Quick Tarot is to demystify the art of tarot and make it an accessible, practical tool for personal growth and introspection in the modern world. We aim to bridge the gap between ancient wisdom and cutting-edge technology, empowering individuals to find clarity, make more informed decisions, and understand the deeper currents that shape their lives.\n\nWe are guided by three core principles:\n1. Accessibility: We strive to remove the barriers that have often made tarot seem esoteric or unapproachable. Our platform is designed to be user-friendly and intuitive, offering a welcoming space for both beginners and experienced practitioners. By providing our service online, we make guidance available anytime, anywhere.\n2. Authenticity: We are committed to honoring the rich tradition and symbolism of tarot. While we use advanced AI to generate readings, our system is built upon a deep respect for the established meanings and relationships between the cards. We ensure that every reading, though generated by technology, is rooted in the authentic spirit of tarot practice.\n3. Empowerment: Our ultimate goal is not to predict the future, but to empower our users. We see tarot as a tool for self-discovery and reflection. By providing insightful interpretations, we help individuals to unlock their own intuition, recognize their inner strengths, and navigate life's challenges with greater awareness and confidence. We encourage our users to see the cards not as a fixed destiny, but as a guide to creating their own best future.",
         faqDialogTitle: "Frequently Asked Questions",
+<<<<<<< HEAD
         faqDialogContent: `**Q: How does the AI generate tarot readings?**\nA: Our system uses a powerful language model combined with a deep understanding of tarot symbolism. When you ask a question, the AI considers your query and zodiac sign. It then programmatically selects three random cards from a full 78-card deck. The AI interprets the meanings of these specific cards in the context of your question, creating a unique, coherent narrative. It does not use pre-written scripts.\n\n**Q: Are the readings truly random and unique?**\nA: Absolutely. The card selection process is cryptographically random for each reading. Because the AI's interpretation is generated in real-time based on the unique combination of your question, sign, and the three randomly drawn cards, the number of possible readings is virtually infinite. It is extremely unlikely that two users will ever receive the exact same text.\n\n**Q: How often can I ask for a reading?**\nA: To encourage thoughtful use and ensure the quality of our service, we have a two-minute cooldown period between readings. We believe this promotes more meaningful engagement with the guidance provided, rather than rapid, superficial inquiries.\n\n**Q: Is this real fortune-telling?**\nA: We view tarot as a tool for guidance and self-reflection, not as a method for predicting a fixed future. The cards can illuminate potential paths, hidden influences, and the underlying energies of a situation. The ultimate power to choose and act always rests with you. The reading is a snapshot of the present moment's potential, offering you a fresh perspective to make empowered decisions.\n\n**Q: Why do you need my zodiac sign?**\nA: Your zodiac sign adds another layer of personalization to the reading. The AI incorporates the general archetypal traits and elemental influences of your sign to tailor the interpretation, making the guidance more resonant and specific to your potential disposition and approach to life.`,
+=======
+        faqDialogContent: "Q: Are the readings truly random?\nA: Absolutely. For each new question, our system randomly selects three cards from a full 78-card deck, guaranteeing a unique and unbiased reading every time.\n\nP: How often can I ask a question?\nA: To ensure the quality and meaningfulness of each reading, we have implemented a time limit. You can request a new reading every two minutes.\n\nQ: Is this real fortune-telling?\nA: We see tarot as a guide and a tool for self-reflection, rather than a concrete prediction of the future. The cards can help you see a situation from a new perspective and make decisions that are in line with your inner being.",
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
         termsDialogTitle: "Terms of Use",
         termsDialogContent: `Welcome to Quick Tarot. By accessing and using our application and website ("Service"), you agree to comply with and be bound by the following terms and conditions of use. Please review them carefully.\n\n**1. Acceptance of Terms**\nThis Service is provided for entertainment, spiritual, and introspective purposes only. The readings are generated by an artificial intelligence and should not be considered a substitute for professional advice, including but not limited to medical, legal, financial, or psychological counsel. You must be at least 18 years old to use this Service.\n\n**2. Nature of the Service**\nThe tarot readings provided by our AI are based on algorithms and interpretations of symbolism. They are not factual, and we make no claims or guarantees as to their accuracy or applicability to your life. The Service is provided 'as is' and 'as available' without warranties of any kind.\n\n**3. User Conduct and Responsibility**\nYou are solely responsible for your actions and decisions based on the use of this Service. Quick Tarot, its creators, and affiliates shall not be held liable for any damages, losses, or distress arising from your reliance on the information provided. You agree to use the Service responsibly and not for any unlawful purpose.\n\n**4. Intellectual Property**\nAll content on this site, including text, graphics, logos, and the AI-generated readings, is the property of Quick Tarot and protected by copyright and other intellectual property laws. You may not reproduce, distribute, or create derivative works from the content without our express written permission.\n\n**5. Limitation of Liability**\nIn no event shall Quick Tarot or its affiliates be liable for any direct, indirect, incidental, special, or consequential damages resulting from the use or inability to use the Service.\n\n**6. Modifications to Service**\nWe reserve the right to modify, suspend, or discontinue the Service at any time, with or without notice, without liability to you or any third party.\n\n**7. Governing Law**\nThese terms shall be governed by and construed in accordance with the laws of the jurisdiction in which our company is based, without regard to its conflict of law provisions.`,
         privacyDialogTitle: "Privacy Policy",
@@ -116,6 +154,9 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "An unknown error occurred. Please try again.",
         serviceOverloadedError: "The service is currently overloaded. Please try again in a few moments.",
         countdownFinishedText: "Ready for new reading",
+        dailyCardTitle: "Card of the Day",
+        dailyCardButton: "Continue to the App",
+        homeButtonText: "Home",
         zodiacSignAries: "Aries",
         zodiacSignTaurus: "Taurus",
         zodiacSignGemini: "Gemini",
@@ -128,6 +169,31 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         zodiacSignCapricorn: "Capricorn",
         zodiacSignAquarius: "Aquarius",
         zodiacSignPisces: "Pisces",
+        exploreContentTitle: "Explore Our Content",
+        tarotGuideDescription: "Learn the basics of tarot, how it works, and how to start your journey.",
+        cardMeaningsSectionDescription: "Discover the meanings of all 78 tarot cards in our complete library.",
+        blogSectionDescription: "Read our articles on tarot, spirituality, and personal growth.",
+        tarotGuideTitle: "What is Tarot and How Does It Work?",
+        tarotGuideContent_p1: "Tarot is a system of 78 cards used for divination, self-exploration, and spiritual growth. It's a mirror to the soul, reflecting the energies, challenges, and opportunities present in our lives.",
+        tarotGuideContent_p2: "The deck is divided into two main parts: the Major Arcana and the Minor Arcana. The 22 Major Arcana cards represent significant life events and spiritual lessons, while the 56 Minor Arcana cards depict the day-to-day situations and emotions we experience.",
+        tarotGuideContent_h2_1: "How a Reading Works",
+        tarotGuideContent_p3: "A tarot reading is not about predicting a fixed future. Instead, it offers a snapshot of the current energies surrounding a situation. The cards you draw reflect your own subconscious knowledge and the influences at play.",
+        tarotGuideContent_p4: "When you ask a question, you are focusing your energy. The cards that appear are a response to that energy, providing guidance and new perspectives. The interpretation of the cards is a blend of their traditional meanings and the reader's intuition.",
+        tarotGuideContent_h2_2: "Our Approach",
+        tarotGuideContent_p5: "Here at Quick Tarot, we use artificial intelligence to interpret the randomly drawn cards in the context of your question and zodiac sign. This creates a personalized and insightful reading, designed to offer clarity and empower you to make conscious decisions.",
+        cardMeaningsTitle: "Tarot Card Meanings",
+        cardMeaningsDescription: "Explore the rich symbolism of all 78 tarot cards. Click on a card to learn more about its meaning in love, career, and spirituality. (Full descriptions coming soon)",
+        cardMeaningsComingSoon: "Full, detailed pages for each card are coming soon!",
+        blogTitle: "Our Tarot Blog",
+        blogDescription: "Dive deeper into the world of tarot with our articles on various topics.",
+        blogReadMore: "Read More",
+        blogPostTitle_TarotAndLove: "Tarot and Love: Finding Clarity in Matters of the Heart",
+        blogPostDescription_TarotAndLove: "How can tarot help you navigate the complex world of relationships? Discover the key cards and questions to ask.",
+        blogPostContent_TarotAndLove_p1: "Love is one of the most common topics brought to a tarot reading. Whether you're single, in a new relationship, or navigating a long-term partnership, the cards can offer profound insights.",
+        blogPostContent_TarotAndLove_p2: "Tarot doesn't give a simple 'yes' or 'no' answer. Instead, it illuminates the dynamics at play, the emotional undercurrents, and the potential pathways forward.",
+        blogPostContent_TarotAndLove_h2_1: "Key Cards in Love Readings",
+        blogPostContent_TarotAndLove_p3: "The Lovers, Two of Cups, and Ten of Cups are classic indicators of partnership and emotional fulfillment. However, cards like The Tower can signify necessary shake-ups, while The Hermit might point to a need for introspection before entering a relationship.",
+        blogPostContent_TarotAndLove_p4: "The key is to look at the cards together, as a story. They can reveal your own blockages, your partner's feelings, and the overall potential of the connection. Use them not to predict, but to understand and grow.",
     },
     sr: {
         headerSubtitle: "Otkrijte šta vam zvezde i karte poručuju. Unesite vaš znak i pitanje kako biste dobili vaše personalizovano tarot čitanje.",
@@ -153,6 +219,9 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         footerCardMeanings: "Značenja Karata",
         footerBlog: "Blog",
         footerReset: "Resetuj Aplikaciju",
+        footerTarotGuide: "Vodič za Tarot",
+        footerCardMeanings: "Značenja Karata",
+        footerBlog: "Blog",
         aboutDialogTitle: "O Quick Tarot Aplikaciji",
         aboutDialogContent: `Dobrodošli u Quick Tarot, vaš digitalni portal u mistični svet tarota. Naša aplikacija je dizajnirana da pruži intuitivno, pronicljivo i personalizovano tarot iskustvo koje je dostupno svima, bilo gde i bilo kada. Verujemo da je tarot moćan alat za samorefleksiju, vođstvo i dublje razumevanje životnog puta.\n\nU srcu Quick Tarot aplikacije nalazi se sofisticirani AI mehanizam koji generiše jedinstvena i smislena čitanja. Mi ne koristimo unapred napisane interpretacije. Umesto toga, za svako pitanje, naš sistem programski izvlači tri karte iz punog špila od 78 karata, osiguravajući da je svako čitanje zaista nasumično i prilagođeno specifičnom upitu korisnika i njegovom astrološkom znaku. Ovaj dinamički proces omogućava veštačkoj inteligenciji da isplete narativ koji povezuje simboliku karata sa ličnim kontekstom korisnika, pružajući vođstvo koje je istovremeno relevantno i duboko.\n\nNaša filozofija je da tarot nije determinističko predviđanje sudbine, već osnaživanje. Karte su ogledalo unutrašnjeg sveta pojedinca, odražavajući skrivene misli, potencijalne izazove i neiskorišćene prilike. One nude novu perspektivu, pomažući korisnicima da se snalaze u svojim okolnostima sa većom jasnoćom i samopouzdanjem. Bilo da tražite odgovore na konkretan problem, tražite kreativnu inspiraciju ili jednostavno želite da istražite svoju intuiciju, Quick Tarot je tu da bude vaš pouzdani vodič.\n\nPosvećeni smo stvaranju transparentne i visokokvalitetne usluge. Naš sajt uključuje detaljna objašnjenja naše metodologije, značenja svih 78 tarot karata i vodiče o tome kako formulisati efikasna pitanja. Verujemo da je informisan korisnik osnažen korisnik. Hvala vam što ste deo našeg putovanja dok spajamo drevnu mudrost sa modernom tehnologijom kako bismo uneli umetnost tarota u digitalno doba.`,
         missionDialogTitle: "Naša Misija",
@@ -162,6 +231,7 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         termsDialogTitle: "Uslovi Korišćenja",
         termsDialogContent: `Dobrodošli u Quick Tarot. Pristupanjem i korišćenjem naše aplikacije i veb-sajta ("Usluga"), slažete se da ćete se pridržavati i biti vezani sledećim uslovima i odredbama korišćenja. Molimo vas da ih pažljivo pregledate.\n\n**1. Prihvatanje Uslova**\nOva Usluga je namenjena isključivo u zabavne, duhovne i introspektivne svrhe. Čitanja generiše veštačka inteligencija i ne treba ih smatrati zamenom za profesionalni savet, uključujući, ali ne ograničavajući se na medicinski, pravni, finansijski ili psihološki savet. Morate imati najmanje 18 godina da biste koristili ovu Uslugu.\n\n**2. Priroda Usluge**\nTarot čitanja koja pruža naša veštačka inteligencija zasnovana su na algoritmima i interpretacijama simbolike. Ona nisu činjenična i ne dajemo nikakve tvrdnje niti garancije u pogledu njihove tačnosti ili primenljivosti na vaš život. Usluga se pruža 'takva kakva jeste' i 'prema dostupnosti' bez ikakvih garancija.\n\n**3. Ponašanje i Odgovornost Korisnika**\nVi ste isključivo odgovorni za svoje postupke i odluke zasnovane na korišćenju ove Usluge. Quick Tarot, njegovi kreatori i povezana lica neće se smatrati odgovornim za bilo kakvu štetu, gubitke ili nevolje proistekle iz vašeg oslanjanja na pružene informacije. Slažete se da ćete Uslugu koristiti odgovorno i ne za bilo koju nezakonitu svrhu.\n\n**4. Intelektualna Svojina**\nSav sadržaj na ovom sajtu, uključujući tekst, grafiku, logotipe i AI-generisana čitanja, vlasništvo je Quick Tarot-a i zaštićen je autorskim pravima i drugim zakonima o intelektualnoj svojini. Ne smete reprodukovati, distribuirati ili stvarati izvedena dela iz sadržaja bez našeg izričitog pismenog odobrenja.\n\n**5. Ograničenje Odgovornosti**\nNi u kom slučaju Quick Tarot ili njegova povezana lica neće biti odgovorni za bilo kakvu direktnu, indirektnu, slučajnu, posebnu ili posledičnu štetu koja proističe iz korišćenja ili nemogućnosti korišćenja Usluge.\n\n**6. Izmene Usluge**\nZadržavamo pravo da izmenimo, suspendujemo ili prekinemo Uslugu u bilo kom trenutku, sa ili bez obaveštenja, bez odgovornosti prema vama ili bilo kojoj trećoj strani.\n\n**7. Merodavno Pravo**\nOvi uslovi će se tumačiti i primenjivati u skladu sa zakonima jurisdikcije u kojoj je naša kompanija osnovana, bez obzira na njene kolizione norme.`,
         privacyDialogTitle: "Politika Privatnosti",
+<<<<<<< HEAD
         privacyDialogContent: `Ova Politika Privatnosti opisuje kako Quick Tarot ("mi", "nas", "naš") prikuplja, koristi i štiti vaše informacije kada koristite našu veb stranicu i usluge. Vaša privatnost nam je od izuzetne važnosti.\n\n**1. Informacije koje prikupljamo**\nDa bismo pružili našu uslugu, prikupljamo ograničenu količinu informacija:\n- **Podaci koje unosi korisnik:** Vaše pitanje i izabrani horoskopski znak. Ove informacije se koriste isključivo za generisanje vašeg tarot čitanja i obrađuju se u realnom vremenu. Mi ne čuvamo ove informacije na našim serverima nakon što se čitanje generiše.\n- **Skladište u pregledaču (Local Storage):** Da bismo poboljšali vaše iskustvo, koristimo lokalno skladište vašeg pregledača da sačuvamo vaše najnovije tarot čitanje i da upravljamo tajmerom za ponovno korišćenje. Ovi podaci se čuvaju direktno na vašem uređaju i ne prenose se na naše servere.\n- **Podaci o korišćenju:** Možemo prikupljati ne-lične, anonimne podatke o vašoj interakciji sa našim sajtom (npr. posećene stranice, korišćene funkcije) putem servisa kao što je Google Analytics kako bismo nam pomogli da poboljšamo našu uslugu.\n\n**2. Korišćenje informacija**\n- Vaše pitanje i horoskopski znak se koriste isključivo kao ulaz za našu veštačku inteligenciju kako bi generisala personalizovano tarot čitanje.\n- Podaci u lokalnom skladištu vašeg pregledača omogućavaju vam da ponovo posetite svoje poslednje čitanje bez novog zahteva i primenjuju period mirovanja.\n- Anonimizovani podaci o korišćenju pomažu nam da razumemo kako se naša usluga koristi, identifikujemo oblasti za poboljšanje i optimizujemo korisničko iskustvo.\n\n**3. Usluge trećih strana**\n- **Google AdSense:** Koristimo Google AdSense za prikazivanje oglasa. Google i njegovi partneri mogu koristiti kolačiće za prikazivanje oglasa na osnovu prethodnih poseta korisnika našoj veb stranici ili drugim veb stranicama. Možete se odjaviti od personalizovanog oglašavanja posetom Google-ovim podešavanjima za oglase. Za više informacija, molimo pregledajte Google-ovu Politiku privatnosti.\n- **Google Analytics:** Koristimo Google Analytics za analizu saobraćaja na veb stranici. Ova usluga prikuplja anonimne podatke i ne identifikuje pojedinačne korisnike. Za više informacija o tome kako Google koristi podatke, posetite "Kako Google koristi podatke kada koristite sajtove ili aplikacije naših partnera".\n\n**4. Sigurnost podataka**\nPosvećeni smo zaštiti vaših informacija. Vaši direktni unosi (pitanje, znak) se ne čuvaju trajno kod nas. Podaci koji se lokalno čuvaju na vašem uređaju su pod vašom kontrolom i možete ih obrisati u bilo kom trenutku brisanjem keša vašeg pregledača.\n\n**5. Vaša prava**\nImate potpunu kontrolu nad podacima koji se čuvaju u lokalnom skladištu vašeg pregledača. Ove podatke možete obrisati u bilo kom trenutku. Pošto ne vodimo korisničke naloge niti čuvamo lične podatke o čitanjima na našim serverima, ne postoje korisnički podaci koje biste mogli direktno tražiti ili brisati od nas.`,
         whatIsTarotTitle: "Šta je Tarot? Vodič za početnike",
         whatIsTarotContent: `## Šta je Tarot?\n\nTarot je špil od 78 karata, od kojih svaka ima svoje slike, simboliku i priču. Vekovima se koristi kao alat za proricanje i introspekciju, ali tarot se ne bavi toliko predviđanjem fiksne, nepromenljive budućnosti, koliko sticanjem uvida u sadašnji trenutak. To je ogledalo vaše podsvesti, koje odražava energije, prilike i izazove koji vas okružuju.\n\nStandardni tarot špil je podeljen na dva glavna dela:\n\n- **Velika Arkana:** Sastoji se od 22 karte, počevši od Lude i završavajući se sa Svetom. Ove karte predstavljaju značajne životne događaje, velike životne lekcije i široke, arhetipske teme ljudskog putovanja. Kada se karta Velike Arkane pojavi u čitanju, to često označava trenutak od velike važnosti ili veliku promenu na vašem životnom putu.\n\n- **Mala Arkana:** Sastoji se od 56 karata, podeljenih u četiri boje, slično kao u običnom špilu karata za igru. Svaka boja sadrži 14 karata: Keca, brojeve od Dva do Deset i četiri Dvorske karte (Paž, Vitez, Kraljica, Kralj).\n\n### Četiri Boje Male Arkane\n\nSvaka boja odgovara različitom aspektu ljudskog iskustva:\n\n- **Štapovi (Boja Vatre):** Predstavljaju strast, energiju, kreativnost i ambiciju. Karte Štapova se često odnose na vašu karijeru, projekte i lični pogon.\n- **Pehari (Boja Vode):** Predstavljaju emocije, odnose, intuiciju i ljubav. Karte Pehara bave se pitanjima srca i vašim emocionalnim blagostanjem.\n- **Mačevi (Boja Vazduha):** Predstavljaju misli, izazove, intelekt i sukob. Karte Mačeva često ukazuju na vaš način razmišljanja, komunikaciju i mentalne borbe sa kojima se možete suočiti.\n- **Diskovi (Boja Zemlje):** Predstavljaju materijalni svet, finansije, posao i fizičko zdravlje. Karte Diskova su utemeljene u vašoj svakodnevnoj stvarnosti i opipljivim ishodima.\n\n## Kako Funkcioniše Tarot Čitanje?\n\nTarot čitanje je dijalog između vas i karata. Počinjete sa pitanjem ili namerom. To fokusira energiju čitanja. Nakon mešanja špila, karte se postavljaju u određeni obrazac koji se naziva "otvaranje". Svaka pozicija u otvaranju odgovara različitom aspektu pitanja.\n\nOvde u Quick Tarot-u, koristimo jednostavno i moćno otvaranje od tri karte, koje se često tumači kao:\n\n1.  **Prošlost:** Osnovne energije ili događaji koji su doveli do trenutne situacije.\n2.  **Sadašnjost:** Trenutno stanje stvari i centralni izazov ili tema.\n3.  **Budućnost:** Potencijalni ishod ili pravac u kojem se stvari kreću ako se održi trenutni put.\n\nNaša veštačka inteligencija čita karte u kombinaciji, pletući njihova pojedinačna značenja u koherentan narativ koji se odnosi na vaše pitanje. Upravo interakcija između karata, njihovih pozicija i vaše sopstvene intuicije oživljava čitanje.\n\n## Kako Postaviti Dobra Pitanja\n\nKvalitet vašeg tarot čitanja često zavisi od kvaliteta vašeg pitanja. Najbolja pitanja su otvorenog tipa, fokusirana na vas i usredsređena na sticanje uvida, a ne na traženje jednostavnog odgovora "da" ili "ne".\n\n**Izbegavajte:** "Da li ću dobiti posao?"\n**Umesto toga, pitajte:** "Šta treba da znam da bih uspeo/la u potrazi za poslom?" ili "Koje prilike za rast nudi ovaj novi put u karijeri?"\n\n**Izbegavajte:** "Da li me voli?"\n**Umesto toga, pitajte:** "Kako mogu da negujem ljubavniji i podržavajući odnos?" ili "Kakva je priroda veze između nas?"\n\nKada svoja pitanja formulišete na način koji traži vođstvo i osnaživanje, otvarate se dubljim i korisnijim uvidima. Tarot je tu da vam pomogne da razumete sopstvenu moć i da se krećete svojim putem sa mudrošću i jasnoćom.`,
@@ -172,6 +242,9 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         blogBackToBlog: "Nazad na Blog",
         blogRelatedArticles: "Povezani Članci",
         homeAdditionalContentTitle: "Istražite Svet Tarota",
+=======
+        privacyDialogContent: "Ova Politika Privatnosti objašnjava kako prikupljamo, koristimo i štitimo vaše podatke.\n\n1. Prikupljanje podataka: Prikupljamo samo neophodne podatke za rad aplikacije, kao što su vaše pitanje i izabrani horoskopski znak, koji se ne čuvaju trajno. Koristimo lokalno skladište (local storage) u vašem pregledaču kako bismo sačuvali vaše poslednje čitanje i vreme kada možete zatražiti novo.\n\n2. Google AdSense: Koristimo Google AdSense za prikazivanje oglasa. Google može koristiti kolačiće za serviranje relevantnih oglasa na osnovu vaših prethodnih posjeta. Više informacija možete pronaći u Google-ovoj politici privatnosti.\n\n3. Bezbednost: Ne delimo vaše podatke sa trećim stranama, osim ako je to neophodno za pružanje usluge (npr. Google AdSense).\n\n4. Vaša prava: Imate pravo da obrišete podatke iz lokalnog skladišta brisanjem keša vašeg pregledača.",
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
         resetDialogTitle: "Da li ste sigurni?",
         resetDialogDescription: "Ovo će obrisati sve podatke aplikacije iz vašeg pregledača, uključujući poslednje čitanje i tajmer, i ponovo učitati stranicu.",
         resetDialogCancel: "Otkaži",
@@ -180,6 +253,9 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         unknownError: "Došlo je do nepoznate greške. Molimo pokušajte ponovo.",
         serviceOverloadedError: "Servis je trenutno preopterećen. Molimo pokušajte ponovo za nekoliko trenutaka.",
         countdownFinishedText: "Spremno za novo čitanje",
+        dailyCardTitle: "Karta Dana",
+        dailyCardButton: "Nastavi na Aplikaciju",
+        homeButtonText: "Početna",
         zodiacSignAries: "Ovan",
         zodiacSignTaurus: "Bik",
         zodiacSignGemini: "Blizanci",
@@ -192,7 +268,33 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         zodiacSignCapricorn: "Jarac",
         zodiacSignAquarius: "Vodolija",
         zodiacSignPisces: "Ribe",
+        exploreContentTitle: "Istražite Naš Sadržaj",
+        tarotGuideDescription: "Naučite osnove tarota, kako funkcioniše i kako da započnete svoje putovanje.",
+        cardMeaningsSectionDescription: "Otkrijte značenja svih 78 tarot karata u našoj kompletnoj biblioteci.",
+        blogSectionDescription: "Pročitajte naše članke o tarotu, duhovnosti i ličnom rastu.",
+        tarotGuideTitle: "Šta je Tarot i Kako Funkcioniše?",
+        tarotGuideContent_p1: "Tarot je sistem od 78 karata koji se koristi za divinaciju, samoispitivanje i duhovni rast. On je ogledalo duše, koje odražava energije, izazove i prilike prisutne u našim životima.",
+        tarotGuideContent_p2: "Špil je podeljen na dva glavna dela: Veliku Arkanu i Malu Arkanu. 22 karte Velike Arkane predstavljaju značajne životne događaje i duhovne lekcije, dok 56 karata Male Arkane prikazuju svakodnevne situacije i emocije koje doživljavamo.",
+        tarotGuideContent_h2_1: "Kako Funkcioniše Čitanje?",
+        tarotGuideContent_p3: "Tarot čitanje nije predviđanje fiksne budućnosti. Umesto toga, ono nudi sliku trenutnih energija koje okružuju neku situaciju. Karte koje izvučete odražavaju vaše sopstveno podsvesno znanje i uticaje koji su u igri.",
+        tarotGuideContent_p4: "Kada postavite pitanje, vi fokusirate svoju energiju. Karte koje se pojave su odgovor na tu energiju, pružajući smernice i nove perspektive. Tumačenje karata je spoj njihovih tradicionalnih značenja i intuicije čitača.",
+        tarotGuideContent_h2_2: "Naš Pristup",
+        tarotGuideContent_p5: "Ovde u Quick Tarot-u, koristimo veštačku inteligenciju da bismo tumačili nasumično izvučene karte u kontekstu vašeg pitanja i horoskopskog znaka. To stvara personalizovano i pronicljivo čitanje, dizajnirano da ponudi jasnoću i osnaži vas da donosite svesne odluke.",
+        cardMeaningsTitle: "Značenja Tarot Karata",
+        cardMeaningsDescription: "Istražite bogatu simboliku svih 78 tarot karata. Kliknite na kartu da saznate više o njenom značenju u ljubavi, karijeri i duhovnosti. (Potpuni opisi uskoro)",
+        cardMeaningsComingSoon: "Potpune, detaljne stranice za svaku kartu stižu uskoro!",
+        blogTitle: "Naš Tarot Blog",
+        blogDescription: "Zaronite dublje u svet tarota uz naše članke o različitim temama.",
+        blogReadMore: "Pročitaj Više",
+        blogPostTitle_TarotAndLove: "Tarot i Ljubav: Pronalaženje Jasnoće u Stvarima Srca",
+        blogPostDescription_TarotAndLove: "Kako vam tarot može pomoći da se snađete u složenom svetu veza? Otkrijte ključne karte i pitanja koja treba postaviti.",
+        blogPostContent_TarotAndLove_p1: "Ljubav je jedna od najčešćih tema koje se donose na tarot čitanje. Bilo da ste slobodni, u novoj vezi ili se krećete kroz dugogodišnje partnerstvo, karte mogu ponuditi duboke uvide.",
+        blogPostContent_TarotAndLove_p2: "Tarot ne daje jednostavan 'da' ili 'ne' odgovor. Umesto toga, on osvetljava dinamiku koja je u igri, emocionalne tokove i potencijalne puteve napred.",
+        blogPostContent_TarotAndLove_h2_1: "Ključne Karte u Ljubavnim Čitanjima",
+        blogPostContent_TarotAndLove_p3: "Ljubavnici, Dvojka pehara i Desetka pehara su klasični pokazatelji partnerstva i emocionalnog ispunjenja. Međutim, karte poput Kule mogu označavati neophodne potrese, dok Pustinjak može ukazivati na potrebu za introspekcijom pre ulaska u vezu.",
+        blogPostContent_TarotAndLove_p4: "Ključ je posmatrati karte zajedno, kao priču. One mogu otkriti vaše sopstvene blokade, osećanja vašeg partnera i ukupan potencijal veze. Koristite ih ne da predvidite, već da razumete i rastete.",
     },
+<<<<<<< HEAD
     de: {
         headerSubtitle: "Entdecken Sie, was die Sterne und Karten für Sie bereithalten. Geben Sie Ihr Sternzeichen und Ihre Frage ein, um Ihre persönliche Tarot-Lesung zu erhalten.",
         formZodiacLabel: "Ihr Zeichen",
@@ -1729,6 +1831,8 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         zodiacSignAquarius: "Vízöntő",
         zodiacSignPisces: "Halak",
     }
+=======
+>>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
 };
 
 export function getTranslations(lang: string): TranslationSet {
@@ -1736,3 +1840,5 @@ export function getTranslations(lang: string): TranslationSet {
     // Fallback to 'sr' if a translation set for the given language doesn't exist.
     return ALL_TRANSLATIONS[baseLang] || ALL_TRANSLATIONS.sr;
 }
+
+    
