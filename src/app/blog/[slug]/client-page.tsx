@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -7,6 +6,7 @@ import { ChevronLeft } from 'lucide-react';
 import { getTranslations, TranslationSet } from "@/lib/translations";
 import { Button } from '@/components/ui/button';
 import { blogPosts, BlogPost } from '@/lib/blog-posts';
+import { AdPlaceholder } from "@/components/ad-placeholder";
 
 const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 
@@ -50,6 +50,10 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                     />
                 </article>
 
+                <div className="my-12">
+                    <AdPlaceholder />
+                </div>
+
                 {otherPosts.length > 0 && (
                     <aside className="mt-16">
                         <h2 className="font-headline text-2xl font-bold mb-6 text-primary">{translations.blogRelatedArticles}</h2>
@@ -69,5 +73,3 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
         </div>
     );
 }
-
-    
