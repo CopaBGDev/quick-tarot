@@ -1,10 +1,7 @@
 import {getTranslations} from '@/lib/translations';
+import { PageProps } from '@/lib/types';
 
-type MissionPageProps = {
-  searchParams: {[key: string]: string | string[] | undefined};
-};
-
-export default async function MissionPage({searchParams}: MissionPageProps) {
+export default async function MissionPage({searchParams}: PageProps) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
