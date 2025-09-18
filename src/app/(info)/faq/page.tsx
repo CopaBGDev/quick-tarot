@@ -1,7 +1,10 @@
 import {getTranslations} from '@/lib/translations';
-import { PageProps } from '@/lib/types';
 
-export default async function FaqPage({searchParams}: PageProps) {
+type FaqPageProps = {
+  searchParams?: {[key: string]: string | string[] | undefined};
+};
+
+export default async function FaqPage({searchParams}: FaqPageProps) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);

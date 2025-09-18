@@ -1,7 +1,10 @@
 import { getTranslations } from '@/lib/translations';
-import { PageProps } from '@/lib/types';
 
-export default async function TarotGuidePage({ searchParams }: PageProps) {
+type TarotGuidePageProps = {
+  searchParams?: {[key: string]: string | string[] | undefined};
+};
+
+export default async function TarotGuidePage({ searchParams }: TarotGuidePageProps) {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 

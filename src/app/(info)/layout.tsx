@@ -1,15 +1,17 @@
 import { Button } from '@/components/ui/button';
 import { getTranslations } from '@/lib/translations';
-import { PageProps } from '@/lib/types';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
+
+type InfoLayoutProps = {
+  children: React.ReactNode;
+  searchParams?: {[key: string]: string | string[] | undefined};
+};
 
 export default function InfoLayout({
   children,
   searchParams,
-}: {
-  children: React.ReactNode;
-} & PageProps) {
+}: InfoLayoutProps) {
   const lang = (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
 

@@ -1,7 +1,10 @@
 import {getTranslations} from '@/lib/translations';
-import { PageProps } from '@/lib/types';
 
-export default async function PrivacyPage({searchParams}: PageProps) {
+type PrivacyPageProps = {
+  searchParams?: {[key: string]: string | string[] | undefined};
+};
+
+export default async function PrivacyPage({searchParams}: PrivacyPageProps) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);

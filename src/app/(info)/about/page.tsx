@@ -6,10 +6,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import {getTranslations} from '@/lib/translations';
-import { PageProps } from '@/lib/types';
 
+type AboutPageProps = {
+  searchParams?: {[key: string]: string | string[] | undefined};
+};
 
-export default async function AboutPage({searchParams}: PageProps) {
+export default async function AboutPage({searchParams}: AboutPageProps) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
