@@ -1,6 +1,5 @@
 
 import TarotClient from '@/components/tarot-client';
-import { getTranslations } from '@/lib/translations';
 
 export const runtime = 'nodejs';
 

@@ -1,32 +1,22 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-import {getTranslations} from '@/lib/translations';
+import { getTranslations } from '@/lib/translations';
 
 export default async function AboutPage({
   searchParams,
 }: {
-  searchParams?: {[key: string]: string | string[] | undefined};
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const lang =
-    (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
+    typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button>{t.footerAbout}</button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[625px]">
-        <DialogHeader>
-          <DialogTitle>{t.aboutDialogTitle}</DialogTitle>
-        </DialogHeader>
-        <div className="whitespace-pre-wrap">{t.aboutDialogContent}</div>
-      </DialogContent>
-    </Dialog>
+    <>
+      <h1 className="font-headline text-3xl font-bold text-primary">
+        {t.aboutDialogTitle}
+      </h1>
+      <div className="mt-6 whitespace-pre-wrap text-muted-foreground">
+        {t.aboutDialogContent}
+      </div>
+    </>
   );
 }

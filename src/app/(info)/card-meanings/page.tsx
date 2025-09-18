@@ -5,7 +5,7 @@ import Image from 'next/image';
 export default async function CardMeaningsPage({
   searchParams,
 }: {
-  searchParams?: {[key: string]: string | string[] | undefined};
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
@@ -14,16 +14,16 @@ export default async function CardMeaningsPage({
     <>
       <h1 className="font-headline text-3xl font-bold text-primary">{t.cardMeaningsTitle}</h1>
       <p className="text-muted-foreground mt-2">{t.cardMeaningsDescription}</p>
-      <div className="mt-8 grid grid-cols-4 gap-4">
+      <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
         {FULL_DECK.map((cardName) => (
           <div key={cardName} className="flex flex-col items-center text-center">
-            <div className="relative rounded-lg border border-primary/20 shadow-md overflow-hidden" style={{ width: 200, height: 300 }}>
+            <div className="relative rounded-lg border border-primary/20 shadow-md overflow-hidden w-full" style={{ paddingBottom: '150%' }}>
               <Image
                   src={getCardImagePath(cardName)}
                   alt={cardName}
                   fill
-                  sizes="200px"
-                  className="object-fill"
+                  sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                  className="object-cover"
               />
             </div>
             <p className="mt-2 text-xs sm:text-sm font-headline text-primary">{cardName}</p>
