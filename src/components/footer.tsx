@@ -55,3 +55,4 @@ export function Footer({ translations, language, onLanguageChange, disabled }: F
     </footer>
   );
 }
+
