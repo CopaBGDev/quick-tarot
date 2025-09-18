@@ -620,7 +620,14 @@ export default function TarotClient() {
             resultsContent
           )}
         
-        {!showMinimizedView && additionalContent}
+        {!showMinimizedView && (
+          <>
+            <div className="my-12 w-full max-w-4xl">
+              <AdPlaceholder />
+            </div>
+            {additionalContent}
+          </>
+        )}
       </main>
       <Footer 
           translations={translations} 
@@ -631,5 +638,3 @@ export default function TarotClient() {
     </div>
   );
 }
-
-    
