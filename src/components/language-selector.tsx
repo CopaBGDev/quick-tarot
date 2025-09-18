@@ -20,6 +20,9 @@ interface Language {
 export const SUPPORTED_LANGUAGES: Language[] = [
     { code: 'sr', name: 'Serbian', nativeName: 'Srpski' },
     { code: 'en', name: 'English', nativeName: 'English' },
+    { code: 'de', name: 'German', nativeName: 'Deutsch' },
+    { code: 'fr', name: 'French', nativeName: 'Français' },
+    { code: 'es', name: 'Spanish', nativeName: 'Español' },
 ];
 
 
