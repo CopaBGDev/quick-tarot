@@ -1,0 +1,43 @@
+import {blogPosts} from '@/lib/blog-posts';
+import {getTranslations} from '@/lib/translations';
+import Link from 'next/link';
+
+export default async function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams?: {[key: string]: string | string[] | undefined};
+}) {
+  const lang =
+    (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
+  const t = getTranslations(lang);
+
+  return (
+    <>
+      <h1 className="font-headline text-3xl font-bold text-primary">
+        {t.blogTitle}
+      </h1>
+      <p className="text-muted-foreground mt-2">{t.blogDescription}</p>
+      <div className="mt-8 space-y-8">
+        {blogPosts.map((post) => (
+          <Link
+            key={post.slug}
+            href={`/blog/${post.slug}?lang=${lang}`}
+            className="block group"
+          >
+            <article>
+              <h2 className="font-headline text-2xl font-bold text-primary group-hover:underline">
+                {post.title}
+              </h2>
+              <p className="text-muted-foreground mt-2">
+                {post.metaDescription}
+              </p>
+              <span className="text-sm font-bold text-primary group-hover:underline mt-4 inline-block">
+                {t.blogReadMore} &rarr;
+              </span>
+            </article>
+          </Link>
+        ))}
+      </div>
+    </>
+  );
+}
