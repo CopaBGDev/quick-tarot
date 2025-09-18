@@ -3,7 +3,7 @@ import {getTranslations} from '@/lib/translations';
 export default async function TermsPage({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: { [key:string]: string | string[] | undefined };
 }) {
   const lang =
     typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
