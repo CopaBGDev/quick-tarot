@@ -1,13 +1,7 @@
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ChevronLeft } from 'lucide-react';
-import { blogPosts, BlogPost } from '@/lib/blog-posts';
-import { getTranslations, TranslationSet } from "@/lib/translations";
-import { Button } from '@/components/ui/button';
-
-// This is a client component to handle language state
+import { blogPosts } from '@/lib/blog-posts';
 import BlogPostClient from './client-page';
 
 type Props = {
@@ -43,5 +37,7 @@ export default function BlogPostPage({ params }: Props) {
 
   return <BlogPostClient post={post} />;
 }
+
+    
 
     
