@@ -1,9 +1,12 @@
-
 import TarotClient from '@/components/tarot-client';
 
 export const runtime = 'nodejs';
 
-export default async function Home({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
+export default async function Home({ 
+    searchParams,
+ } : { 
+    searchParams?: { [key: string]: string | string[] | undefined };
+}) {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
 
   return (
