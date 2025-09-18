@@ -5,12 +5,12 @@ import Link from 'next/link';
 
 export default function InfoLayout({
   children,
-  searchParams,
+  params,
 }: {
   children: React.ReactNode;
-  searchParams?: {[key: string]: string | string[] | undefined};
+  params: { lang?: string };
 }) {
-  const lang = (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
+  const lang = params.lang || 'sr';
   const t = getTranslations(lang);
 
   return (

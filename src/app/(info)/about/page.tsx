@@ -7,11 +7,11 @@ import {
 } from '@/components/ui/dialog';
 import {getTranslations} from '@/lib/translations';
 
-type AboutPageProps = {
+export default async function AboutPage({
+  searchParams,
+}: {
   searchParams?: {[key: string]: string | string[] | undefined};
-};
-
-export default async function AboutPage({searchParams}: AboutPageProps) {
+}) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
