@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { getTranslations, TranslationSet } from "@/lib/translations";
 import { Button } from "@/components/ui/button";
+import { blogPosts } from "@/lib/blog-posts";
 
 const LANGUAGE_STORAGE_KEY = "tarotLanguage";
 
@@ -35,6 +36,16 @@ export default function BlogPage() {
         <h1 className="font-headline text-4xl font-bold mb-6 text-primary">{translations.blogTitle}</h1>
         <div className="space-y-4 text-lg text-foreground/90">
           <p>{translations.blogContent}</p>
+        </div>
+        <div className="mt-12 space-y-6">
+          {blogPosts.map((post) => (
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="block group">
+              <article className="p-6 rounded-lg border border-primary/20 bg-card hover:bg-primary/5 transition-colors">
+                <h2 className="font-headline text-2xl font-bold text-primary group-hover:underline">{post.title}</h2>
+                <p className="text-muted-foreground mt-2">{post.metaDescription}</p>
+              </article>
+            </Link>
+          ))}
         </div>
       </main>
     </div>
