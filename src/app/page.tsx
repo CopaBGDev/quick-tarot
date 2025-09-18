@@ -21,18 +21,10 @@ export default async function Home({ searchParams }: { searchParams: { lang?: st
   }
 
   return (
-<<<<<<< HEAD
-    <>
-      <TarotClient />
-    </>
-=======
     <main className="flex min-h-screen w-full flex-col items-center bg-background">
       <div className="w-full max-w-4xl flex-1">
         <TarotClient initialDailyCard={dailyCard} initialLang={lang} />
       </div>
     </main>
->>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
   );
 }
-
-    

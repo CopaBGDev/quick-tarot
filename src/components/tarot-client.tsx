@@ -3,11 +3,7 @@
 
 import * as React from "react";
 import { useForm } from "react-hook-form";
-<<<<<<< HEAD
-import { Sparkles, Loader2, Edit3, Timer, BookOpen, Newspaper, HelpCircle } from "lucide-react";
-=======
 import { Sparkles, Loader2, Edit3, Timer, Star, BookOpen, Layers, Newspaper } from "lucide-react";
->>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
 import Image from "next/image";
 import Link from "next/link";
 
@@ -50,7 +46,6 @@ import { cn } from "@/lib/utils";
 import { AdPlaceholder } from "./ad-placeholder";
 import { format } from 'date-fns';
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 
 interface FormValues {
@@ -171,29 +166,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
     }
     
     try {
-<<<<<<< HEAD
-        const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
-        const savedReadingJSON = localStorage.getItem(READING_STORAGE_KEY);
-        
-        if (savedCooldown) {
-          const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
-          if (remainingTime > 0) {
-            setCountdown(remainingTime);
-          } else {
-            localStorage.removeItem(COOLDOWN_STORAGE_KEY);
-          }
-        }
-        
-        if (savedReadingJSON) {
-            const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReadingJSON);
-            setReading(parsedReading);
-            
-            const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
-            const savedQuestion = localStorage.getItem(QUESTION_STORAGE_KEY);
-
-            if (savedSignName) setSelectedZodiacSign(savedSignName);
-            if (savedQuestion) form.setValue('question', savedQuestion);
-=======
       const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
       const savedReading = localStorage.getItem(READING_STORAGE_KEY);
 
@@ -205,7 +177,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
           setCountdown(remainingTime);
         } else {
           localStorage.removeItem(COOLDOWN_STORAGE_KEY);
->>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
         }
       }
       
@@ -388,158 +359,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
   
   const showResultsView = isFormLoading || reading;
   const isReadyForNewReading = countdown === 0 && !isFormLoading && reading;
-<<<<<<< HEAD
-
-  const minimizedView = (
-    <div className="fixed top-0 left-0 right-0 z-20 h-20 bg-background/80 backdrop-blur-sm border-b border-primary/20 animate-in fade-in slide-in-from-top-4 duration-500">
-        <div className="container mx-auto flex h-full max-w-5xl items-center justify-between gap-4 px-4 relative">
-            
-             <div className="flex w-full items-center justify-start gap-3 sm:w-1/3">
-                {showMinimizedView && selectedImage && submittedValues.question && (
-                  <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                      <div className="flex items-center gap-3 animate-in fade-in cursor-pointer group">
-                         <div className="w-12 h-12 rounded-full flex items-center justify-center p-0.5 bg-background border-2 border-primary">
-                             <div className="w-full h-full rounded-full flex items-center justify-center p-1 bg-transparent">
-                                <Image src={selectedImage} alt={selectedSign || ''} width={24} height={24} className="h-6 w-6" unoptimized />
-                            </div>
-                          </div>
-                          <p className="text-sm font-medium text-foreground/80 truncate group-hover:text-primary transition-colors max-w-[150px] sm:max-w-[250px]">
-                              {submittedValues.question}
-                          </p>
-                      </div>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle>{translations.formQuestionLabel}</AlertDialogTitle>
-                      </AlertDialogHeader>
-                       <div className="space-y-4 pt-4 text-left text-sm text-muted-foreground">
-                          {submittedValues.question}
-                        </div>
-                      <AlertDialogFooter>
-                        <AlertDialogCancel>Zatvori</AlertDialogCancel>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                )}
-            </div>
-
-            <div className="hidden absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center justify-center md:flex gap-4">
-               <Logo className="h-20 w-20 text-primary" />
-               <span className="font-headline text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-accent via-primary to-accent">Quick Tarot</span>
-            </div>
-
-            <div className="flex w-full items-center justify-end gap-2 sm:w-1/3">
-                 {isReadyForNewReading ? (
-                     <div className="flex items-center justify-end w-full">
-                         {isMobile ? (
-                            <button onClick={resetState} className="block text-primary hover:text-primary/80 transition-colors p-0" aria-label="Novo čitanje">
-                               <Logo className="w-12 h-12" />
-                            </button>
-                         ) : (
-                            <button onClick={resetState} className="text-primary font-bold text-sm leading-tight hover:underline">
-                               {translations.countdownFinishedText}
-                            </button>
-                         )}
-                     </div>
-                 ) : (
-                    <div className="flex items-center gap-2">
-                     {countdown > 0 && (
-                       <div className="text-primary font-mono text-sm flex items-center gap-2">
-                         <Timer className="h-4 w-4" />
-                         <span>
-                            {`${Math.floor(countdown / 60).toString().padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}
-                         </span>
-                       </div>
-                     )}
-                     <div className="hidden sm:block">
-                      <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="icon" disabled={isFormLoading || countdown > 0} className="text-primary hover:bg-primary/10 disabled:opacity-50 disabled:cursor-not-allowed">
-                                <Edit3 className="h-[1.2rem] w-[1.2rem]" />
-                                <span className="sr-only">Edit</span>
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                              <AlertDialogHeader>
-                                  <AlertDialogTitle>Započnite novo čitanje?</AlertDialogTitle>
-                                  <AlertDialogDescription>
-                                      Ovo će obrisati vaše trenutno čitanje i omogućiće vam da postavite novo pitanje.
-                                  </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                  <AlertDialogCancel>Otkaži</AlertDialogCancel>
-                                  <AlertDialogAction onClick={resetState}>Započni novo</AlertDialogAction>
-                              </AlertDialogFooter>
-                          </AlertDialogContent>
-                      </AlertDialog>
-                     </div>
-                   </div>
-                 )}
-            </div>
-        </div>
-    </div>
-  );
-  
-  const resultsContent = (
-    <section
-      ref={resultsRef}
-      className="w-full max-w-4xl text-center scroll-mt-8 mt-28"
-    >
-      {(isFormLoading || reading) && (
-        <>
-          <h2 className="font-headline text-3xl font-bold text-primary">
-            {translations.resultsTitle}
-          </h2>
-          <div className="mt-6 flex flex-wrap items-start justify-center gap-4 sm:gap-6">
-            <TarotCard
-              isFlipped={cardsFlipped}
-              delay={0}
-              card={tarotCards[0]}
-            />
-            <TarotCard
-              isFlipped={cardsFlipped}
-              delay={150}
-              card={tarotCards[1]}
-            />
-            <TarotCard
-              isFlipped={cardsFlipped}
-              delay={300}
-              card={tarotCards[2]}
-            />
-          </div>
-
-          {isFormLoading && !reading && (
-             <div className="mt-8 flex w-full max-w-md mx-auto flex-col items-center justify-center gap-4 text-lg text-muted-foreground">
-              <Sparkles className="h-8 w-8 animate-pulse text-primary" />
-              <p className="text-center font-semibold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer">
-                {translations.resultsLoadingText}
-              </p>
-            </div>
-          )}
-
-          {reading && (
-            <>
-              <div className="my-8">
-                <AdPlaceholder />
-              </div>
-              <Card className="mt-8 bg-transparent border-primary/20 shadow-primary/10 shadow-lg">
-                <CardHeader>
-                    <CardTitle>{translations.resultsReadingTitle}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 text-left">
-                  <p className="whitespace-pre-wrap font-body text-base leading-relaxed text-foreground/90 md:text-lg">
-                    {typedReading}
-                  </p>
-                </CardContent>
-              </Card>
-            </>
-          )}
-        </>
-      )}
-    </section>
-  );
-=======
   
     return (
       <div className="flex w-full flex-col min-h-screen">
@@ -669,50 +488,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                             </h1>
                         </div>
                     </header>
->>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
-
-  const additionalContent = (
-    <section className="w-full max-w-4xl text-center my-16">
-      <h2 className="font-headline text-3xl font-bold text-primary mb-8">
-        {translations.homeAdditionalContentTitle}
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Link href="/what-is-tarot" className="block p-6 bg-card border border-primary/20 rounded-lg hover:shadow-primary/20 hover:shadow-lg transition-shadow">
-          <HelpCircle className="h-8 w-8 mx-auto text-primary mb-4" />
-          <h3 className="font-headline text-xl font-bold text-primary mb-2">{translations.footerWhatIsTarot}</h3>
-          <p className="text-muted-foreground text-sm">Naučite osnove tarota, strukturu špila i kako da postavljate prava pitanja.</p>
-        </Link>
-        <Link href="/meanings" className="block p-6 bg-card border border-primary/20 rounded-lg hover:shadow-primary/20 hover:shadow-lg transition-shadow">
-          <BookOpen className="h-8 w-8 mx-auto text-primary mb-4" />
-          <h3 className="font-headline text-xl font-bold text-primary mb-2">{translations.footerCardMeanings}</h3>
-          <p className="text-muted-foreground text-sm">Istražite značenja svih 78 tarot karata, od Velike do Male Arkane.</p>
-        </Link>
-        <Link href="/blog" className="block p-6 bg-card border border-primary/20 rounded-lg hover:shadow-primary/20 hover:shadow-lg transition-shadow">
-          <Newspaper className="h-8 w-8 mx-auto text-primary mb-4" />
-          <h3 className="font-headline text-xl font-bold text-primary mb-2">{translations.footerBlog}</h3>
-          <p className="text-muted-foreground text-sm">Čitajte naše članke o ljubavi, karijeri i duhovnosti kroz prizmu tarota.</p>
-        </Link>
-      </div>
-    </section>
-  );
-  
-  return (
-    <div className="flex flex-col w-full min-h-screen">
-      {showMinimizedView && minimizedView}
-      <main className={cn("flex-grow flex flex-col items-center", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
-        {!showMinimizedView ? (
-            <>
-              {/* Mobile Layout */}
-              <div className="md:hidden w-full flex flex-col h-full flex-grow">
-                <div className="flex-grow flex flex-col justify-between py-4">
-                  <header>
-                      <div className="flex flex-col items-center text-center">
-                          <Logo className="h-28 w-28 text-primary" />
-                          <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                            Quick Tarot
-                          </h1>
-                      </div>
-                  </header>
 
                   <div className="w-full flex items-center">
                       <div className="flex flex-col items-center w-full">
@@ -775,107 +550,6 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
                   </Form>
                 </div>
               </div>
-
-              {/* Desktop Layout */}
-              <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
-                  <div className="grid grid-cols-[472px_1fr] gap-8 flex-grow items-center">
-                      <div className="flex items-center justify-center h-full">
-                          <ZodiacWheel
-                            signs={zodiacSigns}
-                            onSelect={setSelectedZodiacSign}
-                            selectedValue={selectedZodiacSign}
-                            disabled={disabled}
-                          />
-                      </div>
-                      
-                      <div className="flex flex-col py-8">
-                            <header className="flex w-full flex-col items-center text-center">
-                              <div className="flex flex-col items-center">
-                                  <Logo className="h-28 w-28 text-primary" />
-                                  <h1 className="font-headline text-4xl font-bold tracking-tight text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-accent via-primary to-accent">
-                                    Quick Tarot
-                                  </h1>
-                              </div>
-                              <p className="mt-3 max-w-2xl text-base text-muted-foreground sm:text-lg">
-                                  {translations.headerSubtitle}
-                                </p>
-                          </header>
-                            <Form {...form}>
-                            <form
-                              onSubmit={form.handleSubmit(onSubmit)}
-                              className="w-full max-w-md space-y-8 mt-12 mx-auto md:mx-0 md:max-w-none">
-                              <FormField
-                                control={form.control}
-                                name="question"
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel className="w-full block text-right font-bold text-primary">
-                                      {translations.formQuestionLabel}
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Textarea
-                                        placeholder={translations.formQuestionPlaceholder}
-                                        {...field}
-                                        disabled={disabled}
-                                        onKeyDown={handleTextareaKeyDown}
-                                      />
-                                    </FormControl>
-                                    <FormMessage className="text-primary" />
-                                  </FormItem>
-                                )}
-                              />
-                              <Button
-                                type="submit"
-                                className="w-full font-bold"
-                                disabled={disabled}
-                                size="lg"
-                              >
-                                {isFormLoading ? (
-                                  <>
-                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                    {translations.buttonLoading}
-                                  </>
-                                ) : countdown > 0 ? (
-                                  <div className="flex items-center gap-2">
-                                    <Timer className="h-4 w-4" />
-                                    <span>{`${Math.floor(countdown / 60)
-                                      .toString()
-                                      .padStart(2, '0')}:${(countdown % 60).toString().padStart(2, '0')}`}</span>
-                                  </div>
-                                ) : (
-                                  <>{translations.buttonDefault}</>
-                                )}
-                              </Button>
-                          </form>
-                          </Form>
-                      </div>
-                  </div>
-<<<<<<< HEAD
-              </div>
-            </>
-          ) : (
-            resultsContent
-          )}
-        
-        {!showMinimizedView && (
-          <>
-            <div className="my-12 w-full max-w-4xl">
-              <AdPlaceholder />
-            </div>
-            {additionalContent}
-          </>
-        )}
-      </main>
-      <Footer 
-          translations={translations} 
-          language={language} 
-          onLanguageChange={handleLanguageChange}
-          disabled={disabled}
-      />
-    </div>
-  );
-=======
-                </div>
 
                 {/* Desktop Layout */}
                 <div className="hidden md:flex flex-col w-full max-w-5xl mx-auto flex-grow">
@@ -1027,7 +701,4 @@ export default function TarotClient({ initialDailyCard, initialLang }: TarotClie
         />
       </div>
     );
->>>>>>> 55766075dcaa93e0ef6fc9d3dabeee997bc1be1b
 }
-
-    
