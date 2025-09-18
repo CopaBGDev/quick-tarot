@@ -101,8 +101,8 @@ export default function RootLayout({
         ></script>
         <GoogleAnalytics />
       </head>
-      <body className={cn("font-body antialiased", lora.variable, playfairDisplay.variable)}>
-        <div id="root-content" className='min-h-screen'>
+      <body className={cn("font-body antialiased flex flex-col min-h-screen", lora.variable, playfairDisplay.variable)}>
+        <div id="root-content" className='flex-grow flex flex-col'>
           {children}
         </div>
         <div id="orientation-blocker" className="hidden fixed inset-0 z-[200] bg-background items-center justify-center text-center p-4">

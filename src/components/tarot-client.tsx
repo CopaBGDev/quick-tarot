@@ -110,7 +110,7 @@ export default function TarotClient() {
     
     try {
         const savedCooldown = localStorage.getItem(COOLDOWN_STORAGE_KEY);
-        const savedReading = localStorage.getItem(READING_STORAGE_KEY);
+        const savedReadingJSON = localStorage.getItem(READING_STORAGE_KEY);
         
         if (savedCooldown) {
           const remainingTime = Math.ceil((parseInt(savedCooldown, 10) - Date.now()) / 1000);
@@ -120,9 +120,9 @@ export default function TarotClient() {
             localStorage.removeItem(COOLDOWN_STORAGE_KEY);
           }
         }
-
-        if (savedReading) {
-            const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReading);
+        
+        if (savedReadingJSON) {
+            const parsedReading: GenerateTarotReadingOutput = JSON.parse(savedReadingJSON);
             setReading(parsedReading);
             
             const savedSignName = localStorage.getItem(ZODIAC_STORAGE_KEY);
@@ -435,15 +435,15 @@ export default function TarotClient() {
   );
   
     return (
-      <div className="flex w-full flex-col min-h-screen">
+      <div className="flex flex-col flex-grow w-full">
+        {showMinimizedView && minimizedView}
         <main className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? 'pb-8 px-4' : 'px-4 pb-4')}>
-          {showMinimizedView && minimizedView}
-          <div className={cn("w-full flex flex-col items-center", showMinimizedView ? "flex-grow" : "h-full")}>
+          <div className={cn("w-full flex flex-col items-center flex-grow", showMinimizedView ? "" : "h-full")}>
             {!showMinimizedView ? (
               <>
                  {/* Mobile Layout */}
-                <div className="md:hidden w-full flex flex-col h-full">
-                  <div className="min-h-screen flex flex-col justify-between py-4">
+                <div className="md:hidden w-full flex flex-col h-full flex-grow">
+                  <div className="flex-grow flex flex-col justify-between py-4">
                     <header>
                         <div className="flex flex-col items-center text-center">
                             <Logo className="h-28 w-28 text-primary" />
@@ -513,14 +513,6 @@ export default function TarotClient() {
                     </form>
                     </Form>
                   </div>
-                     <div className="mt-8">
-                       <Footer 
-                            translations={translations} 
-                            language={language} 
-                            onLanguageChange={handleLanguageChange}
-                            disabled={disabled}
-                        />
-                     </div>
                 </div>
 
                 {/* Desktop Layout */}
@@ -597,14 +589,6 @@ export default function TarotClient() {
                             </Form>
                         </div>
                     </div>
-                    <div className="mt-8">
-                      <Footer 
-                          translations={translations} 
-                          language={language} 
-                          onLanguageChange={handleLanguageChange}
-                          disabled={disabled}
-                      />
-                    </div>
                 </div>
               </>
             ) : (
@@ -612,16 +596,12 @@ export default function TarotClient() {
             )}
           </div>
         </main>
-        {showMinimizedView && !isMobile && (
-            <Footer 
-                translations={translations} 
-                language={language} 
-                onLanguageChange={handleLanguageChange}
-                disabled={disabled}
-            />
-        )}
+        <Footer 
+            translations={translations} 
+            language={language} 
+            onLanguageChange={handleLanguageChange}
+            disabled={disabled}
+        />
       </div>
     );
 }
-
-    
