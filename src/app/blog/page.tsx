@@ -2,11 +2,7 @@ import {blogPosts} from '@/lib/blog-posts';
 import {getTranslations} from '@/lib/translations';
 import Link from 'next/link';
 
-type BlogIndexPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
-};
-
-export default async function BlogIndexPage({searchParams}: BlogIndexPageProps) {
+export default async function BlogIndexPage({searchParams}: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);

@@ -1,10 +1,6 @@
 import {getTranslations} from '@/lib/translations';
 
-type TermsPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
-};
-
-export default async function TermsPage({searchParams}: TermsPageProps) {
+export default async function TermsPage({searchParams}: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);

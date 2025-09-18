@@ -3,15 +3,13 @@ import { getTranslations } from '@/lib/translations';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 
-type InfoLayoutProps = {
-  children: React.ReactNode;
-  searchParams?: {[key: string]: string | string[] | undefined};
-};
-
 export default function InfoLayout({
   children,
   searchParams,
-}: InfoLayoutProps) {
+}: {
+  children: React.ReactNode;
+  searchParams?: {[key: string]: string | string[] | undefined};
+}) {
   const lang = (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
 

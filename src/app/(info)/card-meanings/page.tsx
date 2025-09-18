@@ -2,11 +2,7 @@ import { FULL_DECK, getCardImagePath } from '@/lib/cards';
 import { getTranslations } from '@/lib/translations';
 import Image from 'next/image';
 
-type CardMeaningsPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
-};
-
-export default async function CardMeaningsPage({ searchParams }: CardMeaningsPageProps) {
+export default async function CardMeaningsPage({ searchParams }: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
 

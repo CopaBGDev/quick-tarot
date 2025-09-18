@@ -1,10 +1,6 @@
 import {getTranslations} from '@/lib/translations';
 
-type FaqPageProps = {
-  searchParams?: {[key: string]: string | string[] | undefined};
-};
-
-export default async function FaqPage({searchParams}: FaqPageProps) {
+export default async function FaqPage({searchParams}: { searchParams?: { [key: string]: string | string[] | undefined } }) {
   const lang =
     (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
