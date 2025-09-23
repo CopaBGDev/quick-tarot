@@ -28,7 +28,7 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function BlogPostPage({ params }: Props) {
+export default async function BlogPostPage({ params }: { params: { slug: string } }) {
   const post = blogPosts.find((p) => p.slug === params.slug);
 
   if (!post) {
@@ -37,7 +37,3 @@ export default function BlogPostPage({ params }: Props) {
 
   return <BlogPostClient post={post} />;
 }
-
-    
-
-    

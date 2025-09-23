@@ -5,10 +5,9 @@ export const runtime = 'nodejs';
 export default async function Home({ 
     searchParams,
  } : { 
-    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+    searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const resolvedSearchParams = searchParams ? await searchParams : {};
-  const lang = typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr';
+  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
 
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-background">
