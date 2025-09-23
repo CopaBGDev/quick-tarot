@@ -20,15 +20,17 @@ export default async function BlogIndexPage({
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
-      <div className="mt-8 flex flex-col items-center space-y-4">
+      <div className="mt-8 flex flex-col items-start space-y-4">
         {posts.map((post, index) => (
-          <Link
-            key={post.slug}
-            href={`/blog/${post.slug}?lang=${lang}`}
-            className="text-lg text-primary hover:underline"
-          >
-            {index + 1}
-          </Link>
+            <div key={post.slug} className="flex items-start gap-4">
+                <Link
+                    href={`/blog/${post.slug}?lang=${lang}`}
+                    className="text-lg text-primary hover:underline flex-shrink-0"
+                >
+                    {index + 1}.
+                </Link>
+                <p className="text-sm text-muted-foreground">{post.metaDescription}</p>
+            </div>
         ))}
       </div>
     </div>
