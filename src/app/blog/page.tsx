@@ -21,7 +21,7 @@ export default async function BlogIndexPage({
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
       <div className="mt-8 space-y-6">
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}?lang=${lang}`}
@@ -29,7 +29,7 @@ export default async function BlogIndexPage({
           >
             <article>
               <p className="font-headline text-2xl font-bold text-primary group-hover:underline">
-                {post.title}
+                {index + 1}. {post.title}
               </p>
             </article>
           </Link>
