@@ -3,9 +3,10 @@ import { getTranslations } from '@/lib/translations';
 export default async function TarotAndLovePage({ 
     searchParams,
  }: { 
-    searchParams?: { [key: string]: string | string[] | undefined };
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const lang = typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (

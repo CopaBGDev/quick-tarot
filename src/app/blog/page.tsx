@@ -5,10 +5,11 @@ import Link from 'next/link';
 export default async function BlogIndexPage({
     searchParams,
 }: {
-    searchParams?: { [key: string]: string | string[] | undefined };
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const resolvedSearchParams = searchParams ? await searchParams : {};
   const lang =
-    (typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr') || 'sr';
+    (typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr') || 'sr';
   const t = getTranslations(lang);
 
   return (

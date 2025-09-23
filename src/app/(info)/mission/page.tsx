@@ -3,10 +3,11 @@ import {getTranslations} from '@/lib/translations';
 export default async function MissionPage({
   searchParams,
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const resolvedSearchParams = searchParams ? await searchParams : {};
   const lang =
-    typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
+    typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr';
   const t = getTranslations(lang);
 
   return (
