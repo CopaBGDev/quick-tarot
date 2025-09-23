@@ -26,8 +26,9 @@ export interface BlogPost {
   internalLinks: InternalLink[];
 }
 
+// BlogPostSource sada ne zahteva 'title', jer on ne postoji u JSON-u.
+// On se generiše kasnije.
 interface BlogPostSource {
-  title: string;
   slug: string;
   metaTitle: string;
   metaDescription: string;
@@ -72,7 +73,7 @@ function getLinkTitleMap(t: TranslationSet): Record<string, string> {
 
 
 // Funkcija za rešavanje internih linkova sa prevodom
-function resolveInternalLinks(post: BlogPostSource, lang: string): BlogPost {
+function resolveBlogPost(post: BlogPostSource, lang: string): BlogPost {
     const t = ALL_TRANSLATIONS[lang] || ALL_TRANSLATIONS.sr;
     const linkTitleMap = getLinkTitleMap(t);
 
@@ -83,7 +84,7 @@ function resolveInternalLinks(post: BlogPostSource, lang: string): BlogPost {
 
     return {
         ...post,
-        title: post.metaTitle,
+        title: post.metaTitle, // Glavni naslov posta se sada eksplicitno postavlja iz metaTitle
         internalLinks: resolvedInternalLinks
     };
 }
@@ -92,7 +93,7 @@ function resolveInternalLinks(post: BlogPostSource, lang: string): BlogPost {
 export function getBlogPosts(lang: string): BlogPost[] {
     const baseLang = lang.split('-')[0];
     const postsForLang = allPosts[baseLang] || allPosts.sr;
-    return postsForLang.map(post => resolveInternalLinks(post, baseLang));
+    return postsForLang.map(post => resolveBlogPost(post, baseLang));
 }
 
 export function getBlogPost(lang: string, slug: string): BlogPost | undefined {
@@ -104,5 +105,5 @@ export function getBlogPost(lang: string, slug: string): BlogPost | undefined {
         return undefined;
     }
 
-    return resolveInternalLinks(post, baseLang);
+    return resolveBlogPost(post, baseLang);
 }
