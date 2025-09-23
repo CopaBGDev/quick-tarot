@@ -16,14 +16,14 @@ export default async function BlogIndexPage({
   const posts = getBlogPosts(lang);
 
   return (
-    <div className="container mx-auto max-w-5xl flex-grow py-8 px-4">
+    <div className="container mx-auto max-w-4xl flex-grow py-8 px-4">
       <header className="mb-12 text-center">
         <h1 className="font-headline text-4xl font-bold text-primary">
           {t.blogTitle}
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-8">
         {posts.map((post) => (
             <Card key={post.slug} className="flex flex-col bg-card/50 border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/30 transition-all duration-300">
                 <CardHeader>
