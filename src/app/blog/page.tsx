@@ -2,6 +2,9 @@
 import { getBlogPosts } from '@/lib/blog-posts';
 import { getTranslations } from '@/lib/translations';
 import Link from 'next/link';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { ArrowRight } from 'lucide-react';
 
 export default async function BlogIndexPage({
     searchParams,
@@ -14,23 +17,30 @@ export default async function BlogIndexPage({
 
   return (
     <div className="container mx-auto max-w-5xl flex-grow py-8 px-4">
-      <header className="mb-8 text-center">
+      <header className="mb-12 text-center">
         <h1 className="font-headline text-4xl font-bold text-primary">
           {t.blogTitle}
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
-      <div className="mt-8 flex flex-col items-start space-y-4">
-        {posts.map((post, index) => (
-            <div key={post.slug} className="flex items-start gap-4">
-                <Link
-                    href={`/blog/${post.slug}?lang=${lang}`}
-                    className="text-lg text-primary hover:underline flex items-start gap-2"
-                >
-                    <span className="w-6 text-right">{index + 1}.</span>
-                    <span>{post.title}</span>
-                </Link>
-            </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {posts.map((post) => (
+            <Card key={post.slug} className="flex flex-col bg-card/50 border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/30 transition-all duration-300">
+                <CardHeader>
+                    <CardTitle className="font-headline text-2xl text-primary text-left">{post.metaTitle}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                    <CardDescription className="text-left">{post.metaDescription}</CardDescription>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild variant="link" className="p-0 h-auto text-primary font-bold">
+                        <Link href={`/blog/${post.slug}?lang=${lang}`}>
+                            {t.blogReadMore}
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                </CardFooter>
+            </Card>
         ))}
       </div>
     </div>
