@@ -27,18 +27,19 @@ export async function generateMetadata({
 
 export async function generateStaticParams() {
     const languages = ['sr', 'en', 'de', 'fr', 'es'];
-    const allParams: { slug: string; lang: string }[] = [];
+    const allParams: { slug: string }[] = [];
 
     languages.forEach(lang => {
         const posts = getBlogPosts(lang);
         posts.forEach(post => {
-            allParams.push({ slug: post.slug, lang: lang });
+            // Only add the slug, as `lang` is not a dynamic parameter in the route
+            if (!allParams.some(p => p.slug === post.slug)) {
+                 allParams.push({ slug: post.slug });
+            }
         });
     });
     
-    // generateStaticParams expects an array of objects with the dynamic segment name
-    // in this case it is just "slug"
-    return allParams.map(p => ({ slug: p.slug }));
+    return allParams;
 }
 
 export default async function BlogPostPage({ 
