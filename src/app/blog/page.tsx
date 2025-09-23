@@ -13,23 +13,21 @@ export default async function BlogIndexPage({
   const posts = getBlogPosts(lang);
 
   return (
-    <div className="container mx-auto max-w-5xl flex-grow">
+    <div className="container mx-auto max-w-5xl flex-grow py-8">
       <header className="mb-8 text-center">
         <h1 className="font-headline text-4xl font-bold text-primary">
           {t.blogTitle}
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
-      <div className="mt-8 space-y-6">
-        {posts.map((post, index) => (
+      <div className="mt-8 flex flex-col items-center space-y-4">
+        {posts.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}?lang=${lang}`}
-            className="block group p-6 rounded-lg border border-primary/10 bg-card/50 hover:border-primary/30 hover:bg-card/70 transition-all duration-300"
+            className="text-lg text-primary hover:underline"
           >
-            <p className="font-headline text-2xl font-bold text-primary group-hover:underline">
-              {index + 1}. {post.title}
-            </p>
+            {post.title}
           </Link>
         ))}
       </div>
