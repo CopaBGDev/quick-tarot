@@ -4,12 +4,13 @@ import { notFound } from 'next/navigation';
 import { getBlogPost, getBlogPosts } from '@/lib/blog-posts';
 import BlogPostClient from './client-page';
 
-type Props = {
+export async function generateMetadata({ 
+  params, 
+  searchParams 
+}: { 
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
-};
-
-export async function generateMetadata({ params, searchParams }: Props): Promise<Metadata> {
+}): Promise<Metadata> {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const post = getBlogPost(lang, params.slug);
 
@@ -40,7 +41,13 @@ export async function generateStaticParams() {
     return allParams.map(p => ({ slug: p.slug }));
 }
 
-export default async function BlogPostPage({ params, searchParams }: Props) {
+export default async function BlogPostPage({ 
+  params, 
+  searchParams 
+}: { 
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const post = getBlogPost(lang, params.slug);
 
