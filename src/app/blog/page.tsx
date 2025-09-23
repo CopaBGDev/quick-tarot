@@ -1,16 +1,16 @@
-import {blogPosts} from '@/lib/blog-posts';
-import {getTranslations} from '@/lib/translations';
+
+import { getBlogPosts } from '@/lib/blog-posts';
+import { getTranslations } from '@/lib/translations';
 import Link from 'next/link';
 
 export default async function BlogIndexPage({
     searchParams,
 }: {
-    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+    searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const resolvedSearchParams = searchParams ? await searchParams : {};
-  const lang =
-    (typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr') || 'sr';
+  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
   const t = getTranslations(lang);
+  const posts = getBlogPosts(lang);
 
   return (
     <div className="container mx-auto max-w-7xl py-8 px-4 sm:px-6 lg:px-8">
@@ -20,7 +20,7 @@ export default async function BlogIndexPage({
         </h1>
         <p className="text-muted-foreground mt-2">{t.blogDescription}</p>
         <div className="mt-8 space-y-8">
-          {blogPosts.map((post) => (
+          {posts.map((post) => (
             <Link
               key={post.slug}
               href={`/blog/${post.slug}?lang=${lang}`}

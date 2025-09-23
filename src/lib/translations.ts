@@ -1,5 +1,4 @@
 
-
 export type TranslationSet = {
     headerSubtitle: string;
     formZodiacLabel: string;
@@ -81,6 +80,26 @@ export type TranslationSet = {
     blogPostContent_TarotAndLove_h2_1: string;
     blogPostContent_TarotAndLove_p3: string;
     blogPostContent_TarotAndLove_p4: string;
+    // New blog titles for internal links
+    blogPostTitle_sta_je_tarot_i_kako_funkcionise: string;
+    blogPostTitle_kako_postaviti_pravo_pitanje: string;
+    blogPostTitle_tarot_vs_astrologija: string;
+    blogPostTitle_etika_u_tarotu: string;
+    blogPostTitle_pregled_svih_78_karata: string;
+    blogPostTitle_velika_arkana_znacenja: string;
+    blogPostTitle_mala_arkana_stapovi: string;
+    blogPostTitle_mala_arkana_pehari: string;
+    blogPostTitle_mala_arkana_macevi: string;
+    blogPostTitle_mala_arkana_pentakli: string;
+    blogPostTitle_top_10_tarot_otvaranja: string;
+    blogPostTitle_kako_izabrati_pravo_otvaranje: string;
+    blogPostTitle_tarot_otvaranja_ljubav_odnosi: string;
+    blogPostTitle_tarot_otvaranja_posao_finansije: string;
+    blogPostTitle_jednostavna_dnevna_otvaranja: string;
+    blogPostTitle_tarot_i_karijera: string;
+    blogPostTitle_tarot_i_licni_razvoj: string;
+    blogPostTitle_ocistiti_energetizovati_tarot: string;
+    blogPostTitle_najcesce_greske_pocetnika: string;
 };
 
 export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
@@ -165,6 +184,25 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         blogPostContent_TarotAndLove_h2_1: "Key Cards in Love Readings",
         blogPostContent_TarotAndLove_p3: "The Lovers, Two of Cups, and Ten of Cups are classic indicators of partnership and emotional fulfillment. However, cards like The Tower can signify necessary shake-ups, while The Hermit might point to a need for introspection before entering a relationship.",
         blogPostContent_TarotAndLove_p4: "The key is to look at the cards together, as a story. They can reveal your own blockages, your partner's feelings, and the overall potential of the connection. Use them not to predict, but to understand and grow.",
+        blogPostTitle_sta_je_tarot_i_kako_funkcionise: "What is Tarot and How Does It Work?",
+        blogPostTitle_kako_postaviti_pravo_pitanje: "How to Ask the Right Question to the Cards",
+        blogPostTitle_tarot_vs_astrologija: "Tarot vs. Astrology - When to Use One, and When the Other",
+        blogPostTitle_etika_u_tarotu: "Ethics in Tarot Reading - Boundaries, Responsibility, and Respect for Privacy",
+        blogPostTitle_pregled_svih_78_karata: "Overview of All 78 Cards - Basic Meanings",
+        blogPostTitle_velika_arkana_znacenja: "The Major Arcana - 22 Cards and Their Meanings",
+        blogPostTitle_mala_arkana_stapovi: "The Minor Arcana - Wands - Symbolism and Meaning",
+        blogPostTitle_mala_arkana_pehari: "The Minor Arcana - Cups - Love, Emotions, Spirituality",
+        blogPostTitle_mala_arkana_macevi: "The Minor Arcana - Swords - Mind, Decisions, Conflicts",
+        blogPostTitle_mala_arkana_pentakli: "The Minor Arcana - Pentacles - Money, Work, Stability",
+        blogPostTitle_top_10_tarot_otvaranja: "Top 10 Most Famous Tarot Spreads",
+        blogPostTitle_kako_izabrati_pravo_otvaranje: "How to Choose the Right Spread for Your Question",
+        blogPostTitle_tarot_otvaranja_ljubav_odnosi: "Tarot Spreads for Love and Relationships",
+        blogPostTitle_tarot_otvaranja_posao_finansije: "Tarot Spreads for Work and Finances",
+        blogPostTitle_jednostavna_dnevna_otvaranja: "Simple Daily Spreads for Introspection",
+        blogPostTitle_tarot_i_karijera: "Tarot and Career: Cards that Speak of Work and Money",
+        blogPostTitle_tarot_i_licni_razvoj: "Tarot and Personal Development: How to Use Cards for Self-Help",
+        blogPostTitle_ocistiti_energetizovati_tarot: "How to Cleanse and Energize a Tarot Deck - Rituals and Methods",
+        blogPostTitle_najcesce_greske_pocetnika: "The Most Common Mistakes for Beginners in Tarot and How to Avoid Them"
     },
     sr: {
         headerSubtitle: "Otkrijte šta vam zvezde i karte poručuju. Unesite vaš znak i pitanje kako biste dobili vaše personalizovano tarot čitanje.",
@@ -247,6 +285,25 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         blogPostContent_TarotAndLove_h2_1: "Ključne Karte u Ljubavnim Čitanjima",
         blogPostContent_TarotAndLove_p3: "Ljubavnici, Dvojka pehara i Desetka pehara su klasični pokazatelji partnerstva i emocionalnog ispunjenja. Međutim, karte poput Kule mogu označavati neophodne potrese, dok Pustinjak može ukazivati na potrebu za introspekcijom pre ulaska u vezu.",
         blogPostContent_TarotAndLove_p4: "Ključ je posmatrati karte zajedno, kao priču. One mogu otkriti vaše sopstvene blokade, osećanja vašeg partnera i ukupan potencijal veze. Koristite ih ne da predvidite, već da razumete i rastete.",
+        blogPostTitle_sta_je_tarot_i_kako_funkcionise: "Šta je tarot i kako funkcioniše?",
+        blogPostTitle_kako_postaviti_pravo_pitanje: "Kako postaviti pravo pitanje kartama",
+        blogPostTitle_tarot_vs_astrologija: "Razlika između tarota i astrologije – kada koristiti jedno, a kada drugo",
+        blogPostTitle_etika_u_tarotu: "Etika u tarot čitanju – granice, odgovornost i poštovanje privatnosti",
+        blogPostTitle_pregled_svih_78_karata: "Pregled svih 78 karata – osnovna značenja",
+        blogPostTitle_velika_arkana_znacenja: "Velika Arkana – 22 karte i njihova značenja",
+        blogPostTitle_mala_arkana_stapovi: "Mala Arkana – Štapovi (Wands) – simbolika i značenje",
+        blogPostTitle_mala_arkana_pehari: "Mala Arkana – Pehari (Cups) – ljubav, emocije, duhovnost",
+        blogPostTitle_mala_arkana_macevi: "Mala Arkana – Mačevi (Swords) – um, odluke, konflikti",
+        blogPostTitle_mala_arkana_pentakli: "Mala Arkana – Pentakli (Pentacles) – novac, posao, stabilnost",
+        blogPostTitle_top_10_tarot_otvaranja: "Top 10 najpoznatijih tarot otvaranja",
+        blogPostTitle_kako_izabrati_pravo_otvaranje: "Kako izabrati pravo otvaranje za vaše pitanje",
+        blogPostTitle_tarot_otvaranja_ljubav_odnosi: "Tarot otvaranja za ljubav i odnose",
+        blogPostTitle_tarot_otvaranja_posao_finansije: "Tarot otvaranja za posao i finansije",
+        blogPostTitle_jednostavna_dnevna_otvaranja: "Jednostavna dnevna otvaranja za introspektivu",
+        blogPostTitle_tarot_i_karijera: "Tarot i karijera: karte koje govore o poslu i novcu",
+        blogPostTitle_tarot_i_licni_razvoj: "Tarot i lični razvoj: kako koristiti karte za samopomoć",
+        blogPostTitle_ocistiti_energetizovati_tarot: "Kako očistiti i energizovati tarot špil – rituali i metode",
+        blogPostTitle_najcesce_greske_pocetnika: "Najčešće greške početnika u tarotu i kako ih izbeći"
     },
     de: {
         headerSubtitle: "Entdecken Sie, was die Sterne und Karten für Sie bereithalten. Geben Sie Ihr Sternzeichen und Ihre Frage ein, um Ihre persönliche Tarot-Lesung zu erhalten.",
@@ -329,6 +386,25 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         blogPostContent_TarotAndLove_h2_1: "Schlüsselkarten in Liebeslesungen",
         blogPostContent_TarotAndLove_p3: "Die Liebenden, Zwei der Kelche und Zehn der Kelche sind klassische Indikatoren für Partnerschaft und emotionale Erfüllung. Karten wie Der Turm können jedoch notwendige Umwälzungen bedeuten, während Der Eremit auf die Notwendigkeit der Selbstbeobachtung vor dem Eingehen einer Beziehung hinweisen könnte.",
         blogPostContent_TarotAndLove_p4: "Der Schlüssel liegt darin, die Karten zusammen als eine Geschichte zu betrachten. Sie können Ihre eigenen Blockaden, die Gefühle Ihres Partners und das Gesamtpotenzial der Verbindung aufdecken. Verwenden Sie sie nicht, um vorherzusagen, sondern um zu verstehen und zu wachsen.",
+        blogPostTitle_sta_je_tarot_i_kako_funkcionise: "Was ist Tarot und wie funktioniert es?",
+        blogPostTitle_kako_postaviti_pravo_pitanje: "Wie man den Karten die richtige Frage stellt",
+        blogPostTitle_tarot_vs_astrologija: "Tarot vs. Astrologie – Wann man das eine und wann das andere verwenden sollte",
+        blogPostTitle_etika_u_tarotu: "Ethik beim Tarot-Lesen – Grenzen, Verantwortung und Achtung der Privatsphäre",
+        blogPostTitle_pregled_svih_78_karata: "Überblick über alle 78 Karten – Grundbedeutungen",
+        blogPostTitle_velika_arkana_znacenja: "Die Große Arkana – 22 Karten und ihre Bedeutungen",
+        blogPostTitle_mala_arkana_stapovi: "Die Kleine Arkana – Stäbe – Symbolik und Bedeutung",
+        blogPostTitle_mala_arkana_pehari: "Die Kleine Arkana – Kelche – Liebe, Emotionen, Spiritualität",
+        blogPostTitle_mala_arkana_macevi: "Die Kleine Arkana – Schwerter – Verstand, Entscheidungen, Konflikte",
+        blogPostTitle_mala_arkana_pentakli: "Die Kleine Arkana – Münzen – Geld, Arbeit, Stabilität",
+        blogPostTitle_top_10_tarot_otvaranja: "Top 10 der bekanntesten Tarot-Legungen",
+        blogPostTitle_kako_izabrati_pravo_otvaranje: "Wie man die richtige Legung für seine Frage wählt",
+        blogPostTitle_tarot_otvaranja_ljubav_odnosi: "Tarot-Legungen für Liebe und Beziehungen",
+        blogPostTitle_tarot_otvaranja_posao_finansije: "Tarot-Legungen für Arbeit und Finanzen",
+        blogPostTitle_jednostavna_dnevna_otvaranja: "Einfache tägliche Legungen zur Selbstbeobachtung",
+        blogPostTitle_tarot_i_karijera: "Tarot und Karriere: Karten, die von Arbeit und Geld sprechen",
+        blogPostTitle_tarot_i_licni_razvoj: "Tarot und persönliche Entwicklung: Wie man Karten zur Selbsthilfe verwendet",
+        blogPostTitle_ocistiti_energetizovati_tarot: "Wie man ein Tarot-Deck reinigt und energetisiert – Rituale und Methoden",
+        blogPostTitle_najcesce_greske_pocetnika: "Die häufigsten Fehler für Anfänger im Tarot und wie man sie vermeidet"
     },
     fr: {
         headerSubtitle: "Découvrez ce que les étoiles et les cartes vous réservent. Entrez votre signe et votre question pour obtenir votre lecture de tarot personnalisée.",
@@ -356,7 +432,7 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         aboutDialogTitle: "À propos de l'application Quick Tarot",
         aboutDialogContent: `Bienvenue sur Quick Tarot, votre portail numérique vers le monde mystique du tarot. Notre application est conçue pour offrir une expérience de tarot intuitive, perspicace et personnalisée, accessible à tous, partout et à tout moment. Nous croyons que le tarot est un outil puissant pour l'introspection, l'orientation et une compréhension plus profonde de son chemin de vie.\n\nAu cœur de Quick Tarot se trouve un moteur d'IA sophistiqué qui génère des lectures uniques et significatives. Nous n'utilisons pas d'interprétations pré-écrites. Au lieu de cela, pour chaque question, notre système tire programmatiquement trois cartes d'un jeu complet de 78 cartes, garantissant que chaque lecture est véritablement aléatoire et adaptée à la requête spécifique de l'utilisateur et à son signe astrologique. Ce processus dynamique permet à l'IA de tisser un récit qui relie le symbolisme de la carte au contexte personnel de l'utilisateur, offrant des conseils à la fois pertinents et profonds.\n\nNotre philosophie est que le tarot ne consiste pas à prédire l'avenir de manière déterministe, mais à donner du pouvoir. Les cartes sont un miroir du monde intérieur d'une personne, reflétant des pensées cachées, des défis potentiels et des opportunités inexploitées. Elles offrent une nouvelle perspective, aidant les utilisateurs à naviguer dans leurs circonstances avec plus de clarté et de confiance. Que vous cherchiez des réponses à un problème spécifique, une inspiration créative ou simplement à explorer votre intuition, Quick Tarot est là pour être votre guide de confiance.\n\nNous nous engageons à créer un service transparent et de haute qualité. Notre site comprend des explications détaillées de notre méthodologie, la signification des 78 cartes de tarot et des guides sur la façon de formuler des questions efficaces. Nous croyons qu'un utilisateur informé est un utilisateur responsabilisé. Merci de faire partie de notre voyage alors que nous fusionnons la sagesse ancienne avec la technologie moderne pour amener l'art du tarot à l'ère numérique.`,
         missionDialogTitle: "Notre Mission",
-        missionDialogContent: "Notre mission chez Quick Tarot est de démystifier l'art du tarot et d'en faire un outil accessible et pratique pour la croissance personnelle et l'introspection dans le monde moderne. Nous visons à combler le fossé entre la sagesse ancienne et la technologie de pointe, en donnant aux individus les moyens de trouver la clarté, de prendre des décisions plus éclairées et de comprendre les courants plus profonds qui façonnent leur vie.\n\nNous sommes guidés par trois principes fondamentaux :\n1. Accessibilité : Nous nous efforçons de supprimer les barrières qui ont souvent rendu le tarot ésotérique ou inaccessible. Notre plateforme est conçue pour être conviviale et intuitive, offrant un espace accueillant pour les débutants et les praticiens expérimentés. En fournissant notre service en ligne, nous rendons les conseils disponibles à tout moment et en tout lieu.\n2. Authenticité : Nous nous engageons à honorer la riche tradition et le symbolisme du tarot. Bien que nous utilisions une IA avancée pour générer des lectures, notre système est construit sur un profond respect des significations et des relations établies entre les cartes. Nous veillons à ce que chaque lecture, bien que générée par la technologie, soit ancrée dans l'esprit authentique de la pratique du tarot.\n3. Autonomisation : Notre objectif ultime n'est pas de prédire l'avenir, mais de responsabiliser nos utilisateurs. Nous considérons le tarot comme un outil de découverte de soi et de réflexion. En fournissant des interprétations perspicaces, nous aidons les individus à libérer leur propre intuition, à reconnaître leurs forces intérieures et à naviguer dans les défis de la vie avec une plus grande conscience et confiance. Nous encourageons nos utilisateurs à voir les cartes non pas comme un destin figé, mais comme un guide pour créer leur propre meilleur avenir.",
+        missionDialogContent: "Notre mission chez Quick Tarot est de démystifier l'art du tarot et d'en faire un outil accessible et pratique pour la croissance personnelle et l'introspection dans le monde moderne. Nous visons à combler le fossé entre la sagesse ancienne et la technologie de pointe, en donnant aux individus les moyens de trouver la clarté, de prendre des décisions plus éclairées et de comprendre les courants plus profonds qui façonnent leur vie.\n\nNous sommes guidés par trois principes fondamentaux :\n1. Accessibilité : Nous nous efforçons de supprimer les barrières qui ont often rendu le tarot ésotérique ou inaccessible. Notre plateforme est conçue pour être conviviale et intuitive, offrant un espace accueillant pour les débutants et les praticiens expérimentés. En fournissant notre service en ligne, nous rendons les conseils disponibles à tout moment et en tout lieu.\n2. Authenticité : Nous nous engageons à honorer la riche tradition et le symbolisme du tarot. Bien que nous utilisions une IA avancée pour générer des lectures, notre système est construit sur un profond respect des significations et des relations établies entre les cartes. Nous veillons à ce que chaque lecture, bien que générée par la technologie, soit ancrée dans l'esprit authentique de la pratique du tarot.\n3. Autonomisation : Notre objectif ultime n'est pas de prédire l'avenir, mais de responsabiliser nos utilisateurs. Nous considérons le tarot comme un outil de découverte de soi et de réflexion. En fournissant des interprétations perspicaces, nous aidons les individus à libérer leur propre intuition, à reconnaître leurs forces intérieures et à naviguer dans les défis de la vie avec une plus grande conscience et confiance. Nous encourageons nos utilisateurs à voir les cartes non pas comme un destin figé, mais comme un guide pour créer leur propre meilleur avenir.",
         faqDialogTitle: "Questions fréquemment posées",
         faqDialogContent: `**Q : Comment l'IA génère-t-elle les lectures de tarot ?**\nA : Notre système utilise un modèle de langage puissant combiné à une compréhension approfondie du symbolisme du tarot. Lorsque vous posez une question, l'IA prend en compte votre requête et votre signe du zodiaque. Elle sélectionne ensuite programmatiquement trois cartes aléatoires d'un jeu complet de 78 cartes. L'IA interprète la signification de ces cartes spécifiques dans le contexte de votre question, créant un récit unique et cohérent. Elle n'utilise pas de scripts pré-écrits.\n\n**Q : Les lectures sont-elles vraiment aléatoires et uniques ?**\nA : Absolument. Le processus de sélection des cartes est cryptographiquement aléatoire pour chaque lecture. Parce que l'interprétation de l'IA est générée en temps réel sur la base de la combinaison unique de votre question, de votre signe et des trois cartes tirées au hasard, le nombre de lectures possibles est pratiquement infini. Il est extrêmement improbable que deux utilisateurs reçoivent un jour exactement le même texte.\n\n**Q : À quelle fréquence puis-je demander une lecture ?**\nA : Pour encourager une utilisation réfléchie et garantir la qualité de notre service, nous avons une période de récupération de deux minutes entre les lectures. Nous pensons que cela favorise un engagement plus significatif avec les conseils fournis, plutôt que des demandes rapides et superficielles.\n\n**Q : Est-ce de la vraie voyance ?**\nA : Nous considérons le tarot comme un outil de guidage et d'introspection, et non comme une méthode pour prédire un avenir figé. Les cartes peuvent éclairer les chemins potentiels, les influences cachées et les énergies sous-jacentes d'une situation. Le pouvoir ultime de choisir et d'agir vous appartient toujours. La lecture est un instantané du potentiel du moment présent, vous offrant une nouvelle perspective pour prendre des décisions éclairées.\n\n**Q : Pourquoi avez-vous besoin de mon signe du zodiaque ?**\nA : Votre signe du zodiaque ajoute une autre couche de personnalisation à la lecture. L'IA intègre les traits archétypaux généraux et les influences élémentaires de votre signe pour adapter l'interprétation, rendant les conseils plus résonnants et spécifiques à votre disposition potentielle et à votre approche de la vie.`,
         termsDialogTitle: "Conditions d'utilisation",
@@ -411,6 +487,25 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         blogPostContent_TarotAndLove_h2_1: "Cartes clés dans les lectures d'amour",
         blogPostContent_TarotAndLove_p3: "Les Amoureux, le Deux de Coupes et le Dix de Coupes sont des indicateurs classiques de partenariat et d'épanouissement émotionnel. Cependant, des cartes comme La Tour peuvent signifier des bouleversements nécessaires, tandis que L'Ermite peut indiquer un besoin d'introspection avant d'entrer dans une relation.",
         blogPostContent_TarotAndLove_p4: "La clé est de regarder les cartes ensemble, comme une histoire. Elles peuvent révéler vos propres blocages, les sentiments de votre partenaire et le potentiel global de la connexion. Utilisez-les non pas pour prédire, mais pour comprendre et grandir.",
+        blogPostTitle_sta_je_tarot_i_kako_funkcionise: "Qu'est-ce que le tarot et comment fonctionne-t-il ?",
+        blogPostTitle_kako_postaviti_pravo_pitanje: "Comment poser la bonne question aux cartes",
+        blogPostTitle_tarot_vs_astrologija: "Tarot vs Astrologie - Quand utiliser l'un et quand utiliser l'autre",
+        blogPostTitle_etika_u_tarotu: "Éthique dans la lecture du tarot - Limites, responsabilité et respect de la vie privée",
+        blogPostTitle_pregled_svih_78_karata: "Aperçu des 78 cartes - Significations de base",
+        blogPostTitle_velika_arkana_znacenja: "L'Arcane Majeur - 22 cartes et leurs significations",
+        blogPostTitle_mala_arkana_stapovi: "L'Arcane Mineur - Bâtons - Symbolisme et signification",
+        blogPostTitle_mala_arkana_pehari: "L'Arcane Mineur - Coupes - Amour, émotions, spiritualité",
+        blogPostTitle_mala_arkana_macevi: "L'Arcane Mineur - Épées - Esprit, décisions, conflits",
+        blogPostTitle_mala_arkana_pentakli: "L'Arcane Mineur - Pentacles - Argent, travail, stabilité",
+        blogPostTitle_top_10_tarot_otvaranja: "Top 10 des tirages de tarot les plus célèbres",
+        blogPostTitle_kako_izabrati_pravo_otvaranje: "Comment choisir le bon tirage pour votre question",
+        blogPostTitle_tarot_otvaranja_ljubav_odnosi: "Tirages de tarot pour l'amour et les relations",
+        blogPostTitle_tarot_otvaranja_posao_finansije: "Tirages de tarot pour le travail et les finances",
+        blogPostTitle_jednostavna_dnevna_otvaranja: "Tirages quotidiens simples pour l'introspection",
+        blogPostTitle_tarot_i_karijera: "Tarot et carrière : des cartes qui parlent de travail et d'argent",
+        blogPostTitle_tarot_i_licni_razvoj: "Tarot et développement personnel : comment utiliser les cartes pour l'auto-assistance",
+        blogPostTitle_ocistiti_energetizovati_tarot: "Comment nettoyer et dynamiser un jeu de tarot - Rituels et méthodes",
+        blogPostTitle_najcesce_greske_pocetnika: "Les erreurs les plus courantes pour les débutants en tarot et comment les éviter"
     },
     es: {
         headerSubtitle: "Descubre lo que las estrellas y las cartas tienen reservado para ti. Introduce tu signo y tu pregunta para obtener tu lectura de tarot personalizada.",
@@ -493,6 +588,25 @@ export const ALL_TRANSLATIONS: Record<string, TranslationSet> = {
         blogPostContent_TarotAndLove_h2_1: "Cartas clave en las lecturas de amor",
         blogPostContent_TarotAndLove_p3: "Los Amantes, el Dos de Copas y el Diez de Copas son indicadores clásicos de asociación y plenitud emocional. Sin embargo, cartas como La Torre pueden significar sacudidas necesarias, mientras que El Ermitaño puede señalar la necesidad de introspección antes de entrar en una relación.",
         blogPostContent_TarotAndLove_p4: "La clave es mirar las cartas juntas, como una historia. Pueden revelar tus propios bloqueos, los sentimientos de tu pareja y el potencial general de la conexión. Úsalas no para predecir, sino para comprender y crecer.",
+        blogPostTitle_sta_je_tarot_i_kako_funkcionise: "¿Qué es el Tarot y cómo funciona?",
+        blogPostTitle_kako_postaviti_pravo_pitanje: "Cómo hacer la pregunta correcta a las cartas",
+        blogPostTitle_tarot_vs_astrologija: "Tarot vs. Astrología - Cuándo usar uno y cuándo el otro",
+        blogPostTitle_etika_u_tarotu: "Ética en la lectura del Tarot - Límites, responsabilidad y respeto por la privacidad",
+        blogPostTitle_pregled_svih_78_karata: "Resumen de las 78 cartas - Significados básicos",
+        blogPostTitle_velika_arkana_znacenja: "Los Arcanos Mayores - 22 cartas y sus significados",
+        blogPostTitle_mala_arkana_stapovi: "Los Arcanos Menores - Bastos - Simbolismo y significado",
+        blogPostTitle_mala_arkana_pehari: "Los Arcanos Menores - Copas - Amor, emociones, espiritualidad",
+        blogPostTitle_mala_arkana_macevi: "Los Arcanos Menores - Espadas - Mente, decisiones, conflictos",
+        blogPostTitle_mala_arkana_pentakli: "Los Arcanos Menores - Oros - Dinero, trabajo, estabilidad",
+        blogPostTitle_top_10_tarot_otvaranja: "Las 10 tiradas de tarot más famosas",
+        blogPostTitle_kako_izabrati_pravo_otvaranje: "Cómo elegir la tirada adecuada para tu pregunta",
+        blogPostTitle_tarot_otvaranja_ljubav_odnosi: "Tiradas de tarot para el amor y las relaciones",
+        blogPostTitle_tarot_otvaranja_posao_finansije: "Tiradas de tarot para el trabajo y las finanzas",
+        blogPostTitle_jednostavna_dnevna_otvaranja: "Tiradas diarias simples para la introspección",
+        blogPostTitle_tarot_i_karijera: "Tarot y carrera: cartas que hablan de trabajo y dinero",
+        blogPostTitle_tarot_i_licni_razvoj: "Tarot y desarrollo personal: cómo usar las cartas para la autoayuda",
+        blogPostTitle_ocistiti_energetizovati_tarot: "Cómo limpiar y energizar una baraja de Tarot - Rituales y métodos",
+        blogPostTitle_najcesce_greske_pocetnika: "Los errores más comunes para principiantes en el Tarot y cómo evitarlos"
     },
 };
 
