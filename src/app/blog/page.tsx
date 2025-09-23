@@ -21,18 +21,16 @@ export default async function BlogIndexPage({
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
       <div className="mt-8 space-y-6">
-        {posts.map((post, index) => (
+        {posts.map((post) => (
           <Link
             key={post.slug}
             href={`/blog/${post.slug}?lang=${lang}`}
             className="block group p-6 rounded-lg border border-primary/10 bg-card/50 hover:border-primary/30 hover:bg-card/70 transition-all duration-300"
           >
             <article>
-              <div className="flex items-center justify-center h-full">
-                <span className="font-headline text-4xl font-bold text-primary">
-                  {index + 1}
-                </span>
-              </div>
+              <h2 className="font-headline text-2xl font-bold text-primary group-hover:underline">
+                {post.title}
+              </h2>
             </article>
           </Link>
         ))}
