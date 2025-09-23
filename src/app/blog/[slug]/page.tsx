@@ -8,11 +8,13 @@ export async function generateMetadata({
   params, 
   searchParams 
 }: { 
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
-  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
-  const post = getBlogPost(lang, params.slug);
+  const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const lang = typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr';
+  const post = getBlogPost(lang, slug);
 
   if (!post) {
     return {};
@@ -46,11 +48,13 @@ export default async function BlogPostPage({
   params, 
   searchParams 
 }: { 
-  params: { slug: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
-  const post = getBlogPost(lang, params.slug);
+  const { slug } = await params;
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const lang = typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr';
+  const post = getBlogPost(lang, slug);
 
   if (!post) {
     notFound();

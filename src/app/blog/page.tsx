@@ -5,13 +5,15 @@ import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { AdPlaceholder } from '@/components/ad-placeholder';
 
 export default async function BlogIndexPage({
     searchParams,
 }: {
-    searchParams?: { [key: string]: string | string[] | undefined };
+    searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const lang = typeof searchParams?.lang === 'string' ? searchParams.lang : 'sr';
+  const resolvedSearchParams = searchParams ? await searchParams : {};
+  const lang = typeof resolvedSearchParams?.lang === 'string' ? resolvedSearchParams.lang : 'sr';
   const t = getTranslations(lang);
   const posts = getBlogPosts(lang);
 
@@ -23,6 +25,9 @@ export default async function BlogIndexPage({
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">{t.blogDescription}</p>
       </header>
+       <div className="mb-12">
+          <AdPlaceholder />
+        </div>
       <div className="grid grid-cols-1 gap-8">
         {posts.map((post) => (
             <Card key={post.slug} className="flex flex-col bg-card/50 border-primary/20 shadow-lg hover:shadow-primary/20 hover:border-primary/30 transition-all duration-300">
