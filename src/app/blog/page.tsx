@@ -29,7 +29,7 @@ export default async function BlogIndexPage({
                 >
                     {index + 1}.
                 </Link>
-                <p className="text-sm text-muted-foreground">{post.metaDescription}</p>
+                <p className="text-sm text-muted-foreground">{post.title}</p>
             </div>
         ))}
       </div>
