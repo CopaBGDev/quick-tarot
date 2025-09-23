@@ -371,7 +371,7 @@ export default function TarotClient({ initialLang }: TarotClientProps) {
                     </div>
 
                     <div className="flex w-1/3 items-center justify-center">
-                        <h2 className="font-headline text-3xl font-bold text-primary shrink-0">
+                        <h2 className="font-headline text-3xl font-bold text-primary shrink-0 hidden md:block">
                             {translations.resultsTitle}
                         </h2>
                     </div>
@@ -648,3 +648,5 @@ export default function TarotClient({ initialLang }: TarotClientProps) {
       </div>
     );
 }
+
+    
