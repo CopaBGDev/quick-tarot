@@ -19,12 +19,6 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
     const lang = searchParams.get('lang') || 'sr';
     const translations = getTranslations(lang);
 
-    const relatedPosts = post.internalLinks.map(link => ({
-        slug: link.slug,
-        title: link.title,
-    }));
-
-
     return (
         <div className="container mx-auto max-w-3xl px-4 py-8">
             <header className="mb-8">
@@ -48,11 +42,11 @@ export default function BlogPostClient({ post }: BlogPostClientProps) {
                     />
                 </article>
 
-                {relatedPosts.length > 0 && (
+                {post.internalLinks.length > 0 && (
                     <aside className="mt-16">
                         <h2 className="font-headline text-2xl font-bold mb-6 text-primary">{translations.blogRelatedArticles}</h2>
                         <div className="space-y-4">
-                            {relatedPosts.map(relatedPost => (
+                            {post.internalLinks.map(relatedPost => (
                                 <Link key={relatedPost.slug} href={`/blog/${relatedPost.slug}?lang=${lang}`} className="block group">
                                      <div className="p-4 rounded-lg border border-primary/10 bg-card hover:bg-primary/5 transition-colors">
                                         <h3 className="font-headline text-xl font-bold text-primary group-hover:underline">{relatedPost.title}</h3>
