@@ -25,11 +25,11 @@ export default async function BlogIndexPage({
             <div key={post.slug} className="flex items-start gap-4">
                 <Link
                     href={`/blog/${post.slug}?lang=${lang}`}
-                    className="text-lg text-primary hover:underline flex-shrink-0"
+                    className="text-lg text-primary hover:underline flex items-start gap-2"
                 >
-                    {index + 1}.
+                    <span>{index + 1}.</span>
+                    <span>{post.title}</span>
                 </Link>
-                <p className="text-sm text-muted-foreground">{post.title}</p>
             </div>
         ))}
       </div>
