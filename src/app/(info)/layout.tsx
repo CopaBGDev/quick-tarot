@@ -3,14 +3,15 @@ import { getTranslations } from '@/lib/translations';
 import { Home } from 'lucide-react';
 import Link from 'next/link';
 
-export default function InfoLayout({
+export default async function InfoLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { lang?: string };
+  params: Promise<{ lang?: string }>;
 }) {
-  const lang = params.lang || 'sr';
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'sr';
   const t = getTranslations(lang);
 
   return (
