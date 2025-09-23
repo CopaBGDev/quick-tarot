@@ -13,7 +13,7 @@ export default async function BlogIndexPage({
   const posts = getBlogPosts(lang);
 
   return (
-    <div className="container mx-auto max-w-5xl flex-grow py-8">
+    <div className="container mx-auto max-w-5xl flex-grow py-8 px-4">
       <header className="mb-8 text-center">
         <h1 className="font-headline text-4xl font-bold text-primary">
           {t.blogTitle}
