@@ -18,7 +18,10 @@
     "metaDescription": "Apprenez à formuler des questions ouvertes et efficaces pour le tarot afin d'obtenir les réponses les plus claires et les plus utiles.",
     "keywords": ["questions tarot", "poser des questions", "lecture de tarot", "questions efficaces"],
     "content": "<h1>Comment poser la bonne question aux cartes</h1><p>La qualité de votre lecture de tarot dépend souvent de la qualité de la question que vous posez. Une question bien formulée ouvre la porte à des aperçus profonds, tandis qu'une mauvaise question peut conduire à des réponses vagues ou inutiles. Voici un guide pour poser la bonne question aux cartes.</p><h2>Évitez les questions 'Oui/Non'</h2><p>Les questions auxquelles on peut répondre par un simple 'oui' ou 'non' limitent le pouvoir du tarot. Au lieu de 'Vais-je obtenir le poste ?', essayez 'Que puis-je faire pour augmenter mes chances d'obtenir le poste ?'. Cela déplace l'attention de l'attente passive à l'action active.</p><h2>Posez des questions ouvertes</h2><p>Les questions ouvertes commencent par 'Quoi', 'Comment', 'Pourquoi' ou 'Où'. Elles encouragent un récit et une réponse détaillée. Par exemple, au lieu de 'Est-il mon âme sœur ?', demandez 'Que dois-je savoir sur ma relation avec lui ?'.</p><h2>Concentrez-vous sur vous-même</h2><p>Le tarot est un outil d'autoréflexion. Les meilleures questions sont celles qui sont centrées sur vous et votre rôle dans la situation. Au lieu de demander 'Que pense-t-il de moi ?', demandez 'Comment puis-je améliorer la communication dans notre relation ?' ou 'Sur quoi devrais-je me concentrer dans ma vie amoureuse en ce moment ?'.</p>",
-    "internalLinks": []
+    "internalLinks": [
+      {"titleKey": "blogPostTitle_sta_je_tarot_i_kako_funkcionise", "slug": "sta-je-tarot-i-kako-funkcionise"},
+      {"titleKey": "blogPostTitle_etika_u_tarotu", "slug": "etika-u-tarotu"}
+    ]
   },
   {
     "slug": "tarot-vs-astrologija",
@@ -26,7 +29,10 @@
     "metaDescription": "Découvrez les différences et les similitudes entre le tarot et l'astrologie et apprenez quand il est préférable d'utiliser l'un ou l'autre outil pour l'orientation spirituelle.",
     "keywords": ["tarot", "astrologie", "tarot vs astrologie", "divination"],
     "content": "<h1>Tarot vs Astrologie</h1><p>Le tarot et l'astrologie sont deux des outils les plus populaires pour la divination et la découverte de soi. Bien qu'ils soient souvent utilisés ensemble, ils fonctionnent selon des principes différents.</p><h2>Astrologie : Carte du Ciel</h2><p>L'astrologie est basée sur les positions des corps célestes au moment de votre naissance. Votre thème natal est une carte qui révèle vos potentiels, vos défis et vos thèmes de vie. L'astrologie est excellente pour comprendre la situation dans son ensemble et les cycles à long terme de votre vie.</p><h2>Tarot : Miroir de l'Instant</h2><p>Le tarot, en revanche, donne un aperçu de la situation actuelle. C'est comme un instantané de l'énergie qui vous entoure 'ici et maintenant'. Le tarot est idéal pour obtenir des conseils sur des problèmes spécifiques, des décisions à prendre et des influences cachées dans une situation.</p><h2>Quand utiliser quoi ?</h2><p>Utilisez l'astrologie pour comprendre votre nature, vos leçons de vie et les périodes favorables pour diverses activités. Utilisez le tarot lorsque vous avez besoin de conseils pour un problème spécifique, que vous voulez comprendre la dynamique d'une relation ou que vous cherchez la prochaine étape sur votre chemin.</p>",
-    "internalLinks": []
+    "internalLinks": [
+      {"titleKey": "blogPostTitle_sta_je_tarot_i_kako_funkcionise", "slug": "sta-je-tarot-i-kako-funkcionise"},
+      {"titleKey": "blogPostTitle_tarot_i_ljubav", "slug": "tarot-i-ljubav"}
+    ]
   },
   {
     "slug": "etika-u-tarotu",
@@ -34,7 +40,10 @@
     "metaDescription": "Explorez l'importance de l'éthique dans la pratique du tarot, y compris la responsabilité du lecteur, l'établissement de limites et le respect de la vie privée du client.",
     "keywords": ["éthique du tarot", "responsabilité", "lecture de tarot", "vie privée"],
     "content": "<h1>Éthique dans la lecture du tarot</h1><p>Comme toute pratique impliquant l'orientation et le conseil, le tarot a ses principes éthiques. Un lecteur de tarot responsable comprend son rôle et les limites de sa pratique.</p><h2>Le rôle du lecteur</h2><p>Le rôle d'un lecteur de tarot n'est pas de prédire l'avenir comme quelque chose de figé, mais de donner à la personne les moyens de prendre les meilleures décisions. Le lecteur est un guide qui aide à éclairer les aspects cachés d'une situation, mais la décision finale appartient toujours à la personne qui pose la question.</p><h2>Établir des limites</h2><p>Un lecteur éthique ne répondra pas aux questions concernant des tiers sans leur consentement. De plus, les lecteurs professionnels ne donnent pas de conseils médicaux, juridiques ou financiers. Leur domaine est l'orientation spirituelle et personnelle.</p><h2>Confiance et vie privée</h2><p>Tout ce qui est partagé lors d'une lecture doit rester confidentiel. La création d'un espace sûr où la personne se sent libre de partager ses préoccupations est la clé d'une lecture de tarot réussie et éthique.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_kako_postaviti_pravo_pitanje", "slug": "kako-postaviti-pravo-pitanje"},
+        {"titleKey": "blogPostTitle_najcesce_greske_pocetnika", "slug": "najcesce-greske-pocetnika"}
+    ]
   },
   {
     "slug": "velika-arkana-znacenja",
@@ -42,7 +51,11 @@
     "metaDescription": "Apprenez à connaître les 22 cartes de l'Arcane Majeur, leur symbolisme et leur signification sur le chemin du développement spirituel, du Mat au Monde.",
     "keywords": ["arcane majeur", "significations du tarot", "le mat", "le monde", "cartes de tarot"],
     "content": "<h1>L'Arcane Majeur : Le Voyage du Mat</h1><p>L'Arcane Majeur se compose de 22 cartes qui représentent les archétypes clés et les leçons spirituelles de notre parcours de vie. Ce voyage, connu sous le nom de 'Le Voyage du Mat', commence avec la carte 0 (Le Mat) et se termine avec la carte XXI (Le Monde).</p><h2>Cartes clés de l'Arcane Majeur</h2><p><strong>Le Mat (0) :</strong> Les commencements, l'innocence, la spontanéité et un saut dans l'inconnu.<br><strong>Le Bateleur (I) :</strong> La manifestation, la volonté, les ressources et l'habileté.<br><strong>La Papesse (II) :</strong> L'intuition, le subconscient, les secrets et la perspicacité spirituelle.<br><strong>L'Impératrice (III) :</strong> La fertilité, la créativité, la nature et le soin.<br><strong>L'Empereur (IV) :</strong> La structure, l'autorité, le contrôle et une figure paternelle.<br><strong>La Mort (XIII) :</strong> Les fins, la transformation, le lâcher-prise et la renaissance.<br><strong>L'Étoile (XVII) :</strong> L'espoir, l'inspiration, la guérison et l'orientation spirituelle.<br><strong>Le Monde (XXI) :</strong> L'achèvement, l'intégration, l'accomplissement et la plénitude.</p><p>Chaque carte représente une étape sur le chemin du développement personnel et spirituel.</p>",
-    "internalLinks": []
+    "internalLinks": [
+      {"titleKey": "blogPostTitle_pregled_svih_78_karata", "slug": "pregled-svih-78-karata"},
+      {"titleKey": "blogPostTitle_mala_arkana_stapovi", "slug": "mala-arkana-stapovi"},
+      {"titleKey": "blogPostTitle_mala_arkana_pehari", "slug": "mala-arkana-pehari"}
+    ]
   },
   {
     "slug": "tarot-i-ljubav",
@@ -50,7 +63,10 @@
     "metaDescription": "Comment le tarot peut-il vous aider à naviguer dans le monde complexe des relations ? Découvrez les cartes clés et les questions à poser.",
     "keywords": ["tarot amour", "relations", "lecture d'amour", "âme sœur"],
     "content": "<h1>Tarot et Amour</h1><p>L'amour est l'un des sujets les plus courants abordés lors d'une lecture de tarot. Que vous soyez célibataire, dans une nouvelle relation ou que vous naviguiez dans un partenariat à long terme, les cartes peuvent offrir des perspectives profondes.</p><h2>Cartes clés dans les lectures d'amour</h2><p><strong>L'Amoureux (VI) :</strong> Représente le partenariat, le choix et l'alignement des valeurs. C'est la carte des âmes sœurs.<br><strong>Deux de Coupes :</strong> Symbolise le partenariat, l'attraction et l'union. Le début d'une nouvelle relation.<br><strong>Dix de Deniers :</strong> Signifie la stabilité à long terme, la famille et l'héritage. C'est une relation qui dure.</p><h2>Comment le Tarot aide-t-il ?</h2><p>Le tarot ne donne pas une simple réponse 'oui' ou 'non'. Au lieu de cela, il éclaire la dynamique en jeu, les courants émotionnels sous-jacents et les voies potentielles à suivre. Il peut révéler vos propres blocages, les sentiments de votre partenaire et le potentiel global de la connexion. Utilisez-le non pas pour prédire, mais pour comprendre et grandir.</p>",
-    "internalLinks": []
+    "internalLinks": [
+      {"titleKey": "blogPostTitle_tarot_otvaranja_ljubav_odnosi", "slug": "tarot-otvaranja-ljubav-odnosi"},
+      {"titleKey": "blogPostTitle_mala_arkana_pehari", "slug": "mala-arkana-pehari"}
+    ]
   },
   {
     "slug": "top-10-tarot-otvaranja",
@@ -58,7 +74,10 @@
     "metaDescription": "Découvrez les 10 tirages de tarot les plus populaires, du simple tirage à trois cartes au complexe Croix Celtique.",
     "keywords": ["tirages de tarot", "croix celtique", "tirage à trois cartes", "dispositions de tarot"],
     "content": "<h1>Top 10 des tirages de tarot</h1><p>Il existe d'innombrables façons de disposer les cartes de tarot. Voici 10 des tirages les plus célèbres :</p><ol><li><strong>Tirage à une carte :</strong> Pour un aperçu quotidien rapide.</li><li><strong>Tirage à trois cartes :</strong> Le plus souvent pour Passé-Présent-Futur.</li><li><strong>La Croix Celtique :</strong> Un tirage détaillé de 10 cartes pour une analyse approfondie.</li><li><strong>Tirage en fer à cheval :</strong> Un tirage de 7 cartes qui donne un aperçu d'une situation.</li><li><strong>Tirage d'amour :</strong> Axé sur les relations amoureuses.</li><li><strong>Tirage de décision :</strong> Aide à choisir entre deux options.</li><li><strong>Tirage annuel :</strong> 12 cartes, une pour chaque mois.</li><li><strong>Tirage des chakras :</strong> Relie le tarot aux centres d'énergie.</li><li><strong>Tirage de l'Arbre de Vie :</strong> Un tirage complexe basé sur la Kabbale.</li><li><strong>Tirage planétaire :</strong> Relie les cartes aux influences astrologiques.</p>",
-    "internalLinks": []
+    "internalLinks": [
+      {"titleKey": "blogPostTitle_kako_izabrati_pravo_otvaranje", "slug": "kako-izabrati-pravo-otvaranje"},
+      {"titleKey": "blogPostTitle_jednostavna_dnevna_otvaranja", "slug": "jednostavna-dnevna-otvaranja"}
+    ]
   },
   {
     "slug": "pregled-svih-78-karata",
@@ -66,7 +85,11 @@
     "metaDescription": "Un bref aperçu des significations de base des 78 cartes de tarot, divisées en Arcanes Majeurs et Mineurs.",
     "keywords": ["significations du tarot", "78 cartes de tarot", "arcane majeur", "arcane mineur"],
     "content": "<h1>Aperçu des 78 cartes</h1><p>Le jeu de tarot se compose de 78 cartes, divisées en deux groupes principaux.</p><h2>L'Arcane Majeur</h2><p>Comprend 22 cartes représentant les grands thèmes de la vie, les leçons spirituelles et les archétypes. Il commence avec Le Mat (0) et se termine avec Le Monde (XXI).</p><h2>L'Arcane Mineur</h2><p>Comprend 56 cartes et est divisé en quatre suites, qui correspondent aux éléments :</p><ul><li><strong>Bâtons (Feu) :</strong> Énergie, passion, créativité, action.</li><li><strong>Coupes (Eau) :</strong> Émotions, relations, intuition, amour.</li><li><strong>Épées (Air) :</strong> Pensées, communication, défis, conflits.</li><li><strong>Deniers (Terre) :</strong> Le monde matériel, les finances, le travail, la santé.</li></ul><p>Chaque suite comporte 10 cartes numérotées (de l'As au Dix) et 4 cartes de cour (Valet, Cavalier, Reine, Roi) qui représentent des personnes ou des personnalités.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_velika_arkana_znacenja", "slug": "velika-arkana-znacenja"},
+        {"titleKey": "blogPostTitle_mala_arkana_stapovi", "slug": "mala-arkana-stapovi"},
+        {"titleKey": "blogPostTitle_mala_arkana_pehari", "slug": "mala-arkana-pehari"}
+    ]
   },
   {
     "slug": "mala-arkana-stapovi",
@@ -74,7 +97,10 @@
     "metaDescription": "Explorez la suite des Bâtons dans le tarot. Apprenez comment ces cartes représentent l'énergie, la passion, la créativité et l'action dans votre vie.",
     "keywords": ["tarot des bâtons", "arcane mineur", "élément feu", "signification du tarot"],
     "content": "<h1>L'Arcane Mineur : La suite des Bâtons</h1><p>La suite des Bâtons dans le tarot est associée à l'élément du Feu. Ces cartes parlent d'énergie, de passion, de créativité, d'ambition et d'action.</p><h2>Significations clés</h2><p>Lorsque les Bâtons apparaissent dans une lecture, ils indiquent souvent le début de nouveaux projets, une explosion d'inspiration ou la nécessité de prendre des initiatives. Ils représentent l'étincelle qui allume le feu et met les choses en mouvement.</p><h2>Quelques-unes des cartes</h2><ul><li><strong>As de Bâtons :</strong> Nouveau départ, inspiration, potentiel.</li><li><strong>Trois de Bâtons :</strong> Planification, vision, regard vers l'avenir.</li><li><strong>Dix de Bâtons :</strong> Fardeau, responsabilité, être submergé.</li><li><strong>Reine de Bâtons :</strong> Confiance, charisme, passion.</li></ul><p>Les Bâtons nous encouragent à suivre nos passions et à faire confiance à notre feu intérieur.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_pregled_svih_78_karata", "slug": "pregled-svih-78-karata"},
+        {"titleKey": "blogPostTitle_tarot_i_karijera", "slug": "tarot-i-karijera"}
+    ]
   },
   {
     "slug": "mala-arkana-pehari",
@@ -82,7 +108,10 @@
     "metaDescription": "Plongez dans le monde des Coupes du tarot. Découvrez comment ces cartes symbolisent les émotions, les relations, l'intuition et les connexions spirituelles.",
     "keywords": ["tarot des coupes", "arcane mineur", "élément eau", "tarot d'amour"],
     "content": "<h1>L'Arcane Mineur : La suite des Coupes</h1><p>La suite des Coupes est associée à l'élément de l'Eau et régit le monde des émotions, des relations, de l'intuition et de la créativité.</p><h2>Significations clés</h2><p>Les Coupes dans une lecture parlent de nos sentiments, de nos amours, de nos amitiés et de nos expériences spirituelles. Elles nous invitent à écouter notre cœur et notre intuition.</p><h2>Quelques-unes des cartes</h2><ul><li><strong>As de Coupes :</strong> Nouvel amour, début émotionnel, joie.</li><li><strong>Deux de Coupes :</strong> Partenariat, union, attraction.</li><li><strong>Six de Coupes :</strong> Nostalgie, souvenirs d'enfance, innocence.</li><li><strong>Roi de Coupes :</strong> Maturité émotionnelle, compassion, contrôle des sentiments.</li></ul><p>Les Coupes nous enseignent l'importance de l'intelligence émotionnelle et de la connexion avec les autres.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_tarot_i_ljubav", "slug": "tarot-i-ljubav"},
+        {"titleKey": "blogPostTitle_tarot_otvaranja_ljubav_odnosi", "slug": "tarot-otvaranja-ljubav-odnosi"}
+    ]
   },
   {
     "slug": "mala-arkana-macevi",
@@ -90,7 +119,10 @@
     "metaDescription": "Explorez la nature tranchante des Épées dans le tarot. Apprenez comment ces cartes représentent les pensées, les décisions, la vérité et les conflits.",
     "keywords": ["tarot des épées", "arcane mineur", "élément air", "conflits du tarot"],
     "content": "<h1>L'Arcane Mineur : La suite des Épées</h1><p>La suite des Épées est associée à l'élément de l'Air et représente le monde des pensées, de l'intellect, de la communication, de la vérité et des conflits.</p><h2>Significations clés</h2><p>Les Épées sont des cartes à double tranchant. Elles peuvent représenter la clarté de la pensée, la vérité et la justice, mais aussi les conflits, le stress, l'anxiété et les décisions difficiles. Elles nous apprennent à utiliser notre esprit de manière constructive.</p><h2>Quelques-unes des cartes</h2><ul><li><strong>As d'Épées :</strong> Percée, nouvelle idée, clarté, vérité.</li><li><strong>Trois d'Épées :</strong> Chagrin d'amour, tristesse, vérité douloureuse.</li><li><strong>Neuf d'Épées :</strong> Anxiété, cauchemars, peur.</li><li><strong>Reine d'Épées :</strong> Indépendance, intelligence, vivacité d'esprit.</li></ul><p>Les Épées nous rappellent que nos pensées sont puissantes et qu'il est important de savoir comment nous les utilisons.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_najcesce_greske_pocetnika", "slug": "najcesce-greske-pocetnika"},
+        {"titleKey": "blogPostTitle_etika_u_tarotu", "slug": "etika-u-tarotu"}
+    ]
   },
   {
     "slug": "mala-arkana-pentakli",
@@ -98,7 +130,10 @@
     "metaDescription": "Découvrez l'énergie terrestre des Deniers dans le tarot, qui symbolisent le monde matériel, les finances, le travail, la santé et la stabilité.",
     "keywords": ["tarot des deniers", "arcane mineur", "élément terre", "argent du tarot"],
     "content": "<h1>L'Arcane Mineur : La suite des Deniers</h1><p>La suite des Deniers est associée à l'élément de la Terre. Ces cartes se rapportent au monde matériel, y compris les finances, le travail, la propriété, la santé et la manifestation des objectifs dans le monde physique.</p><h2>Significations clés</h2><p>Les Deniers parlent de notre travail, de notre carrière, de notre situation financière et de notre sentiment de sécurité et de stabilité. Ils nous rappellent l'importance du pragmatisme et du travail patient.</p><h2>Quelques-unes des cartes</h2><ul><li><strong>As de Deniers :</strong> Nouvelle opportunité, prospérité, manifestation.</li><li><strong>Quatre de Deniers :</strong> Possessivité, contrôle, conservation des ressources.</li><li><strong>Huit de Deniers :</strong> Habileté, apprentissage, dévouement au travail.</li><li><strong>Roi de Deniers :</strong> Richesse, succès, leadership, fiabilité.</li></ul><p>Les Deniers nous apprennent à construire une vie stable et prospère.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_tarot_i_karijera", "slug": "tarot-i-karijera"},
+        {"titleKey": "blogPostTitle_tarot_otvaranja_posao_finansije", "slug": "tarot-otvaranja-posao-finansije"}
+    ]
   },
   {
     "slug": "kako-izabrati-pravo-otvaranje",
@@ -106,7 +141,10 @@
     "metaDescription": "Vous ne savez pas quel tirage de tarot utiliser ? Apprenez à choisir la meilleure disposition de cartes en fonction de la complexité de votre question.",
     "keywords": ["tirage de tarot", "choisir un tirage", "lecture de tarot", "disposition de tarot"],
     "content": "<h1>Comment choisir le bon tirage ?</h1><p>Le choix du bon tirage de tarot peut améliorer considérablement la clarté de votre lecture.</p><h2>Pour des aperçus rapides</h2><p>Si vous avez besoin d'une réponse rapide ou d'une orientation quotidienne, utilisez un <strong>tirage à une carte</strong>. C'est simple et direct.</p><h2>Pour explorer un processus</h2><p>Pour comprendre le déroulement des événements, un <strong>tirage à trois cartes</strong> (Passé, Présent, Futur) est idéal. Il fournit un contexte et une direction.</p><h2>Pour les situations complexes</h2><p>Lorsque vous êtes confronté à un problème complexe avec de nombreux facteurs, utilisez la <strong>Croix Celtique</strong>. Ce tirage de 10 cartes analyse la situation en détail, y compris les influences inconscientes, les espoirs, les peurs et le résultat probable.</p><h2>Pour comparer des options</h2><p>Si vous hésitez entre deux options, utilisez un <strong>tirage de décision</strong>. Il dispose des cartes pour chaque option, vous aidant à voir les avantages et les inconvénients de chacune.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_top_10_tarot_otvaranja", "slug": "top-10-tarot-otvaranja"},
+        {"titleKey": "blogPostTitle_tarot_otvaranja_ljubav_odnosi", "slug": "tarot-otvaranja-ljubav-odnosi"}
+    ]
   },
   {
     "slug": "tarot-i-karijera",
@@ -114,7 +152,10 @@
     "metaDescription": "Découvrez comment le tarot peut fournir des informations sur votre carrière, vos finances et votre développement professionnel. Quelles cartes indiquent le succès ?",
     "keywords": ["carrière tarot", "travail tarot", "argent tarot", "développement professionnel"],
     "content": "<h1>Tarot et carrière</h1><p>Le tarot peut être un excellent outil pour obtenir des informations sur votre carrière et vos finances.</p><h2>Cartes de succès</h2><p>Certaines cartes indiquent clairement le succès professionnel : <strong>L'Empereur (IV)</strong> pour le leadership, <strong>Le Soleil (XIX)</strong> pour le succès et la vitalité, <strong>Six de Bâtons</strong> pour la reconnaissance publique et la victoire, et <strong>Dix de Deniers</strong> pour la stabilité financière et le succès à long terme.</p><h2>Cartes de défi</h2><p>Des cartes comme le <strong>Cinq de Deniers</strong> (perte financière), le <strong>Dix de Bâtons</strong> (surcharge) ou <strong>La Tour (XVI)</strong> (perte d'emploi soudaine) peuvent indiquer des défis. Cependant, elles offrent également des conseils sur la manière de surmonter ces défis.</p><h2>Comment utiliser le Tarot pour la carrière ?</h2><p>Posez des questions comme : 'Quels sont mes talents cachés que je peux utiliser dans ma carrière ?', 'Quel obstacle se dresse sur mon chemin vers le succès ?' ou 'Quelle est la prochaine étape que je devrais franchir pour mon développement professionnel ?'.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_tarot_otvaranja_posao_finansije", "slug": "tarot-otvaranja-posao-finansije"},
+        {"titleKey": "blogPostTitle_mala_arkana_pentakli", "slug": "mala-arkana-pentakli"}
+    ]
   },
   {
     "slug": "tarot-i-licni-razvoj",
@@ -122,7 +163,10 @@
     "metaDescription": "Apprenez à utiliser le tarot comme un outil puissant pour le développement personnel, l'introspection et la compréhension de vos propres processus internes.",
     "keywords": ["développement personnel", "auto-assistance", "introspection par le tarot", "croissance spirituelle"],
     "content": "<h1>Tarot et développement personnel</h1><p>Au-delà de la divination, le tarot est avant tout un outil puissant d'autoréflexion et de développement personnel.</p><h2>Miroir de l'âme</h2><p>Les cartes fonctionnent comme un miroir qui reflète ce qui se passe dans notre subconscient. Elles nous aident à prendre conscience de nos schémas comportementaux, de nos peurs cachées et de nos potentiels inexploités.</p><h2>Journal et Tarot</h2><p>L'une des meilleures façons d'utiliser le tarot pour le développement personnel est de tenir un journal de tarot. Chaque jour, tirez une carte et notez vos pensées à son sujet. Comment cette carte se manifeste-t-elle dans votre journée ? Quelles idées vous apporte-t-elle ? Avec le temps, vous remarquerez des schémas et acquerrez une meilleure connaissance de vous-même.</p><h2>Posez des questions profondes</h2><p>Au lieu de poser des questions sur des événements extérieurs, concentrez-vous sur les processus internes : 'Quelle leçon dois-je tirer de cette situation ?', 'Quelle partie de moi est-ce que je néglige ?' ou 'Comment puis-je être plus authentique ?'.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_jednostavna_dnevna_otvaranja", "slug": "jednostavna-dnevna-otvaranja"},
+        {"titleKey": "blogPostTitle_ocistiti_energetizovati_tarot", "slug": "ocistiti-energetizovati-tarot"}
+    ]
   },
   {
     "slug": "ocistiti-energetizovati-tarot",
@@ -130,7 +174,10 @@
     "metaDescription": "Apprenez des méthodes simples et efficaces pour nettoyer et charger énergétiquement votre jeu de tarot afin de garder vos lectures claires et précises.",
     "keywords": ["nettoyage du tarot", "nettoyage énergétique", "rituels de tarot", "jeu de tarot"],
     "content": "<h1>Comment nettoyer et dynamiser un jeu de tarot</h1><p>Le nettoyage énergétique régulier de votre jeu de tarot est important pour éliminer l'énergie résiduelle et garantir la clarté de vos lectures.</p><h2>Méthodes de nettoyage</h2><ul><li><strong>Fumigation :</strong> Passez les cartes dans la fumée de sauge, de palo santo ou d'encens en combustion.</li><li><strong>Cristaux :</strong> Laissez le jeu pendant la nuit sur ou à côté d'un cristal comme la sélénite ou la tourmaline noire.</li><li><strong>Clair de lune :</strong> Exposez les cartes à la lumière de la pleine lune pour les nettoyer et les charger énergétiquement.</li><li><strong>Tapotement :</strong> Tapez simplement quelques fois sur le jeu pour 'casser' l'ancienne énergie.</li><li><strong>Mélange :</strong> Un mélange approfondi des cartes avec l'intention de nettoyer peut également être efficace.</li></ul><h2>Quand nettoyer le jeu ?</h2><p>Nettoyez votre jeu lorsque vous le recevez pour la première fois, après chaque lecture pour une autre personne, ou chaque fois que vous sentez que les lectures sont devenues floues ou 'lourdes'.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_tarot_i_licni_razvoj", "slug": "tarot-i-licni-razvoj"},
+        {"titleKey": "blogPostTitle_etika_u_tarotu", "slug": "etika-u-tarotu"}
+    ]
   },
   {
     "slug": "najcesce-greske-pocetnika",
@@ -138,7 +185,10 @@
     "metaDescription": "Vous débutez avec le tarot ? Découvrez quelles sont les erreurs les plus courantes que font les débutants et comment les éviter pour progresser plus rapidement.",
     "keywords": ["tarot pour débutants", "erreurs de tarot", "apprendre le tarot", "conseils de tarot"],
     "content": "<h1>Les erreurs les plus courantes pour les débutants en tarot</h1><p>Commencer le voyage du tarot peut être passionnant, mais aussi semé d'embûches. Voici les erreurs les plus courantes et comment les éviter.</p><h2>1. Mémorisation par cœur</h2><p>De nombreux débutants essaient d'apprendre par cœur la signification des 78 cartes. Une meilleure approche consiste à se concentrer sur la compréhension du symbolisme et de l'histoire que les cartes racontent.</p><h2>2. Poser des questions 'Oui/Non'</h2><p>Comme nous l'avons mentionné, ces questions limitent le tarot. Concentrez-vous sur des questions ouvertes qui encouragent des aperçus plus profonds.</p><h2>3. Ignorer l'intuition</h2><p>Les livres et les significations sont importants, mais votre intuition est la clé. Si une carte vous 'dit' quelque chose de différent de ce qui est écrit dans le livre, explorez ce sentiment.</p><h2>4. Peur des 'mauvaises' cartes</h2><p>Les cartes comme la Mort, la Tour ou le Diable effraient souvent les débutants. Il est important de comprendre qu'aucune carte n'est intrinsèquement 'mauvaise'. Elles représentent des défis qui mènent à la croissance.</p><h2>5. Lire trop souvent</h2><p>Poser la même question de manière obsessionnelle encore et encore mène à la confusion. Donnez du temps et de l'énergie à la situation pour qu'elle se développe avant de demander à nouveau.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_kako_postaviti_pravo_pitanje", "slug": "kako-postaviti-pravo-pitanje"},
+        {"titleKey": "blogPostTitle_tarot_i_licni_razvoj", "slug": "tarot-i-licni-razvoj"}
+    ]
   },
   {
     "slug": "jednostavna-dnevna-otvaranja",
@@ -146,7 +196,10 @@
     "metaDescription": "Commencez votre journée avec intention en utilisant ces tirages de tarot quotidiens simples pour des aperçus rapides, des conseils et de l'autoréflexion.",
     "keywords": ["tarot quotidien", "tirage de tarot", "introspection", "autoréflexion"],
     "content": "<h1>Tirages quotidiens simples</h1><p>Intégrer le tarot dans votre routine quotidienne peut être un moyen puissant de fixer des intentions et de pratiquer l'autoréflexion.</p><h2>Tirage à une carte</h2><p>Le plus simple de tous. Posez une question comme 'Quelle énergie m'accompagne aujourd'hui ?' ou 'Sur quoi devrais-je me concentrer ?'. La carte tirée donne le ton de votre journée.</p><h2>Tirage à deux cartes</h2><p>La première carte peut représenter 'Que dois-je savoir ?', et la seconde 'Que dois-je faire ?'. Cela donne à la fois un aperçu et un conseil pratique.</p><h2>Tirage 'Esprit-Corps-Âme'</h2><p>Tirez trois cartes :<br>1. <strong>Esprit :</strong> Sur quoi devrais-je me concentrer mentalement ?<br>2. <strong>Corps :</strong> Comment puis-je prendre soin de mon corps au mieux aujourd'hui ?<br>3. <strong>Âme :</strong> Comment puis-je nourrir mon âme ?</p><p>Ce tirage offre une approche holistique de votre bien-être pour la journée.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_top_10_tarot_otvaranja", "slug": "top-10-tarot-otvaranja"},
+        {"titleKey": "blogPostTitle_tarot_i_licni_razvoj", "slug": "tarot-i-licni-razvoj"}
+    ]
   },
   {
     "slug": "tarot-otvaranja-ljubav-odnosi",
@@ -154,7 +207,10 @@
     "metaDescription": "Explorez des tirages de tarot spécialisés conçus pour fournir des informations approfondies sur votre vie amoureuse, vos partenariats et votre avenir romantique.",
     "keywords": ["tarot amoureux", "tarot pour les relations", "tirages de tarot amoureux", "partenariats"],
     "content": "<h1>Tirages de tarot pour l'amour et les relations</h1><p>Quand il s'agit des affaires de cœur, le tarot peut offrir une clarté inestimable. Voici quelques tirages spécifiques à l'amour.</p><h2>Tirage de préparation à la relation (5 cartes)</h2><ol><li>Vous maintenant.</li><li>Vos blocages.</li><li>Ce que vous recherchez chez un partenaire.</li><li>Comment attirer le bon amour.</li><li>Potentiel d'amour dans un avenir proche.</li></ol><h2>Tirage de la dynamique relationnelle (6 cartes)</h2><p>Disposez les cartes en deux colonnes de trois.<br><strong>Colonne de gauche (Vous) :</strong><br>1. Comment vous vous voyez dans la relation.<br>2. Vos besoins.<br>3. Votre contribution à la relation.<br><strong>Colonne de droite (Partenaire) :</strong><br>4. Comment vous voyez votre partenaire.<br>5. Ses besoins.<br>6. Sa contribution à la relation.</p>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_tarot_i_ljubav", "slug": "tarot-i-ljubav"},
+        {"titleKey": "blogPostTitle_kako_izabrati_pravo_otvaranje", "slug": "kako-izabrati-pravo-otvaranje"}
+    ]
   },
   {
     "slug": "tarot-otvaranja-posao-finansije",
@@ -162,7 +218,10 @@
     "metaDescription": "Utilisez ces tirages de tarot spécifiques pour obtenir des éclaircissements sur votre carrière, votre situation financière et vos prochaines étapes professionnelles.",
     "keywords": ["tarot pour le travail", "tarot pour les finances", "tarot de carrière", "tirages de tarot"],
     "content": "<h1>Tirages de tarot pour le travail et les finances</h1><p>Que vous envisagiez un changement de carrière ou que vous souhaitiez améliorer votre situation financière, le tarot peut vous aider.</p><h2>Tirage du chemin de carrière (5 cartes)</h2><ol><li>Où en suis-je actuellement dans ma carrière ?</li><li>Quel est mon plus grand obstacle ?</li><li>Quels sont mes potentiels cachés ?</li><li>Quelle mesure dois-je prendre ?</li><li>Quel est le potentiel à long terme de mon parcours ?</li></ol><h2>Tirage de la situation financière (4 cartes)</h2><ol><li>Ma situation financière actuelle.</li><li>Qu'est-ce qui bloque mon flux de trésorerie ?</li><li>Comment puis-je améliorer ma situation financière ?</li><li>Quel est mon potentiel financier au cours des 6 prochains mois ?</li></ol>",
-    "internalLinks": []
+    "internalLinks": [
+        {"titleKey": "blogPostTitle_tarot_i_karijera", "slug": "tarot-i-karijera"},
+        {"titleKey": "blogPostTitle_mala_arkana_pentakli", "slug": "mala-arkana-pentakli"}
+    ]
   }
 ]
 
