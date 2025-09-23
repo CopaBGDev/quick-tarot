@@ -47,6 +47,7 @@ function resolveInternalLinks(posts: BlogPost[], lang: string): BlogPost[] {
 
     return posts.map(post => ({
         ...post,
+        title: post.metaTitle, // Ensuring title property is populated from metaTitle
         internalLinks: post.internalLinks.map(link => ({
             ...link,
             title: linkTitleMap[link.slug] || link.slug // Fallback to slug if title not found

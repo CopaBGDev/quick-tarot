@@ -27,7 +27,7 @@ export default async function BlogIndexPage({
                     href={`/blog/${post.slug}?lang=${lang}`}
                     className="text-lg text-primary hover:underline flex items-start gap-2"
                 >
-                    <span>{index + 1}.</span>
+                    <span className="w-6 text-right">{index + 1}.</span>
                     <span>{post.title}</span>
                 </Link>
             </div>
