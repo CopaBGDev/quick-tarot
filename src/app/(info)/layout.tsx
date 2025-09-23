@@ -8,10 +8,9 @@ export default async function InfoLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ lang?: string }>;
+  params: { lang?: string };
 }) {
-  const resolvedParams = await params;
-  const lang = resolvedParams?.lang || 'sr';
+  const lang = params?.lang || 'sr';
   const t = getTranslations(lang);
 
   return (
