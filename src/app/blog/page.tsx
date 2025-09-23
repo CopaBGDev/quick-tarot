@@ -31,12 +31,6 @@ export default async function BlogIndexPage({
               <h2 className="font-headline text-2xl font-bold text-primary group-hover:underline">
                 {post.title}
               </h2>
-              <p className="text-muted-foreground mt-2 text-base">
-                {post.metaDescription}
-              </p>
-              <span className="text-sm font-bold text-primary group-hover:underline mt-4 inline-block">
-                {t.blogReadMore} &rarr;
-              </span>
             </article>
           </Link>
         ))}
