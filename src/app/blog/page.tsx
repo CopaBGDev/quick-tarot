@@ -28,9 +28,9 @@ export default async function BlogIndexPage({
             className="block group p-6 rounded-lg border border-primary/10 bg-card/50 hover:border-primary/30 hover:bg-card/70 transition-all duration-300"
           >
             <article>
-              <h2 className="font-headline text-2xl font-bold text-primary group-hover:underline">
+              <p className="font-headline text-2xl font-bold text-primary group-hover:underline">
                 {post.title}
-              </h2>
+              </p>
             </article>
           </Link>
         ))}
