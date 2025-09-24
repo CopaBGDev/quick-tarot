@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { cn } from '@/lib/utils';
 import { Smartphone } from 'lucide-react';
 import { GoogleAnalytics } from '@/components/google-analytics';
+import { Analytics } from "@vercel/analytics/react";
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
@@ -103,6 +104,7 @@ export default function RootLayout({
       </head>
       <body className={cn("font-body antialiased flex flex-col min-h-screen", lora.variable, playfairDisplay.variable)}>
         {children}
+        <Analytics />
         <div id="orientation-blocker" className="hidden fixed inset-0 z-[200] bg-background items-center justify-center text-center p-4">
           <div className="flex flex-col items-center gap-4">
             <Smartphone className="w-16 h-16 text-primary animate-pulse-slow" />
